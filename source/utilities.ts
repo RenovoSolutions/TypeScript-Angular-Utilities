@@ -3,21 +3,25 @@
 export var name: string = 'rl.utilities';
 
 import __array = require('./array/array.module');
+import __contentProvider = require('./contentProvider/contentProvider.module');
 import __date = require('./date/date.module');
 import __jquery = require('./jquery/jquery.module');
 import __number = require('./number/number.module');
 import __object = require('./object/object.module');
 import __observable = require('./observable/observable.module');
+import __parentChildBehavior = require('./parentChildBehavior/parentChildBehavior.module');
 import __promise = require('./promise/promise.module');
 import __truncate = require('./truncate/truncate.module');
 
 angular.module(name, [
 	__array.name,
+	__contentProvider.name,
 	__date.name,
 	__jquery.name,
 	__number.name,
 	__object.name,
 	__observable.name,
+	__parentChildBehavior.name,
 	__promise.name,
 	__truncate.name,
 ]);
