@@ -1,10 +1,12 @@
-var references = require('./gulp/resolve');
+var references = require('gulp-utilities').resolve;
+
+var libraries = require('./libReferences.json');
 
 // Karma configuration
 module.exports = function (config) {
-	var files = references.getBowerReferences();
+	var files = references.getReferences(libraries);
 	files = files.concat([
-		'libraries/bower/angular-mocks/angular-mocks.js',
+		'libraries/angular-mocks/angular-mocks.js',
 		'source/**/*.tests.ts',
 	]);
 
