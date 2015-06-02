@@ -1,2 +1,9 @@
 # Bower deps
 /libraries/
+
+# Output
+/debug/
+/release/
+
+# Node deps
+/node_modules/
