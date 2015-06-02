@@ -19,6 +19,7 @@ angular.module(name, [
 	__object.name,
 	__observable.name,
 	__promise.name,
+	__truncate.name,
 ]);
 
 import __test = require('./test/test.module');
