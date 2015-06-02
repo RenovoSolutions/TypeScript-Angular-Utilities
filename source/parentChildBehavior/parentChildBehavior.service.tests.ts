@@ -1,11 +1,11 @@
-﻿/// <reference path='../../../typings/chai/chai.d.ts' />
-/// <reference path='../../../typings/mocha/mocha.d.ts' />
+﻿/// <reference path='../../typings/chai/chai.d.ts' />
+/// <reference path='../../typings/mocha/mocha.d.ts' />
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
 import __parentChildBehaviorModule = require('./parentChildBehavior.module');
 import __parentChildBehavior = require('./parentChildBehavior.service');
-import __angularFixture = require('../../test/angularFixture');
+import __angularFixture = require('../test/angularFixture');
 
 interface ITestBehavior {
 	action: Function;
