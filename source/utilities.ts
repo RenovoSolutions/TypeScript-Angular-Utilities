@@ -9,6 +9,7 @@ import __number = require('./number/number.module');
 import __object = require('./object/object.module');
 import __observable = require('./observable/observable.module');
 import __promise = require('./promise/promise.module');
+import __truncate = require('./truncate/truncate.module');
 
 angular.module(name, [
 	__array.name,
