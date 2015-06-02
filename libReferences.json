@@ -1,0 +1,4 @@
+[
+	{ "js": "angular/angular.js" },
+	{ "js": "lodash/lodash.js" }
+]
