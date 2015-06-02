@@ -1,9 +1,10 @@
 /// <vs BeforeBuild='build' Clean='clean' />
 var gulp = require('gulp');
-var lint = require('./node_modules/gulp-utilities/lint');
-var clean = require('./node_modules/gulp-utilities/clean');
-var copy = require('./node_modules/gulp-utilities/copy');
-var test = require('./node_modules/gulp-utilities/test');
+var gulpUtilities = require('gulp-utilities');
+var lint = gulpUtilities.lint;
+var clean = gulpUtilities.clean;
+var copy = gulpUtilities.copy;
+var test = gulpUtilities.test;
 
 lint.config(gulp);
 clean.config(gulp);
@@ -44,7 +45,7 @@ gulp.task('build.release', function(done) {
 				done);
 });
 
-var browserify = require('./node_modules/gulp-utilities/browserify');
+var browserify = gulpUtilities.browserify;
 var main = 'utilities'; 
 
 gulp.task('compile', ['compile.debug']);
