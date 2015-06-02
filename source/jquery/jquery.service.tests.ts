@@ -8,16 +8,16 @@ import jqueryHelperModule = require('./jquery.module');
 import jqueryHelperService = require('./jquery.service');
 import angularFixture = require('../test/angularFixture');
 
-describe('jqueryHelper', () => {
-	var jqueryHelper: jqueryHelperService.IJQueryUtility;
+describe('jqueryUtility', () => {
+	var jqueryUtility: jqueryHelperService.IJQueryUtility;
 	var emptySpy: Sinon.SinonSpy;
 	var appendSpy: Sinon.SinonSpy;
 
 	beforeEach(() => {
 		angular.mock.module(jqueryHelperModule.name);
 
-		var services: any = angularFixture.angularFixture.inject('jqueryHelper');
-		jqueryHelper = services.jqueryHelper;
+		var services: any = angularFixture.angularFixture.inject('jqueryUtility');
+		jqueryUtility = services.jqueryUtility;
 
 		emptySpy = sinon.spy();
 		appendSpy = sinon.spy();
@@ -31,7 +31,7 @@ describe('jqueryHelper', () => {
 
 		var newContent: any = {};
 
-		jqueryHelper.replaceContent(existingElement, newContent);
+		jqueryUtility.replaceContent(existingElement, newContent);
 
 		sinon.assert.calledOnce(emptySpy);
 		sinon.assert.calledOnce(appendSpy);
