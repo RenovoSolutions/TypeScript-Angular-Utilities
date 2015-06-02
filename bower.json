@@ -1,6 +1,6 @@
 {
   "name": "utilities",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Typescript utility classes published as angular services",
   "authors": [
     "Renovo Development Team"
@@ -11,15 +11,12 @@
   ],
   "ignore": [
     "node_modules",
-    "libraries",
-    "test",
-    "tests"
+    "libraries"
   ],
   "dependencies": {
     "angular": "~1.3.14",
     "lodash": "~3.5.0"
   },
-  "appPath": "source",
   "devDependencies": {
     "angular-mocks": "~1.3.15"
   }
