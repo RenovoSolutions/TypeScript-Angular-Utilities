@@ -3,7 +3,7 @@
 
 export var name: string = 'truncate';
 
-import __objectUtility = require('../../services/objectUtility/objectUtility.service');
+import __objectUtility = require('../object/object.service');
 
 export interface ITruncateFilter {
 	(input?: string, truncateTo?: number, includeEllipses?: boolean): string;

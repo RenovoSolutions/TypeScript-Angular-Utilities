@@ -1,11 +1,11 @@
-﻿/// <reference path='../../../typings/chai/chai.d.ts' />
-/// <reference path='../../../typings/mocha/mocha.d.ts' />
+﻿/// <reference path='../../typings/chai/chai.d.ts' />
+/// <reference path='../../typings/mocha/mocha.d.ts' />
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
 import __truncateModule = require('./truncate.module');
 import __truncate = require('./truncate');
-import __angularFixture = require('../../test/angularFixture');
+import __angularFixture = require('../test/angularFixture');
 
 describe('truncate', () => {
 	var truncate: __truncate.ITruncateFilter;
