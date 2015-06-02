@@ -1,5 +1,5 @@
 # Definitively typed files (resolved via tsd) 
-/typings/*
+/typings/*/
 
 # Bower deps
 /libraries/
