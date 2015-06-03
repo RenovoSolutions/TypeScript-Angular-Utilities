@@ -2,7 +2,7 @@
 
 export var name: string = 'dateUtility';
 
-interface IMonth {
+export interface IMonth {
 	name: string;
 	days(year?: number): number;
 }
