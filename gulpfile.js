@@ -5,12 +5,21 @@ var gulpUtilities = require('gulp-utilities');
 var browserify = gulpUtilities.browserify;
 var main = 'utilities'; 
 
+var merge = require('merge2');
+var typescript = gulpUtilities.typescript;
+
 gulp.task('compile.debug', function(done) {
-	return browserify.compileDebug(main);
+	return merge([
+		browserify.compileDebug(main),
+		typescript.compileTypeDefinitions('**/*.ts', 'source', 'debug/typings'),
+	]);
 });
 
 gulp.task('compile.release', function(done) {
-	return browserify.compileRelease(main);
+	return merge([
+		browserify.compileRelease(main),
+		typescript.compileTypeDefinitions('**/*.ts', 'source', 'release/typings'),
+	]);
 });
 
 gulp.task('compile', ['compile.debug']);
