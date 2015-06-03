@@ -1,6 +1,6 @@
 {
   "name": "utilities",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Typescript utility classes published as angular services",
   "authors": [
     "Renovo Development Team"
@@ -9,6 +9,10 @@
     "typescript",
     "utilities"
   ],
+  "main": "utilities.js",
+  "typescript": {
+	  "definition": "utilities.d.ts"
+  },
   "ignore": [
     "node_modules",
     "libraries"
