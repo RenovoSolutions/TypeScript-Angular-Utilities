@@ -2,11 +2,11 @@
   "name": "rl.utilities",
   "version": "0.4.0",
   "description": "Typescript utility classes published as angular services",
+  "author": "Renovo Development Team",
   "keywords": [
     "typescript",
     "utilities"
   ],
-  "author": "Renovo Development Team",
   "devDependencies": {
     "browserify": "^10.1.3",
     "chai": "^2.1.2",
