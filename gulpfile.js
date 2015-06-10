@@ -2,7 +2,7 @@
 var gulp = require('gulp');
 var gulpUtilities = require('gulp-utilities');
 
-var packageName = 'rl-utilities'; 
+var packageName = 'utilities'; 
 
 var locationConfig = {
 	source: 'source',
