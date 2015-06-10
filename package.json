@@ -7,10 +7,6 @@
     "utilities"
   ],
   "author": "Renovo Development Team",
-  "repository": {
-    "type": "git",
-    "url": "/"
-  },
   "devDependencies": {
     "browserify": "^10.1.3",
     "chai": "^2.1.2",
