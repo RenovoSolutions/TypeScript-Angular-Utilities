@@ -2,29 +2,17 @@
 var gulp = require('gulp');
 var gulpUtilities = require('gulp-utilities');
 
-var browserify = gulpUtilities.browserify;
-var main = 'utilities'; 
+var packageName = 'utilities'; 
 
-var merge = require('merge2');
-var typescript = gulpUtilities.typescript;
+var locationConfig = {
+	source: 'source',
+	libraries: 'libraries',
+	assets: 'assets',
+	debug: 'debug',
+	release: 'release',
+};
 
-gulp.task('compile.debug', function(done) {
-	return merge([
-		browserify.compileDebug(main),
-		typescript.compileTypeDefinitions('**/*.ts', 'source', 'debug/typings'),
-	]);
-});
-
-gulp.task('compile.release', function(done) {
-	return merge([
-		browserify.compileRelease(main),
-		typescript.compileTypeDefinitions('**/*.ts', 'source', 'release/typings'),
-	]);
-});
-
-gulp.task('compile', ['compile.debug']);
-
-gulpUtilities.build.config(gulp, 'compile.debug', 'compile.release');
+gulpUtilities.build.config(gulp, packageName, locationConfig, false);
 gulpUtilities.teamCity.config(gulp);
 gulpUtilities.test.config(gulp, __dirname + '/karma.conf.js');
 
