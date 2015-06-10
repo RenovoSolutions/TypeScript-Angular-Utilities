@@ -1,6 +1,8 @@
-﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
+﻿// uses typings/jquery
 
 'use strict';
+
+export var name: string = 'jqueryUtility';
 
 export interface IJQueryUtility {
 	replaceContent(contentArea: JQuery, newContents: JQuery): void;

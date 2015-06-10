@@ -1,6 +1,8 @@
-﻿export var name: string = 'rl.utilities.observable';
+﻿// uses typings/angularjs
 
-import observable = require('./observable.service');
+export var name: string = 'rl.utilities.observable';
+
+import { name as serviceName, observableServiceFactory } from './observable.service';
 
 angular.module(name, [])
-	.factory('observableFactory', observable.observableServiceFactory);
+	.factory(serviceName, observableServiceFactory);

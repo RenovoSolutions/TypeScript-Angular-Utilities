@@ -1,4 +1,4 @@
-﻿/// <reference path="../../typings/lodash/lodash.d.ts" />
+﻿// uses typings/lodash
 
 'use strict';
 

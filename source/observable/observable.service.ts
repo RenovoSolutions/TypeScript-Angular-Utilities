@@ -1,6 +1,8 @@
-﻿/// <reference path="../../typings/lodash/lodash.d.ts" />
+﻿// uses typings/lodash
 
 'use strict';
+
+export var name: string = 'observableFactory';
 
 export interface IWatcher {
 	action(...params: any[]): void;

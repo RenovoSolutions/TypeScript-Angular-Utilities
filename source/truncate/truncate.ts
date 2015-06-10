@@ -2,15 +2,17 @@
 'use strict';
 
 export var name: string = 'truncate';
+export var filterName: string = name + 'Filter'; 
 
-import __objectUtility = require('../object/object.service');
+import { name as objectUtilityName, IObjectUtility } from '../object/object.service';
 
 export interface ITruncateFilter {
 	(input?: string, truncateTo?: number, includeEllipses?: boolean): string;
 	(input?: number, truncateTo?: number, includeEllipses?: boolean): string;
 }
 
-export function truncate(objectUtility: __objectUtility.IObjectUtility): ITruncateFilter {
+truncate.$inject = [objectUtilityName]
+export function truncate(objectUtility: IObjectUtility): ITruncateFilter {
 	'use strict';
 	return (input?: any, truncateTo?: number, includeEllipses?: boolean): string => {
 		includeEllipses = includeEllipses == null ? false : includeEllipses;

@@ -1,6 +1,8 @@
-﻿export var name: string = 'rl.utilities.promise';
+﻿// uses typings/angularjs
 
-import __promise = require('./promise.service');
+export var name: string = 'rl.utilities.promise';
+
+import { name as serviceName, PromiseUtility } from './promise.service';
 
 angular.module(name, [])
-	.service(__promise.name, __promise.PromiseUtility);
+	.service(serviceName, PromiseUtility);

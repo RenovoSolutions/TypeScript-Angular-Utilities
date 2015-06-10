@@ -1,22 +1,22 @@
 ﻿/// <reference path='../../typings/chai/chai.d.ts' />
-/// <reference path='../../typings/sinon/sinon.d.ts' />
 /// <reference path='../../typings/mocha/mocha.d.ts' />
+/// <reference path='../../typings/sinon/sinon.d.ts' />
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import jqueryHelperModule = require('./jquery.module');
-import jqueryHelperService = require('./jquery.service');
-import angularFixture = require('../test/angularFixture');
+import { name as moduleName } from './jquery.module';
+import { name as serviceName, IJQueryUtility } from './jquery.service';
+import { angularFixture } from '../test/angularFixture';
 
 describe('jqueryUtility', () => {
-	var jqueryUtility: jqueryHelperService.IJQueryUtility;
+	var jqueryUtility: IJQueryUtility;
 	var emptySpy: Sinon.SinonSpy;
 	var appendSpy: Sinon.SinonSpy;
 
 	beforeEach(() => {
-		angular.mock.module(jqueryHelperModule.name);
+		angular.mock.module(moduleName);
 
-		var services: any = angularFixture.angularFixture.inject('jqueryUtility');
+		var services: any = angularFixture.inject(serviceName);
 		jqueryUtility = services.jqueryUtility;
 
 		emptySpy = sinon.spy();

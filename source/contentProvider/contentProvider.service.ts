@@ -1,22 +1,26 @@
-﻿/// <reference path='../../typings/lodash/lodash.d.ts' />
+﻿// uses typings/jquery
+// uses typings/angular
+// uses typings/lodash
 
 'use strict';
 
-import observable = require('../observable/observable.service');
+import * as __observable from '../observable/observable.service';
+
+export var name: string = 'contentProviderFactory';
 
 export interface IContentProviderService {
 	setContent(content: JQuery): void;
 	setTranscludeContent(transcludeFunction: angular.ITranscludeFunction): void;
 	getContent(selector?: string): JQuery;
-	register(action: {(newText: JQuery): void}, selector?: string): observable.IUnregisterFunction;
+	register(action: {(newText: JQuery): void}, selector?: string): __observable.IUnregisterFunction;
 }
 
 export class ContentProviderService implements IContentProviderService {
-	constructor(observableFactory: observable.IObservableServiceFactory) {
+	constructor(observableFactory: __observable.IObservableServiceFactory) {
 		this.observable = observableFactory.getInstance();
 	}
 
-	private observable: observable.IObservableService;
+	private observable: __observable.IObservableService;
 	private content: JQuery;
 
 	setContent(content: JQuery): void {
@@ -34,7 +38,7 @@ export class ContentProviderService implements IContentProviderService {
 		}
 	}
 
-	register(action: {(newContent: JQuery): void}, selector?: string): observable.IUnregisterFunction {
+	register(action: {(newContent: JQuery): void}, selector?: string): __observable.IUnregisterFunction {
 		if (this.content != null) {
 			action(this.getContent(selector));
 		}
@@ -57,8 +61,8 @@ export interface IContentProviderServiceFactory {
 	getInstance(): IContentProviderService;
 }
 
-contentProviderServiceFactory.$inject = ['observableFactory'];
-export function contentProviderServiceFactory(observableFactory: observable.IObservableServiceFactory): IContentProviderServiceFactory {
+contentProviderServiceFactory.$inject = [__observable.name];
+export function contentProviderServiceFactory(observableFactory: __observable.IObservableServiceFactory): IContentProviderServiceFactory {
 	'use strict';
 
 	return {

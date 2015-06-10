@@ -1,8 +1,10 @@
-﻿'use strict';
+﻿// uses typings/angularjs
+
+'use strict';
 
 export var name: string = 'rl21.services.parentChildBehavior';
 
-import __parentChildBehavior = require('./parentChildBehavior.service');
+import { name as serviceName, ParentChildBehaviorService } from './parentChildBehavior.service';
 
 angular.module(name, [])
-	.service(__parentChildBehavior.name, __parentChildBehavior.ParentChildBehaviorService);
+	.service(serviceName, ParentChildBehaviorService);

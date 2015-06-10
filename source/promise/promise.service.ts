@@ -1,5 +1,5 @@
-﻿/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/lodash/lodash.d.ts" />
+﻿// uses typings/angularjs
+// uses typings/lodash
 
 'use strict';
 

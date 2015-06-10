@@ -1,10 +1,12 @@
-﻿'use strict';
+﻿// uses typings/angularjs
+
+'use strict';
 
 export var name: string = 'rl21.components.truncate';
 
-import __truncate = require('./truncate');
+import { name as serviceName, truncate } from './truncate';
 
-import __objectUtility = require('../object/object.module');
+import { name as objectUtilityModule } from '../object/object.module';
 
-angular.module(name, [__objectUtility.name])
-	.filter(__truncate.name, __truncate.truncate);
+angular.module(name, [objectUtilityModule])
+	.filter(serviceName, truncate);

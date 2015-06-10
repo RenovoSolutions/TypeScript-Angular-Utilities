@@ -1,6 +1,8 @@
-﻿export var name: string = 'rl.utilities.number';
+﻿// uses typings/angularjs
 
-import __numberUtility = require('./number.service');
+export var name: string = 'rl.utilities.number';
+
+import { name as serviceName, NumberUtility } from './number.service';
 
 angular.module(name, [])
-	.service(__numberUtility.name, __numberUtility.NumberUtility);
+	.service(serviceName, NumberUtility);

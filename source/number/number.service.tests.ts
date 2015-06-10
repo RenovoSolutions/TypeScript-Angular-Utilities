@@ -3,18 +3,18 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import numberUtilityModule = require('./number.module');
-import __numberUtility = require('./number.service');
-import angularFixture = require('../test/angularFixture');
+import { name as moduleName } from './number.module';
+import { name as serviceName, INumberUtility } from './number.service';
+import { angularFixture } from '../test/angularFixture';
 
 describe('numberUtility', () => {
-	var numberUtility: __numberUtility.INumberUtility;
+	var numberUtility: INumberUtility;
 
 	beforeEach(() => {
-		angular.mock.module(numberUtilityModule.name);
+		angular.mock.module(moduleName);
 
-		var services: any = angularFixture.angularFixture.inject(__numberUtility.name);
-		numberUtility = services[__numberUtility.name];
+		var services: any = angularFixture.inject(serviceName);
+		numberUtility = services[serviceName];
 	});
 
 	describe('preciseRound', (): void => {

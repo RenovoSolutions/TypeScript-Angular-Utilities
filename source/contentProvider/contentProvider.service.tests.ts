@@ -1,23 +1,25 @@
 ﻿/// <reference path='../../typings/chai/chai.d.ts' />
 /// <reference path='../../typings/mocha/mocha.d.ts' />
+/// <reference path='../../typings/sinon/sinon.d.ts' />
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import contentProviderModule = require('./contentProvider.module');
-import contentProviderService = require('./contentProvider.service');
-import angularFixture = require('../test/angularFixture');
+import { name as moduleName } from './contentProvider.module';
+import { name as contentProviderName 
+	, IContentProviderServiceFactory, IContentProviderService } from './contentProvider.service';
+import { angularFixture } from '../test/angularFixture';
 
 describe('contentProvider', () => {
-	var contentProvider: contentProviderService.IContentProviderService;
+	var contentProvider: IContentProviderService;
 	var transcludeSpy: Sinon.SinonSpy;
 	var filterSpy: Sinon.SinonSpy;
 	var jqueryClone: any;
 
 	beforeEach(() => {
-		angular.mock.module(contentProviderModule.name);
+		angular.mock.module(moduleName);
 
-		var services: any = angularFixture.angularFixture.inject('contentProviderFactory');
-		var contentProviderFactory: contentProviderService.IContentProviderServiceFactory = services.contentProviderFactory;
+		var services: any = angularFixture.inject(contentProviderName);
+		var contentProviderFactory: IContentProviderServiceFactory = services[contentProviderName];
 		contentProvider = contentProviderFactory.getInstance();
 
 		jqueryClone = {};

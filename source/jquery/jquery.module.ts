@@ -1,8 +1,8 @@
-﻿/// <reference path="../../typings/angularjs/angular.d.ts" />
+﻿// uses typings/angularjs
 
 export var name: string = 'rl.utilities.jquery';
 
-import __jquery = require('./jquery.service');
+import { name as serviceName, JQueryUtility } from './jquery.service';
 
 angular.module(name, [])
-	.service('jqueryUtility', __jquery.JQueryUtility);
+	.service(serviceName, JQueryUtility);

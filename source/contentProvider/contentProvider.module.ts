@@ -1,7 +1,9 @@
-﻿export var name: string = 'rl21.services.contentProvider';
+﻿// uses typings/angularjs
 
-import contentProvider = require('./contentProvider.service');
-import observable = require('../observable/observable.module');
+export var name: string = 'rl21.services.contentProvider';
 
-angular.module(name, [observable.name])
-	.factory('contentProviderFactory', contentProvider.contentProviderServiceFactory);
+import { name as contentProviderName, contentProviderServiceFactory as contentProviderfactory } from './contentProvider.service';
+import { name as observableModule } from '../observable/observable.module';
+
+angular.module(name, [observableModule])
+	.factory(contentProviderName, contentProviderfactory);

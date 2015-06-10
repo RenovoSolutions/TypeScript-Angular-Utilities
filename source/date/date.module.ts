@@ -1,8 +1,8 @@
-﻿/// <reference path='../../typings/moment/moment.d.ts' />
+﻿// uses typings/angularjs
 
 export var name: string = 'rl.utilities.dateUtility';
 
-import __dateUtility = require('./date.service');
+import { name as serviceName, DateUtility } from './date.service';
 
 angular.module(name, [])
-	.service(__dateUtility.name, __dateUtility.DateUtility);
+	.service(serviceName, DateUtility);

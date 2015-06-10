@@ -1,34 +1,40 @@
-/// <reference path="../typings/angularjs/angular.d.ts" />
+// uses angularjs
 
 export var name: string = 'rl.utilities';
 
-import __array = require('./array/array.module');
-import __contentProvider = require('./contentProvider/contentProvider.module');
-import __date = require('./date/date.module');
-import __jquery = require('./jquery/jquery.module');
-import __number = require('./number/number.module');
-import __object = require('./object/object.module');
-import __observable = require('./observable/observable.module');
-import __parentChildBehavior = require('./parentChildBehavior/parentChildBehavior.module');
-import __promise = require('./promise/promise.module');
-import __truncate = require('./truncate/truncate.module');
+import * as array from './array/array.module';
+import * as contentProvider from './contentProvider/contentProvider.module';
+import * as date from './date/date.module';
+import * as jquery from './jquery/jquery.module';
+import * as number from './number/number.module';
+import * as object from './object/object.module';
+import * as observable from './observable/observable.module';
+import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.module';
+import * as promise from './promise/promise.module';
+import * as truncate from './truncate/truncate.module';
 
 angular.module(name, [
-	__array.name,
-	__contentProvider.name,
-	__date.name,
-	__jquery.name,
-	__number.name,
-	__object.name,
-	__observable.name,
-	__parentChildBehavior.name,
-	__promise.name,
-	__truncate.name,
+	array.name,
+	contentProvider.name,
+	date.name,
+	jquery.name,
+	number.name,
+	object.name,
+	observable.name,
+	parentChildBehavior.name,
+	promise.name,
+	truncate.name,
 ]);
 
-import __test = require('./test/test.module');
-
-/* tslint:disable */
-// reference components and services so that both are included as children of this page
-[__test];
-/* tslint:enable */
+export {
+	array,
+	contentProvider,
+	date,
+	jquery,
+	number,
+	object,
+	observable,
+	parentChildBehavior,
+	promise,
+	truncate
+};

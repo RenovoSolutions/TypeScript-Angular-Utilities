@@ -3,18 +3,18 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import dateUtilityModule = require('./date.module');
-import __dateUtility = require('./date.service');
-import angularFixture = require('../test/angularFixture');
+import { name as moduleName } from './date.module';
+import { name as serviceName, IDateUtility } from './date.service';
+import { angularFixture } from '../test/angularFixture';
 
 describe('dateUtility', () => {
-	var dateUtility: __dateUtility.IDateUtility;
+	var dateUtility: IDateUtility;
 
 	beforeEach(() => {
-		angular.mock.module(dateUtilityModule.name);
+		angular.mock.module(moduleName);
 
-		var services: any = angularFixture.angularFixture.inject(__dateUtility.name);
-		dateUtility = services[__dateUtility.name];
+		var services: any = angularFixture.inject(serviceName);
+		dateUtility = services[serviceName];
 	});
 
 	describe('getFullString', (): void => {

@@ -3,18 +3,18 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import __truncateModule = require('./truncate.module');
-import __truncate = require('./truncate');
-import __angularFixture = require('../test/angularFixture');
+import { name as moduleName } from './truncate.module';
+import { filterName, ITruncateFilter } from './truncate';
+import { angularFixture } from '../test/angularFixture';
 
 describe('truncate', () => {
-	var truncate: __truncate.ITruncateFilter;
+	var truncate: ITruncateFilter;
 
 	beforeEach(() => {
-		angular.mock.module(__truncateModule.name);
+		angular.mock.module(moduleName);
 
-		var services: any = __angularFixture.angularFixture.inject(__truncate.name + 'Filter');
-		truncate = services[__truncate.name + 'Filter'];
+		var services: any = angularFixture.inject(filterName);
+		truncate = services[filterName];
 	});
 
 	it('should return an empty string when no string is passed', (): void => {

@@ -1,8 +1,10 @@
-﻿'use strict';
+﻿// uses typings/angularjs
+
+'use strict';
 
 export var name: string = 'rl.utilities.object';
 
-import __object = require('./object.service');
+import { name as serviceName, ObjectUtility } from './object.service';
 
 angular.module(name, [])
-	.service(__object.name, __object.ObjectUtility);
+	.service(serviceName, ObjectUtility);
