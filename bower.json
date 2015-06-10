@@ -1,6 +1,6 @@
 {
-  "name": "rl.utilities",
-  "version": "0.4.0",
+  "name": "rl-utilities",
+  "version": "0.4.1",
   "description": "Typescript utility classes published as angular services",
   "authors": [
     "Renovo Development Team"
@@ -9,7 +9,7 @@
     "typescript",
     "utilities"
   ],
-  "main": "utilities.js",
+  "main": "rl-utilities.js",
   "typescript": {
 	  "definition": "utilities.d.ts"
   },
