@@ -3,9 +3,8 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import { name as moduleName } from './array.module';
-import { name as serviceName, IArrayUtility } from './array.service';
-import { angularFixture } from '../test/angularFixture';
+/// <reference path='array.service.ts' />
+/// <reference path='../test/angularFixture.ts' />
 
 interface ITestObj {
 	prop: number;
@@ -16,13 +15,13 @@ interface IKeyObj {
 }
 
 describe('arrayUtility', () => {
-	var arrayUtility: IArrayUtility;
+	var arrayUtility: rl.utilities.array.IArrayUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		angular.mock.module(rl.utilities.array.moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
-		arrayUtility = services[serviceName];
+		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.array.serviceName);
+		arrayUtility = services[rl.utilities.array.serviceName];
 	});
 
 	describe('findIndexOf', (): void => {

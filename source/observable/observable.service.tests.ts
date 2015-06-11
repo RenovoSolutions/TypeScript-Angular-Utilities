@@ -4,19 +4,18 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import { name as moduleName } from './observable.module';
-import { name as serviceName
-	, IObservableServiceFactory, IObservableService } from './observable.service';
-import { angularFixture } from '../test/angularFixture';
+/// <reference path='observable.service.ts' />
+/// <reference path='../test/angularFixture.ts' />
 
 describe('observable', () => {
-	var observable: IObservableService;
+	var observable: rl.utilities.observable.IObservableService;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		angular.mock.module(rl.utilities.observable.moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
-		var observableFactory: IObservableServiceFactory = services[serviceName];
+		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.observable.serviceName);
+		var observableFactory: rl.utilities.observable.IObservableServiceFactory 
+			= services[rl.utilities.observable.serviceName];
 		observable = observableFactory.getInstance();
 	});
 

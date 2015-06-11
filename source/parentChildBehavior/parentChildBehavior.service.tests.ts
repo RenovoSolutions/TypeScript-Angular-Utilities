@@ -3,27 +3,26 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import { name as moduleName } from './parentChildBehavior.module';
-import { name as serviceName, IParentChildBehaviorService, IChild } from './parentChildBehavior.service';
-import { angularFixture } from '../test/angularFixture';
+/// <reference path='parentChildBehavior.service.ts' />
+/// <reference path='../test/angularFixture.ts' />
 
 interface ITestBehavior {
 	action: Function;
 }
 
 describe('parentChildBehavior', () => {
-	var parentChildBehavior: IParentChildBehaviorService;
+	var parentChildBehavior: rl.utilities.parentChildBehavior.IParentChildBehaviorService;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		angular.mock.module(rl.utilities.parentChildBehavior.moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
-		parentChildBehavior = services[serviceName];
+		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.parentChildBehavior.serviceName);
+		parentChildBehavior = services[rl.utilities.parentChildBehavior.serviceName];
 	});
 
 	describe('register', (): void => {
 		it('should register a child behavior by putting it on the view data of the child', (): void => {
-			var child: IChild<ITestBehavior> = { viewData: null };
+			var child: rl.utilities.parentChildBehavior.IChild<ITestBehavior> = { viewData: null };
 			var behavior: ITestBehavior = { action: (): number => { return 3; } };
 
 			parentChildBehavior.registerChildBehavior(child, behavior);
@@ -32,7 +31,7 @@ describe('parentChildBehavior', () => {
 		});
 
 		it('should use the existing viewData object if one exists', (): void => {
-			var childWithViewData: IChild<ITestBehavior> = <any>{ viewData: { randomValue: 5 } };
+			var childWithViewData: rl.utilities.parentChildBehavior.IChild<ITestBehavior> = <any>{ viewData: { randomValue: 5 } };
 			var behavior: ITestBehavior = { action: (): number => { return 5; } };
 
 			parentChildBehavior.registerChildBehavior(childWithViewData, behavior);
@@ -43,7 +42,7 @@ describe('parentChildBehavior', () => {
 
 		it('should not register child behavior if child object is null', (): void => {
 			var behavior: ITestBehavior = { action: (): number => { return 3; } };
-			var child: IChild<ITestBehavior> = null;
+			var child: rl.utilities.parentChildBehavior.IChild<ITestBehavior> = null;
 			parentChildBehavior.registerChildBehavior(child, behavior);
 			expect(parentChildBehavior.getChildBehavior(child)).to.be.null;
 		});
@@ -52,7 +51,7 @@ describe('parentChildBehavior', () => {
 	describe('getChildBehavior', (): void => {
 		it('should get the behavior of an individual child', (): void => {
 			var behavior1: ITestBehavior = { action: (): number => { return 3; } };
-			var child: IChild<ITestBehavior> = { viewData: { behavior: behavior1 } };
+			var child: rl.utilities.parentChildBehavior.IChild<ITestBehavior> = { viewData: { behavior: behavior1 } };
 
 			expect(parentChildBehavior.getChildBehavior(child)).to.equal(behavior1);
 		});
@@ -60,7 +59,7 @@ describe('parentChildBehavior', () => {
 		it('should get existing behaviors for a list of children', (): void => {
 			var behavior1: ITestBehavior = { action: (): number => { return 3; } };
 			var behavior2: ITestBehavior = { action: (): number => { return 7; } };
-			var childList: IChild<ITestBehavior>[] = [
+			var childList: rl.utilities.parentChildBehavior.IChild<ITestBehavior>[] = [
 				{ viewData: { behavior: behavior1 } },
 				{ viewData: { behavior: null } },
 				{ viewData: { behavior: behavior2 } },

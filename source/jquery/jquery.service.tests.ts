@@ -4,19 +4,18 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import { name as moduleName } from './jquery.module';
-import { name as serviceName, IJQueryUtility } from './jquery.service';
-import { angularFixture } from '../test/angularFixture';
+/// <reference path='jquery.service.ts' />
+/// <reference path='../test/angularFixture.ts' />
 
 describe('jqueryUtility', () => {
-	var jqueryUtility: IJQueryUtility;
+	var jqueryUtility: rl.utilities.jquery.IJQueryUtility;
 	var emptySpy: Sinon.SinonSpy;
 	var appendSpy: Sinon.SinonSpy;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		angular.mock.module(rl.utilities.jquery.moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
+		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.jquery.serviceName);
 		jqueryUtility = services.jqueryUtility;
 
 		emptySpy = sinon.spy();

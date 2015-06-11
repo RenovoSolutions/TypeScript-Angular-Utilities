@@ -3,18 +3,17 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import { name as moduleName } from './object.module';
-import { name as serviceName, IObjectUtility } from './object.service';
-import { angularFixture } from '../test/angularFixture';
+/// <reference path='object.service.ts' />
+/// <reference path='../test/angularFixture.ts' />
 
 describe('objectUtility', () => {
-	var objectUtility: IObjectUtility;
+	var objectUtility: rl.utilities.object.IObjectUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		angular.mock.module(rl.utilities.object.moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
-		objectUtility = services[serviceName];
+		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.object.serviceName);
+		objectUtility = services[rl.utilities.object.serviceName];
 	});
 
 	describe('isNullOrEmpty', (): void => {

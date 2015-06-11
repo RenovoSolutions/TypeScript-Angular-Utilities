@@ -4,22 +4,20 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import { name as moduleName } from './contentProvider.module';
-import { name as contentProviderName 
-	, IContentProviderServiceFactory, IContentProviderService } from './contentProvider.service';
-import { angularFixture } from '../test/angularFixture';
+/// <reference path='contentProvider.service.ts' />
+/// <reference path='../test/angularFixture.ts' />
 
 describe('contentProvider', () => {
-	var contentProvider: IContentProviderService;
+	var contentProvider: rl.utilities.contentProvider.IContentProviderService;
 	var transcludeSpy: Sinon.SinonSpy;
 	var filterSpy: Sinon.SinonSpy;
 	var jqueryClone: any;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		angular.mock.module(rl.utilities.contentProvider.moduleName);
 
-		var services: any = angularFixture.inject(contentProviderName);
-		var contentProviderFactory: IContentProviderServiceFactory = services[contentProviderName];
+		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.contentProvider.serviceName);
+		var contentProviderFactory: rl.utilities.contentProvider.IContentProviderServiceFactory = services[rl.utilities.contentProvider.serviceName];
 		contentProvider = contentProviderFactory.getInstance();
 
 		jqueryClone = {};

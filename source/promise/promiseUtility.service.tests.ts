@@ -4,18 +4,17 @@
 /// <reference path='../../typings/angularMocks.d.ts' />
 /// <reference path='../../typings/chaiAssertions.d.ts' />
 
-import { name as moduleName } from './promise.module';
-import { name as serviceName, IPromiseUtility } from './promise.service';
-import { angularFixture } from '../test/angularFixture';
+/// <reference path='promise.service.ts' />
+/// <reference path='../test/angularFixture.ts' />
 
 describe('promiseUtility', () => {
-	var promiseUtility: IPromiseUtility;
+	var promiseUtility: rl.utilities.promise.IPromiseUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		angular.mock.module(rl.utilities.promise.moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
-		promiseUtility = services[serviceName];
+		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.promise.serviceName);
+		promiseUtility = services[rl.utilities.promise.serviceName];
 	});
 
 	describe('isPromise', (): void => {
