@@ -8,7 +8,7 @@ module rl.utilities.truncate {
 	
 	export var moduleName: string = 'rl21.components.truncate';
 	export var serviceName: string = 'truncate';
-	export var filterName: string = name + 'Filter'; 
+	export var filterName: string = serviceName + 'Filter'; 
 	
 
 	export interface ITruncateFilter {
