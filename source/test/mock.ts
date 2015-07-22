@@ -1,7 +1,7 @@
-﻿/// <reference path='../../typings/lodash/lodash.d.ts' />
-/// <reference path='../../typings/sinon/sinon.d.ts' />
-/// <reference path='../../typings/jquery/jquery.d.ts' />
-/// <reference path='../../typings/angularjs/angular.d.ts' />
+﻿// uses typings/lodash
+// uses typings/sinon
+// uses typings/jquery
+// uses typings/angularjs
 
 module rl.utilities.test {
 	'use strict';

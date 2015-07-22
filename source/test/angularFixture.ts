@@ -1,6 +1,6 @@
-﻿/// <reference path='../../typings/angularjs/angular.d.ts' />
-/// <reference path='../../typings/lodash/lodash.d.ts' />
-/// <reference path='../../typings/angularMocks.d.ts' />
+﻿// uses typings/angularjs
+// uses typings/lodash
+// uses typings/angularMocks
 
 module rl.utilities.test {
 	export interface IControllerResult<TControllerType> {
