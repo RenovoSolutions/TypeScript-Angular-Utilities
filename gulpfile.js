@@ -10,10 +10,11 @@ var locationConfig = {
 	assets: 'assets',
 	debug: 'debug',
 	release: 'release',
+	tests: 'tests',
 };
 
 gulpUtilities.build.config(gulp, packageName, locationConfig, false);
 gulpUtilities.teamCity.config(gulp);
-gulpUtilities.test.config(gulp, __dirname + '/karma.conf.js');
+gulpUtilities.test.config(gulp, __dirname + '/karma.conf.js', locationConfig);
 
 gulp.task('default', ['build']);
