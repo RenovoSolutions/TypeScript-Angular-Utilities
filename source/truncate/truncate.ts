@@ -5,23 +5,22 @@
 
 module rl.utilities.truncate {
 	'use strict';
-	
+
 	export var moduleName: string = 'rl21.components.truncate';
 	export var serviceName: string = 'truncate';
-	export var filterName: string = serviceName + 'Filter'; 
-	
+	export var filterName: string = serviceName + 'Filter';
 
 	export interface ITruncateFilter {
 		(input?: string, truncateTo?: number, includeEllipses?: boolean): string;
 		(input?: number, truncateTo?: number, includeEllipses?: boolean): string;
 	}
-	
-	truncate.$inject = [object.serviceName]
+
+	truncate.$inject = [object.serviceName];
 	export function truncate(objectUtility: object.IObjectUtility): ITruncateFilter {
 		'use strict';
 		return (input?: any, truncateTo?: number, includeEllipses?: boolean): string => {
 			includeEllipses = includeEllipses == null ? false : includeEllipses;
-	
+
 			var out: string = objectUtility.isNullOrWhitespace(input) ? '' : input.toString();
 			if (out.length) {
 				if (truncateTo != null && out.length > truncateTo) {
@@ -34,7 +33,7 @@ module rl.utilities.truncate {
 			return out;
 		};
 	}
-	
+
 	angular.module(moduleName, [object.moduleName])
 		.filter(serviceName, truncate);
 }

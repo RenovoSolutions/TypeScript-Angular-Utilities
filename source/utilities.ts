@@ -26,5 +26,4 @@ module rl.utilities {
 		promise.moduleName,
 		truncate.moduleName,
 	]);
-		
 }

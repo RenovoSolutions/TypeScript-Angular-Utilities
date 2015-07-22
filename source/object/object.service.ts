@@ -3,10 +3,10 @@
 
 module rl.utilities.object {
 	'use strict';
-	
+
 	export var moduleName: string = 'rl.utilities.object';
 	export var serviceName: string = 'objectUtility';
-	
+
 	export interface IObjectUtility {
 		isNullOrEmpty(object: any[]): boolean;
 		isNullOrEmpty(object: number): boolean;
@@ -17,7 +17,7 @@ module rl.utilities.object {
 		isNullOrWhitespace(object: string): boolean;
 		isNullOrWhitespace(object: any): boolean;
 	}
-	
+
 	export class ObjectUtility implements IObjectUtility {
 		isNullOrEmpty(object: any): boolean {
 			if (object == null) {
@@ -30,16 +30,16 @@ module rl.utilities.object {
 				return object === '';
 			}
 		}
-	
+
 		isNullOrWhitespace(object: any): boolean {
 			if (_.isString(object)) {
 				object = (<string>object).trim();
 			}
-	
+
 			return this.isNullOrEmpty(object);
 		}
 	}
-	
+
 	angular.module(moduleName, [])
 		.service(serviceName, ObjectUtility);
 }

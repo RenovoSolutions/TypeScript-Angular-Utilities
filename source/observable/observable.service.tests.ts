@@ -14,7 +14,7 @@ describe('observable', () => {
 		angular.mock.module(rl.utilities.observable.moduleName);
 
 		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.observable.serviceName);
-		var observableFactory: rl.utilities.observable.IObservableServiceFactory 
+		var observableFactory: rl.utilities.observable.IObservableServiceFactory
 			= services[rl.utilities.observable.serviceName];
 		observable = observableFactory.getInstance();
 	});

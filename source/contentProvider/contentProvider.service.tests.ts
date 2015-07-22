@@ -17,7 +17,8 @@ describe('contentProvider', () => {
 		angular.mock.module(rl.utilities.contentProvider.moduleName);
 
 		var services: any = rl.utilities.test.angularFixture.inject(rl.utilities.contentProvider.serviceName);
-		var contentProviderFactory: rl.utilities.contentProvider.IContentProviderServiceFactory = services[rl.utilities.contentProvider.serviceName];
+		var contentProviderFactory: rl.utilities.contentProvider.IContentProviderServiceFactory
+			= services[rl.utilities.contentProvider.serviceName];
 		contentProvider = contentProviderFactory.getInstance();
 
 		jqueryClone = {};

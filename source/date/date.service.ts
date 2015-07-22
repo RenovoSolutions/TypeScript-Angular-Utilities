@@ -2,20 +2,20 @@
 
 module rl.utilities.date {
 	'use strict';
-	
+
 	export var moduleName: string = 'rl.utilities.date';
 	export var serviceName: string = 'dateUtility';
-	
+
 	export interface IMonth {
 		name: string;
 		days(year?: number): number;
 	}
-	
+
 	export interface IDateUtility {
 		getFullString(month: number): string;
 		getDays(month: number, year?: number): number;
 	}
-	
+
 	export class DateUtility {
 		constructor() {
 			this.month = [
@@ -33,22 +33,22 @@ module rl.utilities.date {
 				{ name: 'December', days: (): number => { return 31; } },
 			];
 		}
-	
+
 		month: IMonth[];
-	
+
 		private isLeapYear(year?: number): boolean {
 			return new Date(year, 1, 29).getMonth() === 1;
 		}
-	
+
 		getFullString(month: number): string {
 			return this.month[month].name;
 		}
-	
+
 		getDays(month: number, year?: number): number {
 			return this.month[month].days(year);
 		}
 	}
-	
+
 	angular.module(moduleName, [])
 		.service(serviceName, DateUtility);
 }
