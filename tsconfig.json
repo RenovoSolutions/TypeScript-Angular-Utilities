@@ -2,8 +2,8 @@
 	"compilerOptions": {
 		"emitDecoratorMetadata": true,
 		"declaration": true,
-		"module": "amd",
-		"target": "ES5"
+		"target": "ES5",
+		"out": "utility.js"
 	},
 	"files": [
 		"./typings/tsd.d.ts",
