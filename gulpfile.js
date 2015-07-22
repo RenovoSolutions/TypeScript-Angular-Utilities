@@ -13,7 +13,7 @@ var locationConfig = {
 	tests: 'tests',
 };
 
-gulpUtilities.build.config(gulp, packageName, locationConfig, false);
+gulpUtilities.build.config(gulp, packageName, locationConfig, true, false);
 gulpUtilities.teamCity.config(gulp);
 gulpUtilities.test.config(gulp, __dirname + '/karma.conf.js', locationConfig);
 
