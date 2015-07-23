@@ -18,7 +18,7 @@ module rl.utilities.object {
 		isNullOrWhitespace(object: any): boolean;
 	}
 
-	export class ObjectUtility implements IObjectUtility {
+	class ObjectUtility implements IObjectUtility {
 		isNullOrEmpty(object: any): boolean {
 			if (object == null) {
 				return true;

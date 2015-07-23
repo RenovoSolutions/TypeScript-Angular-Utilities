@@ -11,7 +11,7 @@ module rl.utilities.jquery {
 		replaceContent(contentArea: JQuery, newContents: JQuery): void;
 	}
 
-	export class JQueryUtility implements IJQueryUtility {
+	class JQueryUtility implements IJQueryUtility {
 		replaceContent(contentArea: JQuery, newContent: JQuery): void {
 			contentArea.empty();
 			contentArea.append(newContent);

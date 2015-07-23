@@ -25,7 +25,7 @@ module rl.utilities.observable {
 		fire(event?: string, ...params: any[]): void;
 	}
 
-	export class ObservableService implements IObservableService {
+	class ObservableService implements IObservableService {
 		private watchers: IWatcher[] = [];
 		private nextKey: number = 0;
 
@@ -64,7 +64,7 @@ module rl.utilities.observable {
 		getInstance(): IObservableService;
 	}
 
-	export function observableServiceFactory(): IObservableServiceFactory {
+	function observableServiceFactory(): IObservableServiceFactory {
 		'use strict';
 
 		return {

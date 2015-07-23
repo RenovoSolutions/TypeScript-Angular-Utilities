@@ -12,7 +12,7 @@ module rl.utilities.promise {
 		isPromise(promise: ng.IPromise<any>): boolean;
 	}
 
-	export class PromiseUtility implements IPromiseUtility {
+	class PromiseUtility implements IPromiseUtility {
 		isPromise(promise: any): boolean {
 			return _.isObject(promise) && _.isFunction(promise.then) && _.isFunction(promise.catch);
 		}

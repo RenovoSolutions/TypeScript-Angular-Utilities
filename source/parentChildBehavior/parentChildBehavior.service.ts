@@ -20,7 +20,7 @@ module rl.utilities.parentChildBehavior {
 		registerChildBehavior<TBehavior>(child: IChild<TBehavior>, behavior: TBehavior): void;
 	}
 
-	export class ParentChildBehaviorService {
+	class ParentChildBehaviorService {
 		getChildBehavior<TBehavior>(child: IChild<TBehavior>): TBehavior {
 			return child && child.viewData != null
 				? child.viewData.behavior

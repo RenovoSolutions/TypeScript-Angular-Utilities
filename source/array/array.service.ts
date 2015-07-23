@@ -18,7 +18,7 @@ module rl.utilities.array {
 		toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): number}): TDataType[];
 	}
 
-	export class ArrayUtility implements IArrayUtility {
+	class ArrayUtility implements IArrayUtility {
 		findIndexOf<TDataType>(array: TDataType[], predicate: { (item: TDataType): boolean }): number {
 			var targetIndex: number;
 

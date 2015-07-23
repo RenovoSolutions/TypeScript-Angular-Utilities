@@ -17,7 +17,7 @@ module rl.utilities.contentProvider {
 		register(action: {(newText: JQuery): void}, selector?: string): observable.IUnregisterFunction;
 	}
 
-	export class ContentProviderService implements IContentProviderService {
+	class ContentProviderService implements IContentProviderService {
 		constructor(observableFactory: observable.IObservableServiceFactory) {
 			this.observable = observableFactory.getInstance();
 		}
@@ -64,7 +64,7 @@ module rl.utilities.contentProvider {
 	}
 
 	contentProviderServiceFactory.$inject = [observable.serviceName];
-	export function contentProviderServiceFactory(observableFactory: observable.IObservableServiceFactory): IContentProviderServiceFactory {
+	function contentProviderServiceFactory(observableFactory: observable.IObservableServiceFactory): IContentProviderServiceFactory {
 		'use strict';
 
 		return {

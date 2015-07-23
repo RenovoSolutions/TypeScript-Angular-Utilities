@@ -16,7 +16,7 @@ module rl.utilities.date {
 		getDays(month: number, year?: number): number;
 	}
 
-	export class DateUtility {
+	class DateUtility {
 		constructor() {
 			this.month = [
 				{ name: 'January', days: (): number => { return 31; } },

@@ -16,7 +16,7 @@ module rl.utilities.truncate {
 	}
 
 	truncate.$inject = [object.serviceName];
-	export function truncate(objectUtility: object.IObjectUtility): ITruncateFilter {
+	function truncate(objectUtility: object.IObjectUtility): ITruncateFilter {
 		'use strict';
 		return (input?: any, truncateTo?: number, includeEllipses?: boolean): string => {
 			includeEllipses = includeEllipses == null ? false : includeEllipses;
