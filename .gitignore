@@ -5,8 +5,7 @@
 /libraries/
 
 # Output
-/debug/
-/release/
+/output/
 /tests/
 
 # Node deps

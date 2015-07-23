@@ -10,7 +10,7 @@
   "devDependencies": {
     "chai": "^2.1.2",
     "gulp": "^3.8.11",
-    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/0.8.5.tar.gz",
+    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/0.8.6.tar.gz",
     "karma-browserify": "^4.1.2",
     "karma-chai": "~0.1.0",
     "karma-chai-sinon": "^0.1.3",

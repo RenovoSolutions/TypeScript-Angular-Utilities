@@ -8,8 +8,8 @@ var locationConfig = {
 	source: 'source',
 	libraries: 'libraries',
 	assets: 'assets',
-	debug: 'debug',
-	release: 'release',
+	debug: 'output',
+	release: 'output',
 	tests: 'tests',
 };
 
@@ -17,4 +17,7 @@ gulpUtilities.build.config(gulp, packageName, locationConfig, true, false);
 gulpUtilities.teamCity.config(gulp);
 gulpUtilities.test.config(gulp, __dirname + '/karma.conf.js', locationConfig);
 
+var runSequence = require('run-sequence');
+
 gulp.task('default', ['build']);
+gulp.task('build', ['build.library']);
