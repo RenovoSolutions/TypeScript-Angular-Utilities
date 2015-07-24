@@ -3,6 +3,7 @@
 /// <reference path='array/array.service.ts' />
 /// <reference path='autosave/autosave.service.ts' />
 /// <reference path='autosaveAction/autosaveAction.service.ts' />
+/// <reference path='boolean/boolean.service.ts' />
 /// <reference path='contentProvider/contentProvider.service.ts' />
 /// <reference path='date/date.service.ts' />
 /// <reference path='jquery/jquery.service.ts' />
@@ -19,6 +20,7 @@ module rl.utilities.services {
 		array.moduleName,
 		autosave.moduleName,
 		autosaveAction.moduleName,
+		boolean.moduleName,
 		contentProvider.moduleName,
 		date.moduleName,
 		jquery.moduleName,
