@@ -1,12 +1,14 @@
 ﻿// uses typings/angularjs
 // Formats and optionally truncates and ellipsimogrifies a string for display in a card header
 
-/// <reference path='../object/object.service.ts' />
+/// <reference path='../../services/object/object.service.ts' />
 
-module rl.utilities.truncate {
+module rl.utilities.filters.truncate {
 	'use strict';
 
-	export var moduleName: string = 'rl21.components.truncate';
+	import __object = rl.utilities.services.object;
+
+	export var moduleName: string = 'rl21.utilities.filters.truncate';
 	export var serviceName: string = 'truncate';
 	export var filterName: string = serviceName + 'Filter';
 
@@ -15,8 +17,8 @@ module rl.utilities.truncate {
 		(input?: number, truncateTo?: number, includeEllipses?: boolean): string;
 	}
 
-	truncate.$inject = [object.serviceName];
-	function truncate(objectUtility: object.IObjectUtility): ITruncateFilter {
+	truncate.$inject = [__object.serviceName];
+	function truncate(objectUtility: __object.IObjectUtility): ITruncateFilter {
 		'use strict';
 		return (input?: any, truncateTo?: number, includeEllipses?: boolean): string => {
 			includeEllipses = includeEllipses == null ? false : includeEllipses;
@@ -34,6 +36,6 @@ module rl.utilities.truncate {
 		};
 	}
 
-	angular.module(moduleName, [object.moduleName])
+	angular.module(moduleName, [__object.moduleName])
 		.filter(serviceName, truncate);
 }
