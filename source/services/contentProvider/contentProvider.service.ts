@@ -4,10 +4,10 @@
 
 /// <reference path='../observable/observable.service.ts' />
 
-module rl.utilities.contentProvider {
+module rl.utilities.services.contentProvider {
 	'use strict';
 
-	export var moduleName: string = 'rl21.services.contentProvider';
+	export var moduleName: string = 'rl21.utilities.services.contentProvider';
 	export var serviceName: string = 'contentProviderFactory';
 
 	export interface IContentProviderService {

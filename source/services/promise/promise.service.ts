@@ -1,10 +1,10 @@
 ﻿// uses typings/angularjs
 // uses typings/lodash
 
-module rl.utilities.promise {
+module rl.utilities.services.promise {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.promise';
+	export var moduleName: string = 'rl.utilities.services.promise';
 	export var serviceName: string = 'promiseUtility';
 
 	export interface IPromiseUtility {

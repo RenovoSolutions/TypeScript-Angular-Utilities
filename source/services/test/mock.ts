@@ -3,7 +3,7 @@
 // uses typings/jquery
 // uses typings/angularjs
 
-module rl.utilities.test {
+module rl.utilities.services.test {
 	'use strict';
 
 	export interface IMock {

@@ -1,9 +1,9 @@
 ﻿// uses typings/angularjs
 
-module rl.utilities.number {
+module rl.utilities.services.number {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.number';
+	export var moduleName: string = 'rl.utilities.services.number';
 	export var serviceName: string = 'numberUtility';
 
 	enum Sign {

@@ -2,7 +2,7 @@
 // uses typings/lodash
 // uses typings/angularMocks
 
-module rl.utilities.test {
+module rl.utilities.services.test {
 	export interface IControllerResult<TControllerType> {
 		controller: TControllerType;
 		scope: angular.IScope;

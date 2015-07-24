@@ -1,10 +1,10 @@
 ﻿// uses typings/angularjs
 // uses typings/lodash
 
-module rl.utilities.array {
+module rl.utilities.services.array {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.array';
+	export var moduleName: string = 'rl.utilities.services.array';
 	export var serviceName: string = 'arrayUtility';
 
 	export interface IArrayUtility {

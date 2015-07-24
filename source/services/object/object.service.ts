@@ -1,10 +1,10 @@
 ﻿// uses typings/angularjs
 // uses typings/lodash
 
-module rl.utilities.object {
+module rl.utilities.services.object {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.object';
+	export var moduleName: string = 'rl.utilities.services.object';
 	export var serviceName: string = 'objectUtility';
 
 	export interface IObjectUtility {

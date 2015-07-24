@@ -1,10 +1,10 @@
 ﻿// uses typings/angularjs
 // uses typings/lodash
 
-module rl.utilities.observable {
+module rl.utilities.services.observable {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.observable';
+	export var moduleName: string = 'rl.utilities.services.observable';
 	export var serviceName: string = 'observableFactory';
 
 	export interface IWatcher {

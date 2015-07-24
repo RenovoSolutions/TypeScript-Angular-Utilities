@@ -1,9 +1,9 @@
 ﻿// uses typings/angularjs
 
-module rl.utilities.date {
+module rl.utilities.services.date {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.date';
+	export var moduleName: string = 'rl.utilities.services.date';
 	export var serviceName: string = 'dateUtility';
 
 	export interface IMonth {

@@ -1,10 +1,10 @@
 ﻿// uses typings/angularjs
 // uses typings/jquery
 
-module rl.utilities.jquery {
+module rl.utilities.services.jquery {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.jquery';
+	export var moduleName: string = 'rl.utilities.services.jquery';
 	export var serviceName: string = 'jqueryUtility';
 
 	export interface IJQueryUtility {
