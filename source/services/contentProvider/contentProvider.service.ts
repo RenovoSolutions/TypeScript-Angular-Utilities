@@ -63,7 +63,7 @@ module rl.utilities.services.contentProvider {
 		getInstance(): IContentProviderService;
 	}
 
-	contentProviderServiceFactory.$inject = [observable.serviceName];
+	contentProviderServiceFactory.$inject = [observable.factoryName];
 	function contentProviderServiceFactory(observableFactory: observable.IObservableServiceFactory): IContentProviderServiceFactory {
 		'use strict';
 

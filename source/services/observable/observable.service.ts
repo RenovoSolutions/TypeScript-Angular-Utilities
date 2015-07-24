@@ -5,7 +5,7 @@ module rl.utilities.services.observable {
 	'use strict';
 
 	export var moduleName: string = 'rl.utilities.services.observable';
-	export var serviceName: string = 'observableFactory';
+	export var factoryName: string = 'observableFactory';
 
 	export interface IWatcher {
 		action(...params: any[]): void;
@@ -75,5 +75,5 @@ module rl.utilities.services.observable {
 	}
 
 	angular.module(moduleName, [])
-		.factory(serviceName, observableServiceFactory);
+		.factory(factoryName, observableServiceFactory);
 }

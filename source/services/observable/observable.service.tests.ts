@@ -18,9 +18,9 @@ module rl.utilities.services.observable {
 		beforeEach(() => {
 			angular.mock.module(moduleName);
 
-			var services: any = __test.angularFixture.inject(serviceName);
+			var services: any = __test.angularFixture.inject(factoryName);
 			var observableFactory: IObservableServiceFactory
-				= services[serviceName];
+				= services[factoryName];
 			observable = observableFactory.getInstance();
 		});
 
