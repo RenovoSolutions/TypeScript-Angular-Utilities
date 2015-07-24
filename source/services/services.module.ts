@@ -1,6 +1,8 @@
 // uses angularjs
 
 /// <reference path='array/array.service.ts' />
+/// <reference path='autosave/autosave.service.ts' />
+/// <reference path='autosaveAction/autosaveAction.service.ts' />
 /// <reference path='contentProvider/contentProvider.service.ts' />
 /// <reference path='date/date.service.ts' />
 /// <reference path='jquery/jquery.service.ts' />
@@ -15,6 +17,8 @@ module rl.utilities.services {
 
 	angular.module(moduleName, [
 		array.moduleName,
+		autosave.moduleName,
+		autosaveAction.moduleName,
 		contentProvider.moduleName,
 		date.moduleName,
 		jquery.moduleName,
