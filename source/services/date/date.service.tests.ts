@@ -3,6 +3,7 @@
 /// <reference path='../../../typings/angularMocks.d.ts' />
 /// <reference path='../../../typings/chaiAssertions.d.ts' />
 
+/// <reference path='date.module.ts' />
 /// <reference path='date.service.ts' />
 /// <reference path='../test/angularFixture.ts' />
 
@@ -17,8 +18,8 @@ module rl.utilities.services.date {
 		beforeEach(() => {
 			angular.mock.module(moduleName);
 
-			var services: any = __test.angularFixture.inject(serviceName);
-			dateUtility = services[serviceName];
+			var services: any = __test.angularFixture.inject(dateServiceName);
+			dateUtility = services[dateServiceName];
 		});
 
 		describe('getFullString', (): void => {

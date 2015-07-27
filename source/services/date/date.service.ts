@@ -3,8 +3,7 @@
 module rl.utilities.services.date {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.services.date';
-	export var serviceName: string = 'dateUtility';
+	export var dateServiceName: string = 'dateUtility';
 
 	export interface IMonth {
 		name: string;
@@ -16,7 +15,7 @@ module rl.utilities.services.date {
 		getDays(month: number, year?: number): number;
 	}
 
-	class DateUtility {
+	export class DateUtility {
 		constructor() {
 			this.month = [
 				{ name: 'January', days: (): number => { return 31; } },
@@ -48,7 +47,4 @@ module rl.utilities.services.date {
 			return this.month[month].days(year);
 		}
 	}
-
-	angular.module(moduleName, [])
-		.service(serviceName, DateUtility);
 }
