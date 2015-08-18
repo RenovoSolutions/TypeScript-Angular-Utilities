@@ -1,0 +1,7 @@
+{
+	"assets": "assets",
+	"libraries": "libraries",
+	"source": "source",
+	"library": "output",
+	"tests": "tests"
+}
