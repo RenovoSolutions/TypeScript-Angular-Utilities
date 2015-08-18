@@ -11,20 +11,44 @@ module rl.utilities.services.parentChildBehavior {
 	}
 
 	export interface IChild<TBehavior> {
-		viewData: IViewData<TBehavior>;
+		viewData?: IViewData<TBehavior>;
 	}
 
 	export interface IParentChildBehaviorService {
 		getChildBehavior<TBehavior>(child: IChild<TBehavior>): TBehavior;
+		triggerChildBehavior<TBehavior, TReturnType>(child: IChild<any>
+			, action: { (behavior: TBehavior): TReturnType }): TReturnType;
+		triggerAllChildBehaviors<TBehavior, TReturnType>(childList: IChild<TBehavior>[]
+			, action: { (behavior: TBehavior): TReturnType }): TReturnType[];
 		getAllChildBehaviors<TBehavior>(childList: IChild<TBehavior>[]): TBehavior[];
 		registerChildBehavior<TBehavior>(child: IChild<TBehavior>, behavior: TBehavior): void;
 	}
 
-	class ParentChildBehaviorService {
+	export class ParentChildBehaviorService {
 		getChildBehavior<TBehavior>(child: IChild<TBehavior>): TBehavior {
 			return child && child.viewData != null
 				? child.viewData.behavior
 				: null;
+		}
+
+		triggerChildBehavior<TBehavior, TReturnType>(child: IChild<TBehavior>
+			, action: { (behavior: TBehavior): TReturnType }): TReturnType {
+			var behavior: TBehavior = this.getChildBehavior(child);
+
+			if (behavior == null) {
+				return null;
+			} else {
+				return action(behavior);
+			}
+		}
+
+		triggerAllChildBehaviors<TBehavior, TReturnType>(childList: IChild<TBehavior>[]
+			, action: { (behavior: TBehavior): TReturnType }): TReturnType[] {
+			var behaviors: TBehavior[] = this.getAllChildBehaviors(childList);
+
+			return _.map(behaviors, (behavior: TBehavior): TReturnType => {
+				return action(behavior);
+			});
 		}
 
 		getAllChildBehaviors<TBehavior>(childList: IChild<TBehavior>[]): TBehavior[] {

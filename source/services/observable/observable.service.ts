@@ -7,13 +7,13 @@ module rl.utilities.services.observable {
 	export var moduleName: string = 'rl.utilities.services.observable';
 	export var factoryName: string = 'observableFactory';
 
-	export interface IWatcher {
-		action(...params: any[]): void;
+	export interface IWatcher<TReturnType> {
+		action: IAction<TReturnType>;
 		event?: string;
 	}
 
-	export interface IRegisterFunction {
-		(action: {(...params: any[]): void}, event?: string): IUnregisterFunction
+	export interface IAction<TReturnType> {
+		(...params: any[]): TReturnType;
 	}
 
 	export interface IUnregisterFunction {
@@ -21,15 +21,17 @@ module rl.utilities.services.observable {
 	}
 
 	export interface IObservableService {
-		register: IRegisterFunction;
+		register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction;
+		register(action: IAction<void>, event?: string): IUnregisterFunction;
+		fire<TReturnType>(event?: string, ...params: any[]): TReturnType[];
 		fire(event?: string, ...params: any[]): void;
 	}
 
-	class ObservableService implements IObservableService {
-		private watchers: IWatcher[] = [];
+	export class ObservableService implements IObservableService {
+		private watchers: IWatcher<any>[] = [];
 		private nextKey: number = 0;
 
-		register(action: {(...params: any[]): void}, event?: string): IUnregisterFunction {
+		register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction {
 			if (!_.isFunction(action)) {
 				console.log('Error: watcher must be a function');
 				return null;
@@ -47,12 +49,13 @@ module rl.utilities.services.observable {
 			};
 		}
 
-		fire(event?: string, ...params: any[]): void {
-			_.each(this.watchers, (watcher: IWatcher) => {
-				if (watcher != null && watcher.event === event) {
-					watcher.action.apply(this, params);
-				}
-			});
+		fire<TReturnType>(event?: string, ...params: any[]): TReturnType[] {
+			return _(this.watchers).filter((watcher: IWatcher<TReturnType>): boolean => {
+				return watcher != null && watcher.event === event;
+			})
+			.map((watcher: IWatcher<TReturnType>): TReturnType => {
+				return watcher.action.apply(this, params);
+			}).value();
 		}
 
 		private unregister(key: number): void {
@@ -64,7 +67,7 @@ module rl.utilities.services.observable {
 		getInstance(): IObservableService;
 	}
 
-	function observableServiceFactory(): IObservableServiceFactory {
+	export function observableServiceFactory(): IObservableServiceFactory {
 		'use strict';
 
 		return {
@@ -73,6 +76,7 @@ module rl.utilities.services.observable {
 			}
 		};
 	}
+
 
 	angular.module(moduleName, [])
 		.factory(factoryName, observableServiceFactory);
