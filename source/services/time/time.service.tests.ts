@@ -47,7 +47,7 @@ module rl.utilities.services.time {
 			expect(timeUtility.millisecondsToHours(minutes2)).to.equal(1);
 		});
 
-		it('should return expected number of hours for milliseconds', (): void => {
+		it('should return expected number of days for milliseconds', (): void => {
 			var hours1: number = 23;
 			var hours2: number = 24;
 
