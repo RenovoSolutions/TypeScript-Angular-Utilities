@@ -1,7 +1,7 @@
 // uses typings/angularjs
 // uses typings/lodash
 
-module removeEventListener.utilities.services.validation {
+module rl.utilities.services.validation {
 	'use strict';
 
 	export var moduleName: string = 'rl.utilities.services.validation';
