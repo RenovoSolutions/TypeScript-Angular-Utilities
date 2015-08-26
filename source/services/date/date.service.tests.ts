@@ -11,7 +11,6 @@
 module rl.utilities.services.date {
 	'use strict';
 
-	//import __test = rl.utilities.services.test;
 	import compareResult = rl.utilities.types.compareResult;
 
 	describe('dateUtility', () => {
