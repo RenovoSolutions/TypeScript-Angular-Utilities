@@ -23,7 +23,7 @@ module rl.utilities.services.validation {
 	}
 
 	export class ValidationService implements IValidationService {
-		private validationHandlers: IValidationHandler;
+		private validationHandlers: IValidationHandler[] = [];
 		private nextKey: number = 0;
 
 		validate(): boolean {
