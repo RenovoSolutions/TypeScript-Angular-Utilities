@@ -7,7 +7,7 @@ module rl.utilities.services.date {
 	export var moduleName: string = 'rl.utilities.services.date';
 	export var serviceName: string = 'dateUtility';
 
-	angular.module(moduleName, [moment.moduleName, time.moduleName])
+	angular.module(moduleName, [momentWrapper.moduleName, time.moduleName])
 		.service(serviceName, DateUtility)
 		.value(dateTimeFormatServiceName, defaultFormats);
 }

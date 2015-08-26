@@ -1,6 +1,8 @@
-module rl.utilities.services.moment {
-	export var moduleName: string = 'rl.utilities.services.moment';
-	export var serviceName: string = 'moment';
+
+
+module rl.utilities.services.momentWrapper {
+	export var moduleName: string = 'rl.utilities.services.momentWrapper';
+	export var serviceName: string = 'momentWrapper';
 
 	export function momentWrapper(): void {
 		'use strict';
