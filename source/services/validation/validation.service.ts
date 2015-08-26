@@ -54,7 +54,7 @@ module rl.utilities.services.validation {
 			};
 		}
 
-		private unregister(key: number) {
+		private unregister(key: number): void {
 			delete this.validationHandlers[key];
 		}
 	}
