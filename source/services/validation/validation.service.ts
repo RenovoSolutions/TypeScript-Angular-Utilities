@@ -1,6 +1,8 @@
 // uses typings/angularjs
 // uses typings/lodash
 
+/// <reference path='../notification/notification.service.ts' />
+
 module rl.utilities.services.validation {
 	'use strict';
 
@@ -10,7 +12,7 @@ module rl.utilities.services.validation {
 	export interface IValidationHandler {
 		isActive?: {(): boolean} | boolean;
 		validate(): boolean;
-		showErrors(): void;
+		errorMessage: string;
 	}
 
 	export interface IUnregisterFunction {
@@ -26,6 +28,8 @@ module rl.utilities.services.validation {
 		private validationHandlers: { [index: number]: IValidationHandler } = {};
 		private nextKey: number = 0;
 
+		constructor(private notification: services.notification.INotificationService) {}
+
 		validate(): boolean {
 			var isValid: boolean = true;
 
@@ -36,7 +40,7 @@ module rl.utilities.services.validation {
 
 				if (isActive && !handler.validate()) {
 					isValid = false;
-					handler.showErrors();
+					this.notification.error(handler.errorMessage);
 					return false;
 				}
 			});
@@ -63,12 +67,13 @@ module rl.utilities.services.validation {
 		getInstance(): IValidationService;
 	}
 
-	export function validationServiceFactory(): IValidationServiceFactory {
+	validationServiceFactory.$inject = ['notification'];
+	export function validationServiceFactory(notification: services.notification.INotificationService): IValidationServiceFactory {
 		'use strict';
 
 		return {
 			getInstance(): IValidationService {
-				return new ValidationService();
+				return new ValidationService(notification);
 			}
 		};
 	}

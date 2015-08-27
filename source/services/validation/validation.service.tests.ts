@@ -14,15 +14,28 @@ module rl.utilities.services.validation {
 
 	interface IMockValidationHandler {
 		validate: Sinon.SinonSpy;
-		showErrors?: Sinon.SinonSpy;
+		errorMessage?: string;
 		isActive?: Sinon.SinonSpy | boolean;
+	}
+
+	interface IMockNotification {
+		error: Sinon.SinonSpy;
 	}
 
 	describe('validation', () => {
 		var validation: IValidationService;
+		var notification: IMockNotification;
 
 		beforeEach(() => {
 			angular.mock.module(moduleName);
+
+			notification = {
+				error: sinon.spy(),
+			};
+
+			__test.angularFixture.mock({
+				notification: notification,
+			});
 
 			var services: any = __test.angularFixture.inject(factoryName);
 			var validationFactory: IValidationServiceFactory = services[factoryName];
@@ -43,10 +56,10 @@ module rl.utilities.services.validation {
 				expect(isValid).to.be.true;
 			});
 
-			it('should tell the handler to show errors if validation fails', (): void => {
+			it('should notify using the handler error message if validation fails', (): void => {
 				var handler: IMockValidationHandler = {
 					validate: sinon.spy((): boolean => { return false; }),
-					showErrors: sinon.spy(),
+					errorMessage: 'error',
 				};
 
 				validation.registerValidationHandler(<any>handler);
@@ -55,10 +68,11 @@ module rl.utilities.services.validation {
 
 				sinon.assert.calledOnce(handler.validate);
 				expect(isValid).to.be.false;
-				sinon.assert.calledOnce(handler.showErrors);
+				sinon.assert.calledOnce(notification.error);
+				sinon.assert.calledWith(notification.error, 'error');
 			});
 
-			it('should handle multiple validators and call showErrors only on the first one to fail', (): void => {
+			it('should handle multiple validators and only show the error of the first one to fail', (): void => {
 				var firstValidHandler: IMockValidationHandler = {
 					validate: sinon.spy((): boolean => { return true; }),
 				};
@@ -67,14 +81,14 @@ module rl.utilities.services.validation {
 				};
 				var firstFailingHandler: IMockValidationHandler = {
 					validate: sinon.spy((): boolean => { return false; }),
-					showErrors: sinon.spy(),
+					errorMessage: 'error1',
 				};
 				var thirdValidHandler: IMockValidationHandler = {
 					validate: sinon.spy((): boolean => { return true; }),
 				};
 				var secondFailingHandler: IMockValidationHandler = {
 					validate: sinon.spy((): boolean => { return false; }),
-					showErrors: sinon.spy(),
+					errorMessage: 'error2',
 				};
 
 				validation.registerValidationHandler(<any>firstValidHandler);
@@ -93,8 +107,8 @@ module rl.utilities.services.validation {
 				sinon.assert.notCalled(secondFailingHandler.validate);
 				expect(isValid).to.be.false;
 
-				sinon.assert.calledOnce(firstFailingHandler.showErrors);
-				sinon.assert.notCalled(secondFailingHandler.showErrors);
+				sinon.assert.calledOnce(notification.error);
+				sinon.assert.calledWith(notification.error, 'error1');
 			});
 		});
 
@@ -141,7 +155,6 @@ module rl.utilities.services.validation {
 			it('should return a function to unregister the validation handler', (): void => {
 				var handlerToUnregister: IMockValidationHandler = {
 					validate: sinon.spy((): boolean => { return false; }),
-					showErrors: sinon.spy(),
 				};
 				var activeHandler: IMockValidationHandler = {
 					validate: sinon.spy((): boolean => { return true; }),
