@@ -82,7 +82,7 @@ module rl.utilities.services.validation {
 
 				validation.registerValidationHandler(<any>handler);
 
-				var isValid: boolean = validation.validate();
+				validation.validate();
 
 				sinon.assert.calledOnce(notification.error);
 				sinon.assert.calledWith(notification.error, 'error');
@@ -96,7 +96,7 @@ module rl.utilities.services.validation {
 
 				validation.registerValidationHandler(<any>handler);
 
-				var isValid: boolean = validation.validate();
+				validation.validate();
 
 				sinon.assert.calledOnce(<Sinon.SinonSpy>handler.errorMessage);
 
