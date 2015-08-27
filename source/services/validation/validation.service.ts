@@ -67,7 +67,7 @@ module rl.utilities.services.validation {
 		getInstance(): IValidationService;
 	}
 
-	validationServiceFactory.$inject = ['notification'];
+	validationServiceFactory.$inject = [services.notification.serviceName];
 	export function validationServiceFactory(notification: services.notification.INotificationService): IValidationServiceFactory {
 		'use strict';
 
@@ -78,6 +78,6 @@ module rl.utilities.services.validation {
 		};
 	}
 
-	angular.module(moduleName, [])
+	angular.module(moduleName, [services.notification.moduleName])
 		.factory(factoryName, validationServiceFactory);
 }
