@@ -41,6 +41,7 @@ module rl.utilities.services.notification {
 	}
 
 	export interface INotificationServiceProvider extends ng.IServiceProvider {
+		setNotifier(notifier: INotifier): void;
 		$get(): INotificationService;
 	}
 
