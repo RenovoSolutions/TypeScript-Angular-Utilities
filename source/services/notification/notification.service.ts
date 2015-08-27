@@ -48,7 +48,7 @@ module rl.utilities.services.notification {
 		'use strict';
 
 		return {
-			notifier: null,
+			notifier: new BaseNotifier(),
 			setNotifier: (notifier: INotifier): void => {
 				this.notifier = notifier;
 			},
