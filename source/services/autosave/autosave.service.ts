@@ -43,11 +43,16 @@ module rl.utilities.services.autosave {
 			}
 
 			if (valid) {
-				this.autosaveService.trigger(this.save(...data).then((): void => {
-					if (this.contentForm != null) {
-						this.contentForm.$setPristine();
-					}
-				}));
+				var promise: ng.IPromise<void> = this.save(...data);
+
+				if (!_.isUndefined(promise)) {
+					this.autosaveService.trigger(this.save(...data).then((): void => {
+						if (this.contentForm != null) {
+							this.contentForm.$setPristine();
+						}
+					}));
+				}
+
 				return true;
 			} else {
 				return false;
