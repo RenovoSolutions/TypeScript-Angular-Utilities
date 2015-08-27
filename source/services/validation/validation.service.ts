@@ -22,11 +22,13 @@ module rl.utilities.services.validation {
 	export interface IValidationService {
 		validate(): boolean;
 		registerValidationHandler(handler: IValidationHandler): IUnregisterFunction;
+		notifyAsError: boolean;
 	}
 
 	export class ValidationService implements IValidationService {
 		private validationHandlers: { [index: number]: IValidationHandler } = {};
 		private nextKey: number = 0;
+		notifyAsError: boolean = false;
 
 		constructor(private notification: services.notification.INotificationService) {}
 
@@ -40,7 +42,13 @@ module rl.utilities.services.validation {
 
 				if (isActive && !handler.validate()) {
 					isValid = false;
-					this.notification.error(handler.errorMessage);
+
+					if (this.notifyAsError) {
+						this.notification.error(handler.errorMessage);
+					} else {
+						this.notification.warning(handler.errorMessage);
+					}
+
 					return false;
 				}
 			});

@@ -20,6 +20,7 @@ module rl.utilities.services.validation {
 
 	interface IMockNotification {
 		error: Sinon.SinonSpy;
+		warning: Sinon.SinonSpy;
 	}
 
 	describe('validation', () => {
@@ -31,6 +32,7 @@ module rl.utilities.services.validation {
 
 			notification = {
 				error: sinon.spy(),
+				warning: sinon.spy(),
 			};
 
 			__test.angularFixture.mock({
@@ -68,6 +70,20 @@ module rl.utilities.services.validation {
 
 				sinon.assert.calledOnce(handler.validate);
 				expect(isValid).to.be.false;
+				sinon.assert.calledOnce(notification.warning);
+				sinon.assert.calledWith(notification.warning, 'error');
+			});
+
+			it('should use the error notification instead of warning if notifyAsError is set to true', (): void => {
+				var handler: IMockValidationHandler = {
+					validate: sinon.spy((): boolean => { return false; }),
+					errorMessage: 'error',
+				};
+
+				validation.registerValidationHandler(<any>handler);
+
+				var isValid: boolean = validation.validate();
+
 				sinon.assert.calledOnce(notification.error);
 				sinon.assert.calledWith(notification.error, 'error');
 			});
@@ -107,8 +123,8 @@ module rl.utilities.services.validation {
 				sinon.assert.notCalled(secondFailingHandler.validate);
 				expect(isValid).to.be.false;
 
-				sinon.assert.calledOnce(notification.error);
-				sinon.assert.calledWith(notification.error, 'error1');
+				sinon.assert.calledOnce(notification.warning);
+				sinon.assert.calledWith(notification.warning, 'error1');
 			});
 		});
 
