@@ -14,7 +14,7 @@ module rl.utilities.services.validation {
 
 	interface IMockValidationHandler {
 		validate: Sinon.SinonSpy;
-		errorMessage?: string;
+		errorMessage?: string | Sinon.SinonSpy;
 		isActive?: Sinon.SinonSpy | boolean;
 	}
 
@@ -86,6 +86,22 @@ module rl.utilities.services.validation {
 
 				sinon.assert.calledOnce(notification.error);
 				sinon.assert.calledWith(notification.error, 'error');
+			});
+
+			it('should allow the handler to specify a function for returning the error message', (): void => {
+				var handler: IMockValidationHandler = {
+					validate: sinon.spy((): boolean => { return false; }),
+					errorMessage: sinon.spy((): string => { return 'error'; }),
+				};
+
+				validation.registerValidationHandler(<any>handler);
+
+				var isValid: boolean = validation.validate();
+
+				sinon.assert.calledOnce(<Sinon.SinonSpy>handler.errorMessage);
+
+				sinon.assert.calledOnce(notification.warning);
+				sinon.assert.calledWith(notification.warning, 'error');
 			});
 
 			it('should handle multiple validators and only show the error of the first one to fail', (): void => {
