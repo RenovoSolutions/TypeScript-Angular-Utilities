@@ -24,8 +24,6 @@ module rl.utilities.services.notification {
 		var testNotifier: ITestNotifier;
 
 		beforeEach(() => {
-			angular.mock.module(moduleName);
-
 			testNotifier = {
 				info: sinon.spy(),
 				warning: sinon.spy(),
@@ -33,10 +31,12 @@ module rl.utilities.services.notification {
 				success: sinon.spy(),
 			};
 
-			var services: any = __test.angularFixture.inject(serviceName + 'Provider');
-			var notificationProvider: INotificationServiceProvider = services[serviceName + 'Provider'];
-			notificationProvider.setNotifier(testNotifier);
-			notification = notificationProvider.$get();
+			angular.mock.module(moduleName, (notificationProvider: INotificationServiceProvider): void => {
+				notificationProvider.setNotifier(testNotifier);
+			});
+
+			var services: any = __test.angularFixture.inject(serviceName);
+			notification = services[serviceName];
 		});
 
 		it('should call notifier to show an info notification', (): void => {
