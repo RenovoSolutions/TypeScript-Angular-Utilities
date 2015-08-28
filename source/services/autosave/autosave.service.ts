@@ -46,7 +46,7 @@ module rl.utilities.services.autosave {
 				var promise: ng.IPromise<void> = this.save(...data);
 
 				if (!_.isUndefined(promise)) {
-					this.autosaveService.trigger(this.save(...data).then((): void => {
+					this.autosaveService.trigger(promise.then((): void => {
 						if (this.contentForm != null) {
 							this.contentForm.$setPristine();
 						}
