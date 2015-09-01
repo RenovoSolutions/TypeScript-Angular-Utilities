@@ -1,4 +1,4 @@
-﻿// uses typings/angularjs
+// uses typings/angularjs
 // uses typings/lodash
 
 module rl.utilities.services.array {
@@ -14,8 +14,7 @@ module rl.utilities.services.array {
 		replace<TDataType>(array: TDataType[], oldItem: TDataType, newItem: TDataType): void;
 		sum<TDataType>(array: TDataType[], transform: { (item: TDataType): number }): number;
 		sum(array: number[]): number;
-		toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): string}): TDataType[];
-		toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): number}): TDataType[];
+        toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): string}): { [index: string]: TDataType };
 	}
 
 	class ArrayUtility implements IArrayUtility {
@@ -68,13 +67,14 @@ module rl.utilities.services.array {
 			return _.reduce(list, (sum: number, num: number): number => { return sum + num; }, 0);
 		}
 
-		toDictionary<TDataType>(array: TDataType[], keySelector: { (item: TDataType): string | number }): TDataType[] {
-			return _.reduce(array, (dictionary: TDataType[], item: TDataType): TDataType[] => {
-				dictionary[<any>keySelector(item)] = item;
+		toDictionary<TDataType>(array: TDataType[], keySelector: { (item: TDataType): string })
+            : { [index: string]: TDataType } {
+            return _.reduce(array, (dictionary: { [index: string]: TDataType }, item: TDataType): { [index: string]: TDataType } => {
+				dictionary[keySelector(item)] = item;
 				return dictionary;
 			}, []);
 		}
-	}
+    }
 
 	angular.module(moduleName, [])
 		.service(serviceName, ArrayUtility);

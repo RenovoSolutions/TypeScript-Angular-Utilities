@@ -1,4 +1,4 @@
-﻿/// <reference path='../../../typings/chai/chai.d.ts' />
+/// <reference path='../../../typings/chai/chai.d.ts' />
 /// <reference path='../../../typings/mocha/mocha.d.ts' />
 /// <reference path='../../../typings/angularMocks.d.ts' />
 /// <reference path='../../../typings/chaiAssertions.d.ts' />
@@ -16,7 +16,7 @@ module rl.utilities.services.array {
 	}
 
 	interface IKeyObj {
-		key: number;
+		key: string;
 	}
 
 	describe('arrayUtility', () => {
@@ -97,20 +97,21 @@ module rl.utilities.services.array {
 		describe('toDictionary', (): void => {
 			it('should convert an array to a dictionary', (): void => {
 				var array: IKeyObj[] = [
-					{ key: 11 },
-					{ key: 12 },
-					{ key: 13 },
-					{ key: 14 },
-					{ key: 15 },
+					{ key: '11' },
+					{ key: '12' },
+					{ key: '13' },
+					{ key: '14' },
+					{ key: '15' },
 				];
 
-				var dictionary: IKeyObj[] = arrayUtility.toDictionary(array, (item: IKeyObj): number => { return item.key; });
+                var dictionary: { [index: string]: IKeyObj }
+                    = arrayUtility.toDictionary(array, (item: IKeyObj): string => { return item.key; });
 
-				expect(dictionary[11]).to.equal(array[0]);
-				expect(dictionary[12]).to.equal(array[1]);
-				expect(dictionary[13]).to.equal(array[2]);
-				expect(dictionary[14]).to.equal(array[3]);
-				expect(dictionary[15]).to.equal(array[4]);
+				expect(dictionary['11']).to.equal(array[0]);
+				expect(dictionary['12']).to.equal(array[1]);
+				expect(dictionary['13']).to.equal(array[2]);
+				expect(dictionary['14']).to.equal(array[3]);
+				expect(dictionary['15']).to.equal(array[4]);
 			});
 		});
 	});
