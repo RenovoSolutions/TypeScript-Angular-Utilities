@@ -1,8 +1,6 @@
 module rl.utilities.filters {
 	'use strict';
 
-	export var moduleName: string = 'rl.utilities.filter';
-
 	export interface IFilterWithCounts extends IFilter {
 		updateOptionCounts<TItemType>(data: TItemType[]): void;
 	}
