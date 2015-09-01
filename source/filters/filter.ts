@@ -1,4 +1,4 @@
-module rl.utilities.filter {
+module rl.utilities.filters {
 	'use strict';
 
 	export var moduleName: string = 'rl.utilities.filter';
