@@ -14,7 +14,7 @@ module rl.utilities.services.array {
 		replace<TDataType>(array: TDataType[], oldItem: TDataType, newItem: TDataType): void;
 		sum<TDataType>(array: TDataType[], transform: { (item: TDataType): number }): number;
 		sum(array: number[]): number;
-        toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): string}): { [index: string]: TDataType };
+		toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): string}): { [index: string]: TDataType };
 	}
 
 	class ArrayUtility implements IArrayUtility {
@@ -68,13 +68,13 @@ module rl.utilities.services.array {
 		}
 
 		toDictionary<TDataType>(array: TDataType[], keySelector: { (item: TDataType): string })
-            : { [index: string]: TDataType } {
-            return _.reduce(array, (dictionary: { [index: string]: TDataType }, item: TDataType): { [index: string]: TDataType } => {
+			: { [index: string]: TDataType } {
+			return _.reduce(array, (dictionary: { [index: string]: TDataType }, item: TDataType): { [index: string]: TDataType } => {
 				dictionary[keySelector(item)] = item;
 				return dictionary;
 			}, []);
 		}
-    }
+	}
 
 	angular.module(moduleName, [])
 		.service(serviceName, ArrayUtility);

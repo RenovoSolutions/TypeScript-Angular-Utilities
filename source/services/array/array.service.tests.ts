@@ -104,8 +104,8 @@ module rl.utilities.services.array {
 					{ key: '15' },
 				];
 
-                var dictionary: { [index: string]: IKeyObj }
-                    = arrayUtility.toDictionary(array, (item: IKeyObj): string => { return item.key; });
+				var dictionary: { [index: string]: IKeyObj }
+					= arrayUtility.toDictionary(array, (item: IKeyObj): string => { return item.key; });
 
 				expect(dictionary['11']).to.equal(array[0]);
 				expect(dictionary['12']).to.equal(array[1]);
