@@ -81,6 +81,7 @@ module rl.utilities.services.validation {
 				};
 
 				validation.registerValidationHandler(<any>handler);
+				validation.notifyAsError = true;
 
 				validation.validate();
 

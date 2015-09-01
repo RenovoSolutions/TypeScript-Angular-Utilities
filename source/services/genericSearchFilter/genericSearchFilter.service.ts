@@ -9,7 +9,7 @@ module rl.utilities.services.genericSearchFilter {
 	export var factoryName: string = 'genericSearchFilterFactory';
 	export var filterName: string = 'search';
 
-	export interface IGenericSearchFilter extends filter.IFilter {
+	export interface IGenericSearchFilter extends filters.IFilter {
 		type: string;
 		searchText: string;
 		caseSensitive: boolean;
