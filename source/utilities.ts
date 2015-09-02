@@ -7,7 +7,7 @@
 module rl.utilities {
 	export var moduleName: string = 'rl.utilities';
 
-	angular.module(name, [
+	angular.module(moduleName, [
 		behaviors.moduleName,
 		filters.moduleName,
 		services.moduleName,
