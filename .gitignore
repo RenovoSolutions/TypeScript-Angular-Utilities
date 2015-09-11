@@ -10,3 +10,6 @@
 
 # Node deps
 /node_modules/
+
+# VSCode settings files
+.vscode/
