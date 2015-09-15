@@ -5,12 +5,12 @@
 module rl.utilities.services.test {
 	export interface IControllerResult<TControllerType> {
 		controller: TControllerType;
-		scope: angular.IScope;
+		scope: ng.IScope;
 	}
 
 	export interface IDirectiveResult {
-		directive: angular.IDirective;
-		scope: angular.IScope;
+		directive: ng.IDirective;
+		scope: ng.IScope;
 	}
 
 	export interface IAngularFixture {
@@ -42,35 +42,43 @@ module rl.utilities.services.test {
 		}
 
 		mock(mocks: any): void {
-			angular.mock.module(($provide: angular.auto.IProvideService) => {
+			angular.mock.module(($provide: ng.auto.IProvideService) => {
 				_.each(mocks, (value: any, key: number) => {
 					$provide.value(key.toString(), value);
 				});
 			});
 		}
 
-		controller<TControllerType>(controllerName: string, scope?: any, locals?: any): IControllerResult<TControllerType> {
+		controller<TControllerType>(controllerName: string, bindings?: any, locals?: any, bindToController: boolean = false)
+			: IControllerResult<TControllerType> {
 			var services: any = this.inject('$rootScope', '$controller');
-			var $rootScope: angular.IScope = services.$rootScope;
-			var $controller: any = services.$controller;
-
-			scope = _.extend($rootScope.$new(), scope);
+			var $rootScope: ng.IScope = services.$rootScope;
+			var $controller: ng.IControllerService = services.$controller;
+			var controllerBindings: any;
+			var scope: ng.IScope;
 
 			if (locals == null) {
 				locals = {};
+			}
+
+			if (bindToController) {
+				controllerBindings = bindings;
+				scope = $rootScope.$new();
+			} else {
+				scope = _.extend($rootScope.$new(), bindings);
 			}
 
 			locals.$scope = scope;
 
 			return {
 				scope: scope,
-				controller: <TControllerType>$controller(controllerName, locals),
+				controller: <TControllerType>$controller(controllerName, locals, controllerBindings),
 			};
 		}
 
 		directive(dom: string): IDirectiveResult {
 			var services: any = this.inject('$rootScope', '$compile');
-			var $rootScope: angular.IScope = services.$rootScope;
+			var $rootScope: ng.IScope = services.$rootScope;
 			var $compile: any = services.$compile;
 
 			angular.mock.module('renovoTemplates');

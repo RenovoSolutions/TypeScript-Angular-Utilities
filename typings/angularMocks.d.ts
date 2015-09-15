@@ -49,4 +49,9 @@ declare module angular {
 		flush(delay: number): void;
 		verifyNoPendingTasks(): void;
 	}
+
+	interface IControllerService {
+		(controllerConstructor: Function, locals?: any, bindings?: any): any;
+        (controllerName: string, locals?: any, bindings?: any): any;
+	}
 }
