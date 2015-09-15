@@ -49,22 +49,29 @@ module rl.utilities.services.test {
 			});
 		}
 
-		controller<TControllerType>(controllerName: string, scope?: any, locals?: any): IControllerResult<TControllerType> {
+		controller<TControllerType>(controllerName: string, bindings?: any, locals?: any, bindToController: boolean = false)
+			: IControllerResult<TControllerType> {
 			var services: any = this.inject('$rootScope', '$controller');
-			var $rootScope: angular.IScope = services.$rootScope;
-			var $controller: any = services.$controller;
-
-			scope = _.extend($rootScope.$new(), scope);
+			var $rootScope: ng.IScope = services.$rootScope;
+			var $controller: ng.IControllerService = services.$controller;
+			var controllerBindings: any;
+			var scope: ng.IScope;
 
 			if (locals == null) {
 				locals = {};
 			}
 
-			locals.$scope = scope;
+			if (bindToController) {
+				controllerBindings = bindings;
+				scope = $rootScope.$new();
+			} else {
+				bindings = _.extend($rootScope.$new(), bindings);
+				locals.$scope = bindings;
+			}
 
 			return {
 				scope: scope,
-				controller: <TControllerType>$controller(controllerName, locals),
+				controller: <TControllerType>$controller(controllerName, locals, controllerBindings),
 			};
 		}
 
