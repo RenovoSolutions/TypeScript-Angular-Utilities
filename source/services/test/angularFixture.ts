@@ -5,12 +5,12 @@
 module rl.utilities.services.test {
 	export interface IControllerResult<TControllerType> {
 		controller: TControllerType;
-		scope: angular.IScope;
+		scope: ng.IScope;
 	}
 
 	export interface IDirectiveResult {
-		directive: angular.IDirective;
-		scope: angular.IScope;
+		directive: ng.IDirective;
+		scope: ng.IScope;
 	}
 
 	export interface IAngularFixture {
@@ -42,7 +42,7 @@ module rl.utilities.services.test {
 		}
 
 		mock(mocks: any): void {
-			angular.mock.module(($provide: angular.auto.IProvideService) => {
+			angular.mock.module(($provide: ng.auto.IProvideService) => {
 				_.each(mocks, (value: any, key: number) => {
 					$provide.value(key.toString(), value);
 				});
@@ -70,7 +70,7 @@ module rl.utilities.services.test {
 
 		directive(dom: string): IDirectiveResult {
 			var services: any = this.inject('$rootScope', '$compile');
-			var $rootScope: angular.IScope = services.$rootScope;
+			var $rootScope: ng.IScope = services.$rootScope;
 			var $compile: any = services.$compile;
 
 			angular.mock.module('renovoTemplates');
