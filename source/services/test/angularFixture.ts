@@ -67,6 +67,7 @@ module rl.utilities.services.test {
 			} else {
 				bindings = _.extend($rootScope.$new(), bindings);
 				locals.$scope = bindings;
+				scope = bindings;
 			}
 
 			return {
