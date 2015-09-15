@@ -65,10 +65,10 @@ module rl.utilities.services.test {
 				controllerBindings = bindings;
 				scope = $rootScope.$new();
 			} else {
-				bindings = _.extend($rootScope.$new(), bindings);
-				locals.$scope = bindings;
-				scope = bindings;
+				scope = _.extend($rootScope.$new(), bindings);
 			}
+
+			locals.$scope = scope;
 
 			return {
 				scope: scope,
