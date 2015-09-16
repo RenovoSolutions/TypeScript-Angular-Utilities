@@ -16,7 +16,8 @@ module rl.utilities.services.test {
 	export interface IAngularFixture {
 		inject: (...serviceNames: string[]) => any;
 		mock: (mocks: any) => void;
-		controller<TControllerType>(controllerName: string, scope?: any, locals?: any): IControllerResult<TControllerType>;
+		controller<TControllerType>(controllerName: string, bindings?: any, locals?: any, bindToController?: boolean)
+			: IControllerResult<TControllerType>;
 		directive: (dom: string) => IDirectiveResult;
 	}
 
