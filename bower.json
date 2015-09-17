@@ -11,15 +11,15 @@
   ],
   "main": "utilities.js",
   "typescript": {
-	  "definition": "utilities.d.ts"
+    "definition": "utilities.d.ts"
   },
   "ignore": [
     "node_modules",
     "libraries"
   ],
   "repository": {
-	  "type": "git",
-	  "url": "git@github.com:RenovoSolutions/bower-typescript-angular-utilities.git"
+    "type": "git",
+    "url": "git@github.com:RenovoSolutions/bower-typescript-angular-utilities.git"
   },
   "dependencies": {
     "angular": "~1.4.5",
@@ -31,6 +31,6 @@
   },
   "license": "MIT",
   "moduleType": [
-	  "globals"
+    "globals"
   ]
 }
