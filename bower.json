@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "angular": "~1.4.5",
+    "jquery": "~2.1.4",
     "lodash": "~3.5.0",
     "moment": "~2.10.3"
   },
