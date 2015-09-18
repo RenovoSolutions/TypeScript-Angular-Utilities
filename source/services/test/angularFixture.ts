@@ -1,6 +1,6 @@
-﻿// uses typings/angularjs
-// uses typings/lodash
-// uses typings/angularMocks
+﻿// /// <reference path='../../../typings/angularjs/angular.d.ts' />
+// /// <reference path='../../../typings/lodash/lodash.d.ts' />
+// /// <reference path='../../../typings/angularMocks.d.ts' />
 
 module rl.utilities.services.test {
 	export interface IControllerResult<TControllerType> {
@@ -16,7 +16,7 @@ module rl.utilities.services.test {
 	export interface IAngularFixture {
 		inject: (...serviceNames: string[]) => any;
 		mock: (mocks: any) => void;
-		controller<TControllerType>(controllerName: string, bindings?: any, locals?: any, bindToController?: boolean)
+		controllerWithBindings<TControllerType>(controllerName: string, bindings?: any, locals?: any, scope?: any)
 			: IControllerResult<TControllerType>;
 		directive: (dom: string) => IDirectiveResult;
 	}
@@ -50,30 +50,23 @@ module rl.utilities.services.test {
 			});
 		}
 
-		controller<TControllerType>(controllerName: string, bindings?: any, locals?: any, bindToController: boolean = false)
+		controllerWithBindings<TControllerType>(controllerName: string, bindings?: any, locals?: any, scope?: any)
 			: IControllerResult<TControllerType> {
 			var services: any = this.inject('$rootScope', '$controller');
-			var $rootScope: ng.IScope = services.$rootScope;
+			var $rootScope: ng.IRootScopeService = services.$rootScope;
 			var $controller: ng.IControllerService = services.$controller;
-			var controllerBindings: any;
-			var scope: ng.IScope;
+
+			scope = _.extend($rootScope.$new(), scope);
 
 			if (locals == null) {
 				locals = {};
-			}
-
-			if (bindToController) {
-				controllerBindings = bindings;
-				scope = $rootScope.$new();
-			} else {
-				scope = _.extend($rootScope.$new(), bindings);
 			}
 
 			locals.$scope = scope;
 
 			return {
 				scope: scope,
-				controller: <TControllerType>$controller(controllerName, locals, controllerBindings),
+				controller: <TControllerType>$controller(controllerName, locals, bindings),
 			};
 		}
 
