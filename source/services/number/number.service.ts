@@ -14,6 +14,7 @@ module rl.utilities.services.number {
 	export interface INumberUtility {
 		preciseRound(num: number, decimals: number): number;
 		integerDivide(dividend: number, divisor: number): number;
+		roundToStep(num: number, step: number): number;
 	}
 
 	class NumberUtility implements INumberUtility {
@@ -24,6 +25,10 @@ module rl.utilities.services.number {
 
 		integerDivide(dividend: number, divisor: number): number {
 			return Math.floor(dividend / divisor);
+		}
+
+		roundToStep(num: number, step: number): number {
+			return num;
 		}
 	}
 
