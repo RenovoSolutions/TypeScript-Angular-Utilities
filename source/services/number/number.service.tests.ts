@@ -60,7 +60,7 @@ module rl.utilities.services.number {
 				expect(numberUtility.roundToStep(23, 5)).to.equal(25);
 				expect(numberUtility.roundToStep(22, 5)).to.equal(20);
 			});
-			
+
 			it('should round to a 365 divisible value', (): void => {
 				expect(numberUtility.roundToStep(366, 3.65)).to.equal(365);
 				expect(numberUtility.roundToStep(367, 3.65)).to.equal(368.65);
