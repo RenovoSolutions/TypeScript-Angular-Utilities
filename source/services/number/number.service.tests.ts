@@ -53,5 +53,20 @@ module rl.utilities.services.number {
 				expect(roundedNum).to.equal(1.11111111111111111111);	// trimmed 1 from the end
 			});
 		});
+
+		describe('roundToStep', (): void => {
+			it('should round to the nearest 5', (): void => {
+				expect(numberUtility.roundToStep(4, 5)).to.equal(5);
+				expect(numberUtility.roundToStep(23, 5)).to.equal(25);
+				expect(numberUtility.roundToStep(22, 5)).to.equal(20);
+			});
+
+			it('should round to a 365 divisible value', (): void => {
+				expect(numberUtility.roundToStep(366, 3.65)).to.equal(365);
+				expect(numberUtility.roundToStep(367, 3.65)).to.equal(368.65);
+				expect(numberUtility.roundToStep(125, 3.65)).to.equal(124.10);
+				expect(numberUtility.roundToStep(250, 3.65)).to.equal(248.20);
+			});
+		});
 	});
 }
