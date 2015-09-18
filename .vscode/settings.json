@@ -1,0 +1,12 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"files.trimTrailingWhitespace": true,
+	"editor.tabSize": 4,
+	"editor.formatOnType": true,
+	"files.exclude": {
+		"**/.git": true,
+		"**/.DS_Store": true,
+		"**/output/": true,
+		"**/tests/": true
+	}
+}
