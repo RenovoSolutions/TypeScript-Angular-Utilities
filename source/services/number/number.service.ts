@@ -28,7 +28,7 @@ module rl.utilities.services.number {
 		}
 
 		roundToStep(num: number, step: number): number {
-			if (step === 0) {
+			if (!step) {
 				return num;
 			}
 
