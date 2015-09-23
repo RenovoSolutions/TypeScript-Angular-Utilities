@@ -8,6 +8,7 @@
     "utilities"
   ],
   "devDependencies": {
+    "angular-mocks": "^1.4.6",
     "chai": "^2.1.2",
     "gulp": "^3.8.11",
     "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/0.10.9.tar.gz",
