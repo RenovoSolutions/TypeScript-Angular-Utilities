@@ -1,11 +1,13 @@
-// uses angularjs
+'use strict';
 
-/// <reference path='stopEventPropagation/stopEventPropagation.ts' />
+import * as angular from 'angular';
 
-module rl.utilities.behaviors {
-	export var moduleName: string = 'rl.utilities.behaviors';
+import * as stopEventPropogation from './stopEventPropagation/stopEventPropagation';
 
-	angular.module(moduleName, [
-		stopEventPropogation.moduleName,
-	]);
-}
+export { stopEventPropogation };
+
+export var name: string = 'rl.utilities.behaviors';
+
+angular.module(name, [
+	stopEventPropogation.moduleName,
+]);
