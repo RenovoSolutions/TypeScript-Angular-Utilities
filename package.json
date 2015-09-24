@@ -7,11 +7,16 @@
     "typescript",
     "utilities"
   ],
+  "scripts": {
+    "update": "npm install && tsd update",
+    "test": "karma start",
+    "test.debug": "karma start karma.debug.conf.js",
+    "test.full": "karma start karma.full.conf.js",
+    "build": "tsc"
+  },
   "devDependencies": {
     "angular-mocks": "^1.4.6",
     "chai": "^2.1.2",
-    "gulp": "^3.8.11",
-    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/0.10.9.tar.gz",
     "karma": "^0.13.10",
     "karma-browserify": "^4.1.2",
     "karma-chai": "~0.1.0",
@@ -27,9 +32,7 @@
     "karma-teamcity-reporter": "^0.1.1",
     "karma-webpack": "^1.7.0",
     "lodash": "^3.10.1",
-    "merge2": "^0.3.1",
     "mocha": "^2.2.1",
-    "run-sequence": "^1.0.2",
     "sinon": "^1.14.1",
     "ts-loader": "^0.5.5",
     "typescript": "^1.6.2",
@@ -40,5 +43,6 @@
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "q": "^1.4.1"
-  }
+  },
+  "license": "MIT"
 }

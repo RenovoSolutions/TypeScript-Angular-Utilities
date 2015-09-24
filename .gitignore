@@ -1,12 +1,5 @@
-# Definitively typed files (resolved via tsd) 
+# Definitively typed files (resolved via tsd)
 /typings/*/
-
-# Bower deps
-/libraries/
-
-# Output
-/output/
-/tests/
 
 # Node deps
 /node_modules/
