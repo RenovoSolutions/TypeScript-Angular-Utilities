@@ -1,88 +1,89 @@
-// uses typings/angular
+'use strict';
 
-/// <reference path='../autosaveAction/autosaveAction.service.ts' />
+import * as angular from 'angular';
+import * as _ from 'lodash';
 
-module rl.utilities.services.autosave {
-	'use strict';
+import {
+	moduleName as autosaveActionModuleName,
+	serviceName as autosaveActionServiceName,
+	IAutosaveActionService,
+} from '../autosaveAction/autosaveAction.service';
 
-	import __autosaveAction = rl.utilities.services.autosaveAction;
+export var moduleName: string = 'rl.utilities.services.autosave';
+export var factoryName: string = 'autosaveFactory';
 
-	export var moduleName: string = 'rl.utilities.services.autosave';
-	export var factoryName: string = 'autosaveFactory';
+export interface IAutosaveService {
+	autosave(...data: any[]): boolean;
+	contentForm: angular.IFormController;
+}
 
-	export interface IAutosaveService {
-		autosave(...data: any[]): boolean;
-		contentForm: ng.IFormController;
-	}
+class AutosaveService implements IAutosaveService {
+	private hasValidator: boolean;
 
-	class AutosaveService implements IAutosaveService {
-		private hasValidator: boolean;
+	constructor(private autosaveService: IAutosaveActionService
+			, private save: {(...data: any[]): angular.IPromise<void>}
+			, public contentForm?: angular.IFormController
+			, private validate?: {(): boolean}) {
+		this.hasValidator = validate != null;
 
-		constructor(private autosaveService: __autosaveAction.IAutosaveActionService
-				, private save: {(...data: any[]): ng.IPromise<void>}
-				, public contentForm?: ng.IFormController
-				, private validate?: {(): boolean}) {
-			this.hasValidator = validate != null;
-
-			if (this.contentForm == null) {
-				this.contentForm = this.nullForm();
-			}
-		}
-
-		autosave: { (...data: any[]): boolean } = (...data: any[]): boolean => {
-			if (this.contentForm.$pristine) {
-				return true;
-			}
-
-			var valid: boolean = true;
-			if (this.hasValidator) {
-				valid = this.validate();
-				if (valid === undefined) {
-					valid = true;
-				}
-			}
-
-			if (valid) {
-				var promise: ng.IPromise<void> = this.save(...data);
-
-				if (!_.isUndefined(promise)) {
-					this.autosaveService.trigger(promise.then((): void => {
-						if (this.contentForm != null) {
-							this.contentForm.$setPristine();
-						}
-					}));
-				}
-
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		private nullForm(): ng.IFormController {
-			return <any>{
-				$pristine: false,
-				$setPristine(): void {
-					return;
-				},
-			};
+		if (this.contentForm == null) {
+			this.contentForm = this.nullForm();
 		}
 	}
 
-	export interface IAutosaveServiceFactory {
-		getInstance(save: {(): ng.IPromise<void>}, contentForm?: ng.IFormController, validate?: {(): boolean}): IAutosaveService;
+	autosave: { (...data: any[]): boolean } = (...data: any[]): boolean => {
+		if (this.contentForm.$pristine) {
+			return true;
+		}
+
+		var valid: boolean = true;
+		if (this.hasValidator) {
+			valid = this.validate();
+			if (valid === undefined) {
+				valid = true;
+			}
+		}
+
+		if (valid) {
+			var promise: angular.IPromise<void> = this.save(...data);
+
+			if (!_.isUndefined(promise)) {
+				this.autosaveService.trigger(promise.then((): void => {
+					if (this.contentForm != null) {
+						this.contentForm.$setPristine();
+					}
+				}));
+			}
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	autosaveServiceFactory.$inject = [__autosaveAction.serviceName];
-	function autosaveServiceFactory(autosaveService: __autosaveAction.IAutosaveActionService): IAutosaveServiceFactory {
-		'use strict';
-		return {
-			getInstance(save: { (): ng.IPromise<void> }, contentForm?: ng.IFormController, validate?: { (): boolean }): IAutosaveService {
-				return new AutosaveService(autosaveService, save, contentForm, validate);
-			}
+	private nullForm(): angular.IFormController {
+		return <any>{
+			$pristine: false,
+			$setPristine(): void {
+				return;
+			},
 		};
 	}
-
-	angular.module(moduleName, [__autosaveAction.moduleName])
-		.factory(factoryName, autosaveServiceFactory);
 }
+
+export interface IAutosaveServiceFactory {
+	getInstance(save: {(): angular.IPromise<void>}, contentForm?: angular.IFormController, validate?: {(): boolean}): IAutosaveService;
+}
+
+autosaveServiceFactory.$inject = [autosaveActionServiceName];
+function autosaveServiceFactory(autosaveService: IAutosaveActionService): IAutosaveServiceFactory {
+	'use strict';
+	return {
+		getInstance(save: { (): angular.IPromise<void> }, contentForm?: angular.IFormController, validate?: { (): boolean }): IAutosaveService {
+			return new AutosaveService(autosaveService, save, contentForm, validate);
+		}
+	};
+}
+
+angular.module(moduleName, [autosaveActionModuleName])
+	.factory(factoryName, autosaveServiceFactory);
