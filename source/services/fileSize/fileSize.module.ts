@@ -1,15 +1,16 @@
-// uses typings/angularjs
+'use strict';
 
-/// <reference path='../number/number.service.ts' />
-/// <reference path='fileSize.service.ts' />
-/// <reference path='fileSizeFilter.ts' />
+import * as angular from 'angular';
 
-module rl.utilities.services.fileSize {
-	'use strict';
+import { moduleName as numberModuleName } from '../number/number.service';
+import { factoryName, fileSizeFactory } from './fileSize.service';
+import { simpleFilterName, fileSizeFilter } from './fileSizeFilter';
 
-	export var moduleName: string = 'rl21.utilities.services.fileSize';
+export * from './fileSize.service';
+export * from './fileSizeFilter';
 
-	angular.module(moduleName, [number.moduleName])
-		.factory(factoryName, fileSizeFactory)
-		.filter(simpleFilterName, fileSizeFilter);
-}
+export var moduleName: string = 'rl21.utilities.services.fileSize';
+
+angular.module(moduleName, [numberModuleName])
+	.factory(factoryName, fileSizeFactory)
+	.filter(simpleFilterName, fileSizeFilter);

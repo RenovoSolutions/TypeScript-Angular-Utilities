@@ -7,6 +7,7 @@ import * as autosave from './autosave/autosave.service';
 import * as autosaveAction from './autosaveAction/autosaveAction.service';
 import * as boolean from './boolean/boolean.service';
 import * as date from './date/date.module';
+import * as fileSize from './fileSize/fileSize.module';
 
 import * as moment from './moment/moment.module';
 import * as objectService from './object/object.service';
@@ -39,6 +40,7 @@ export {
 	autosaveAction,
 	boolean,
 	date,
+	fileSize,
 
 	moment,
 	objectService as object,
@@ -54,6 +56,7 @@ angular.module(name, [
 	autosaveAction.moduleName,
 	boolean.moduleName,
 	date.moduleName,
+	fileSize.moduleName,
 
 	moment.moduleName,
 	objectService.moduleName,
