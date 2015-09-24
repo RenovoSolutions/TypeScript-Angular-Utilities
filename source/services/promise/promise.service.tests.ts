@@ -4,41 +4,41 @@
 /// <reference path='../../../typings/angularMocks.d.ts' />
 /// <reference path='../../../typings/chaiAssertions.d.ts' />
 
-/// <reference path='promise.service.ts' />
-/// <reference path='../test/angularFixture.ts' />
+'use strict';
 
-module rl.utilities.services.promise {
-	'use strict';
+import { IPromiseUtility, moduleName, serviceName } from './promise.service';
 
-	import __test = rl.utilities.services.test;
+import { angularFixture } from '../test/angularFixture';
 
-	describe('promiseUtility', () => {
-		var promiseUtility: IPromiseUtility;
+import * as angular from 'angular';
+import 'angular-mocks';
 
-		beforeEach(() => {
-			angular.mock.module(moduleName);
+describe('promiseUtility', () => {
+	var promiseUtility: IPromiseUtility;
 
-			var services: any = __test.angularFixture.inject(serviceName);
-			promiseUtility = services[serviceName];
+	beforeEach(() => {
+		angular.mock.module(moduleName);
+
+		var services: any = angularFixture.inject(serviceName);
+		promiseUtility = services[serviceName];
+	});
+
+	describe('isPromise', (): void => {
+		it('should return true if the object is a promise', (): void => {
+			var promise: Object = {
+				then: sinon.spy(),
+				catch: sinon.spy(),
+			};
+
+			expect(promiseUtility.isPromise(promise)).to.be.true;
 		});
 
-		describe('isPromise', (): void => {
-			it('should return true if the object is a promise', (): void => {
-				var promise: Object = {
-					then: sinon.spy(),
-					catch: sinon.spy(),
-				};
+		it('should return false if the object is not a promise', (): void => {
+			var str: string = 'promise';
+			var obj: Object = {};
 
-				expect(promiseUtility.isPromise(promise)).to.be.true;
-			});
-
-			it('should return false if the object is not a promise', (): void => {
-				var str: string = 'promise';
-				var obj: Object = {};
-
-				expect(promiseUtility.isPromise(str)).to.be.false;
-				expect(promiseUtility.isPromise(obj)).to.be.false;
-			});
+			expect(promiseUtility.isPromise(str)).to.be.false;
+			expect(promiseUtility.isPromise(obj)).to.be.false;
 		});
 	});
-}
+});

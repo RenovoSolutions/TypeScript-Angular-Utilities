@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
-		"emitDecoratorMetadata": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
 		"declaration": true,
-		"target": "ES5",
-		"out": "utility.js"
+		"sourceMap": true,
+		"target": "ES5"
 	},
 	"files": [
 		"./typings/tsd.d.ts",
 		"./source/utilities.ts"
-	],
-	"version": "1.5"
+	]
 }

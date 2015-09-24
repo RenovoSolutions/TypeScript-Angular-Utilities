@@ -1,13 +1,18 @@
-/// <reference path='date.service.ts' />
-/// <reference path='dateTimeFormatStrings.ts' />
-/// <reference path='../time/time.service.ts' />
-/// <reference path='../moment/moment.module.ts' />
+'use strict';
 
-module rl.utilities.services.date {
-	export var moduleName: string = 'rl.utilities.services.date';
-	export var serviceName: string = 'dateUtility';
+import * as angular from 'angular';
 
-	angular.module(moduleName, [momentWrapper.moduleName, time.moduleName])
-		.service(serviceName, DateUtility)
-		.value(dateTimeFormatServiceName, defaultFormats);
-}
+import { moduleName as momentModuleName } from '../moment/moment.module';
+import { moduleName as timeModuleName } from '../time/time.service';
+
+import { DateUtility, serviceName } from './date.service';
+import { dateTimeFormatServiceName, defaultFormats } from './dateTimeFormatStrings';
+
+export * from './date.service';
+export * from './dateTimeFormatStrings';
+
+export var moduleName: string = 'rl.utilities.services.date';
+
+angular.module(moduleName, [momentModuleName, timeModuleName])
+	.service(serviceName, DateUtility)
+	.value(dateTimeFormatServiceName, defaultFormats);

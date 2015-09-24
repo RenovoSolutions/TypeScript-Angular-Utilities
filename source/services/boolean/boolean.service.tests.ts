@@ -1,36 +1,35 @@
 /// <reference path='../../../typings/chai/chai.d.ts' />
 /// <reference path='../../../typings/mocha/mocha.d.ts' />
-/// <reference path='../../../typings/angularMocks.d.ts' />
 /// <reference path='../../../typings/chaiAssertions.d.ts' />
 
-/// <reference path='boolean.service.ts' />
-/// <reference path='../test/angularFixture.ts' />
+'use strict';
 
-module rl.utilities.services.boolean {
-	'use strict';
+import { IBooleanUtility, moduleName, serviceName } from './boolean.service';
 
-	import __test = rl.utilities.services.test;
+import { angularFixture } from '../test/angularFixture';
 
-	describe('booleanUtility', () => {
-		var booleanUtility: IBooleanUtility;
+import * as angular from 'angular';
+import 'angular-mocks';
 
-		beforeEach(() => {
-			angular.mock.module(moduleName);
+describe('booleanUtility', () => {
+	var booleanUtility: IBooleanUtility;
 
-			var services: any = __test.angularFixture.inject(serviceName);
-			booleanUtility = services[serviceName];
+	beforeEach(() => {
+		angular.mock.module(moduleName);
+
+		var services: any = angularFixture.inject(serviceName);
+		booleanUtility = services[serviceName];
+	});
+
+	describe('toBool', (): void => {
+		it('should convert null and undefined to false', (): void => {
+			expect(booleanUtility.toBool(null)).to.be.false;
+			expect(booleanUtility.toBool(undefined)).to.be.false;
 		});
 
-		describe('toBool', (): void => {
-			it('should convert null and undefined to false', (): void => {
-				expect(booleanUtility.toBool(null)).to.be.false;
-				expect(booleanUtility.toBool(undefined)).to.be.false;
-			});
-
-			it('should leave bool values unchanged', (): void => {
-				expect(booleanUtility.toBool(false)).to.be.false;
-				expect(booleanUtility.toBool(true)).to.be.true;
-			});
+		it('should leave bool values unchanged', (): void => {
+			expect(booleanUtility.toBool(false)).to.be.false;
+			expect(booleanUtility.toBool(true)).to.be.true;
 		});
 	});
-}
+});

@@ -1,6 +1,0 @@
-[
-	{ "js": "jquery/dist/jquery.js" },
-	{ "js": "angular/angular.js" },
-	{ "js": "lodash/lodash.js" },
-	{ "js": "moment/moment.js" }
-]

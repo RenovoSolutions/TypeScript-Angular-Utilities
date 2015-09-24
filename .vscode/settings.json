@@ -7,6 +7,9 @@
 		"**/.git": true,
 		"**/.DS_Store": true,
 		"**/output/": true,
-		"**/tests/": true
+		"**/tests/": true,
+		"source/**/*.js": true,
+		"source/**/*.js.map": true,
+		"source/**/*.d.ts": true
 	}
 }

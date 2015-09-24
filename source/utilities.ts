@@ -1,15 +1,17 @@
-// uses angularjs
+'use strict';
 
-/// <reference path='behaviors/behaviors.module.ts' />
-/// <reference path='filters/filters.module.ts' />
-/// <reference path='services/services.module.ts' />
+import * as angular from 'angular';
 
-module rl.utilities {
-	export var moduleName: string = 'rl.utilities';
+import * as behaviors from './behaviors/behaviors.module';
+import * as filters from './filters/filters.module';
+import * as services from './services/services.module';
 
-	angular.module(moduleName, [
-		behaviors.moduleName,
-		filters.moduleName,
-		services.moduleName,
-	]);
-}
+export { behaviors, filters, services };
+
+export var name: string = 'rl.utilities';
+
+angular.module(name, [
+	behaviors.name,
+	filters.name,
+	services.name,
+]);

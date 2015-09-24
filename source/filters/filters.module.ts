@@ -1,13 +1,14 @@
-// uses angularjs
+import * as angular from 'angular';
 
-/// <reference path='isEmpty/isEmpty.ts' />
-/// <reference path='truncate/truncate.ts' />
+import * as isEmpty from './isEmpty/isEmpty';
+import * as truncate from './truncate/truncate';
 
-module rl.utilities.filters {
-	export var moduleName: string = 'rl.utilities.filters';
+export { isEmpty, truncate };
+export * from './filter';
 
-	angular.module(moduleName, [
-		isEmpty.moduleName,
-		truncate.moduleName,
-	]);
-}
+export var name: string = 'rl.utilities.filters';
+
+angular.module(name, [
+	isEmpty.moduleName,
+	truncate.moduleName,
+]);
