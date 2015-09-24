@@ -8,3 +8,4 @@
 /// <reference path="moment/moment.d.ts" />
 /// <reference path="sinon/sinon.d.ts" />
 /// <reference path="angularjs/angular-mocks.d.ts" />
+/// <reference path="q/Q.d.ts" />
