@@ -18,12 +18,8 @@ import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.
 import * as promise from './promise/promise.service';
 import * as stringService from './string/string.service';
 import * as test from './test/test';
-
 import * as time from './time/time.service';
-
-// /// <reference path='string/string.service.ts' />
-// /// <reference path='time/time.service.ts' />
-// /// <reference path='validation/validation.service.ts' />
+import * as validation from './validation/validation.service';
 
 export {
 	array,
@@ -43,6 +39,7 @@ export {
 	stringService as string,
 	test,
 	time,
+	validation,
 };
 
 export var name: string = 'rl.utilities.services';
@@ -64,6 +61,5 @@ angular.module(name, [
 	promise.moduleName,
 	stringService.moduleName,
 	time.moduleName,
-
-	// validation.moduleName,
+	validation.moduleName,
 ]);
