@@ -14,10 +14,10 @@ import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
+import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
 
 import * as time from './time/time.service';
 
-// /// <reference path='parentChildBehavior/parentChildBehavior.service.ts' />
 // /// <reference path='promise/promise.service.ts' />
 // /// <reference path='string/string.service.ts' />
 // /// <reference path='time/time.service.ts' />
@@ -36,7 +36,8 @@ export {
 	numberService as number,
 	objectService as object,
 	observable,
-	
+	parentChildBehavior,
+
 	time,
 };
 
@@ -55,10 +56,10 @@ angular.module(name, [
 	numberService.moduleName,
 	objectService.moduleName,
 	observable.moduleName,
+	parentChildBehavior.moduleName,
 
 	time.moduleName,
 
-	// parentChildBehavior.moduleName,
 	// promise.moduleName,
 	// string.moduleName,
 	// time.moduleName,
