@@ -15,10 +15,10 @@ import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
 import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
+import * as promise from './promise/promise.service';
 
 import * as time from './time/time.service';
 
-// /// <reference path='promise/promise.service.ts' />
 // /// <reference path='string/string.service.ts' />
 // /// <reference path='time/time.service.ts' />
 // /// <reference path='validation/validation.service.ts' />
@@ -37,6 +37,7 @@ export {
 	objectService as object,
 	observable,
 	parentChildBehavior,
+	promise,
 
 	time,
 };
@@ -57,10 +58,10 @@ angular.module(name, [
 	objectService.moduleName,
 	observable.moduleName,
 	parentChildBehavior.moduleName,
+	promise.moduleName,
 
 	time.moduleName,
 
-	// promise.moduleName,
 	// string.moduleName,
 	// time.moduleName,
 	// validation.moduleName,
