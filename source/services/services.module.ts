@@ -9,18 +9,14 @@ import * as boolean from './boolean/boolean.service';
 import * as date from './date/date.module';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
-
 import * as moment from './moment/moment.module';
+import * as notification from './notification/notification.service';
+import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
+
 import * as time from './time/time.service';
 
-// /// <reference path='jquery/jquery.service.ts' />
-// /// <reference path='moment/moment.module.ts' />
-// /// <reference path='notification/notification.service.ts' />
-// /// <reference path='number/number.service.ts' />
-// /// <reference path='object/object.service.ts' />
-// /// <reference path='observable/observable.service.ts' />
 // /// <reference path='parentChildBehavior/parentChildBehavior.service.ts' />
 // /// <reference path='promise/promise.service.ts' />
 // /// <reference path='string/string.service.ts' />
@@ -35,10 +31,12 @@ export {
 	date,
 	fileSize,
 	genericSearchFilter,
-
 	moment,
+	notification,
+	numberService as number,
 	objectService as object,
 	observable,
+	
 	time,
 };
 
@@ -52,18 +50,14 @@ angular.module(name, [
 	date.moduleName,
 	fileSize.moduleName,
 	genericSearchFilter.moduleName,
-
 	moment.moduleName,
+	notification.moduleName,
+	numberService.moduleName,
 	objectService.moduleName,
 	observable.moduleName,
+
 	time.moduleName,
 
-	// jquery.moduleName,
-	// momentWrapper.moduleName,
-	// notification.moduleName,
-	// number.moduleName,
-	// object.moduleName,
-	// observable.moduleName,
 	// parentChildBehavior.moduleName,
 	// promise.moduleName,
 	// string.moduleName,
