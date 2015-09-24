@@ -42,10 +42,14 @@ export interface INotificationServiceProvider extends angular.IServiceProvider {
 	$get(): INotificationService;
 }
 
+interface INotificationServiceProviderInternal extends INotificationServiceProvider {
+	notifier: INotifier;
+}
+
 export function notificationServiceProvider(): INotificationServiceProvider {
 	'use strict';
 
-	return {
+	let provider: INotificationServiceProviderInternal = {
 		notifier: new BaseNotifier(),
 		setNotifier: (notifier: INotifier): void => {
 			this.notifier = notifier;
@@ -54,6 +58,8 @@ export function notificationServiceProvider(): INotificationServiceProvider {
 			return new NotificationService(this.notifier);
 		},
 	};
+
+	return provider;
 }
 
 angular.module(moduleName, [])
