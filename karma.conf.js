@@ -31,15 +31,16 @@ module.exports = function(config) {
 		colors: true,
 
         files: [
-			'source/**/*.tests.ts',
+			'test-bootstrapper.js',
         ],
 
         preprocessors: {
             // add webpack as preprocessor
-			'source/**/*.tests.ts': ['webpack'],
+			'test-bootstrapper.js': ['webpack'],
         },
 
         webpack: {
+			devtool: 'inline-source-map',
 			module: {
 				loaders: [
 					{
