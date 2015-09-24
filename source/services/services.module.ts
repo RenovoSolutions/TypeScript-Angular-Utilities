@@ -8,20 +8,13 @@ import * as autosaveAction from './autosaveAction/autosaveAction.service';
 import * as boolean from './boolean/boolean.service';
 import * as date from './date/date.module';
 import * as fileSize from './fileSize/fileSize.module';
+import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 
 import * as moment from './moment/moment.module';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
 import * as time from './time/time.service';
 
-// /// <reference path='array/array.service.ts' />
-// /// <reference path='autosave/autosave.service.ts' />
-// /// <reference path='autosaveAction/autosaveAction.service.ts' />
-// /// <reference path='boolean/boolean.service.ts' />
-// /// <reference path='contentProvider/contentProvider.service.ts' />
-// /// <reference path='date/date.module.ts' />
-// /// <reference path='fileSize/fileSize.module.ts' />
-// /// <reference path='genericSearchFilter/genericSearchFilter.service.ts' />
 // /// <reference path='jquery/jquery.service.ts' />
 // /// <reference path='moment/moment.module.ts' />
 // /// <reference path='notification/notification.service.ts' />
@@ -41,6 +34,7 @@ export {
 	boolean,
 	date,
 	fileSize,
+	genericSearchFilter,
 
 	moment,
 	objectService as object,
@@ -57,14 +51,13 @@ angular.module(name, [
 	boolean.moduleName,
 	date.moduleName,
 	fileSize.moduleName,
+	genericSearchFilter.moduleName,
 
 	moment.moduleName,
 	objectService.moduleName,
 	observable.moduleName,
 	time.moduleName,
 
-	// fileSize.moduleName,
-	// genericSearchFilter.moduleName,
 	// jquery.moduleName,
 	// momentWrapper.moduleName,
 	// notification.moduleName,
