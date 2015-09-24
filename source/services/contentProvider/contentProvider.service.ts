@@ -1,7 +1,6 @@
 ﻿'use strict';
 
 import * as ng from 'angular';
-import * as JQuery from 'jquery';
 import * as _ from 'lodash';
 
 import {
@@ -16,10 +15,10 @@ export var moduleName: string = 'rl.utilities.services.contentProvider';
 export var serviceName: string = 'contentProviderFactory';
 
 export interface IContentProviderService {
-	setContent(content: JQuery): void;
+	setContent(content: ng.IAugmentedJQuery): void;
 	setTranscludeContent(transcludeFunction: ng.ITranscludeFunction): void;
-	getContent(selector?: string): JQuery;
-	register(action: {(newText: JQuery): void}, selector?: string): IUnregisterFunction;
+	getContent(selector?: string): ng.IAugmentedJQuery;
+	register(action: {(newText: ng.IAugmentedJQuery): void}, selector?: string): IUnregisterFunction;
 }
 
 class ContentProviderService implements IContentProviderService {
@@ -28,16 +27,16 @@ class ContentProviderService implements IContentProviderService {
 	}
 
 	private observable: IObservableService;
-	private content: JQuery;
+	private content: ng.IAugmentedJQuery;
 
-	setContent(content: JQuery): void {
+	setContent(content: ng.IAugmentedJQuery): void {
 		this.content = content;
 		this.observable.fire('contentChanged');
 	}
 
 	setTranscludeContent: {(transcludeFunction: ng.ITranscludeFunction): void} = (transcludeFunction: ng.ITranscludeFunction): void => {
 		if (_.isFunction(transcludeFunction)) {
-			transcludeFunction((clone: JQuery): void => {
+			transcludeFunction((clone: ng.IAugmentedJQuery): void => {
 				this.setContent(clone);
 			});
 		} else {
@@ -45,7 +44,7 @@ class ContentProviderService implements IContentProviderService {
 		}
 	}
 
-	register(action: {(newContent: JQuery): void}, selector?: string): IUnregisterFunction {
+	register(action: {(newContent: ng.IAugmentedJQuery): void}, selector?: string): IUnregisterFunction {
 		if (this.content != null) {
 			action(this.getContent(selector));
 		}
@@ -55,7 +54,7 @@ class ContentProviderService implements IContentProviderService {
 		}, 'contentChanged');
 	}
 
-	getContent(selector?: string): JQuery {
+	getContent(selector?: string): ng.IAugmentedJQuery {
 		if (selector != null) {
 			return this.content.filter(selector);
 		}
