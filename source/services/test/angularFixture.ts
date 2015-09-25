@@ -6,6 +6,8 @@ import 'angular-mocks';
 import * as _ from 'lodash';
 
 export interface IControllerResult<TControllerType> {
+	controller: TControllerType;
+	scope: angular.IScope;
 }
 
 export interface IDirectiveResult {
