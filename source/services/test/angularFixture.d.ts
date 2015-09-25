@@ -1,5 +1,7 @@
 import * as angular from 'angular';
 export interface IControllerResult<TControllerType> {
+    controller: TControllerType;
+    scope: angular.IScope;
 }
 export interface IDirectiveResult {
     directive: angular.IDirective;
