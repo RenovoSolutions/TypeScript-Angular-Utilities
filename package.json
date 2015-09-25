@@ -1,6 +1,6 @@
 {
   "name": "typescript-angular-utilities",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
   "main": "source/utilities.js",
@@ -35,7 +35,7 @@
     "karma-webpack": "^1.7.0",
     "lodash": "^3.10.1",
     "mocha": "^2.2.1",
-    "sinon": "^1.14.1",
+    "sinon": "^1.17.0",
     "ts-loader": "^0.5.5",
     "typescript": "^1.6.2",
     "webpack": "^1.12.2"
