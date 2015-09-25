@@ -53,6 +53,22 @@ describe('genericSearchFilter', () => {
 		expect(genericSearchFilter.filter(object2)).to.be.true;
 	});
 
+	it('should include all items if search length is less than minimum', (): void => {
+		genericSearchFilter.searchText = 'som';
+		genericSearchFilter.minSearchLength = 4;
+
+		var object1: ITestObject = {
+			prop: 'some string',
+		};
+
+		var object2: ITestObject = {
+			prop: 'another value',
+		};
+
+		expect(genericSearchFilter.filter(object1)).to.be.true;
+		expect(genericSearchFilter.filter(object2)).to.be.true;
+	});
+
 	it('should search the actual data values if they arent objects', (): void => {
 		genericSearchFilter.searchText = '2';
 
