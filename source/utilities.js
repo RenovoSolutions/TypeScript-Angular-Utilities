@@ -6,6 +6,8 @@ var filters = require('./filters/filters.module');
 exports.filters = filters;
 var services = require('./services/services.module');
 exports.services = services;
+var types = require('./types/types.module');
+exports.types = types;
 exports.name = 'rl.utilities';
 angular.module(exports.name, [
     behaviors.name,
