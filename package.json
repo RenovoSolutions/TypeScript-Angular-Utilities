@@ -1,6 +1,6 @@
 {
   "name": "typescript-angular-utilities",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
   "main": "source/utilities.js",
@@ -14,7 +14,7 @@
     "url": "https://github.com/RenovoSolutions/TypeScript-Angular-Utilities"
   },
   "scripts": {
-    "update": "npm install && tsd update",
+    "update": "npm install & tsd update",
     "test": "karma start",
     "test.debug": "karma start karma.debug.conf.js",
     "test.full": "karma start karma.full.conf.js",
