@@ -1,3 +1,5 @@
+export declare var moduleName: string;
+export declare var serviceName: string;
 export interface IMock {
     service(service?: any): any;
     promise<TDataType>(service: any, methodName: string, data?: TDataType, successful?: boolean): void;
@@ -6,4 +8,3 @@ export interface IMock {
     }, successful?: boolean): void;
     flush<TDataType>(service: any): void;
 }
-export declare var mock: IMock;

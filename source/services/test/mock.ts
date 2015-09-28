@@ -4,8 +4,10 @@
 // sinon types will be resolved from tsd.d.ts
 
 import * as _ from 'lodash';
-import * as ng from 'angular';
-import * as q from 'q';
+import * as angular from 'angular';
+
+export var moduleName: string = 'rl.utilities.services.test.mock';
+export var serviceName: string = 'mockUtility';
 
 export interface IMock {
 	service(service?: any): any;
@@ -15,12 +17,15 @@ export interface IMock {
 }
 
 interface IMockRequest<TDataType> {
-	promise: q.Deferred<TDataType>;
+	promise: angular.IDeferred<TDataType>;
 	data: TDataType;
 	successful: boolean;
 }
 
 class Mock {
+	static $inject: string[] = ['$q', '$rootScope'];
+	constructor(private $q: angular.IQService, private $rootScope: angular.IRootScopeService) { }
+
 	service(service?: any): any {
 		if (_.isUndefined(service)) {
 			service = {};
@@ -38,7 +43,7 @@ class Mock {
 		}
 
 		service[methodName] = sinon.spy((): any => {
-			var deferred: q.Deferred<TDataType> = q.defer<TDataType>();
+			var deferred: angular.IDeferred<TDataType> = this.$q.defer();
 
 			service._mock_requestList_.push({
 				promise: deferred,
@@ -57,7 +62,7 @@ class Mock {
 		}
 
 		service[methodName] = sinon.spy((...params: any[]): any => {
-			var deferred: q.Deferred<TDataType> = q.defer<TDataType>();
+			var deferred: angular.IDeferred<TDataType> = this.$q.defer<TDataType>();
 
 			service._mock_requestList_.push({
 				promise: deferred,
@@ -69,7 +74,7 @@ class Mock {
 		});
 	}
 
-	flush<TDataType>(service: any, scope?: ng.IScope): void {
+	flush<TDataType>(service: any, scope?: angular.IScope): void {
 		// Save local reference to the request list and then clear
 		var currentPendingRequests: IMockRequest<TDataType>[] = service._mock_requestList_;
 		service._mock_requestList_ = [];
@@ -88,7 +93,10 @@ class Mock {
 				scope.$digest();
 			}
 		});
+
+		this.$rootScope.$apply();
 	}
 }
 
-export var mock: IMock = new Mock();
+angular.module(moduleName, [])
+	.service(serviceName, Mock);

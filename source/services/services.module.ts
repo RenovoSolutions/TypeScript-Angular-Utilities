@@ -17,7 +17,7 @@ import * as observable from './observable/observable.service';
 import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
 import * as promise from './promise/promise.service';
 import * as stringService from './string/string.service';
-import * as test from './test/test';
+import * as test from './test/test.module';
 import * as time from './time/time.service';
 import * as validation from './validation/validation.service';
 
@@ -61,5 +61,6 @@ angular.module(name, [
 	promise.moduleName,
 	stringService.moduleName,
 	time.moduleName,
+	test.moduleName,
 	validation.moduleName,
 ]);

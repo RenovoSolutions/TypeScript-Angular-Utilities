@@ -1,6 +1,6 @@
 {
   "name": "typescript-angular-utilities",
-  "version": "2.0.6",
+  "version": "2.1.0",
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
   "main": "source/utilities.js",
@@ -46,8 +46,7 @@
   "dependencies": {
     "angular": "^1.4.6",
     "lodash": "^3.10.1",
-    "moment": "^2.10.6",
-    "q": "^1.4.1"
+    "moment": "^2.10.6"
   },
   "license": "MIT"
 }

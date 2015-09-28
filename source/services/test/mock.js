@@ -2,9 +2,13 @@
 // uses sinon but can't import because sinon uses dynamic requires
 // sinon types will be resolved from tsd.d.ts
 var _ = require('lodash');
-var q = require('q');
+var angular = require('angular');
+exports.moduleName = 'rl.utilities.services.test.mock';
+exports.serviceName = 'mockUtility';
 var Mock = (function () {
-    function Mock() {
+    function Mock($q, $rootScope) {
+        this.$q = $q;
+        this.$rootScope = $rootScope;
     }
     Mock.prototype.service = function (service) {
         if (_.isUndefined(service)) {
@@ -14,12 +18,13 @@ var Mock = (function () {
         return service;
     };
     Mock.prototype.promise = function (service, methodName, data, successful) {
+        var _this = this;
         // Default successful to true
         if (_.isUndefined(successful)) {
             successful = true;
         }
         service[methodName] = sinon.spy(function () {
-            var deferred = q.defer();
+            var deferred = _this.$q.defer();
             service._mock_requestList_.push({
                 promise: deferred,
                 data: data,
@@ -39,7 +44,7 @@ var Mock = (function () {
             for (var _i = 0; _i < arguments.length; _i++) {
                 params[_i - 0] = arguments[_i];
             }
-            var deferred = q.defer();
+            var deferred = _this.$q.defer();
             service._mock_requestList_.push({
                 promise: deferred,
                 data: callback.apply(_this, params),
@@ -66,8 +71,11 @@ var Mock = (function () {
                 scope.$digest();
             }
         });
+        this.$rootScope.$apply();
     };
+    Mock.$inject = ['$q', '$rootScope'];
     return Mock;
 })();
-exports.mock = new Mock();
+angular.module(exports.moduleName, [])
+    .service(exports.serviceName, Mock);
 //# sourceMappingURL=mock.js.map
