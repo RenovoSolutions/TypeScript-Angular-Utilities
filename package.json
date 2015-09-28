@@ -9,6 +9,10 @@
     "typescript",
     "utilities"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RenovoSolutions/TypeScript-Angular-Utilities"
+  },
   "scripts": {
     "update": "npm install && tsd update",
     "test": "karma start",
@@ -33,7 +37,6 @@
     "karma-sinon": "^1.0.3",
     "karma-teamcity-reporter": "^0.1.1",
     "karma-webpack": "^1.7.0",
-    "lodash": "^3.10.1",
     "mocha": "^2.2.1",
     "sinon": "^1.17.0",
     "ts-loader": "^0.5.5",
