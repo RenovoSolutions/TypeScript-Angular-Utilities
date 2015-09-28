@@ -41,7 +41,8 @@
     "sinon": "^1.17.0",
     "ts-loader": "^0.5.5",
     "typescript": "^1.6.2",
-    "webpack": "^1.12.2"
+    "webpack": "^1.12.2",
+    "gulp": "^3.9.0"
   },
   "dependencies": {
     "angular": "^1.4.6",
