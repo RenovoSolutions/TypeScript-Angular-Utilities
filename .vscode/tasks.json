@@ -1,6 +1,6 @@
 {
     "version": "0.1.0",
-    "command": "gulp",
+    "command": "npm",
     "isShellCommand": true,
     "args": [
         "--no-color"
@@ -8,7 +8,7 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": [],
+            "args": ["run"],
             "isBuildCommand": true,
             "isWatching": false,
             "problemMatcher": [
@@ -21,6 +21,10 @@
             "taskName": "test",
             "args": [],
             "isTestCommand": true
+        },
+        {
+            "taskName": "update",
+            "args": ["run"]
         }
     ],
 	"problemMatcher": "$tsc"
