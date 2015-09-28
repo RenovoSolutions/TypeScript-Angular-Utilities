@@ -18,7 +18,8 @@
     "test": "karma start",
     "test.debug": "karma start karma.debug.conf.js",
     "test.full": "karma start karma.full.conf.js",
-    "build": "gulp clean && tsc"
+    "build": "gulp clean && tsc",
+    "clean": "gulp clean"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.6",

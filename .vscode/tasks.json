@@ -25,6 +25,10 @@
         {
             "taskName": "update",
             "args": ["run"]
+        },
+        {
+            "taskName": "clean",
+            "args": ["run"]
         }
     ],
 	"problemMatcher": "$tsc"
