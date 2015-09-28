@@ -19,6 +19,7 @@
     "test.debug": "karma start karma.debug.conf.js",
     "test.full": "karma start karma.full.conf.js",
     "build": "gulp clean && tsc && echo Build complete",
+    "build.library": "webpack & webpack --config webpack.min.config.js",
     "clean": "gulp clean"
   },
   "devDependencies": {
