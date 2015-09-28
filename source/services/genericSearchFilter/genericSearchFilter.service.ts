@@ -24,6 +24,7 @@ export var filterName: string = 'search';
 export interface IGenericSearchFilter extends IFilter {
 	type: string;
 	searchText: string;
+	minSearchLength: number;
 	caseSensitive: boolean;
 	filter<TItemType>(item: TItemType): boolean;
 }
@@ -31,12 +32,13 @@ export interface IGenericSearchFilter extends IFilter {
 export class GenericSearchFilter implements IGenericSearchFilter {
 	type: string = filterName;
 	searchText: string;
+	minSearchLength: number = 1;
 	caseSensitive: boolean = false;
 
 	constructor(private object: IObjectUtility, private string: IStringUtilityService) {}
 
 	filter<TItemType>(item: TItemType): boolean {
-		if (this.object.isNullOrEmpty(this.searchText)) {
+			if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
 			return true;
 		}
 

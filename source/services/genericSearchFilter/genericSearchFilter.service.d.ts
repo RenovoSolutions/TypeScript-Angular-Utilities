@@ -7,6 +7,7 @@ export declare var filterName: string;
 export interface IGenericSearchFilter extends IFilter {
     type: string;
     searchText: string;
+    minSearchLength: number;
     caseSensitive: boolean;
     filter<TItemType>(item: TItemType): boolean;
 }
@@ -15,6 +16,7 @@ export declare class GenericSearchFilter implements IGenericSearchFilter {
     private string;
     type: string;
     searchText: string;
+    minSearchLength: number;
     caseSensitive: boolean;
     constructor(object: IObjectUtility, string: IStringUtilityService);
     filter<TItemType>(item: TItemType): boolean;

@@ -11,10 +11,11 @@ var GenericSearchFilter = (function () {
         this.object = object;
         this.string = string;
         this.type = exports.filterName;
+        this.minSearchLength = 1;
         this.caseSensitive = false;
     }
     GenericSearchFilter.prototype.filter = function (item) {
-        if (this.object.isNullOrEmpty(this.searchText)) {
+        if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
             return true;
         }
         return this.searchObject(item, this.searchText, this.caseSensitive);

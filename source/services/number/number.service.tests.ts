@@ -66,6 +66,7 @@ describe('numberUtility', () => {
 			expect(numberUtility.roundToStep(367, 3.65)).to.equal(368.65);
 			expect(numberUtility.roundToStep(125, 3.65)).to.equal(124.10);
 			expect(numberUtility.roundToStep(250, 3.65)).to.equal(248.20);
+			expect(numberUtility.roundToStep(10.95, 3.65)).to.equal(10.95);
 		});
 	});
 });
