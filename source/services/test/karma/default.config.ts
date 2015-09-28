@@ -1,7 +1,7 @@
 // Default karma configuration
 
-module.exports = function (karma) {
-	var options = {
+export default function (karma: any): any {
+	var options: any = {
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: ['mocha', 'chai', 'sinon'],
@@ -55,7 +55,7 @@ module.exports = function (karma) {
         },
 
         plugins: [
-            require('karma-webpack'),
+            'karma-webpack',
 			'karma-mocha',
 			'karma-chai',
 			'karma-sinon',

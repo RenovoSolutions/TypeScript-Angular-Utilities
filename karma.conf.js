@@ -1,6 +1,8 @@
 
 // Karma default configuration
 
+var karmaSettings = require('./source/services/test/karma/karma');
+
 module.exports = function (karma) {
-	require('./karma/default.config.js')(karma);
+	karmaSettings.standard.default(karma);
 };
