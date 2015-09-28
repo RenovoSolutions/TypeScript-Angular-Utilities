@@ -30,7 +30,7 @@ var promise = require('./promise/promise.service');
 exports.promise = promise;
 var stringService = require('./string/string.service');
 exports.string = stringService;
-var test = require('./test/test');
+var test = require('./test/test.module');
 exports.test = test;
 var time = require('./time/time.service');
 exports.time = time;
@@ -54,6 +54,7 @@ angular.module(exports.name, [
     promise.moduleName,
     stringService.moduleName,
     time.moduleName,
+    test.moduleName,
     validation.moduleName,
 ]);
 //# sourceMappingURL=services.module.js.map

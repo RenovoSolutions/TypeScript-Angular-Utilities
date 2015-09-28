@@ -13,7 +13,7 @@ import * as observable from './observable/observable.service';
 import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
 import * as promise from './promise/promise.service';
 import * as stringService from './string/string.service';
-import * as test from './test/test';
+import * as test from './test/test.module';
 import * as time from './time/time.service';
 import * as validation from './validation/validation.service';
 export { array, autosave, autosaveAction, boolean, date, fileSize, genericSearchFilter, moment, notification, numberService as number, objectService as object, observable, parentChildBehavior, promise, stringService as string, test, time, validation };
