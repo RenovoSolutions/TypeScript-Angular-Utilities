@@ -1,5 +1,7 @@
 // Karma full browser configuration
 
+var karmaSettings = require('./source/services/test/karma/karma');
+
 module.exports = function (karma) {
-	require('./karma/full.config.js')(karma);
+	karmaSettings.full.default(karma);
 };

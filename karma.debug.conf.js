@@ -1,5 +1,7 @@
 // Karma debug configuration
 
+var karmaSettings = require('./source/services/test/karma/karma');
+
 module.exports = function (karma) {
-	require('./karma/debug.config.js')(karma);
+	karmaSettings.debug.default(karma);
 };
