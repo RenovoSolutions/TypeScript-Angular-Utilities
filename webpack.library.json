@@ -2,7 +2,7 @@
 	"entry": "./source/utilities",
 	"path": "output",
 	"filename": "utilities.js",
-	"library": "rl-utilities",
+	"library": "rl_utilities",
 	"externals": {
 		"angular": "angular",
 		"moment": "moment",
