@@ -9,7 +9,6 @@ import * as boolean from './boolean/boolean.service';
 import * as date from './date/date.module';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
-import * as gulp from './gulp/gulp';
 import * as moment from './moment/moment.module';
 import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
@@ -30,7 +29,6 @@ export {
 	date,
 	fileSize,
 	genericSearchFilter,
-	gulp,
 	moment,
 	notification,
 	numberService as number,

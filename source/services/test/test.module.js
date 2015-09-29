@@ -4,8 +4,6 @@ function __export(m) {
 var angular = require('angular');
 var mock = require('./mock');
 exports.mock = mock;
-var karma = require('./karma/karma');
-exports.karma = karma;
 __export(require('./angularFixture'));
 exports.moduleName = 'rl.utilities.services.test';
 angular.module(exports.moduleName, [
