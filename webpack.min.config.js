@@ -1,11 +1,4 @@
-var configuration = require('./webpack.config.js');
-var webpack = require('webpack');
+var webpack = require('gulp-utilities').webpack;
+var library = require('./webpack.library.json');
 
-configuration.output.filename = 'utilities.min.js';
-
-var minify = new webpack.optimize.UglifyJsPlugin({ minimize: true });
-
-configuration.plugins = configuration.plugins || [];
-configuration.plugins.push(minify);
-
-module.exports = configuration;
+module.exports = webpack.libraryMin(library);

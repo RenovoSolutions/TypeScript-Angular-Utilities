@@ -1,0 +1,12 @@
+{
+	"entry": "./source/utilities",
+	"path": "output",
+	"filename": "utilities.js",
+	"library": "rl-utilities",
+	"externals": {
+		"angular": "angular",
+		"moment": "moment",
+		"lodash": "_",
+		"angular-mocks": "angular"
+	}
+}
