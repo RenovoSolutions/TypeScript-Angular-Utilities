@@ -1,4 +1,2 @@
-var gulp = require('gulp');
-var clean = require('./source/services/gulp/clean');
-
-clean.config(null, gulp);
+var utilities = require('gulp-utilities');
+utilities.gulp.clean.config();
