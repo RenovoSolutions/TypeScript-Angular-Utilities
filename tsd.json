@@ -34,27 +34,6 @@
     },
     "angularjs/angular-mocks.d.ts": {
       "commit": "32029fcb4e1a3ef8968711b545d77b584435729d"
-    },
-    "del/del.d.ts": {
-      "commit": "3b7f250dcf631f1c3c545e28d9ff25920c60b5f7"
-    },
-    "node/node.d.ts": {
-      "commit": "3b7f250dcf631f1c3c545e28d9ff25920c60b5f7"
-    },
-    "glob/glob.d.ts": {
-      "commit": "3b7f250dcf631f1c3c545e28d9ff25920c60b5f7"
-    },
-    "orchestrator/orchestrator.d.ts": {
-      "commit": "3b7f250dcf631f1c3c545e28d9ff25920c60b5f7"
-    },
-    "gulp/gulp.d.ts": {
-      "commit": "3b7f250dcf631f1c3c545e28d9ff25920c60b5f7"
-    },
-    "minimatch/minimatch.d.ts": {
-      "commit": "3b7f250dcf631f1c3c545e28d9ff25920c60b5f7"
-    },
-    "q/Q.d.ts": {
-      "commit": "3b7f250dcf631f1c3c545e28d9ff25920c60b5f7"
     }
   }
 }
