@@ -1,8 +1,8 @@
 
 // Karma default configuration
 
-var karmaSettings = require('./source/services/test/karma/karma');
+var karmaSettings = require('gulp-utilities').karma.standard;
 
 module.exports = function (karma) {
-	karmaSettings.standard.default(karma);
+	karmaSettings(karma, ['test-bootstrapper.js']);
 };
