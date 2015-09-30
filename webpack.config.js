@@ -1,4 +1,7 @@
 var webpack = require('gulp-utilities').webpack;
 var library = require('./webpack.library.json');
 
-module.exports = webpack.library(library);
+var webpackConfig = webpack.library(library);
+webpackConfig.devtool = 'inline-source-map';
+
+module.exports = webpackConfig;
