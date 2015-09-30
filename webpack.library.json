@@ -1,5 +1,5 @@
 {
-	"entry": "./source/utilities",
+	"entry": "./source/utilities.ts",
 	"path": "output",
 	"filename": "utilities.js",
 	"library": "rl_utilities",
