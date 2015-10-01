@@ -8,6 +8,7 @@ import { angularFixture } from '../../services/test/angularFixture';
 
 import * as angular from 'angular';
 import 'angular-mocks';
+import * as _ from 'lodash';
 
 'use strict';
 
@@ -112,6 +113,19 @@ describe('arrayUtility', () => {
 			expect(dictionary['13']).to.equal(array[2]);
 			expect(dictionary['14']).to.equal(array[3]);
 			expect(dictionary['15']).to.equal(array[4]);
+		});
+
+		it('should not consider the dictionary to be an array', (): void => {
+			var array: IKeyObj[] = [
+				{ key: '11' },
+				{ key: '12' },
+				{ key: '13' },
+				{ key: '14' },
+				{ key: '15' },
+			];
+
+			var dictionary: { [index: number]: IKeyObj } = arrayUtility.toDictionary(array, (item: IKeyObj): string => { return item.key; });
+			expect(_.isArray(dictionary)).to.be.false;
 		});
 	});
 });
