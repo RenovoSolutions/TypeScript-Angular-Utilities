@@ -51,7 +51,7 @@ var ArrayUtility = (function () {
         return _.reduce(array, function (dictionary, item) {
             dictionary[keySelector(item)] = item;
             return dictionary;
-        }, []);
+        }, {});
     };
     return ArrayUtility;
 })();
