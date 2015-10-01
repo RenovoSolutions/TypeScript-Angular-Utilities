@@ -68,10 +68,11 @@ class ArrayUtility implements IArrayUtility {
 
 	toDictionary<TDataType>(array: TDataType[], keySelector: { (item: TDataType): string })
 		: { [index: string]: TDataType } {
+		// needs to be seeded with an object or it will be viewed as an array with no items
 		return _.reduce(array, (dictionary: { [index: string]: TDataType }, item: TDataType): { [index: string]: TDataType } => {
 			dictionary[keySelector(item)] = item;
 			return dictionary;
-		}, []);
+		}, <any>{});
 	}
 }
 
