@@ -1,6 +1,6 @@
 {
   "name": "typescript-angular-utilities",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
   "main": "source/utilities.js",
@@ -20,7 +20,8 @@
     "test.full": "karma start karma.full.conf.js",
     "build": "gulp clean && tsc && echo Build complete",
     "build.library": "webpack & webpack --config webpack.min.config.js",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "publish.prep": "npm run update && npm run test.full && npm run build && npm run build.library"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.6",
