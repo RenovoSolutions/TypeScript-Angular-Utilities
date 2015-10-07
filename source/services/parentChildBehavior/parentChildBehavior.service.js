@@ -1,6 +1,6 @@
 'use strict';
 var angular = require('angular');
-exports.moduleName = 'rl21.utilities.services.parentChildBehavior';
+exports.moduleName = 'rl.utilities.services.parentChildBehavior';
 exports.serviceName = 'parentChildBehavior';
 var ParentChildBehaviorService = (function () {
     function ParentChildBehaviorService() {

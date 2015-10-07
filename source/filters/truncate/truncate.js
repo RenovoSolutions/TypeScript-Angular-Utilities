@@ -2,7 +2,7 @@
 var angular = require('angular');
 // Formats and optionally truncates and ellipsimogrifies a string for display in a card header
 var object_service_1 = require('../../services/object/object.service');
-exports.moduleName = 'rl21.utilities.filters.truncate';
+exports.moduleName = 'rl.utilities.filters.truncate';
 exports.serviceName = 'truncate';
 exports.filterName = exports.serviceName + 'Filter';
 truncate.$inject = [object_service_1.serviceName];
