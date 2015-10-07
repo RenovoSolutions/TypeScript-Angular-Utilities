@@ -2,7 +2,7 @@
 
 import * as angular from 'angular';
 
-export var moduleName: string = 'rl21.utilities.services.parentChildBehavior';
+export var moduleName: string = 'rl.utilities.services.parentChildBehavior';
 export var serviceName: string = 'parentChildBehavior';
 
 export interface IViewData<TBehavior> {

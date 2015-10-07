@@ -10,7 +10,7 @@ import {
 	IObjectUtility,
 } from '../../services/object/object.service';
 
-export var moduleName: string = 'rl21.utilities.filters.truncate';
+export var moduleName: string = 'rl.utilities.filters.truncate';
 export var serviceName: string = 'truncate';
 export var filterName: string = serviceName + 'Filter';
 

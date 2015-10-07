@@ -9,7 +9,7 @@ import { simpleFilterName, fileSizeFilter } from './fileSizeFilter';
 export * from './fileSize.service';
 export * from './fileSizeFilter';
 
-export var moduleName: string = 'rl21.utilities.services.fileSize';
+export var moduleName: string = 'rl.utilities.services.fileSize';
 
 angular.module(moduleName, [numberModuleName])
 	.factory(factoryName, fileSizeFactory)
