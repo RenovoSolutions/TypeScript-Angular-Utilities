@@ -21,7 +21,7 @@
     "build": "gulp clean && tsc && echo Build complete",
     "build.library": "webpack & webpack --config webpack.min.config.js",
     "clean": "gulp clean",
-    "publish.prep": "npm run update && npm run test.full && npm run build && npm run build.library"
+    "publish.prep": "npm run update && npm run build && npm run test.full && npm run build.library"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.6",
