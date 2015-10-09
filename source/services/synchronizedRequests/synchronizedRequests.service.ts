@@ -13,10 +13,18 @@ export interface ISynchronizedRequestsService {
 }
 
 export class SynchronizedRequestsService {
+	private requestId: number = 0;
 	constructor(public dataProvider: IRequestGetter, public handleRequest: IRequestCallback) { }
 
 	getData(...params: any[]): void {
-		// implementation
+		// increment the id first - should match current request id
+		this.requestId++;
+		let currentRequestId: number = this.requestId;
+		this.dataProvider(...params).then((...data: any[]): void => {
+			if (currentRequestId == this.requestId) {
+				this.handleRequest(...data);
+			}
+		});
 	}
 }
 
