@@ -49,7 +49,7 @@ describe('synchronizedRequests', () => {
 
 		get = sinon.spy((): angular.IPromise<number[]> => { return secondRequest; });
 
-		synchronizedRequests.getDataSet = get;
+		synchronizedRequests.dataProvider = get;
 		synchronizedRequests.getData();
 
 		sinon.assert.calledOnce(get);
