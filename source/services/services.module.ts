@@ -17,6 +17,7 @@ import * as observable from './observable/observable.service';
 import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
 import * as promise from './promise/promise.service';
 import * as stringService from './string/string.service';
+import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
 import * as test from './test/test.module';
 import * as time from './time/time.service';
 import * as validation from './validation/validation.service';
@@ -37,6 +38,7 @@ export {
 	parentChildBehavior,
 	promise,
 	stringService as string,
+	synchronizedRequests as synchronizedRequests,
 	test,
 	time,
 	validation,
@@ -60,6 +62,7 @@ angular.module(name, [
 	parentChildBehavior.moduleName,
 	promise.moduleName,
 	stringService.moduleName,
+	synchronizedRequests.moduleName,
 	time.moduleName,
 	test.moduleName,
 	validation.moduleName,
