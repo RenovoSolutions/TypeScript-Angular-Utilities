@@ -6,11 +6,18 @@ export var moduleName: string = 'rl.utilities.services.synchronizedRequests';
 export var factoryName: string = 'synchronizedRequests';
 
 export interface ISynchronizedRequestsService {
-	// interface
+	getDataSet: IRequestGetter;
+	callback: IRequestCallback;
+
+	getData(...params: any[]): void;
 }
 
 export class SynchronizedRequestsService {
-	// implementation
+	constructor(public getDataSet: IRequestGetter, public callback: IRequestCallback) { }
+
+	getData(...params: any[]): void {
+		// implementation
+	}
 }
 
 export interface IRequestGetter {
@@ -22,13 +29,13 @@ export interface IRequestCallback {
 }
 
 export interface ISynchronizedRequestsFactory {
-	getInstance(getData: IRequestGetter, callback: IRequestCallback): ISynchronizedRequestsService;
+	getInstance(getDataSet: IRequestGetter, callback: IRequestCallback): ISynchronizedRequestsService;
 }
 
 export function synchronizedRequestsFactory(): ISynchronizedRequestsFactory {
 	return {
-		getInstance(getData: IRequestGetter, callback: IRequestCallback): ISynchronizedRequestsService {
-			return new SynchronizedRequestsService();
+		getInstance(getDataSet: IRequestGetter, callback: IRequestCallback): ISynchronizedRequestsService {
+			return new SynchronizedRequestsService(getDataSet, callback);
 		},
 	};
 }
