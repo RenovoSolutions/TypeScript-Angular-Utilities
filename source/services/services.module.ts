@@ -38,7 +38,7 @@ export {
 	parentChildBehavior,
 	promise,
 	stringService as string,
-	synchronizedRequests as synchronizedRequests,
+	synchronizedRequests,
 	test,
 	time,
 	validation,
