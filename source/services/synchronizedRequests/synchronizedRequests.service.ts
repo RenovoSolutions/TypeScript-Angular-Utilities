@@ -14,13 +14,15 @@ export interface ISynchronizedRequestsService {
 
 export class SynchronizedRequestsService {
 	private requestId: number = 0;
-	constructor(public dataProvider: IRequestGetter, public handleRequest: IRequestCallback) { }
+	constructor(public dataProvider: IRequestGetter
+			, public handleRequest: IRequestCallback
+			, private $q: angular.IQService) { }
 
 	getData(...params: any[]): void {
 		// increment the id first - should match current request id
 		this.requestId++;
 		let currentRequestId: number = this.requestId;
-		this.dataProvider(...params).then((...data: any[]): void => {
+		this.$q.when(this.dataProvider(...params)).then((...data: any[]): void => {
 			if (currentRequestId == this.requestId) {
 				this.handleRequest(...data);
 			}
@@ -40,10 +42,11 @@ export interface ISynchronizedRequestsFactory {
 	getInstance(dataProvider: IRequestGetter, handleRequest: IRequestCallback): ISynchronizedRequestsService;
 }
 
-export function synchronizedRequestsFactory(): ISynchronizedRequestsFactory {
+synchronizedRequestsFactory.$inject = ['$q'];
+export function synchronizedRequestsFactory($q: angular.IQService): ISynchronizedRequestsFactory {
 	return {
 		getInstance(dataProvider: IRequestGetter, handleRequest: IRequestCallback): ISynchronizedRequestsService {
-			return new SynchronizedRequestsService(dataProvider, handleRequest);
+			return new SynchronizedRequestsService(dataProvider, handleRequest, $q);
 		},
 	};
 }
