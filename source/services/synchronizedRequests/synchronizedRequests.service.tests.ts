@@ -47,7 +47,7 @@ describe('synchronizedRequests', () => {
 
 		sinon.assert.calledOnce(get);
 
-		get = sinon.spy((): angular.IPromise<number[]> => { return secondRequest; });
+		get = sinon.spy((): angular.IPromise<number[]> => { return secondRequest.promise; });
 
 		synchronizedRequests.dataProvider = get;
 		synchronizedRequests.getData();
