@@ -30,6 +30,8 @@ var promise = require('./promise/promise.service');
 exports.promise = promise;
 var stringService = require('./string/string.service');
 exports.string = stringService;
+var synchronizedRequests = require('./synchronizedRequests/synchronizedRequests.service');
+exports.synchronizedRequests = synchronizedRequests;
 var test = require('./test/test.module');
 exports.test = test;
 var time = require('./time/time.service');
@@ -53,6 +55,7 @@ angular.module(exports.name, [
     parentChildBehavior.moduleName,
     promise.moduleName,
     stringService.moduleName,
+    synchronizedRequests.moduleName,
     time.moduleName,
     test.moduleName,
     validation.moduleName,
