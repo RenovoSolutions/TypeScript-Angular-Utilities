@@ -14,5 +14,5 @@ export var name: string = 'rl.utilities';
 angular.module(name, [
 	behaviors.name,
 	filters.name,
-	services.name,
+	services.moduleName,
 ]);

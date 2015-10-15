@@ -44,9 +44,9 @@ export {
 	validation,
 };
 
-export var name: string = 'rl.utilities.services';
+export var moduleName: string = 'rl.utilities.services';
 
-angular.module(name, [
+angular.module(moduleName, [
 	array.moduleName,
 	autosave.moduleName,
 	autosaveAction.moduleName,
