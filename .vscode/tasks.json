@@ -29,6 +29,10 @@
         {
             "taskName": "clean",
             "args": ["run"]
+        },
+        {
+            "taskName": "publish.prep",
+            "args": ["run"]
         }
     ],
 	"problemMatcher": "$tsc"
