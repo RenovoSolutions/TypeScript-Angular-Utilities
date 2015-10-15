@@ -5,6 +5,7 @@ import * as angular from 'angular';
 import * as array from './array/array.service';
 import * as autosave from './autosave/autosave.service';
 import * as autosaveAction from './autosaveAction/autosaveAction.service';
+import * as baseDataService from './baseDataService/baseData.service';
 import * as boolean from './boolean/boolean.service';
 import * as date from './date/date.module';
 import * as fileSize from './fileSize/fileSize.module';
@@ -26,6 +27,7 @@ export {
 	array,
 	autosave,
 	autosaveAction,
+	baseDataService,
 	boolean,
 	date,
 	fileSize,
@@ -50,6 +52,7 @@ angular.module(moduleName, [
 	array.moduleName,
 	autosave.moduleName,
 	autosaveAction.moduleName,
+	baseDataService.moduleName,
 	boolean.moduleName,
 	date.moduleName,
 	fileSize.moduleName,
