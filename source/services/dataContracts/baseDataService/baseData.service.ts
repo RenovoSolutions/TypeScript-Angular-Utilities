@@ -19,6 +19,7 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
 
 export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
     constructor(private $http: angular.IHttpService
+            , private $q: angular.IQService
             , private endpoint: string
             , private mockData: TDataType[]
             , private useMock: boolean) { }
@@ -87,11 +88,11 @@ export interface IBaseDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
 }
 
-baseDataServiceFactory.$inject = ['$http'];
-export function baseDataServiceFactory($http: angular.IHttpService): IBaseDataServiceFactory {
+baseDataServiceFactory.$inject = ['$http', '$q'];
+export function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService): IBaseDataServiceFactory {
     return {
         getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], useMock?: boolean): IBaseDataService<TDataType, TSearchParams> {
-            return new BaseDataService<TDataType, TSearchParams>($http, endpoint, mockData, useMock);
+            return new BaseDataService<TDataType, TSearchParams>($http, $q, endpoint, mockData, useMock);
         },
     };
 }

@@ -22,12 +22,12 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 	constructor(private $http: angular.IHttpService, private $q: angular.IQService) { }
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData: TDataType[], useMock: boolean): IBaseDataService<TDataType, TSearchParams> {
-		return new BaseDataService(this.$http, endpoint, mockData, useMock);
+		return new BaseDataService(this.$http, this.$q, endpoint, mockData, useMock);
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(endpoint: string, mockData: TDataType[], useMock: boolean, resourceDictionaryBuilder: { (): TResourceDictionaryType }): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
-		return new BaseParentDataService(this.$http, endpoint, mockData, useMock, resourceDictionaryBuilder);
+		return new BaseParentDataService(this.$http, this.$q, endpoint, mockData, useMock, resourceDictionaryBuilder);
 	}
 }
 
