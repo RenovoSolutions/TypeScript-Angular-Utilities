@@ -30,36 +30,56 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
 
     // All
     getList(params: TSearchParams): angular.IPromise<TDataType[]> {
-        return this.$http.get(this.getEndpoint(), { params: params })
-            .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[] => {
+        if (this.useMock) {
+            return null;
+        } else {
+            return this.$http.get(this.getEndpoint(), { params: params })
+                .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[] => {
                 return response.data;
             });
+        }
     }
 
     // Single
     getDetail(id: Number): angular.IPromise<TDataType> {
-        return this.$http.get(this.getEndpoint() + '/' + id.toString())
-            .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
+        if (this.useMock) {
+            return null;
+        } else {
+            return this.$http.get(this.getEndpoint() + '/' + id.toString())
+                .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return response.data;
             });
+        }
     }
 
     // Update
     post(domainObject: TDataType): angular.IPromise<TDataType> {
-        return this.$http.post(this.getEndpoint(), JSON.stringify(domainObject))
-            .then((result: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
+        if (this.useMock) {
+            return null;
+        } else {
+            return this.$http.post(this.getEndpoint(), JSON.stringify(domainObject))
+                .then((result: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return result.data;
             });
+        }
     }
 
     // Create
     put(domainObject: TDataType): angular.IPromise<void> {
-        return this.$http.put<void>(this.getEndpoint(), domainObject).then((): void => { return null; });
+        if (this.useMock) {
+            return null;
+        } else {
+            return this.$http.put<void>(this.getEndpoint(), domainObject).then((): void => { return null; });
+        }
     }
 
     // Delete
     delete(id: number): angular.IPromise<void> {
-        return this.$http.delete<void>(this.getEndpoint() + '/' + id.toString()).then((): void => { return null; });
+        if (this.useMock) {
+            return null;
+        } else {
+            return this.$http.delete<void>(this.getEndpoint() + '/' + id.toString()).then((): void => { return null; });
+        }
     }
 }
 
