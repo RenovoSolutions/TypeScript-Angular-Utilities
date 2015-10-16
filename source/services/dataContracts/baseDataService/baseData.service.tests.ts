@@ -169,12 +169,10 @@ describe('base data service', () => {
 			expect(dataSet[3]).to.equal(newItem);
 		});
 
-		it('should update an item', (done: MochaDone): void => {
+		it('should update an item', (): void => {
 			let updatedItem: ITestMock = { id: 2, prop: 'made changes' };
 
-			baseDataService.update(updatedItem).then((): void => {
-				done();
-			});
+			baseDataService.update(updatedItem);
 
 			$rootScope.$digest();
 
