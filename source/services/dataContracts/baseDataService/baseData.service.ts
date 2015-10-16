@@ -1,6 +1,7 @@
 'use strict';
 
 import * as angular from 'angular';
+import * as _ from 'lodash';
 
 export var moduleName: string = 'rl.utilities.services.baseDataService';
 export var factoryName: string = 'baseDataService';
@@ -44,7 +45,9 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     // Single
     getDetail(id: Number): angular.IPromise<TDataType> {
         if (this.useMock) {
-            return null;
+            return this.$q.when(_.find(this.mockData, (item: TDataType): boolean => {
+                return item.id === id;
+            }));
         } else {
             return this.$http.get(this.getEndpoint() + '/' + id.toString())
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
