@@ -32,7 +32,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     // All
     getList(params: TSearchParams): angular.IPromise<TDataType[]> {
         if (this.useMock) {
-            return null;
+            return this.$q.when(this.mockData);
         } else {
             return this.$http.get(this.getEndpoint(), { params: params })
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[] => {
