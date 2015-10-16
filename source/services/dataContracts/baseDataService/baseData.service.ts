@@ -71,7 +71,11 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
 
     update(domainObject: TDataType): angular.IPromise<void> {
         if (this.useMock) {
-            return null;
+            let oldObject: TDataType = _.find(this.mockData, _.find(this.mockData, (item: TDataType): boolean => {
+                return item.id === domainObject.id;
+            }));
+            oldObject = _.extend(oldObject, domainObject);
+            return this.$q.when();
         } else {
             return this.$http.put<void>(this.getEndpoint(), domainObject).then((): void => { return null; });
         }
