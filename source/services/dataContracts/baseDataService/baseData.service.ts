@@ -83,7 +83,8 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
 
     delete(domainObject: TDataType): angular.IPromise<void> {
         if (this.useMock) {
-            return null;
+            this.array.remove(this.mockData, domainObject);
+            return this.$q.when();
         } else {
             return this.$http.delete<void>(this.getEndpoint() + '/' + domainObject.id.toString()).then((): void => { return null; });
         }

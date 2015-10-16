@@ -178,5 +178,15 @@ describe('base data service', () => {
 
 			expect(dataSet[1].prop).to.equal('made changes');
 		});
+
+		it('should delete an item', (): void => {
+			baseDataService.delete(dataSet[1]);
+
+			$rootScope.$digest();
+
+			expect(dataSet).to.have.length(2);
+			expect(dataSet[0].id).to.equal(1);
+			expect(dataSet[1].id).to.equal(3);
+		});
 	});
 });
