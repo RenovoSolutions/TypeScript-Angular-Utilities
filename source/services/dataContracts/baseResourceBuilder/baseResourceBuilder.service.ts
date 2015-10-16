@@ -3,7 +3,7 @@
 import * as angular from 'angular';
 
 import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
-import { IBaseParentDataService } from '../baseParentDataService/baseParentData.service';
+import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
 
 export var moduleName: string = 'rl.utilities.services.baseResourceBuilder';
 export var serviceName: string = 'baseResourceBuilder';
@@ -24,7 +24,7 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		($http: angular.IHttpService, endpoint: string, mockData: any, resourceDictionaryBuilder: { (): TResourceDictionaryType }): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
-		return null;
+		return new BaseParentDataService($http, endpoint, resourceDictionaryBuilder);
 	}
 }
 
