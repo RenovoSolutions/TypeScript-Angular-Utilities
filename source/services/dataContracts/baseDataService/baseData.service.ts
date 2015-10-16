@@ -62,7 +62,8 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     // Update
     post(domainObject: TDataType): angular.IPromise<TDataType> {
         if (this.useMock) {
-            return null;
+            this.mockData.push(domainObject);
+            return this.$q.when(domainObject);
         } else {
             return this.$http.post(this.getEndpoint(), JSON.stringify(domainObject))
                 .then((result: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {

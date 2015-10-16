@@ -155,5 +155,18 @@ describe('base data service', () => {
 
 			$rootScope.$digest();
 		});
+
+		it('should create an item', (done: MochaDone): void => {
+			let newItem: ITestMock = { id: 4, prop: 'item4' };
+
+			baseDataService.post(newItem).then((data: ITestMock): void => {
+				expect(data).to.equal(newItem);
+				done();
+			});
+
+			$rootScope.$digest();
+
+			expect(dataSet[3]).to.equal(newItem);
+		});
 	});
 });
