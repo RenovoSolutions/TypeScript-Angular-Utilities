@@ -6,7 +6,7 @@
 
 import { IBaseDataService, IBaseDataServiceFactory, IBaseDomainObject, factoryName, moduleName } from './baseData.service';
 
-import { angularFixture } from '../test/angularFixture';
+import { angularFixture } from '../../test/angularFixture';
 
 import * as angular from 'angular';
 import 'angular-mocks';
