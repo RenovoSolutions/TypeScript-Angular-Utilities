@@ -26,9 +26,9 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     }
 
     // All
-    getList(): angular.IPromise<TDataType[]> {
-        return this.$http.get(this.getEndpoint())
-            .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[]=> {
+    getList(params: TSearchParams): angular.IPromise<TDataType[]> {
+        return this.$http.get(this.getEndpoint(), { params: params })
+            .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[] => {
                 return response.data;
             });
     }
@@ -36,7 +36,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     // Single
     getDetail(id: Number): angular.IPromise<TDataType> {
         return this.$http.get(this.getEndpoint() + '/' + id.toString())
-            .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType=> {
+            .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return response.data;
             });
     }
