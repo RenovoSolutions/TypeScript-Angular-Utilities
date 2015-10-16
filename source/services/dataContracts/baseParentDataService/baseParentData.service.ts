@@ -9,8 +9,9 @@ export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSe
 
 export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends BaseDataService<TDataType, TSearchParams> implements IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
-	constructor($http: ng.IHttpService, endpoint: string, mockData: any, private resourceDictionaryBuilder: {(id: number): TResourceDictionaryType}) {
-		super($http, endpoint, mockData);
+	constructor($http: ng.IHttpService, endpoint: string, mockData: any, useMock: boolean
+			, private resourceDictionaryBuilder: { (id: number): TResourceDictionaryType }) {
+		super($http, endpoint, mockData, useMock);
 	}
 
 	childContracts(id: number): TResourceDictionaryType {

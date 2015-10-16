@@ -18,7 +18,10 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
 }
 
 export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
-    constructor(private $http: angular.IHttpService, private endpoint: string, private mockData: any) { }
+    constructor(private $http: angular.IHttpService
+            , private endpoint: string
+            , private mockData: any
+            , private useMock: boolean) { }
 
     // Build request URL
     private getEndpoint(): string {
@@ -67,8 +70,8 @@ export interface IBaseDataServiceFactory {
 baseDataServiceFactory.$inject = ['$http'];
 export function baseDataServiceFactory($http: angular.IHttpService): IBaseDataServiceFactory {
     return {
-        getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: any): IBaseDataService<TDataType, TSearchParams> {
-            return new BaseDataService<TDataType, TSearchParams>($http, endpoint, mockData);
+        getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: any, useMock?: boolean): IBaseDataService<TDataType, TSearchParams> {
+            return new BaseDataService<TDataType, TSearchParams>($http, endpoint, mockData, useMock);
         },
     };
 }
