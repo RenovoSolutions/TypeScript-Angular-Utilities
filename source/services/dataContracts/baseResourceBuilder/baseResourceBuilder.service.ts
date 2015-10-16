@@ -19,12 +19,12 @@ export interface IBaseResourceBuilder {
 
 export class BaseResourceBuilder implements IBaseResourceBuilder {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>($http: angular.IHttpService, endpoint: string, mockData: any): IBaseDataService<TDataType, TSearchParams> {
-		return new BaseDataService($http, endpoint);
+		return new BaseDataService($http, endpoint, mockData);
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		($http: angular.IHttpService, endpoint: string, mockData: any, resourceDictionaryBuilder: { (): TResourceDictionaryType }): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
-		return new BaseParentDataService($http, endpoint, resourceDictionaryBuilder);
+		return new BaseParentDataService($http, endpoint, mockData, resourceDictionaryBuilder);
 	}
 }
 
