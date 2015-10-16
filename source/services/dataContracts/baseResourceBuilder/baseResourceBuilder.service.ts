@@ -2,6 +2,8 @@
 
 import * as angular from 'angular';
 
+import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
+
 import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
 
@@ -18,18 +20,20 @@ export interface IBaseResourceBuilder {
 }
 
 export class BaseResourceBuilder implements IBaseResourceBuilder {
-	static $inject: string[] = ['$http', '$q'];
-	constructor(private $http: angular.IHttpService, private $q: angular.IQService) { }
+	static $inject: string[] = ['$http', '$q', arrayServiceName];
+	constructor(private $http: angular.IHttpService
+			, private $q: angular.IQService
+			, private array: IArrayUtility) { }
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData: TDataType[], useMock: boolean): IBaseDataService<TDataType, TSearchParams> {
-		return new BaseDataService(this.$http, this.$q, endpoint, mockData, useMock);
+		return new BaseDataService(this.$http, this.$q, this.array, endpoint, mockData, useMock);
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(endpoint: string, mockData: TDataType[], useMock: boolean, resourceDictionaryBuilder: { (): TResourceDictionaryType }): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
-		return new BaseParentDataService(this.$http, this.$q, endpoint, mockData, useMock, resourceDictionaryBuilder);
+		return new BaseParentDataService(this.$http, this.$q, this.array, endpoint, mockData, useMock, resourceDictionaryBuilder);
 	}
 }
 
-angular.module(moduleName, [])
+angular.module(moduleName, [arrayModuleName])
 	.service(serviceName, BaseResourceBuilder);

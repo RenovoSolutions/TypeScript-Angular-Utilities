@@ -3,6 +3,8 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 
+import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
+
 export var moduleName: string = 'rl.utilities.services.baseDataService';
 export var factoryName: string = 'baseDataService';
 
@@ -21,6 +23,7 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
 export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
     constructor(private $http: angular.IHttpService
             , private $q: angular.IQService
+            , private array: IArrayUtility
             , private endpoint: string
             , private mockData: TDataType[]
             , private useMock: boolean) { }
@@ -91,14 +94,14 @@ export interface IBaseDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
 }
 
-baseDataServiceFactory.$inject = ['$http', '$q'];
-export function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService): IBaseDataServiceFactory {
+baseDataServiceFactory.$inject = ['$http', '$q', arrayServiceName];
+export function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IBaseDataServiceFactory {
     return {
         getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], useMock?: boolean): IBaseDataService<TDataType, TSearchParams> {
-            return new BaseDataService<TDataType, TSearchParams>($http, $q, endpoint, mockData, useMock);
+            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, useMock);
         },
     };
 }
 
-angular.module(moduleName, [])
+angular.module(moduleName, [arrayModuleName])
     .factory(factoryName, baseDataServiceFactory);
