@@ -118,7 +118,7 @@ describe('base data service', () => {
 	});
 
 	describe('use mock', (): void => {
-		let $rootScope: angular.IRootScope;
+		let $rootScope: angular.IRootScopeService;
 		let dataSet: ITestMock[];
 
 		beforeEach((): void => {
