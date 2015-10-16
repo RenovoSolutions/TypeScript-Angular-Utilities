@@ -88,7 +88,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
 }
 
 export interface IBaseDataServiceFactory {
-    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
+    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
 }
 
 baseDataServiceFactory.$inject = ['$http', '$q'];
