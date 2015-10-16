@@ -84,7 +84,7 @@ describe('base data service', () => {
 
 			$httpBackend.expectPOST(testUrl, mockItem).respond(200, mockItem);
 
-			baseDataService.post(mockItem).then((data: IBaseDomainObject): void => {
+			baseDataService.create(mockItem).then((data: IBaseDomainObject): void => {
 				expect(data.id).to.equal(1);
 				done();
 			});
@@ -97,7 +97,7 @@ describe('base data service', () => {
 
 			$httpBackend.expectPUT(testUrl, mockItem).respond(200);
 
-			baseDataService.put(mockItem).then((): void => {
+			baseDataService.update(mockItem).then((): void => {
 				done();
 			});
 
@@ -159,7 +159,7 @@ describe('base data service', () => {
 		it('should create an item', (done: MochaDone): void => {
 			let newItem: ITestMock = { id: 4, prop: 'item4' };
 
-			baseDataService.post(newItem).then((data: ITestMock): void => {
+			baseDataService.create(newItem).then((data: ITestMock): void => {
 				expect(data).to.equal(newItem);
 				done();
 			});

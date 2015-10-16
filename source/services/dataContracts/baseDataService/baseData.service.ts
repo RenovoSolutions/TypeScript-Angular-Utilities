@@ -15,8 +15,8 @@ export interface IBaseDomainObject {
 export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> {
 	getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
-    post(domainObject: TDataType): angular.IPromise<TDataType>;
-    put(domainObject: TDataType): angular.IPromise<void>;
+    create(domainObject: TDataType): angular.IPromise<TDataType>;
+    update(domainObject: TDataType): angular.IPromise<void>;
     delete(id: number): angular.IPromise<void>;
 }
 
@@ -33,7 +33,6 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         return this.endpoint;
     }
 
-    // All
     getList(params: TSearchParams): angular.IPromise<TDataType[]> {
         if (this.useMock) {
             return this.$q.when(this.mockData);
@@ -45,7 +44,6 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         }
     }
 
-    // Single
     getDetail(id: Number): angular.IPromise<TDataType> {
         if (this.useMock) {
             return this.$q.when(_.find(this.mockData, (item: TDataType): boolean => {
@@ -59,8 +57,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         }
     }
 
-    // Update
-    post(domainObject: TDataType): angular.IPromise<TDataType> {
+    create(domainObject: TDataType): angular.IPromise<TDataType> {
         if (this.useMock) {
             this.mockData.push(domainObject);
             return this.$q.when(domainObject);
@@ -72,8 +69,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         }
     }
 
-    // Create
-    put(domainObject: TDataType): angular.IPromise<void> {
+    update(domainObject: TDataType): angular.IPromise<void> {
         if (this.useMock) {
             return null;
         } else {
@@ -81,7 +77,6 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         }
     }
 
-    // Delete
     delete(id: number): angular.IPromise<void> {
         if (this.useMock) {
             return null;
