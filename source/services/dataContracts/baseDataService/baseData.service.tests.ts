@@ -109,7 +109,7 @@ describe('base data service', () => {
 
 			$httpBackend.expectDELETE(testUrl + '/' + mockItem.id).respond(200);
 
-			baseDataService.delete(mockItem.id).then((): void => {
+			baseDataService.delete(mockItem).then((): void => {
 				done();
 			});
 

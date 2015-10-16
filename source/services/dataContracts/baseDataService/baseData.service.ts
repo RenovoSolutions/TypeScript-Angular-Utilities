@@ -17,7 +17,7 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
     getDetail(id: number): angular.IPromise<TDataType>;
     create(domainObject: TDataType): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<void>;
-    delete(id: number): angular.IPromise<void>;
+    delete(domainObject: TDataType): angular.IPromise<void>;
 }
 
 export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
@@ -81,11 +81,11 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         }
     }
 
-    delete(id: number): angular.IPromise<void> {
+    delete(domainObject: TDataType): angular.IPromise<void> {
         if (this.useMock) {
             return null;
         } else {
-            return this.$http.delete<void>(this.getEndpoint() + '/' + id.toString()).then((): void => { return null; });
+            return this.$http.delete<void>(this.getEndpoint() + '/' + domainObject.id.toString()).then((): void => { return null; });
         }
     }
 }
