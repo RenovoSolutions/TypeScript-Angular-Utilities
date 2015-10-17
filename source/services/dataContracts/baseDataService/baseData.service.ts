@@ -26,7 +26,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             , private array: IArrayUtility
             , private endpoint: string
             , private mockData: TDataType[]
-            , private useMock: boolean) { }
+            , public useMock: boolean) { }
 
     // Build request URL
     private getEndpoint(): string {
