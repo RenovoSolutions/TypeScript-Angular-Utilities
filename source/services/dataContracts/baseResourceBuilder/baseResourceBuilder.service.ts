@@ -6,6 +6,7 @@ import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModu
 
 import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
+import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 
 export var moduleName: string = 'rl.utilities.services.baseResourceBuilder';
 export var serviceName: string = 'baseResourceBuilder';
@@ -17,6 +18,7 @@ export interface IBaseResourceBuilder {
 		(endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: { (id: number): TResourceDictionaryType }, useMock?: boolean): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
 	createParentResource<TDataType extends IBaseDomainObject, TResourceDictionaryType>
 		(endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: { (id: number): TResourceDictionaryType }, useMock?: boolean): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
+	createSingletonResource<TDataType>(endpoint: string, mockData: TDataType, useMock?: boolean): IBaseSingletonDataService<TDataType>;
 }
 
 export class BaseResourceBuilder implements IBaseResourceBuilder {
@@ -32,6 +34,10 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: { (): TResourceDictionaryType }, useMock?: boolean): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 		return new BaseParentDataService(this.$http, this.$q, this.array, endpoint, mockData, resourceDictionaryBuilder, useMock);
+	}
+
+	createSingletonResource<TDataType>(endpoint: string, mockData: TDataType, useMock?: boolean): IBaseSingletonDataService<TDataType> {
+		return new BaseSingletonDataService(this.$http, this.$q, endpoint, mockData, useMock);
 	}
 }
 
