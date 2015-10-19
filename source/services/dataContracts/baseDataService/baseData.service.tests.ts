@@ -95,7 +95,7 @@ describe('base data service', () => {
 		it('should make an http request to save an existing domain object', (done: MochaDone): void => {
 			let mockItem: IBaseDomainObject = { id: 1 };
 
-			$httpBackend.expectPUT(testUrl, mockItem).respond(200);
+			$httpBackend.expectPUT(testUrl + '/' + mockItem.id, mockItem).respond(200);
 
 			baseDataService.update(mockItem).then((): void => {
 				done();

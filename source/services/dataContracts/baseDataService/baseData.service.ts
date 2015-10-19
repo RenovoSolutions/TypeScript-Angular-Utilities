@@ -33,6 +33,10 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         return this.endpoint;
     }
 
+    private getItemEndpoint(id: number): string {
+        return this.endpoint + '/' + id.toString();
+    }
+
     getList(params: TSearchParams): angular.IPromise<TDataType[]> {
         if (this.useMock) {
             return this.$q.when(this.mockData);
@@ -44,13 +48,13 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         }
     }
 
-    getDetail(id: Number): angular.IPromise<TDataType> {
+    getDetail(id: number): angular.IPromise<TDataType> {
         if (this.useMock) {
             return this.$q.when(_.find(this.mockData, (item: TDataType): boolean => {
                 return item.id === id;
             }));
         } else {
-            return this.$http.get(this.getEndpoint() + '/' + id.toString())
+            return this.$http.get(this.getItemEndpoint(id))
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return response.data;
             });
@@ -77,7 +81,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             oldObject = <TDataType>_.assign(oldObject, domainObject);
             return this.$q.when();
         } else {
-            return this.$http.put<void>(this.getEndpoint(), domainObject).then((): void => { return null; });
+            return this.$http.put<void>(this.getItemEndpoint(domainObject.id), domainObject).then((): void => { return null; });
         }
     }
 
@@ -86,7 +90,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             this.array.remove(this.mockData, domainObject);
             return this.$q.when();
         } else {
-            return this.$http.delete<void>(this.getEndpoint() + '/' + domainObject.id.toString()).then((): void => { return null; });
+            return this.$http.delete<void>(this.getItemEndpoint(domainObject.id)).then((): void => { return null; });
         }
     }
 }
