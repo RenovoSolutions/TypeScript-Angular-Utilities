@@ -12,6 +12,10 @@ export interface IBaseDomainObject {
     id: number;
 }
 
+export interface ITransformFunction<TDataType> {
+	(rawData: any): TDataType;
+}
+
 export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> {
 	getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
@@ -26,6 +30,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             , private array: IArrayUtility
             , private endpoint: string
             , private mockData: TDataType[]
+            , private transform: ITransformFunction<TDataType>
             , public useMock: boolean) { }
 
     // Build request URL
@@ -38,27 +43,41 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     }
 
     getList(params: TSearchParams): angular.IPromise<TDataType[]> {
+        let promise: angular.IPromise<TDataType[]>;
         if (this.useMock) {
-            return this.$q.when(this.mockData);
+            promise = this.$q.when(this.mockData);
         } else {
-            return this.$http.get(this.getEndpoint(), { params: params })
+            promise = this.$http.get(this.getEndpoint(), { params: params })
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[] => {
                 return response.data;
             });
         }
+        return promise.then((data: TDataType[]): TDataType[] => {
+            if (this.transform != null) {
+                data = _.map(data, this.transform);
+            }
+            return data;
+        })
     }
 
     getDetail(id: number): angular.IPromise<TDataType> {
+        let promise: angular.IPromise<TDataType>;
         if (this.useMock) {
-            return this.$q.when(_.find(this.mockData, (item: TDataType): boolean => {
+            promise = this.$q.when(_.find(this.mockData, (item: TDataType): boolean => {
                 return item.id === id;
             }));
         } else {
-            return this.$http.get(this.getItemEndpoint(id))
+            promise = this.$http.get(this.getItemEndpoint(id))
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return response.data;
             });
         }
+        return promise.then((data: TDataType): TDataType => {
+            if (this.transform != null) {
+                data = this.transform(data);
+            }
+            return data;
+        });
     }
 
     create(domainObject: TDataType): angular.IPromise<TDataType> {
@@ -98,14 +117,16 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
 }
 
 export interface IBaseDataServiceFactory {
-    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
+    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[]
+        , transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
 }
 
 baseDataServiceFactory.$inject = ['$http', '$q', arrayServiceName];
 export function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IBaseDataServiceFactory {
     return {
-        getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], useMock?: boolean): IBaseDataService<TDataType, TSearchParams> {
-            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, useMock);
+        getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[]
+            , transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams> {
+            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, transform, useMock);
         },
     };
 }

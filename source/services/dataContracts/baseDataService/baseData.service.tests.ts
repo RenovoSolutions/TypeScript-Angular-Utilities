@@ -1,4 +1,5 @@
 /// <reference path='../../../../typings/chai/chai.d.ts' />
+/// <reference path='../../../../typings/sinon/sinon.d.ts' />
 /// <reference path='../../../../typings/mocha/mocha.d.ts' />
 /// <reference path='../../../../typings/chaiAssertions.d.ts' />
 
@@ -132,15 +133,15 @@ describe('base data service', () => {
 			let baseDataServiceFactory: IBaseDataServiceFactory = services[factoryName];
 			$rootScope = services.$rootScope;
 
-			baseDataService = baseDataServiceFactory.getInstance<ITestMock, void>(null, dataSet, true);
+			baseDataService = baseDataServiceFactory.getInstance<ITestMock, void>(null, dataSet, null, true);
 		});
 
 		it('should get the mocked data set', (done: MochaDone): void => {
 			baseDataService.getList().then((data: ITestMock[]): void => {
 				expect(data).to.have.length(3);
 				expect(data[0]).to.equal(dataSet[0]);
+				expect(data[1]).to.equal(dataSet[1]);
 				expect(data[2]).to.equal(dataSet[2]);
-				expect(data[3]).to.equal(dataSet[3]);
 				done();
 			});
 
@@ -189,6 +190,53 @@ describe('base data service', () => {
 			expect(dataSet).to.have.length(2);
 			expect(dataSet[0].id).to.equal(1);
 			expect(dataSet[1].id).to.equal(3);
+		});
+	});
+
+	describe('transform', (): void => {
+		let $rootScope: angular.IRootScopeService;
+		let dataSet: ITestMock[];
+		let transform: Sinon.SinonSpy;
+
+		beforeEach((): void => {
+			dataSet = [
+				{ id: 1, prop: 'item1' },
+				{ id: 2, prop: 'item2' },
+				{ id: 3, prop: 'item3' },
+			];
+
+			let services: any = angularFixture.inject(factoryName, '$rootScope');
+			let baseDataServiceFactory: IBaseDataServiceFactory = services[factoryName];
+			$rootScope = services.$rootScope;
+
+			transform = sinon.spy((rawData: ITestMock): string => {
+				return rawData.prop;
+			});
+
+			baseDataService = baseDataServiceFactory.getInstance<ITestMock, void>(null, dataSet, transform, true);
+		});
+
+		it('should transform each entry in the list', (done: MochaDone): void => {
+			baseDataService.getList().then((data: ITestMock[]): void => {
+				expect(data).to.have.length(3);
+				expect(data[0]).to.equal(dataSet[0].prop);
+				expect(data[1]).to.equal(dataSet[1].prop);
+				expect(data[2]).to.equal(dataSet[2].prop);
+				sinon.assert.calledThrice(transform);
+				done();
+			});
+
+			$rootScope.$digest();
+		});
+
+		it('should transform the single item', (done: MochaDone): void => {
+			baseDataService.getDetail(2).then((data: ITestMock): void => {
+				expect(data).to.equal(dataSet[1].prop);
+				sinon.assert.calledOnce(transform);
+				done();
+			});
+
+			$rootScope.$digest();
 		});
 	});
 });

@@ -2,7 +2,7 @@ import * as ng from 'angular';
 
 import { IArrayUtility } from '../../array/array.service';
 
-import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
+import { IBaseDataService, BaseDataService, IBaseDomainObject, ITransformFunction } from '../baseDataService/baseData.service';
 
 export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends IBaseDataService<TDataType, TSearchParams>{
@@ -13,8 +13,9 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 	extends BaseDataService<TDataType, TSearchParams> implements IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 	constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[]
 		, private resourceDictionaryBuilder: { (id: number): TResourceDictionaryType }
+		, transform?: ITransformFunction<TDataType>
 		, useMock?: boolean) {
-		super($http, $q, array, endpoint, mockData, useMock);
+		super($http, $q, array, endpoint, mockData, transform, useMock);
 	}
 
 	childContracts(id: number): TResourceDictionaryType {
