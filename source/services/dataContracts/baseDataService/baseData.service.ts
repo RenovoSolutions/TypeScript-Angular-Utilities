@@ -74,7 +74,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             let oldObject: TDataType = _.find(this.mockData, _.find(this.mockData, (item: TDataType): boolean => {
                 return item.id === domainObject.id;
             }));
-            oldObject = _.assign(oldObject, domainObject);
+            oldObject = <TDataType>_.assign(oldObject, domainObject);
             return this.$q.when();
         } else {
             return this.$http.put<void>(this.getEndpoint(), domainObject).then((): void => { return null; });
