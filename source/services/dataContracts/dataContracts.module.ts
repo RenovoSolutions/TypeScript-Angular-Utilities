@@ -7,9 +7,9 @@ import { moduleName as baseDataServiceModuleName } from './baseDataService/baseD
 
 export var moduleName: string = 'rl.utilities.services.dataContracts';
 
-export * from './baseDataService/baseData.service';
+export { IBaseDataService, IBaseDataServiceFactory, IBaseDomainObject, BaseDataService, factoryName as baseDataServiceFactoryName } from './baseDataService/baseData.service';
 export * from './baseParentDataService/baseParentData.service';
-export * from './baseResourceBuilder/baseResourceBuilder.service';
+export { IBaseResourceBuilder, serviceName as builderServiceName } from './baseResourceBuilder/baseResourceBuilder.service';
 
 angular.module(moduleName, [
 	baseDataServiceModuleName,
