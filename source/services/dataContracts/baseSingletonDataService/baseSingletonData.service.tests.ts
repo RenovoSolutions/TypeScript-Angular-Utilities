@@ -46,7 +46,7 @@ describe('base singleton data service', () => {
 
 			$httpBackend.expectGET(testUrl).respond(200, mockItem);
 
-			baseSingletonDataService.getDetail().then((data: ITestMock): void => {
+			baseSingletonDataService.get().then((data: ITestMock): void => {
 				expect(data).to.deep.equal(mockItem);
 				done();
 			});
@@ -82,7 +82,7 @@ describe('base singleton data service', () => {
 		});
 
 		it('should get the item', (done: MochaDone): void => {
-			baseSingletonDataService.getDetail().then((data: ITestMock): void => {
+			baseSingletonDataService.get().then((data: ITestMock): void => {
 				expect(data).to.equal(mockItem);
 				done();
 			});

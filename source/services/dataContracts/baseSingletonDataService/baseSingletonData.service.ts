@@ -7,7 +7,7 @@ export var moduleName: string = 'rl.utilities.services.baseSingletonDataService'
 export var factoryName: string = 'baseSingletonDataService';
 
 export interface IBaseSingletonDataService<TDataType> {
-    getDetail(): angular.IPromise<TDataType>;
+    get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<void>;
 }
 
@@ -18,7 +18,7 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
             , private mockData: TDataType
             , public useMock: boolean) { }
 
-    getDetail(): angular.IPromise<TDataType> {
+    get(): angular.IPromise<TDataType> {
         if (this.useMock) {
             return this.$q.when(this.mockData);
         } else {
