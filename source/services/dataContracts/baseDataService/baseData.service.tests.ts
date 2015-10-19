@@ -156,17 +156,19 @@ describe('base data service', () => {
 			$rootScope.$digest();
 		});
 
-		it('should create an item', (done: MochaDone): void => {
-			let newItem: ITestMock = { id: 4, prop: 'item4' };
+		it('should create an item and assign an id to it', (done: MochaDone): void => {
+			let newItem: ITestMock = { id: null, prop: 'item4' };
 
 			baseDataService.create(newItem).then((data: ITestMock): void => {
-				expect(data).to.equal(newItem);
+				expect(data.prop).to.equal(newItem.prop);
+				expect(data.id).to.equal(4);
 				done();
 			});
 
 			$rootScope.$digest();
 
-			expect(dataSet[3]).to.equal(newItem);
+			expect(dataSet[3].prop).to.equal(newItem.prop);
+			expect(dataSet[3].id).to.equal(4);
 		});
 
 		it('should update an item', (): void => {

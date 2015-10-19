@@ -63,6 +63,8 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
 
     create(domainObject: TDataType): angular.IPromise<TDataType> {
         if (this.useMock) {
+            let nextId: number = _.max(this.mockData, 'id').id + 1;
+            domainObject.id = nextId;
             this.mockData.push(domainObject);
             return this.$q.when(domainObject);
         } else {
