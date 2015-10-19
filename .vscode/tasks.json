@@ -33,6 +33,10 @@
         {
             "taskName": "publish.prep",
             "args": ["run"]
+        },
+        {
+            "taskName": "build.library",
+            "args": ["run"]
         }
     ],
 	"problemMatcher": "$tsc"
