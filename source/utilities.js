@@ -12,6 +12,6 @@ exports.name = 'rl.utilities';
 angular.module(exports.name, [
     behaviors.name,
     filters.name,
-    services.name,
+    services.moduleName,
 ]);
 //# sourceMappingURL=utilities.js.map

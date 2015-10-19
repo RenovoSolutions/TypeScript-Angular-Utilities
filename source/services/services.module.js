@@ -8,6 +8,8 @@ var autosaveAction = require('./autosaveAction/autosaveAction.service');
 exports.autosaveAction = autosaveAction;
 var boolean = require('./boolean/boolean.service');
 exports.boolean = boolean;
+var dataContracts = require('./dataContracts/dataContracts.module');
+exports.dataContracts = dataContracts;
 var date = require('./date/date.module');
 exports.date = date;
 var fileSize = require('./fileSize/fileSize.module');
@@ -38,12 +40,13 @@ var time = require('./time/time.service');
 exports.time = time;
 var validation = require('./validation/validation.service');
 exports.validation = validation;
-exports.name = 'rl.utilities.services';
-angular.module(exports.name, [
+exports.moduleName = 'rl.utilities.services';
+angular.module(exports.moduleName, [
     array.moduleName,
     autosave.moduleName,
     autosaveAction.moduleName,
     boolean.moduleName,
+    dataContracts.moduleName,
     date.moduleName,
     fileSize.moduleName,
     genericSearchFilter.moduleName,

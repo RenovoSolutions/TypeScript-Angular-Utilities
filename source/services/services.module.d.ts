@@ -2,6 +2,7 @@ import * as array from './array/array.service';
 import * as autosave from './autosave/autosave.service';
 import * as autosaveAction from './autosaveAction/autosaveAction.service';
 import * as boolean from './boolean/boolean.service';
+import * as dataContracts from './dataContracts/dataContracts.module';
 import * as date from './date/date.module';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
@@ -17,5 +18,5 @@ import * as synchronizedRequests from './synchronizedRequests/synchronizedReques
 import * as test from './test/test.module';
 import * as time from './time/time.service';
 import * as validation from './validation/validation.service';
-export { array, autosave, autosaveAction, boolean, date, fileSize, genericSearchFilter, moment, notification, numberService as number, objectService as object, observable, parentChildBehavior, promise, stringService as string, synchronizedRequests, test, time, validation };
-export declare var name: string;
+export { array, autosave, autosaveAction, boolean, dataContracts, date, fileSize, genericSearchFilter, moment, notification, numberService as number, objectService as object, observable, parentChildBehavior, promise, stringService as string, synchronizedRequests, test, time, validation };
+export declare var moduleName: string;
