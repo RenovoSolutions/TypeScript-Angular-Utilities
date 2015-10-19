@@ -6,6 +6,7 @@ import * as array from './array/array.service';
 import * as autosave from './autosave/autosave.service';
 import * as autosaveAction from './autosaveAction/autosaveAction.service';
 import * as boolean from './boolean/boolean.service';
+import * as dataContracts from './dataContracts/dataContracts.module';
 import * as date from './date/date.module';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
@@ -27,6 +28,7 @@ export {
 	autosave,
 	autosaveAction,
 	boolean,
+	dataContracts,
 	date,
 	fileSize,
 	genericSearchFilter,
@@ -44,13 +46,14 @@ export {
 	validation,
 };
 
-export var name: string = 'rl.utilities.services';
+export var moduleName: string = 'rl.utilities.services';
 
-angular.module(name, [
+angular.module(moduleName, [
 	array.moduleName,
 	autosave.moduleName,
 	autosaveAction.moduleName,
 	boolean.moduleName,
+	dataContracts.moduleName,
 	date.moduleName,
 	fileSize.moduleName,
 	genericSearchFilter.moduleName,
