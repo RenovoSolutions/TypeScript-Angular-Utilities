@@ -1,4 +1,5 @@
 /// <reference path='../../../../typings/chai/chai.d.ts' />
+/// <reference path='../../../../typings/sinon/sinon.d.ts' />
 /// <reference path='../../../../typings/mocha/mocha.d.ts' />
 /// <reference path='../../../../typings/chaiAssertions.d.ts' />
 
@@ -78,7 +79,7 @@ describe('base singleton data service', () => {
 			let baseSingletonDataServiceFactory: IBaseSingletonDataServiceFactory = services[factoryName];
 			$rootScope = services.$rootScope;
 
-			baseSingletonDataService = baseSingletonDataServiceFactory.getInstance<ITestMock>(null, mockItem, true);
+			baseSingletonDataService = baseSingletonDataServiceFactory.getInstance<ITestMock>(null, mockItem, null, true);
 		});
 
 		it('should get the item', (done: MochaDone): void => {
@@ -98,6 +99,36 @@ describe('base singleton data service', () => {
 			$rootScope.$digest();
 
 			expect(mockItem.prop).to.equal('made changes');
+		});
+	});
+
+	describe('transform', (): void => {
+		let $rootScope: angular.IRootScopeService;
+		let mockItem: ITestMock;
+		let transform: Sinon.SinonSpy;
+
+		beforeEach((): void => {
+			mockItem = { prop: 'item' };
+
+			let services: any = angularFixture.inject(factoryName, '$rootScope');
+			let baseSingletonDataServiceFactory: IBaseSingletonDataServiceFactory = services[factoryName];
+			$rootScope = services.$rootScope;
+
+			transform = sinon.spy((rawData: ITestMock): string => {
+				return rawData.prop;
+			});
+
+			baseSingletonDataService = baseSingletonDataServiceFactory.getInstance<ITestMock>(null, mockItem, transform, true);
+		});
+
+		it('should transform the single item', (done: MochaDone): void => {
+			baseSingletonDataService.get().then((data: ITestMock): void => {
+				expect(data).to.equal(mockItem.prop);
+				sinon.assert.calledOnce(transform);
+				done();
+			});
+
+			$rootScope.$digest();
 		});
 	});
 });
