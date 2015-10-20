@@ -4,23 +4,32 @@ var _ = require('lodash');
 exports.moduleName = 'rl.utilities.services.baseSingletonDataService';
 exports.factoryName = 'baseSingletonDataService';
 var BaseSingletonDataService = (function () {
-    function BaseSingletonDataService($http, $q, endpoint, mockData, useMock) {
+    function BaseSingletonDataService($http, $q, endpoint, mockData, transform, useMock) {
         this.$http = $http;
         this.$q = $q;
         this.endpoint = endpoint;
         this.mockData = mockData;
+        this.transform = transform;
         this.useMock = useMock;
     }
     BaseSingletonDataService.prototype.get = function () {
+        var _this = this;
+        var promise;
         if (this.useMock) {
-            return this.$q.when(this.mockData);
+            promise = this.$q.when(this.mockData);
         }
         else {
-            return this.$http.get(this.endpoint)
+            promise = this.$http.get(this.endpoint)
                 .then(function (response) {
                 return response.data;
             });
         }
+        return promise.then(function (data) {
+            if (_this.transform != null) {
+                data = _this.transform(data);
+            }
+            return data;
+        });
     };
     BaseSingletonDataService.prototype.update = function (domainObject) {
         if (this.useMock) {
@@ -37,8 +46,8 @@ exports.BaseSingletonDataService = BaseSingletonDataService;
 baseSingletonDataServiceFactory.$inject = ['$http', '$q'];
 function baseSingletonDataServiceFactory($http, $q) {
     return {
-        getInstance: function (endpoint, mockData, useMock) {
-            return new BaseSingletonDataService($http, $q, endpoint, mockData, useMock);
+        getInstance: function (endpoint, mockData, transform, useMock) {
+            return new BaseSingletonDataService($http, $q, endpoint, mockData, transform, useMock);
         },
     };
 }

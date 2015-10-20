@@ -5,12 +5,13 @@ var array_service_1 = require('../../array/array.service');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
 var BaseDataService = (function () {
-    function BaseDataService($http, $q, array, endpoint, mockData, useMock) {
+    function BaseDataService($http, $q, array, endpoint, mockData, transform, useMock) {
         this.$http = $http;
         this.$q = $q;
         this.array = array;
         this.endpoint = endpoint;
         this.mockData = mockData;
+        this.transform = transform;
         this.useMock = useMock;
     }
     // Build request URL
@@ -21,28 +22,44 @@ var BaseDataService = (function () {
         return this.endpoint + '/' + id.toString();
     };
     BaseDataService.prototype.getList = function (params) {
+        var _this = this;
+        var promise;
         if (this.useMock) {
-            return this.$q.when(this.mockData);
+            promise = this.$q.when(this.mockData);
         }
         else {
-            return this.$http.get(this.getEndpoint(), { params: params })
+            promise = this.$http.get(this.getEndpoint(), { params: params })
                 .then(function (response) {
                 return response.data;
             });
         }
+        return promise.then(function (data) {
+            if (_this.transform != null) {
+                data = _.map(data, _this.transform);
+            }
+            return data;
+        });
     };
     BaseDataService.prototype.getDetail = function (id) {
+        var _this = this;
+        var promise;
         if (this.useMock) {
-            return this.$q.when(_.find(this.mockData, function (item) {
+            promise = this.$q.when(_.find(this.mockData, function (item) {
                 return item.id === id;
             }));
         }
         else {
-            return this.$http.get(this.getItemEndpoint(id))
+            promise = this.$http.get(this.getItemEndpoint(id))
                 .then(function (response) {
                 return response.data;
             });
         }
+        return promise.then(function (data) {
+            if (_this.transform != null) {
+                data = _this.transform(data);
+            }
+            return data;
+        });
     };
     BaseDataService.prototype.create = function (domainObject) {
         if (this.useMock) {
@@ -85,8 +102,8 @@ exports.BaseDataService = BaseDataService;
 baseDataServiceFactory.$inject = ['$http', '$q', array_service_1.serviceName];
 function baseDataServiceFactory($http, $q, array) {
     return {
-        getInstance: function (endpoint, mockData, useMock) {
-            return new BaseDataService($http, $q, array, endpoint, mockData, useMock);
+        getInstance: function (endpoint, mockData, transform, useMock) {
+            return new BaseDataService($http, $q, array, endpoint, mockData, transform, useMock);
         },
     };
 }

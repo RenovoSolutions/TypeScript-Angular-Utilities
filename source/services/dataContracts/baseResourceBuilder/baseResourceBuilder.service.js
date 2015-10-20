@@ -12,14 +12,14 @@ var BaseResourceBuilder = (function () {
         this.$q = $q;
         this.array = array;
     }
-    BaseResourceBuilder.prototype.createResource = function (endpoint, mockData, useMock) {
-        return new baseData_service_1.BaseDataService(this.$http, this.$q, this.array, endpoint, mockData, useMock);
+    BaseResourceBuilder.prototype.createResource = function (endpoint, mockData, transform, useMock) {
+        return new baseData_service_1.BaseDataService(this.$http, this.$q, this.array, endpoint, mockData, transform, useMock);
     };
-    BaseResourceBuilder.prototype.createParentResource = function (endpoint, mockData, resourceDictionaryBuilder, useMock) {
-        return new baseParentData_service_1.BaseParentDataService(this.$http, this.$q, this.array, endpoint, mockData, resourceDictionaryBuilder, useMock);
+    BaseResourceBuilder.prototype.createParentResource = function (endpoint, mockData, resourceDictionaryBuilder, transform, useMock) {
+        return new baseParentData_service_1.BaseParentDataService(this.$http, this.$q, this.array, endpoint, mockData, resourceDictionaryBuilder, transform, useMock);
     };
-    BaseResourceBuilder.prototype.createSingletonResource = function (endpoint, mockData, useMock) {
-        return new baseSingletonData_service_1.BaseSingletonDataService(this.$http, this.$q, endpoint, mockData, useMock);
+    BaseResourceBuilder.prototype.createSingletonResource = function (endpoint, mockData, transform, useMock) {
+        return new baseSingletonData_service_1.BaseSingletonDataService(this.$http, this.$q, endpoint, mockData, transform, useMock);
     };
     BaseResourceBuilder.$inject = ['$http', '$q', array_service_1.serviceName];
     return BaseResourceBuilder;

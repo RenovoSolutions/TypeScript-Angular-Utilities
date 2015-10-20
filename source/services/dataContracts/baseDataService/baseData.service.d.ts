@@ -5,6 +5,9 @@ export declare var factoryName: string;
 export interface IBaseDomainObject {
     id: number;
 }
+export interface ITransformFunction<TDataType> {
+    (rawData: any): TDataType;
+}
 export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> {
     getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
@@ -18,8 +21,9 @@ export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearc
     private array;
     private endpoint;
     private mockData;
+    private transform;
     useMock: boolean;
-    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], useMock: boolean);
+    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], transform: ITransformFunction<TDataType>, useMock: boolean);
     private getEndpoint();
     private getItemEndpoint(id);
     getList(params: TSearchParams): angular.IPromise<TDataType[]>;
@@ -29,6 +33,6 @@ export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearc
     delete(domainObject: TDataType): angular.IPromise<void>;
 }
 export interface IBaseDataServiceFactory {
-    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
+    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
 }
 export declare function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IBaseDataServiceFactory;
