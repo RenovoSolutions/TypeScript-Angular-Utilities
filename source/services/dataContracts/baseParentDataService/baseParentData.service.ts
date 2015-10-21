@@ -12,13 +12,13 @@ export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSe
 export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends BaseDataService<TDataType, TSearchParams> implements IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 	constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[]
-		, private resourceDictionaryBuilder: { (id: number): TResourceDictionaryType }
+		, private resourceDictionaryBuilder: { (baseEndpoint: string, id: number): TResourceDictionaryType }
 		, transform?: ITransformFunction<TDataType>
 		, useMock?: boolean) {
 		super($http, $q, array, endpoint, mockData, transform, useMock);
 	}
 
 	childContracts(id: number): TResourceDictionaryType {
-		return this.resourceDictionaryBuilder(id);
+		return this.resourceDictionaryBuilder(this.endpoint, id);
 	}
 }

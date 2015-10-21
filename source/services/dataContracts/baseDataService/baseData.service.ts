@@ -28,10 +28,14 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     constructor(private $http: angular.IHttpService
             , private $q: angular.IQService
             , private array: IArrayUtility
-            , private endpoint: string
+            , private _endpoint: string
             , private mockData: TDataType[]
             , private transform: ITransformFunction<TDataType>
             , public useMock: boolean) { }
+
+    get endpoint(): string {
+        return this._endpoint;
+    }
 
     // Build request URL
     private getEndpoint(): string {
