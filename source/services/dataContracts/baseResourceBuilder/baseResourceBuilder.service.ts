@@ -7,6 +7,7 @@ import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModu
 import { IBaseDataService, BaseDataService, IBaseDomainObject, ITransformFunction } from '../baseDataService/baseData.service';
 import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
+import { IBaseParentSingletonDataService, BaseParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
 
 export var moduleName: string = 'rl.utilities.services.baseResourceBuilder';
 export var serviceName: string = 'baseResourceBuilder';
@@ -29,6 +30,10 @@ export interface ISingletonResourceParams<TDataType> {
 	transform?: ITransformFunction<TDataType>;
 }
 
+export interface IParentSingletonResourceParams<TDataType, TResourceDictionaryType> extends ISingletonResourceParams<TDataType> {
+	resourceDictionaryBuilder?: { (id: number): TResourceDictionaryType };
+}
+
 export interface IBaseResourceBuilder {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams>;
 	createResource<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, void>;
@@ -39,6 +44,9 @@ export interface IBaseResourceBuilder {
 		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
 
 	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
+
+	createParentSingletonResource<TDataType, TResourceDictionaryType>
+		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
 
 export class BaseResourceBuilder implements IBaseResourceBuilder {
@@ -61,6 +69,12 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType> {
 		options.useMock = options.endpoint == null ? true : options.useMock;
 		return new BaseSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.transform, options.useMock);
+	}
+
+	createParentSingletonResource<TDataType, TResourceDictionaryType>
+		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType> {
+		options.useMock = options.endpoint == null ? true : options.useMock;
+		return new BaseParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock);
 	}
 }
 
