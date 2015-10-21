@@ -11,19 +11,34 @@ import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSing
 export var moduleName: string = 'rl.utilities.services.baseResourceBuilder';
 export var serviceName: string = 'baseResourceBuilder';
 
+export interface IBaseResourceParams<TDataType extends IBaseDomainObject> {
+	endpoint?: string;
+	mockData?: TDataType[];
+	useMock?: boolean;
+	transform?: ITransformFunction<TDataType>;
+}
+
+export interface IParentResourceParams<TDataType extends IBaseDomainObject, TResourceDictionaryType> extends IBaseResourceParams<TDataType> {
+	resourceDictionaryBuilder?: { (id: number): TResourceDictionaryType };
+}
+
+export interface ISingletonResourceParams<TDataType> {
+	endpoint?: string;
+	mockData?: TDataType;
+	useMock?: boolean;
+	transform?: ITransformFunction<TDataType>;
+}
+
 export interface IBaseResourceBuilder {
-	createResource<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData: TDataType[]
-					, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
-	createResource<TDataType extends IBaseDomainObject>(endpoint: string, mockData: TDataType[]
-					, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, void>;
+	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams>;
+	createResource<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, void>;
+
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-		(endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: { (id: number): TResourceDictionaryType }
-			, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
 	createParentResource<TDataType extends IBaseDomainObject, TResourceDictionaryType>
-		(endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: { (id: number): TResourceDictionaryType }
-			, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
-	createSingletonResource<TDataType>(endpoint: string, mockData: TDataType
-		, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseSingletonDataService<TDataType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
+
+	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
 }
 
 export class BaseResourceBuilder implements IBaseResourceBuilder {
@@ -32,19 +47,20 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 			, private $q: angular.IQService
 			, private array: IArrayUtility) { }
 
-	createResource<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData: TDataType[]
-		, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams> {
-		return new BaseDataService(this.$http, this.$q, this.array, endpoint, mockData, transform, useMock);
+	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams> {
+		options.useMock = options.endpoint == null ? true : options.useMock;
+		return new BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock);
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-		(endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: { (): TResourceDictionaryType }
-			, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
-		return new BaseParentDataService(this.$http, this.$q, this.array, endpoint, mockData, resourceDictionaryBuilder, transform, useMock);
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+		options.useMock = options.endpoint == null ? true : options.useMock;
+		return new BaseParentDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock);
 	}
 
-	createSingletonResource<TDataType>(endpoint: string, mockData: TDataType, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseSingletonDataService<TDataType> {
-		return new BaseSingletonDataService(this.$http, this.$q, endpoint, mockData, transform, useMock);
+	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType> {
+		options.useMock = options.endpoint == null ? true : options.useMock;
+		return new BaseSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.transform, options.useMock);
 	}
 }
 
