@@ -40,7 +40,7 @@ export interface IParentResourceParams<TDataType extends IBaseDomainObject, TRes
 	/**
 	* Function that builds a dictionary of child resources available through childContracts(id)
 	*/
-	resourceDictionaryBuilder?: { (baseEndpoint: string, id: number): TResourceDictionaryType };
+	resourceDictionaryBuilder?: { (baseEndpoint: string): TResourceDictionaryType };
 }
 
 export interface ISingletonResourceParams<TDataType> {
