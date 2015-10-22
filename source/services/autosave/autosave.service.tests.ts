@@ -18,6 +18,7 @@ interface IAutosaveActionMock {
 
 interface IMockFormController {
 	$pristine: boolean;
+	$dirty: boolean;
 	$setPristine: Sinon.SinonSpy;
 }
 
@@ -44,6 +45,7 @@ describe('autosave', () => {
 
 		baseContentForm = {
 			$pristine: false,
+			$dirty: true,
 			$setPristine: setPristineSpy,
 		};
 
@@ -56,7 +58,10 @@ describe('autosave', () => {
 	});
 
 	it('should call save on the parent and set the form to pristine', (): void => {
-		autosave = autosaveFactory.getInstance(saveSpy, <any>baseContentForm);
+		autosave = autosaveFactory.getInstance({
+			save: saveSpy,
+			contentForm: <any>baseContentForm,
+		});
 
 		var close: boolean = autosave.autosave();
 
@@ -70,7 +75,10 @@ describe('autosave', () => {
 	});
 
 	it('should not save if the form is pristine', (): void => {
-		autosave = autosaveFactory.getInstance(saveSpy, <any>baseContentForm);
+		autosave = autosaveFactory.getInstance({
+			save: saveSpy,
+			contentForm: <any > baseContentForm,
+		});
 
 		baseContentForm.$pristine = true;
 
@@ -84,7 +92,11 @@ describe('autosave', () => {
 	it('should validate using the validator if one exists', (): void => {
 		var validateSpy: Sinon.SinonSpy = sinon.spy((): boolean => { return true; });
 
-		autosave = autosaveFactory.getInstance(saveSpy, <any>baseContentForm, validateSpy);
+		autosave = autosaveFactory.getInstance({
+			save: saveSpy,
+			validate: validateSpy,
+			contentForm: <any>baseContentForm,
+		});
 
 		var close: boolean = autosave.autosave();
 
@@ -97,7 +109,11 @@ describe('autosave', () => {
 	it('should return false without saving if validation fails', (): void => {
 		var validateSpy: Sinon.SinonSpy = sinon.spy((): boolean => { return false; });
 
-		autosave = autosaveFactory.getInstance(saveSpy, <any>baseContentForm, validateSpy);
+		autosave = autosaveFactory.getInstance({
+			save: saveSpy,
+			validate: validateSpy,
+			contentForm: <any>baseContentForm,
+		});
 
 		var close: boolean = autosave.autosave();
 
@@ -108,7 +124,9 @@ describe('autosave', () => {
 	});
 
 	it('should always save if no form is specified', (): void => {
-		autosave = autosaveFactory.getInstance(saveSpy);
+		autosave = autosaveFactory.getInstance({
+			save: saveSpy,
+		});
 
 		var close: boolean = autosave.autosave();
 
