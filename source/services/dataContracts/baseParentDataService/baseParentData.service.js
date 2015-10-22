@@ -11,7 +11,7 @@ var BaseParentDataService = (function (_super) {
         this.resourceDictionaryBuilder = resourceDictionaryBuilder;
     }
     BaseParentDataService.prototype.childContracts = function (id) {
-        return this.resourceDictionaryBuilder(id);
+        return this.resourceDictionaryBuilder(this.endpoint + '/' + id);
     };
     return BaseParentDataService;
 })(baseData_service_1.BaseDataService);

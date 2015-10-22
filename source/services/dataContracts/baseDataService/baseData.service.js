@@ -5,19 +5,22 @@ var array_service_1 = require('../../array/array.service');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
 var BaseDataService = (function () {
-    function BaseDataService($http, $q, array, endpoint, mockData, transform, useMock) {
+    function BaseDataService($http, $q, array, _endpoint, mockData, transform, useMock) {
         this.$http = $http;
         this.$q = $q;
         this.array = array;
-        this.endpoint = endpoint;
+        this._endpoint = _endpoint;
         this.mockData = mockData;
         this.transform = transform;
         this.useMock = useMock;
     }
-    // Build request URL
-    BaseDataService.prototype.getEndpoint = function () {
-        return this.endpoint;
-    };
+    Object.defineProperty(BaseDataService.prototype, "endpoint", {
+        get: function () {
+            return this._endpoint;
+        },
+        enumerable: true,
+        configurable: true
+    });
     BaseDataService.prototype.getItemEndpoint = function (id) {
         return this.endpoint + '/' + id.toString();
     };
@@ -28,7 +31,7 @@ var BaseDataService = (function () {
             promise = this.$q.when(this.mockData);
         }
         else {
-            promise = this.$http.get(this.getEndpoint(), { params: params })
+            promise = this.$http.get(this.endpoint, { params: params })
                 .then(function (response) {
                 return response.data;
             });
@@ -69,7 +72,7 @@ var BaseDataService = (function () {
             return this.$q.when(domainObject);
         }
         else {
-            return this.$http.post(this.getEndpoint(), JSON.stringify(domainObject))
+            return this.$http.post(this.endpoint, JSON.stringify(domainObject))
                 .then(function (result) {
                 return result.data;
             });

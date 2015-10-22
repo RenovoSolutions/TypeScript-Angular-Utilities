@@ -9,11 +9,12 @@ export interface IBaseSingletonDataService<TDataType> {
 export declare class BaseSingletonDataService<TDataType> implements IBaseSingletonDataService<TDataType> {
     private $http;
     private $q;
-    private endpoint;
+    private _endpoint;
     private mockData;
     private transform;
     useMock: boolean;
-    constructor($http: angular.IHttpService, $q: angular.IQService, endpoint: string, mockData: TDataType, transform: ITransformFunction<TDataType>, useMock: boolean);
+    constructor($http: angular.IHttpService, $q: angular.IQService, _endpoint: string, mockData: TDataType, transform: ITransformFunction<TDataType>, useMock: boolean);
+    endpoint: string;
     get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<void>;
 }

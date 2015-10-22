@@ -14,6 +14,7 @@ __export(require('./baseParentDataService/baseParentData.service'));
 var baseSingletonData_service_2 = require('./baseSingletonDataService/baseSingletonData.service');
 exports.BaseSingletonDataService = baseSingletonData_service_2.BaseSingletonDataService;
 exports.baseSingletonDataServiceFactoryName = baseSingletonData_service_2.factoryName;
+__export(require('./baseParentSingletonDataService/baseParentSingletonData.service'));
 var baseResourceBuilder_service_2 = require('./baseResourceBuilder/baseResourceBuilder.service');
 exports.builderServiceName = baseResourceBuilder_service_2.serviceName;
 angular.module(exports.moduleName, [
