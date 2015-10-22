@@ -48,7 +48,7 @@ class AutosaveService implements IAutosaveService {
 		this.save = options.save;
 		this.validate = options.validate;
 
-		this.defaultChangeListeners();
+		this.initChangeListeners(options);
 
 		$rootScope.$watch((): boolean => { return this.contentForm.$dirty; }, (value: boolean) => {
 			if (value) {
@@ -109,13 +109,13 @@ class AutosaveService implements IAutosaveService {
 		};
 	}
 
-	private defaultChangeListeners(): void {
-		if (this.setChangeListener == null) {
-			this.setChangeListener = (): void => { console.log('No change listener available'); };
-		}
-		if (this.clearChangeListener == null) {
-			this.clearChangeListener = (): void => { console.log('No change listener available'); };
-		}
+	private initChangeListeners(options: IAutosaveServiceOptions): void {
+		this.setChangeListener = options.setChangeListener || this.nullChangeListenerFunc;
+		this.clearChangeListener = options.clearChangeListener || this.nullChangeListenerFunc;
+	}
+
+	private nullChangeListenerFunc(): void {
+		console.log('No change listener available');
 	}
 }
 

@@ -163,8 +163,8 @@ describe('autosave', () => {
 			save: saveSpy,
 			contentForm: <any>baseContentForm,
 			debounceDuration: 1000,
+			setChangeListener: changeListener,
 		});
-		autosave.setChangeListener = changeListener;
 
 		expect(baseContentForm.$dirty).to.be.true;
 
