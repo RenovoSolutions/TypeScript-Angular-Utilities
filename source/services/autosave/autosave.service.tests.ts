@@ -155,8 +155,9 @@ describe('autosave', () => {
 
 	it('should reset the debounce timer on form changes', (): void => {
 		let triggerChange: { (): void };
-		let changeListener: any = (callback: { (): void }) => {
+		let changeListener: any = (callback: { (): void }): Sinon.SinonSpy => {
 			triggerChange = callback;
+			return sinon.spy();
 		};
 
 		autosave = autosaveFactory.getInstance({

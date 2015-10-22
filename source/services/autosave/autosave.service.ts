@@ -15,8 +15,7 @@ export var factoryName: string = 'autosaveFactory';
 export interface IAutosaveService {
 	autosave(...data: any[]): boolean;
 	contentForm: angular.IFormController;
-	setChangeListener?: { (callback: {(): void}): void };
-	clearChangeListener?: { (): void };
+	setChangeListener?: { (callback: {(): void}): IClearChangeListener };
 }
 
 export interface IAutosaveServiceOptions {
@@ -24,16 +23,23 @@ export interface IAutosaveServiceOptions {
 	validate?: { (): boolean };
 	contentForm?: angular.IFormController;
 	debounceDuration?: number;
-	setChangeListener?: { (callback: {(): void}): void };
-	clearChangeListener?: { (): void };
+	setChangeListener?: { (callback: IChangeListener): IClearChangeListener };
+}
+
+export interface IChangeListener {
+	(): void;
+}
+
+export interface IClearChangeListener {
+	(): void;
 }
 
 class AutosaveService implements IAutosaveService {
 	private hasValidator: boolean;
 	private debounceDuration: number = 1000;
 	private timer: angular.IPromise<void>;
-	setChangeListener: { (callback: {(): void}): void };
-	clearChangeListener: { (): void };
+	setChangeListener: { (callback: IChangeListener): IClearChangeListener };
+	clearChangeListener: IClearChangeListener;
 	contentForm: angular.IFormController;
 	save: { (...data: any[]): angular.IPromise<void> };
 	validate: { (): boolean };
@@ -54,7 +60,7 @@ class AutosaveService implements IAutosaveService {
 			if (value) {
 				this.setTimer();
 
-				this.setChangeListener((): void => {
+				this.clearChangeListener = this.setChangeListener((): void => {
 					$timeout.cancel(this.timer);
 					this.setTimer();
 				});
@@ -110,12 +116,17 @@ class AutosaveService implements IAutosaveService {
 	}
 
 	private initChangeListeners(options: IAutosaveServiceOptions): void {
-		this.setChangeListener = options.setChangeListener || this.nullChangeListenerFunc;
-		this.clearChangeListener = options.clearChangeListener || this.nullChangeListenerFunc;
+		this.setChangeListener = options.setChangeListener || this.nullSetListener;
+		this.clearChangeListener = this.nullClearListener;
 	}
 
-	private nullChangeListenerFunc(): void {
+	private nullSetListener(): IClearChangeListener {
 		console.log('No change listener available');
+		return this.nullClearListener;
+	}
+
+	private nullClearListener(): void {
+		console.log('No change listener register');
 	}
 }
 
