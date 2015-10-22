@@ -37,11 +37,6 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         return this._endpoint;
     }
 
-    // Build request URL
-    private getEndpoint(): string {
-        return this.endpoint;
-    }
-
     private getItemEndpoint(id: number): string {
         return this.endpoint + '/' + id.toString();
     }
@@ -51,7 +46,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         if (this.useMock) {
             promise = this.$q.when(this.mockData);
         } else {
-            promise = this.$http.get(this.getEndpoint(), { params: params })
+            promise = this.$http.get(this.endpoint, { params: params })
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[] => {
                 return response.data;
             });
@@ -91,7 +86,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             this.mockData.push(domainObject);
             return this.$q.when(domainObject);
         } else {
-            return this.$http.post(this.getEndpoint(), JSON.stringify(domainObject))
+            return this.$http.post(this.endpoint, JSON.stringify(domainObject))
                 .then((result: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return result.data;
             });
