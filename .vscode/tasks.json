@@ -37,6 +37,10 @@
         {
             "taskName": "build.library",
             "args": ["run"]
+        },
+        {
+            "taskName": "test.debug",
+            "args": ["run"]
         }
     ],
 	"problemMatcher": "$tsc"
