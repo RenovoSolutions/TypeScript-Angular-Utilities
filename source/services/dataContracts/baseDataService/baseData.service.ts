@@ -28,14 +28,13 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     constructor(private $http: angular.IHttpService
             , private $q: angular.IQService
             , private array: IArrayUtility
-            , private endpoint: string
+            , private _endpoint: string
             , private mockData: TDataType[]
             , private transform: ITransformFunction<TDataType>
             , public useMock: boolean) { }
 
-    // Build request URL
-    private getEndpoint(): string {
-        return this.endpoint;
+    get endpoint(): string {
+        return this._endpoint;
     }
 
     private getItemEndpoint(id: number): string {
@@ -47,7 +46,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         if (this.useMock) {
             promise = this.$q.when(this.mockData);
         } else {
-            promise = this.$http.get(this.getEndpoint(), { params: params })
+            promise = this.$http.get(this.endpoint, { params: params })
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType[]>): TDataType[] => {
                 return response.data;
             });
@@ -87,7 +86,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             this.mockData.push(domainObject);
             return this.$q.when(domainObject);
         } else {
-            return this.$http.post(this.getEndpoint(), JSON.stringify(domainObject))
+            return this.$http.post(this.endpoint, JSON.stringify(domainObject))
                 .then((result: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return result.data;
             });
