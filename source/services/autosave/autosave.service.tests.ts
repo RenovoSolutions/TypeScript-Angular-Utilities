@@ -23,19 +23,20 @@ interface IMockFormController {
 }
 
 describe('autosave', () => {
-	var autosave: IAutosaveService;
-	var autosaveFactory: IAutosaveServiceFactory;
-	var saveSpy: Sinon.SinonSpy;
-	var triggerSpy: Sinon.SinonSpy;
-	var setPristineSpy: Sinon.SinonSpy;
-	var baseContentForm: IMockFormController;
-	var $rootScope: ng.IRootScopeService;
+	let autosave: IAutosaveService;
+	let autosaveFactory: IAutosaveServiceFactory;
+	let saveSpy: Sinon.SinonSpy;
+	let triggerSpy: Sinon.SinonSpy;
+	let setPristineSpy: Sinon.SinonSpy;
+	let baseContentForm: IMockFormController;
+	let $rootScope: ng.IRootScopeService;
+	let $timeout: ng.ITimeoutService;
 
 	beforeEach(() => {
 		ng.mock.module(moduleName);
 
 		triggerSpy = sinon.spy((promise: ng.IPromise<void>): ng.IPromise<void> => { return promise; });
-		var autosaveActionService: IAutosaveActionMock = { trigger: triggerSpy };
+		let autosaveActionService: IAutosaveActionMock = { trigger: triggerSpy };
 
 		angularFixture.mock({
 			autosaveAction: autosaveActionService,
@@ -49,10 +50,11 @@ describe('autosave', () => {
 			$setPristine: setPristineSpy,
 		};
 
-		var services: any = angularFixture.inject(factoryName, '$q', '$rootScope');
+		let services: any = angularFixture.inject(factoryName, '$q', '$rootScope', '$timeout');
 		autosaveFactory = services[factoryName];
-		var $q: ng.IQService = services.$q;
+		let $q: ng.IQService = services.$q;
 		$rootScope = services.$rootScope;
+		$timeout = services.$timeout;
 
 		saveSpy = sinon.spy((): ng.IPromise<void> => { return $q.when(); });
 	});
@@ -63,7 +65,7 @@ describe('autosave', () => {
 			contentForm: <any>baseContentForm,
 		});
 
-		var close: boolean = autosave.autosave();
+		let close: boolean = autosave.autosave();
 
 		expect(close).to.be.true;
 
@@ -82,7 +84,7 @@ describe('autosave', () => {
 
 		baseContentForm.$pristine = true;
 
-		var close: boolean = autosave.autosave();
+		let close: boolean = autosave.autosave();
 
 		expect(close).to.be.true;
 
@@ -90,7 +92,7 @@ describe('autosave', () => {
 	});
 
 	it('should validate using the validator if one exists', (): void => {
-		var validateSpy: Sinon.SinonSpy = sinon.spy((): boolean => { return true; });
+		let validateSpy: Sinon.SinonSpy = sinon.spy((): boolean => { return true; });
 
 		autosave = autosaveFactory.getInstance({
 			save: saveSpy,
@@ -98,7 +100,7 @@ describe('autosave', () => {
 			contentForm: <any>baseContentForm,
 		});
 
-		var close: boolean = autosave.autosave();
+		let close: boolean = autosave.autosave();
 
 		expect(close).to.be.true;
 
@@ -107,7 +109,7 @@ describe('autosave', () => {
 	});
 
 	it('should return false without saving if validation fails', (): void => {
-		var validateSpy: Sinon.SinonSpy = sinon.spy((): boolean => { return false; });
+		let validateSpy: Sinon.SinonSpy = sinon.spy((): boolean => { return false; });
 
 		autosave = autosaveFactory.getInstance({
 			save: saveSpy,
@@ -115,7 +117,7 @@ describe('autosave', () => {
 			contentForm: <any>baseContentForm,
 		});
 
-		var close: boolean = autosave.autosave();
+		let close: boolean = autosave.autosave();
 
 		expect(close).to.be.false;
 
@@ -128,9 +130,55 @@ describe('autosave', () => {
 			save: saveSpy,
 		});
 
-		var close: boolean = autosave.autosave();
+		let close: boolean = autosave.autosave();
 
 		expect(close).to.be.true;
+
+		sinon.assert.calledOnce(saveSpy);
+	});
+
+	it('should autosave when the form becomes dirty after the debounce duration', (): void => {
+		autosave = autosaveFactory.getInstance({
+			save: saveSpy,
+			contentForm: <any>baseContentForm,
+			debounceDuration: 1000,
+		});
+
+		expect(baseContentForm.$dirty).to.be.true;
+
+		$rootScope.$digest();
+
+		$timeout.flush(1000);
+
+		sinon.assert.calledOnce(saveSpy);
+	});
+
+	it('should reset the debounce timer on form changes', (): void => {
+		let triggerChange: { (): void };
+		let changeListener: any = (callback: { (): void }) => {
+			triggerChange = callback;
+		};
+
+		autosave = autosaveFactory.getInstance({
+			save: saveSpy,
+			contentForm: <any>baseContentForm,
+			debounceDuration: 1000,
+		});
+		autosave.setChangeListener = changeListener;
+
+		expect(baseContentForm.$dirty).to.be.true;
+
+		$rootScope.$digest();
+
+		$timeout.flush(500);
+
+		triggerChange();
+
+		$timeout.flush(500);
+
+		sinon.assert.notCalled(saveSpy);
+
+		$timeout.flush(500);
 
 		sinon.assert.calledOnce(saveSpy);
 	});
