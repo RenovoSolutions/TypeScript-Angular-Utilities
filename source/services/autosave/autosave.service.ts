@@ -15,20 +15,57 @@ export var factoryName: string = 'autosaveFactory';
 export interface IAutosaveService {
 	autosave(...data: any[]): boolean;
 	contentForm: angular.IFormController;
+	setChangeListener?: { (callback: {(): void}): IClearChangeListener };
+}
+
+export interface IAutosaveServiceOptions {
+	save: { (...data: any[]): angular.IPromise<void> };
+	validate?: { (): boolean };
+	contentForm?: angular.IFormController;
+	debounceDuration?: number;
+	setChangeListener?: { (callback: IChangeListener): IClearChangeListener };
+}
+
+export interface IChangeListener {
+	(): void;
+}
+
+export interface IClearChangeListener {
+	(): void;
 }
 
 class AutosaveService implements IAutosaveService {
 	private hasValidator: boolean;
+	private debounceDuration: number = 1000;
+	private timer: angular.IPromise<void>;
+	setChangeListener: { (callback: IChangeListener): IClearChangeListener };
+	clearChangeListener: IClearChangeListener;
+	contentForm: angular.IFormController;
+	save: { (...data: any[]): angular.IPromise<void> };
+	validate: { (): boolean };
 
-	constructor(private autosaveService: IAutosaveActionService
-			, private save: {(...data: any[]): angular.IPromise<void>}
-			, public contentForm?: angular.IFormController
-			, private validate?: {(): boolean}) {
-		this.hasValidator = validate != null;
+	constructor($rootScope: angular.IRootScopeService
+			, private $timeout: angular.ITimeoutService
+			, private autosaveService: IAutosaveActionService
+			, options: IAutosaveServiceOptions) {
+		this.hasValidator = options.validate != null;
 
-		if (this.contentForm == null) {
-			this.contentForm = this.nullForm();
-		}
+		this.contentForm = options.contentForm || this.nullForm();
+		this.save = options.save;
+		this.validate = options.validate;
+
+		this.initChangeListeners(options);
+
+		$rootScope.$watch((): boolean => { return this.contentForm.$dirty; }, (value: boolean) => {
+			if (value) {
+				this.setTimer();
+
+				this.clearChangeListener = this.setChangeListener((): void => {
+					$timeout.cancel(this.timer);
+					this.setTimer();
+				});
+			}
+		});
 	}
 
 	autosave: { (...data: any[]): boolean } = (...data: any[]): boolean => {
@@ -61,26 +98,50 @@ class AutosaveService implements IAutosaveService {
 		}
 	}
 
+	private setTimer(): void {
+		this.timer = this.$timeout((): void => {
+			this.clearChangeListener();
+			this.autosave();
+		}, this.debounceDuration);
+	}
+
 	private nullForm(): angular.IFormController {
 		return <any>{
 			$pristine: false,
+			$dirty: true,
 			$setPristine(): void {
 				return;
 			},
 		};
 	}
+
+	private initChangeListeners(options: IAutosaveServiceOptions): void {
+		this.setChangeListener = options.setChangeListener || this.nullSetListener;
+		this.clearChangeListener = this.nullClearListener;
+	}
+
+	private nullSetListener(): IClearChangeListener {
+		console.log('No change listener available');
+		return this.nullClearListener;
+	}
+
+	private nullClearListener(): void {
+		console.log('No change listener register');
+	}
 }
 
 export interface IAutosaveServiceFactory {
-	getInstance(save: {(): angular.IPromise<void>}, contentForm?: angular.IFormController, validate?: {(): boolean}): IAutosaveService;
+	getInstance(options: IAutosaveServiceOptions): IAutosaveService;
 }
 
-autosaveServiceFactory.$inject = [autosaveActionServiceName];
-function autosaveServiceFactory(autosaveService: IAutosaveActionService): IAutosaveServiceFactory {
+autosaveServiceFactory.$inject = ['$rootScope', '$timeout', autosaveActionServiceName];
+function autosaveServiceFactory($rootScope: angular.IRootScopeService
+							, $timeout: angular.ITimeoutService
+							, autosaveService: IAutosaveActionService): IAutosaveServiceFactory {
 	'use strict';
 	return {
-		getInstance(save: { (): angular.IPromise<void> }, contentForm?: angular.IFormController, validate?: { (): boolean }): IAutosaveService {
-			return new AutosaveService(autosaveService, save, contentForm, validate);
+		getInstance(options: IAutosaveServiceOptions): IAutosaveService {
+			return new AutosaveService($rootScope, $timeout, autosaveService, options);
 		}
 	};
 }
