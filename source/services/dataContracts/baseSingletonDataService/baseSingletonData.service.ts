@@ -40,17 +40,33 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
             if (this.transform != null) {
                 data = this.transform(data);
             }
+            if (this.logRequests) {
+                this.log('get', data);
+            }
             return data;
         });
     }
 
     update(domainObject: TDataType): angular.IPromise<void> {
+        let promise: angular.IPromise<void>;
         if (this.useMock) {
             this.mockData = <TDataType>_.assign(this.mockData, domainObject);
-            return this.$q.when();
+            promise = this.$q.when();
         } else {
-            return this.$http.put<void>(this.endpoint, domainObject).then((): void => { return null; });
+            promise = this.$http.put<void>(this.endpoint, domainObject).then((): void => { return null; });
         }
+        return promise.then((): void => {
+            if (this.logRequests) {
+                this.log('update', domainObject);
+            }
+        });
+    }
+
+    private log(requestName: string, data: any): void {
+        let mockString = this.useMock ? 'Mocked ' : '';
+        let endpointString = this.endpoint == null ? 'unspecified' : this.endpoint;
+        console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
+        console.log(data);
     }
 }
 

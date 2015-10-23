@@ -56,6 +56,9 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             if (this.transform != null) {
                 data = _.map(data, this.transform);
             }
+            if (this.logRequests) {
+                this.log('getList', data);
+            }
             return data;
         })
     }
@@ -76,43 +79,72 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             if (this.transform != null) {
                 data = this.transform(data);
             }
+            if (this.logRequests) {
+                this.log('getDetail', data);
+            }
             return data;
         });
     }
 
     create(domainObject: TDataType): angular.IPromise<TDataType> {
+        let promise: angular.IPromise<TDataType>;
         if (this.useMock) {
             let nextId: number = _.max(this.mockData, 'id').id + 1;
             domainObject.id = nextId;
             this.mockData.push(domainObject);
-            return this.$q.when(domainObject);
+            promise = this.$q.when(domainObject);
         } else {
-            return this.$http.post(this.endpoint, JSON.stringify(domainObject))
+            promise = this.$http.post(this.endpoint, JSON.stringify(domainObject))
                 .then((result: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return result.data;
             });
         }
+        return promise.then((data: TDataType): TDataType => {
+            if (this.logRequests) {
+                this.log('create', data);
+            }
+            return data;
+        });
     }
 
     update(domainObject: TDataType): angular.IPromise<void> {
+        let promise: angular.IPromise<void>;
         if (this.useMock) {
             let oldObject: TDataType = _.find(this.mockData, _.find(this.mockData, (item: TDataType): boolean => {
                 return item.id === domainObject.id;
             }));
             oldObject = <TDataType>_.assign(oldObject, domainObject);
-            return this.$q.when();
+            promise = this.$q.when();
         } else {
-            return this.$http.put<void>(this.getItemEndpoint(domainObject.id), domainObject).then((): void => { return null; });
+            promise = this.$http.put<void>(this.getItemEndpoint(domainObject.id), domainObject).then((): void => { return null; });
         }
+        return promise.then((): void => {
+            if (this.logRequests) {
+                this.log('update', domainObject);
+            }
+        });
     }
 
     delete(domainObject: TDataType): angular.IPromise<void> {
+        let promise: angular.IPromise<void>;
         if (this.useMock) {
             this.array.remove(this.mockData, domainObject);
-            return this.$q.when();
+            promise = this.$q.when();
         } else {
-            return this.$http.delete<void>(this.getItemEndpoint(domainObject.id)).then((): void => { return null; });
+            promise = this.$http.delete<void>(this.getItemEndpoint(domainObject.id)).then((): void => { return null; });
         }
+        return promise.then((): void => {
+            if (this.logRequests) {
+                this.log('update', domainObject);
+            }
+        });
+    }
+
+    private log(requestName: string, data: any): void {
+        let mockString = this.useMock ? 'Mocked ' : '';
+        let endpointString = this.endpoint == null ? 'unspecified' : this.endpoint;
+        console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
+        console.log(data);
     }
 }
 
