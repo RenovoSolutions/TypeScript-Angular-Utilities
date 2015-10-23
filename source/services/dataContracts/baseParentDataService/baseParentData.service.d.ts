@@ -8,6 +8,6 @@ export declare class BaseParentDataService<TDataType extends IBaseDomainObject, 
     private resourceDictionaryBuilder;
     constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: {
         (baseEndpoint: string): TResourceDictionaryType;
-    }, transform?: ITransformFunction<TDataType>, useMock?: boolean);
+    }, transform?: ITransformFunction<TDataType>, useMock?: boolean, logRequests?: boolean);
     childContracts(id: number): TResourceDictionaryType;
 }

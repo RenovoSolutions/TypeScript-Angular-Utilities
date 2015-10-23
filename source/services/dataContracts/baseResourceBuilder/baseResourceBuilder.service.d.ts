@@ -22,6 +22,10 @@ export interface IBaseResourceParams<TDataType extends IBaseDomainObject> {
     */
     useMock?: boolean;
     /**
+    * Flag for specifying if the data service should log all requests against the contract
+    */
+    logRequests?: boolean;
+    /**
     * Processes data coming back from the server
     */
     transform?: ITransformFunction<TDataType>;
@@ -48,6 +52,10 @@ export interface ISingletonResourceParams<TDataType> {
     * defaults to true if endpoint is not defined
     */
     useMock?: boolean;
+    /**
+    * Flag for specifying if the data service should log all requests against the contract
+    */
+    logRequests?: boolean;
     /**
     * Processes data coming back from the server
     */

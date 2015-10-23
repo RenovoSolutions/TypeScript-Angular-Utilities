@@ -4,11 +4,31 @@ export declare var factoryName: string;
 export interface IAutosaveService {
     autosave(...data: any[]): boolean;
     contentForm: angular.IFormController;
+    setChangeListener?: {
+        (callback: {
+            (): void;
+        }): IClearChangeListener;
+    };
+}
+export interface IAutosaveServiceOptions {
+    save: {
+        (...data: any[]): angular.IPromise<void>;
+    };
+    validate?: {
+        (): boolean;
+    };
+    contentForm?: angular.IFormController;
+    debounceDuration?: number;
+    setChangeListener?: {
+        (callback: IChangeListener): IClearChangeListener;
+    };
+}
+export interface IChangeListener {
+    (): void;
+}
+export interface IClearChangeListener {
+    (): void;
 }
 export interface IAutosaveServiceFactory {
-    getInstance(save: {
-        (): angular.IPromise<void>;
-    }, contentForm?: angular.IFormController, validate?: {
-        (): boolean;
-    }): IAutosaveService;
+    getInstance(options: IAutosaveServiceOptions): IAutosaveService;
 }
