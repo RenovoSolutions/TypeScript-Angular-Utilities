@@ -19,7 +19,8 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
             , private _endpoint: string
             , private mockData: TDataType
             , private transform: ITransformFunction<TDataType>
-            , public useMock: boolean) { }
+            , public useMock: boolean
+            , public logRequests: boolean) { }
 
     get endpoint(): string {
         return this._endpoint;
@@ -60,8 +61,8 @@ export interface IBaseSingletonDataServiceFactory {
 baseSingletonDataServiceFactory.$inject = ['$http', '$q'];
 export function baseSingletonDataServiceFactory($http: angular.IHttpService, $q: angular.IQService): IBaseSingletonDataServiceFactory {
     return {
-        getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseSingletonDataService<TDataType> {
-            return new BaseSingletonDataService<TDataType>($http, $q, endpoint, mockData, transform, useMock);
+        getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransformFunction<TDataType>, useMock?: boolean, logRequests?: boolean): IBaseSingletonDataService<TDataType> {
+            return new BaseSingletonDataService<TDataType>($http, $q, endpoint, mockData, transform, useMock, logRequests);
         },
     };
 }

@@ -31,7 +31,8 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             , private _endpoint: string
             , private mockData: TDataType[]
             , private transform: ITransformFunction<TDataType>
-            , public useMock: boolean) { }
+            , public useMock: boolean
+            , public logRequests: boolean) { }
 
     get endpoint(): string {
         return this._endpoint;
@@ -124,8 +125,8 @@ baseDataServiceFactory.$inject = ['$http', '$q', arrayServiceName];
 export function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IBaseDataServiceFactory {
     return {
         getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[]
-            , transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams> {
-            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, transform, useMock);
+            , transform?: ITransformFunction<TDataType>, useMock?: boolean, logRequests?: boolean): IBaseDataService<TDataType, TSearchParams> {
+            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
         },
     };
 }
