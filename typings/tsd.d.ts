@@ -1,3 +1,7 @@
+// Custom typings
+/// <reference path="uuid.d.ts" />
+
+// TSD managed typings
 /// <reference path="angularjs/angular.d.ts" />
 /// <reference path="assertion-error/assertion-error.d.ts" />
 /// <reference path="chai/chai.d.ts" />
