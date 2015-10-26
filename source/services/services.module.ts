@@ -10,6 +10,7 @@ import * as dataContracts from './dataContracts/dataContracts.module';
 import * as date from './date/date.module';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
+import * as guid from './guid/guid.service';
 import * as moment from './moment/moment.module';
 import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
@@ -32,6 +33,7 @@ export {
 	date,
 	fileSize,
 	genericSearchFilter,
+	guid,
 	moment,
 	notification,
 	numberService as number,
@@ -57,6 +59,7 @@ angular.module(moduleName, [
 	date.moduleName,
 	fileSize.moduleName,
 	genericSearchFilter.moduleName,
+	guid.moduleName,
 	moment.moduleName,
 	notification.moduleName,
 	numberService.moduleName,
