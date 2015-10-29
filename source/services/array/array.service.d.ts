@@ -13,6 +13,7 @@ export interface IArrayUtility {
         (item: TDataType): number;
     }): number;
     sum(array: number[]): number;
+    last<TDataType>(array: TDataType[]): TDataType;
     toDictionary<TDataType>(array: TDataType[], keySelector: {
         (item: TDataType): string;
     }): {

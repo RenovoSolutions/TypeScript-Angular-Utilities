@@ -16,6 +16,8 @@ var fileSize = require('./fileSize/fileSize.module');
 exports.fileSize = fileSize;
 var genericSearchFilter = require('./genericSearchFilter/genericSearchFilter.service');
 exports.genericSearchFilter = genericSearchFilter;
+var guid = require('./guid/guid.service');
+exports.guid = guid;
 var moment = require('./moment/moment.module');
 exports.moment = moment;
 var notification = require('./notification/notification.service');
@@ -50,6 +52,7 @@ angular.module(exports.moduleName, [
     date.moduleName,
     fileSize.moduleName,
     genericSearchFilter.moduleName,
+    guid.moduleName,
     moment.moduleName,
     notification.moduleName,
     numberService.moduleName,

@@ -54,6 +54,11 @@ var ArrayUtility = (function () {
             return dictionary;
         }, {});
     };
+    ArrayUtility.prototype.last = function (array) {
+        if (array != null && array.length > 0) {
+            return array[array.length - 1];
+        }
+    };
     return ArrayUtility;
 })();
 angular.module(exports.moduleName, [])
