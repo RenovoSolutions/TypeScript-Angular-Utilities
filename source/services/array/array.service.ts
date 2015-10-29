@@ -13,6 +13,7 @@ export interface IArrayUtility {
 	replace<TDataType>(array: TDataType[], oldItem: TDataType, newItem: TDataType): void;
 	sum<TDataType>(array: TDataType[], transform: { (item: TDataType): number }): number;
 	sum(array: number[]): number;
+	last<TDataType>(array: TDataType[]): TDataType;
 	toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): string}): { [index: string]: TDataType };
 }
 
@@ -73,6 +74,12 @@ class ArrayUtility implements IArrayUtility {
 			dictionary[keySelector(item)] = item;
 			return dictionary;
 		}, <any>{});
+	}
+
+	last<TDataType>(array: TDataType[]): TDataType {
+		if (array != null && array.length > 0) {
+			return array[array.length - 1];
+		}
 	}
 }
 

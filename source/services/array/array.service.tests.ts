@@ -128,4 +128,19 @@ describe('arrayUtility', () => {
 			expect(_.isArray(dictionary)).to.be.false;
 		});
 	});
+
+	describe('last', (): void => {
+		it('should get the last item in the array', (): void => {
+			let array: number[] = [1, 2, 3];
+			expect(arrayUtility.last(array)).to.equal(3);
+		});
+
+		it('should return undefined if array is empty', (): void => {
+			expect(arrayUtility.last([])).to.be.undefined;
+		});
+
+		it('should return undefined if array is null', (): void => {
+			expect(arrayUtility.last(null)).to.be.undefined;
+		});
+	});
 });
