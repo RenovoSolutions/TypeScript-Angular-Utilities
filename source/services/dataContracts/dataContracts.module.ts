@@ -8,6 +8,7 @@ import { moduleName as baseSingletonDataServiceModuleName } from './baseSingleto
 
 export var moduleName: string = 'rl.utilities.services.dataContracts';
 
+export * from './baseResourceBuilder/contractLibrary';
 export { IBaseDataService, IBaseDataServiceFactory, IBaseDomainObject, BaseDataService, factoryName as baseDataServiceFactoryName } from './baseDataService/baseData.service';
 export * from './baseParentDataService/baseParentData.service';
 export { IBaseSingletonDataService, IBaseSingletonDataServiceFactory, BaseSingletonDataService, factoryName as baseSingletonDataServiceFactoryName } from './baseSingletonDataService/baseSingletonData.service';
