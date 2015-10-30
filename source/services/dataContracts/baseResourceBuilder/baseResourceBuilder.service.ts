@@ -4,6 +4,7 @@ import * as angular from 'angular';
 
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
 
+import { IContractLibrary, ContractLibrary } from './contractLibrary';
 import { IBaseDataService, BaseDataService, IBaseDomainObject, ITransformFunction } from '../baseDataService/baseData.service';
 import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
@@ -117,10 +118,15 @@ export interface IBaseResourceBuilder {
 }
 
 export class BaseResourceBuilder implements IBaseResourceBuilder {
-	static $inject: string[] = ['$http', '$q', arrayServiceName];
+	static $inject: string[] = ['$http', '$q', '$rootScope', arrayServiceName];
 	constructor(private $http: angular.IHttpService
 			, private $q: angular.IQService
+			, private $rootScope: angular.IRootScopeService
 			, private array: IArrayUtility) { }
+
+	createLibrary(): IContractLibrary {
+		return new ContractLibrary(this.$q, this.$rootScope);
+	}
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams> {
 		options.useMock = options.endpoint == null ? true : options.useMock;
