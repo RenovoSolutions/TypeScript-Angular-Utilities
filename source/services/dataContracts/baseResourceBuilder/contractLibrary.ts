@@ -5,7 +5,7 @@
 import * as ng from 'angular';
 import * as _ from 'lodash';
 
-import { IBaseResourceBuilder } from './baseResourceBuilder.service';
+import { IBaseResourceBuilder, BaseResourceBuilder } from './baseResourceBuilder.service';
 
 export interface IContractLibrary {
 	// extend with custom interface specifying child resources
@@ -27,7 +27,7 @@ export class ContractLibrary implements IContractLibrary {
 	private $rootScope: ng.IRootScopeService;
 
 	constructor(builder: IBaseResourceBuilder) {
-		let services: ILibraryServices = builder.getLibraryServices();
+		let services: ILibraryServices = (<BaseResourceBuilder>builder).getLibraryServices();
 		this.$q = services.$q;
 		this.$rootScope = services.$rootScope;
 	}
