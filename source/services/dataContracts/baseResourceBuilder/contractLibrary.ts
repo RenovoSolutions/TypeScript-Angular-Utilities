@@ -9,7 +9,7 @@ export interface IContractLibrary {
 
 	flush(): void;
 
-	mockGet(resource: any, actionName: string, data: any): Function;
+	mockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy;
 }
 
 export class ContractLibrary implements IContractLibrary {
@@ -20,10 +20,11 @@ export class ContractLibrary implements IContractLibrary {
 		this.$rootScope.$digest();
 	}
 
-	mockGet(resource: any, actionName: string, data: any): Function {
-		let func: Function = (): any => {
+	mockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
+		let sinonInstance: Sinon.SinonStatic = sinon || <any>{ spy: (func: any): any => { return func; } };
+		let func: Sinon.SinonSpy = sinonInstance.spy((): any => {
 			return this.$q.when(data);
-		};
+		});
 		resource[actionName] = func;
 		return func;
 	}
