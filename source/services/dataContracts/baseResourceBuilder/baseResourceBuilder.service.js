@@ -8,11 +8,18 @@ var baseParentSingletonData_service_1 = require('../baseParentSingletonDataServi
 exports.moduleName = 'rl.utilities.services.baseResourceBuilder';
 exports.serviceName = 'baseResourceBuilder';
 var BaseResourceBuilder = (function () {
-    function BaseResourceBuilder($http, $q, array) {
+    function BaseResourceBuilder($http, $q, $rootScope, array) {
         this.$http = $http;
         this.$q = $q;
+        this.$rootScope = $rootScope;
         this.array = array;
     }
+    BaseResourceBuilder.prototype.getLibraryServices = function () {
+        return {
+            $q: this.$q,
+            $rootScope: this.$rootScope,
+        };
+    };
     BaseResourceBuilder.prototype.createResource = function (options) {
         options.useMock = options.endpoint == null ? true : options.useMock;
         return new baseData_service_1.BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
@@ -29,7 +36,7 @@ var BaseResourceBuilder = (function () {
         options.useMock = options.endpoint == null ? true : options.useMock;
         return new baseParentSingletonData_service_1.BaseParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
     };
-    BaseResourceBuilder.$inject = ['$http', '$q', array_service_1.serviceName];
+    BaseResourceBuilder.$inject = ['$http', '$q', '$rootScope', array_service_1.serviceName];
     return BaseResourceBuilder;
 })();
 exports.BaseResourceBuilder = BaseResourceBuilder;

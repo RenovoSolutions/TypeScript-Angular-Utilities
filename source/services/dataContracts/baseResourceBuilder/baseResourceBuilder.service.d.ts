@@ -1,5 +1,6 @@
 import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
+import { ILibraryServices } from './contractLibrary';
 import { IBaseDataService, IBaseDomainObject, ITransformFunction } from '../baseDataService/baseData.service';
 import { IBaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
@@ -71,6 +72,10 @@ export interface IParentSingletonResourceParams<TDataType, TResourceDictionaryTy
 }
 export interface IBaseResourceBuilder {
     /**
+    * A helper to pass into the constructor when building a new contracts library
+    */
+    getLibraryServices(): ILibraryServices;
+    /**
     * Create a standard resource with getList, getDetail, create, update, delete
     */
     createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams>;
@@ -98,9 +103,11 @@ export interface IBaseResourceBuilder {
 export declare class BaseResourceBuilder implements IBaseResourceBuilder {
     private $http;
     private $q;
+    private $rootScope;
     private array;
     static $inject: string[];
-    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility);
+    constructor($http: angular.IHttpService, $q: angular.IQService, $rootScope: angular.IRootScopeService, array: IArrayUtility);
+    getLibraryServices(): ILibraryServices;
     createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams>;
     createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
     createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;

@@ -7,6 +7,7 @@ var baseResourceBuilder_service_1 = require('./baseResourceBuilder/baseResourceB
 var baseData_service_1 = require('./baseDataService/baseData.service');
 var baseSingletonData_service_1 = require('./baseSingletonDataService/baseSingletonData.service');
 exports.moduleName = 'rl.utilities.services.dataContracts';
+__export(require('./baseResourceBuilder/contractLibrary'));
 var baseData_service_2 = require('./baseDataService/baseData.service');
 exports.BaseDataService = baseData_service_2.BaseDataService;
 exports.baseDataServiceFactoryName = baseData_service_2.factoryName;
