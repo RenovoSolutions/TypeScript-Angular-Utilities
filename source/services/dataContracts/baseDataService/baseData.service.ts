@@ -22,9 +22,6 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
     create(domainObject: TDataType): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<void>;
     delete(domainObject: TDataType): angular.IPromise<void>;
-
-    useMock: boolean;
-    logRequests: boolean;
 }
 
 export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
