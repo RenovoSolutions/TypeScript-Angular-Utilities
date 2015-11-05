@@ -5,6 +5,8 @@ export declare var factoryName: string;
 export interface IBaseSingletonDataService<TDataType> {
     get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<void>;
+    useMock: boolean;
+    logRequests: boolean;
 }
 export declare class BaseSingletonDataService<TDataType> implements IBaseSingletonDataService<TDataType> {
     private $http;
