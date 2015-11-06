@@ -90,8 +90,8 @@ describe('validation', () => {
 
 			sinon.assert.calledOnce(<Sinon.SinonSpy>handler.errorMessage);
 
-			sinon.assert.calledOnce(notification.warning);
-			sinon.assert.calledWith(notification.warning, 'error');
+			sinon.assert.calledOnce(showErrorSpy);
+			sinon.assert.calledWith(showErrorSpy, 'error');
 		});
 
 		it('should handle multiple validators and only show the error of the first one to fail', (): void => {
@@ -129,8 +129,8 @@ describe('validation', () => {
 			sinon.assert.notCalled(secondFailingHandler.validate);
 			expect(isValid).to.be.false;
 
-			sinon.assert.calledOnce(notification.warning);
-			sinon.assert.calledWith(notification.warning, 'error1');
+			sinon.assert.calledOnce(showErrorSpy);
+			sinon.assert.calledWith(showErrorSpy, 'error1');
 		});
 	});
 
