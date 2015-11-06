@@ -26,6 +26,7 @@ export interface IValidationService {
 	validate(): boolean;
 	registerValidationHandler(handler: IValidationHandler): IUnregisterFunction;
 	isActive(handler: IValidationHandler): boolean;
+	errorMessage(handler: IValidationHandler): string;
 	notifyAsError: boolean;
 }
 
@@ -45,9 +46,7 @@ export class ValidationService implements IValidationService {
 			if (isActive && !handler.validate()) {
 				isValid = false;
 
-				var error: string = _.isFunction(handler.errorMessage)
-									? (<{(): string}>handler.errorMessage)()
-									: <string>handler.errorMessage;
+				var error: string = this.errorMessage(handler);
 
 				if (this.notifyAsError) {
 					this.notification.error(error);
@@ -76,6 +75,12 @@ export class ValidationService implements IValidationService {
 		return (_.isFunction(handler.isActive) && (<{(): boolean}>handler.isActive)())
 			|| handler.isActive == null
 			|| handler.isActive === true;
+	}
+
+	errorMessage(handler: IValidationHandler): string {
+		return _.isFunction(handler.errorMessage)
+			? (<{ (): string }>handler.errorMessage)()
+			: <string>handler.errorMessage;
 	}
 
 	private unregister(key: number): void {
