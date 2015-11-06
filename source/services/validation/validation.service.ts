@@ -9,8 +9,12 @@ import {
 	INotificationService,
 } from '../notification/notification.service';
 
+import { IValidator, Validator, IErrorHandler } from './validator';
+
+export { IUnregisterFunction, IValidator, IErrorHandler } from './validator';
+
 export var moduleName: string = 'rl.utilities.services.validation';
-export var factoryName: string = 'validationFactory';
+export var serviceName: string = 'validationFactory';
 
 export interface IValidationHandler {
 	isActive?: {(): boolean} | boolean;
@@ -18,90 +22,32 @@ export interface IValidationHandler {
 	errorMessage: string | {(): string};
 }
 
-export interface IUnregisterFunction {
-	(): void;
-}
-
 export interface IValidationService {
-	validate(): boolean;
-	registerValidationHandler(handler: IValidationHandler): IUnregisterFunction;
-	isActive(handler: IValidationHandler): boolean;
-	errorMessage(handler: IValidationHandler): string;
-	notifyAsError: boolean;
+	buildNotificationWarningValidator(): IValidator;
+	buildNotificationErrorValidator(): IValidator;
+	buildCustomValidator(showError: IErrorHandler): IValidator;
 }
 
 export class ValidationService implements IValidationService {
-	private validationHandlers: { [index: number]: IValidationHandler } = {};
-	private nextKey: number = 0;
-	notifyAsError: boolean = false;
+	static $inject: string[] = [notificationServiceName];
+	constructor(private notification: INotificationService) { }
 
-	constructor(private notification: INotificationService) {}
-
-	validate(): boolean {
-		var isValid: boolean = true;
-
-		_.each(this.validationHandlers, (handler: IValidationHandler): boolean => {
-			var isActive: boolean = this.isActive(handler);
-
-			if (isActive && !handler.validate()) {
-				isValid = false;
-
-				var error: string = this.errorMessage(handler);
-
-				if (this.notifyAsError) {
-					this.notification.error(error);
-				} else {
-					this.notification.warning(error);
-				}
-
-				return false;
-			}
+	buildNotificationWarningValidator(): IValidator {
+		return new Validator((error: string): void => {
+			this.notification.warning(error);
 		});
-
-		return isValid;
 	}
 
-	registerValidationHandler(handler: IValidationHandler): IUnregisterFunction {
-		var currentKey: number = this.nextKey;
-		this.nextKey++;
-		this.validationHandlers[currentKey] = handler;
-
-		return (): void => {
-			this.unregister(currentKey);
-		};
+	buildNotificationErrorValidator(): IValidator {
+		return new Validator((error: string): void => {
+			this.notification.error(error);
+		});
 	}
 
-	isActive(handler: IValidationHandler): boolean {
-		return (_.isFunction(handler.isActive) && (<{(): boolean}>handler.isActive)())
-			|| handler.isActive == null
-			|| handler.isActive === true;
+	buildCustomValidator(showError: IErrorHandler): IValidator {
+		return new Validator(showError);
 	}
-
-	errorMessage(handler: IValidationHandler): string {
-		return _.isFunction(handler.errorMessage)
-			? (<{ (): string }>handler.errorMessage)()
-			: <string>handler.errorMessage;
-	}
-
-	private unregister(key: number): void {
-		delete this.validationHandlers[key];
-	}
-}
-
-export interface IValidationServiceFactory {
-	getInstance(): IValidationService;
-}
-
-validationServiceFactory.$inject = [notificationServiceName];
-export function validationServiceFactory(notification: INotificationService): IValidationServiceFactory {
-	'use strict';
-
-	return {
-		getInstance(): IValidationService {
-			return new ValidationService(notification);
-		}
-	};
 }
 
 angular.module(moduleName, [notificationModuleName])
-	.factory(factoryName, validationServiceFactory);
+	.service(serviceName, ValidationService);
