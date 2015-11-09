@@ -5,7 +5,14 @@
 
 'use strict';
 
-import { IUnregisterFunction, IValidationService, moduleName, serviceName, IValidator } from './validation.service';
+import {
+	IUnregisterFunction,
+	IValidationService,
+	moduleName,
+	serviceName,
+	IValidator,
+	IAggregateValidator,
+} from './validation.service';
 
 import { angularFixture } from '../test/angularFixture';
 
@@ -268,6 +275,89 @@ describe('validation', () => {
 			sinon.assert.notCalled(inactiveFailingHandler.validate);
 
 			expect(errorCount).to.equal(2);
+		});
+	});
+
+	describe('aggregateValidator', (): void => {
+		it('should run each of the child validators', (): void => {
+			let aggregateValidator: IAggregateValidator = validationService.buildAggregateCustomValidator(showErrorSpy);
+			let firstChild: IValidator = aggregateValidator.buildChildValidator();
+			let secondChild: IValidator = aggregateValidator.buildChildValidator();
+			let firstChildHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return true; }),
+			};
+			let secondChildHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return true; }),
+			};
+
+			firstChild.registerValidationHandler(<any>firstChildHandler);
+			secondChild.registerValidationHandler(<any>secondChildHandler);
+
+			let isValid: boolean = aggregateValidator.validate();
+
+			sinon.assert.calledOnce(firstChildHandler.validate);
+			sinon.assert.calledOnce(secondChildHandler.validate);
+			expect(isValid).to.be.true;
+		});
+
+		it('should show the first error from a child validator', (): void => {
+			let aggregateValidator: IAggregateValidator = validationService.buildAggregateCustomValidator(showErrorSpy);
+			let firstChild: IValidator = aggregateValidator.buildChildValidator();
+			let secondChild: IValidator = aggregateValidator.buildChildValidator();
+			let failingChildHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+				errorMessage: 'error1',
+			};
+			let secondChildHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return true; }),
+			};
+
+			firstChild.registerValidationHandler(<any>failingChildHandler);
+			secondChild.registerValidationHandler(<any>secondChildHandler);
+
+			let isValid: boolean = aggregateValidator.validate();
+
+			sinon.assert.calledOnce(failingChildHandler.validate);
+			sinon.assert.notCalled(secondChildHandler.validate);
+			expect(isValid).to.be.false;
+
+			sinon.assert.calledOnce(showErrorSpy);
+			sinon.assert.calledWith(showErrorSpy, 'error1');
+		});
+
+		it('should sum the counts of the child validation failures', (): void => {
+			let aggregateValidator: IAggregateValidator = validationService.buildAggregateCustomValidator(showErrorSpy);
+			let firstChild: IValidator = aggregateValidator.buildChildValidator();
+			let secondChild: IValidator = aggregateValidator.buildChildValidator();
+			let firstChildFailingHandler1: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+			};
+			let firstChildFailingHandler2: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+			};
+			let secondChildFailingHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+			};
+
+			firstChild.registerValidationHandler(<any>firstChildFailingHandler1);
+			firstChild.registerValidationHandler(<any>firstChildFailingHandler2);
+			secondChild.registerValidationHandler(<any>secondChildFailingHandler);
+
+			let firstChildCount: number = firstChild.getErrorCount();
+			let secondChildCount: number = secondChild.getErrorCount();
+
+			expect(firstChildCount).to.equal(2);
+			expect(secondChildCount).to.equal(1);
+
+			firstChildFailingHandler1.validate.reset();
+			firstChildFailingHandler2.validate.reset();
+			secondChildFailingHandler.validate.reset();
+
+			expect(aggregateValidator.getErrorCount()).to.equal(firstChildCount + secondChildCount);
+
+			sinon.assert.calledOnce(firstChildFailingHandler1.validate);
+			sinon.assert.calledOnce(firstChildFailingHandler2.validate);
+			sinon.assert.calledOnce(secondChildFailingHandler.validate);
 		});
 	});
 });
