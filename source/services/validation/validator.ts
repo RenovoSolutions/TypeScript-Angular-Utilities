@@ -10,6 +10,7 @@ export interface IUnregisterFunction {
 
 export interface IValidator {
 	validate(): boolean;
+	getErrorCount(): number;
 	registerValidationHandler(handler: IValidationHandler): IUnregisterFunction;
 }
 
@@ -40,6 +41,18 @@ export class Validator {
 		});
 
 		return isValid;
+	}
+
+	getErrorCount(): number {
+		return _.reduce(<any>this.validationHandlers, (count: number, handler: IValidationHandler): number => {
+			var isActive: boolean = this.isActive(handler);
+
+			if (isActive && !handler.validate()) {
+				count++;
+			}
+
+			return count;
+		}, 0);
 	}
 
 	registerValidationHandler(handler: IValidationHandler): IUnregisterFunction {

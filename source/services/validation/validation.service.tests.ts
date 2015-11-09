@@ -237,4 +237,37 @@ describe('validation', () => {
 			sinon.assert.calledWith(notification.warning, 'error');
 		});
 	});
+
+	describe('getErrorCount', (): void => {
+		it('should get the count of failing validators', (): void => {
+			let validHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return true; }),
+			};
+			let firstFailingHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+			};
+			let inactiveFailingHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+				isActive: false,
+			};
+			let secondFailingHandler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+			};
+
+			validator.registerValidationHandler(<any>validHandler);
+			validator.registerValidationHandler(<any>firstFailingHandler);
+			validator.registerValidationHandler(<any>inactiveFailingHandler);
+			validator.registerValidationHandler(<any>secondFailingHandler);
+
+			let errorCount: number = validator.getErrorCount();
+
+			sinon.assert.calledOnce(firstFailingHandler.validate);
+			sinon.assert.calledOnce(firstFailingHandler.validate);
+			sinon.assert.calledOnce(secondFailingHandler.validate);
+
+			sinon.assert.notCalled(inactiveFailingHandler.validate);
+
+			expect(errorCount).to.equal(2);
+		});
+	});
 });
