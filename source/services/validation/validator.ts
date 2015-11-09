@@ -18,7 +18,7 @@ export interface IErrorHandler {
 	(error: string): void;
 }
 
-export class Validator {
+export class Validator implements IValidator {
 	private validationHandlers: { [index: number]: IValidationHandler } = {};
 	private nextKey: number = 0;
 
