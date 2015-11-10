@@ -6,6 +6,7 @@
 
 import { moduleName } from './date.module';
 import { IDateUtility, IDateValue, serviceName } from './date.service';
+import { defaultFormats } from './dateTimeFormatStrings';
 
 import { CompareResult } from '../../types/compareResult';
 
@@ -213,6 +214,13 @@ describe('dateUtility', () => {
 			var earlierDate: string = '9/10/1999';
 
 			expect(dateUtility.compareDates(date, earlierDate)).to.equal(CompareResult.greater);
+		});
+
+		it('should handle date-times where the date is the same', (): void => {
+			var date: string = '9/10/2000 10:00 AM';
+			var earlierDate: string = '9/10/2000 8:00 AM';
+
+			expect(dateUtility.compareDates(date, earlierDate, defaultFormats.dateTimeFormat)).to.equal(CompareResult.greater);
 		});
 	});
 
