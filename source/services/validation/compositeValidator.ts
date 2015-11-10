@@ -9,14 +9,14 @@ interface IRegisteredValidator extends IValidator {
 	key: number;
 }
 
-export interface IAggregateValidator {
+export interface ICompositeValidator {
 	validate(): boolean;
 	getErrorCount(): number;
 	buildChildValidator(): IValidator;
 	unregisterChild(validator: IValidator): void;
 }
 
-export class AggregateValidator implements IAggregateValidator {
+export class CompositeValidator implements ICompositeValidator {
 	private childValidators: { [index: number]: IValidator } = {};
 	private nextKey: number = 0;
 
