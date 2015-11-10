@@ -11,7 +11,7 @@ import {
 	moduleName,
 	serviceName,
 	IValidator,
-	IAggregateValidator,
+	ICompositeValidator,
 } from './validation.service';
 
 import { angularFixture } from '../test/angularFixture';
@@ -278,11 +278,11 @@ describe('validation', () => {
 		});
 	});
 
-	describe('aggregateValidator', (): void => {
+	describe('compositeValidator', (): void => {
 		it('should run each of the child validators', (): void => {
-			let aggregateValidator: IAggregateValidator = validationService.buildAggregateCustomValidator(showErrorSpy);
-			let firstChild: IValidator = aggregateValidator.buildChildValidator();
-			let secondChild: IValidator = aggregateValidator.buildChildValidator();
+			let compositeValidator: ICompositeValidator = validationService.buildCompositeCustomValidator(showErrorSpy);
+			let firstChild: IValidator = compositeValidator.buildChildValidator();
+			let secondChild: IValidator = compositeValidator.buildChildValidator();
 			let firstChildHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 			};
@@ -293,7 +293,7 @@ describe('validation', () => {
 			firstChild.registerValidationHandler(<any>firstChildHandler);
 			secondChild.registerValidationHandler(<any>secondChildHandler);
 
-			let isValid: boolean = aggregateValidator.validate();
+			let isValid: boolean = compositeValidator.validate();
 
 			sinon.assert.calledOnce(firstChildHandler.validate);
 			sinon.assert.calledOnce(secondChildHandler.validate);
@@ -301,9 +301,9 @@ describe('validation', () => {
 		});
 
 		it('should show the first error from a child validator', (): void => {
-			let aggregateValidator: IAggregateValidator = validationService.buildAggregateCustomValidator(showErrorSpy);
-			let firstChild: IValidator = aggregateValidator.buildChildValidator();
-			let secondChild: IValidator = aggregateValidator.buildChildValidator();
+			let compositeValidator: ICompositeValidator = validationService.buildCompositeCustomValidator(showErrorSpy);
+			let firstChild: IValidator = compositeValidator.buildChildValidator();
+			let secondChild: IValidator = compositeValidator.buildChildValidator();
 			let failingChildHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 				errorMessage: 'error1',
@@ -315,7 +315,7 @@ describe('validation', () => {
 			firstChild.registerValidationHandler(<any>failingChildHandler);
 			secondChild.registerValidationHandler(<any>secondChildHandler);
 
-			let isValid: boolean = aggregateValidator.validate();
+			let isValid: boolean = compositeValidator.validate();
 
 			sinon.assert.calledOnce(failingChildHandler.validate);
 			sinon.assert.notCalled(secondChildHandler.validate);
@@ -326,9 +326,9 @@ describe('validation', () => {
 		});
 
 		it('should sum the counts of the child validation failures', (): void => {
-			let aggregateValidator: IAggregateValidator = validationService.buildAggregateCustomValidator(showErrorSpy);
-			let firstChild: IValidator = aggregateValidator.buildChildValidator();
-			let secondChild: IValidator = aggregateValidator.buildChildValidator();
+			let compositeValidator: ICompositeValidator = validationService.buildCompositeCustomValidator(showErrorSpy);
+			let firstChild: IValidator = compositeValidator.buildChildValidator();
+			let secondChild: IValidator = compositeValidator.buildChildValidator();
 			let firstChildFailingHandler1: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 			};
@@ -353,7 +353,7 @@ describe('validation', () => {
 			firstChildFailingHandler2.validate.reset();
 			secondChildFailingHandler.validate.reset();
 
-			expect(aggregateValidator.getErrorCount()).to.equal(firstChildCount + secondChildCount);
+			expect(compositeValidator.getErrorCount()).to.equal(firstChildCount + secondChildCount);
 
 			sinon.assert.calledOnce(firstChildFailingHandler1.validate);
 			sinon.assert.calledOnce(firstChildFailingHandler2.validate);
