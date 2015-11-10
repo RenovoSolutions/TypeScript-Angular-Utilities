@@ -1,64 +1,48 @@
 'use strict';
 var angular = require('angular');
-var _ = require('lodash');
 var notification_service_1 = require('../notification/notification.service');
+var validator_1 = require('./validator');
+var compositeValidator_1 = require('./compositeValidator');
 exports.moduleName = 'rl.utilities.services.validation';
-exports.factoryName = 'validationFactory';
+exports.serviceName = 'validationFactory';
 var ValidationService = (function () {
     function ValidationService(notification) {
         this.notification = notification;
-        this.validationHandlers = {};
-        this.nextKey = 0;
-        this.notifyAsError = false;
     }
-    ValidationService.prototype.validate = function () {
+    ValidationService.prototype.buildNotificationWarningValidator = function () {
         var _this = this;
-        var isValid = true;
-        _.each(this.validationHandlers, function (handler) {
-            var isActive = (_.isFunction(handler.isActive) && handler.isActive())
-                || handler.isActive == null
-                || handler.isActive === true;
-            if (isActive && !handler.validate()) {
-                isValid = false;
-                var error = _.isFunction(handler.errorMessage)
-                    ? handler.errorMessage()
-                    : handler.errorMessage;
-                if (_this.notifyAsError) {
-                    _this.notification.error(error);
-                }
-                else {
-                    _this.notification.warning(error);
-                }
-                return false;
-            }
+        return new validator_1.Validator(function (error) {
+            _this.notification.warning(error);
         });
-        return isValid;
     };
-    ValidationService.prototype.registerValidationHandler = function (handler) {
+    ValidationService.prototype.buildNotificationErrorValidator = function () {
         var _this = this;
-        var currentKey = this.nextKey;
-        this.nextKey++;
-        this.validationHandlers[currentKey] = handler;
-        return function () {
-            _this.unregister(currentKey);
-        };
+        return new validator_1.Validator(function (error) {
+            _this.notification.error(error);
+        });
     };
-    ValidationService.prototype.unregister = function (key) {
-        delete this.validationHandlers[key];
+    ValidationService.prototype.buildCustomValidator = function (showError) {
+        return new validator_1.Validator(showError);
     };
+    ValidationService.prototype.buildCompositeNotificationWarningValidator = function () {
+        var _this = this;
+        return new compositeValidator_1.CompositeValidator(function (error) {
+            _this.notification.warning(error);
+        });
+    };
+    ValidationService.prototype.buildCompositeNotificationErrorValidator = function () {
+        var _this = this;
+        return new compositeValidator_1.CompositeValidator(function (error) {
+            _this.notification.error(error);
+        });
+    };
+    ValidationService.prototype.buildCompositeCustomValidator = function (showError) {
+        return new compositeValidator_1.CompositeValidator(showError);
+    };
+    ValidationService.$inject = [notification_service_1.serviceName];
     return ValidationService;
 })();
 exports.ValidationService = ValidationService;
-validationServiceFactory.$inject = [notification_service_1.serviceName];
-function validationServiceFactory(notification) {
-    'use strict';
-    return {
-        getInstance: function () {
-            return new ValidationService(notification);
-        }
-    };
-}
-exports.validationServiceFactory = validationServiceFactory;
 angular.module(exports.moduleName, [notification_service_1.moduleName])
-    .factory(exports.factoryName, validationServiceFactory);
+    .service(exports.serviceName, ValidationService);
 //# sourceMappingURL=validation.service.js.map
