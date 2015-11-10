@@ -5,7 +5,7 @@
 
 'use strict';
 
-import { IUnregisterFunction, IValidationServiceFactory, IValidationService, moduleName, factoryName } from './validation.service';
+import { IUnregisterFunction, IValidationService, moduleName, serviceName, IValidator } from './validation.service';
 
 import { angularFixture } from '../test/angularFixture';
 
@@ -24,11 +24,15 @@ interface IMockNotification {
 }
 
 describe('validation', () => {
-	var validation: IValidationService;
-	var notification: IMockNotification;
+	let validationService: IValidationService;
+	let validator: IValidator;
+	let notification: IMockNotification;
+	let showErrorSpy: Sinon.SinonSpy;
 
 	beforeEach(() => {
 		angular.mock.module(moduleName);
+
+		showErrorSpy = sinon.spy();
 
 		notification = {
 			error: sinon.spy(),
@@ -39,98 +43,83 @@ describe('validation', () => {
 			notification: notification,
 		});
 
-		var services: any = angularFixture.inject(factoryName);
-		var validationFactory: IValidationServiceFactory = services[factoryName];
-		validation = validationFactory.getInstance();
+		let services: any = angularFixture.inject(serviceName);
+		validationService = services[serviceName];
+		validator = validationService.buildCustomValidator(showErrorSpy);
 	});
 
 	describe('validate', (): void => {
 		it('should register a validation handler and use it to validate', (): void => {
-			var handler: IMockValidationHandler = {
+			let handler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 			};
 
-			validation.registerValidationHandler(<any>handler);
+			validator.registerValidationHandler(<any>handler);
 
-			var isValid: boolean = validation.validate();
+			let isValid: boolean = validator.validate();
 
 			sinon.assert.calledOnce(handler.validate);
 			expect(isValid).to.be.true;
 		});
 
-		it('should notify using the handler error message if validation fails', (): void => {
-			var handler: IMockValidationHandler = {
+		it('should show the handler\'s error message if validation fails', (): void => {
+			let handler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 				errorMessage: 'error',
 			};
 
-			validation.registerValidationHandler(<any>handler);
+			validator.registerValidationHandler(<any>handler);
 
-			var isValid: boolean = validation.validate();
+			let isValid: boolean = validator.validate();
 
 			sinon.assert.calledOnce(handler.validate);
 			expect(isValid).to.be.false;
-			sinon.assert.calledOnce(notification.warning);
-			sinon.assert.calledWith(notification.warning, 'error');
-		});
-
-		it('should use the error notification instead of warning if notifyAsError is set to true', (): void => {
-			var handler: IMockValidationHandler = {
-				validate: sinon.spy((): boolean => { return false; }),
-				errorMessage: 'error',
-			};
-
-			validation.registerValidationHandler(<any>handler);
-			validation.notifyAsError = true;
-
-			validation.validate();
-
-			sinon.assert.calledOnce(notification.error);
-			sinon.assert.calledWith(notification.error, 'error');
+			sinon.assert.calledOnce(showErrorSpy);
+			sinon.assert.calledWith(showErrorSpy, 'error');
 		});
 
 		it('should allow the handler to specify a function for returning the error message', (): void => {
-			var handler: IMockValidationHandler = {
+			let handler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 				errorMessage: sinon.spy((): string => { return 'error'; }),
 			};
 
-			validation.registerValidationHandler(<any>handler);
+			validator.registerValidationHandler(<any>handler);
 
-			validation.validate();
+			validator.validate();
 
 			sinon.assert.calledOnce(<Sinon.SinonSpy>handler.errorMessage);
 
-			sinon.assert.calledOnce(notification.warning);
-			sinon.assert.calledWith(notification.warning, 'error');
+			sinon.assert.calledOnce(showErrorSpy);
+			sinon.assert.calledWith(showErrorSpy, 'error');
 		});
 
 		it('should handle multiple validators and only show the error of the first one to fail', (): void => {
-			var firstValidHandler: IMockValidationHandler = {
+			let firstValidHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 			};
-			var secondValidHandler: IMockValidationHandler = {
+			let secondValidHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 			};
-			var firstFailingHandler: IMockValidationHandler = {
+			let firstFailingHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 				errorMessage: 'error1',
 			};
-			var thirdValidHandler: IMockValidationHandler = {
+			let thirdValidHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 			};
-			var secondFailingHandler: IMockValidationHandler = {
+			let secondFailingHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 				errorMessage: 'error2',
 			};
 
-			validation.registerValidationHandler(<any>firstValidHandler);
-			validation.registerValidationHandler(<any>secondValidHandler);
-			validation.registerValidationHandler(<any>firstFailingHandler);
-			validation.registerValidationHandler(<any>thirdValidHandler);
-			validation.registerValidationHandler(<any>secondFailingHandler);
+			validator.registerValidationHandler(<any>firstValidHandler);
+			validator.registerValidationHandler(<any>secondValidHandler);
+			validator.registerValidationHandler(<any>firstFailingHandler);
+			validator.registerValidationHandler(<any>thirdValidHandler);
+			validator.registerValidationHandler(<any>secondFailingHandler);
 
-			var isValid: boolean = validation.validate();
+			let isValid: boolean = validator.validate();
 
 			sinon.assert.calledOnce(firstFailingHandler.validate);
 			sinon.assert.calledOnce(secondValidHandler.validate);
@@ -140,21 +129,21 @@ describe('validation', () => {
 			sinon.assert.notCalled(secondFailingHandler.validate);
 			expect(isValid).to.be.false;
 
-			sinon.assert.calledOnce(notification.warning);
-			sinon.assert.calledWith(notification.warning, 'error1');
+			sinon.assert.calledOnce(showErrorSpy);
+			sinon.assert.calledWith(showErrorSpy, 'error1');
 		});
 	});
 
 	describe('isActive', (): void => {
 		it('should disable a validator if isActive is set to false', (): void => {
-			var inactiveHandler: IMockValidationHandler = {
+			let inactiveHandler: IMockValidationHandler = {
 				validate: sinon.spy(),
 				isActive: false,
 			};
 
-			validation.registerValidationHandler(<any>inactiveHandler);
+			validator.registerValidationHandler(<any>inactiveHandler);
 
-			var isValid: boolean = validation.validate();
+			let isValid: boolean = validator.validate();
 
 			sinon.assert.notCalled(inactiveHandler.validate);
 			// defaults to true if no active validators
@@ -162,19 +151,19 @@ describe('validation', () => {
 		});
 
 		it('should call isActive and disable the validator if the result is false', (): void => {
-			var inactiveHandler: IMockValidationHandler = {
+			let inactiveHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 				isActive: sinon.spy((): boolean => { return false; }),
 			};
-			var activeHandler: IMockValidationHandler = {
+			let activeHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 				isActive: sinon.spy((): boolean => { return true; }),
 			};
 
-			validation.registerValidationHandler(<any>inactiveHandler);
-			validation.registerValidationHandler(<any>activeHandler);
+			validator.registerValidationHandler(<any>inactiveHandler);
+			validator.registerValidationHandler(<any>activeHandler);
 
-			var isValid: boolean = validation.validate();
+			let isValid: boolean = validator.validate();
 
 			sinon.assert.calledOnce(<Sinon.SinonSpy>inactiveHandler.isActive);
 			sinon.assert.notCalled(inactiveHandler.validate);
@@ -186,17 +175,17 @@ describe('validation', () => {
 
 	describe('unregister', (): void => {
 		it('should return a function to unregister the validation handler', (): void => {
-			var handlerToUnregister: IMockValidationHandler = {
+			let handlerToUnregister: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 			};
-			var activeHandler: IMockValidationHandler = {
+			let activeHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 			};
 
-			var unregister: IUnregisterFunction = validation.registerValidationHandler(<any>handlerToUnregister);
-			validation.registerValidationHandler(<any>activeHandler);
+			let unregister: IUnregisterFunction = validator.registerValidationHandler(<any>handlerToUnregister);
+			validator.registerValidationHandler(<any>activeHandler);
 
-			var isValid: boolean = validation.validate();
+			let isValid: boolean = validator.validate();
 
 			expect(isValid).to.be.false;
 			sinon.assert.calledOnce(handlerToUnregister.validate);
@@ -207,11 +196,45 @@ describe('validation', () => {
 
 			unregister();
 
-			isValid = validation.validate();
+			isValid = validator.validate();
 
 			expect(isValid).to.be.true;
 			sinon.assert.notCalled(handlerToUnregister.validate);
 			sinon.assert.calledOnce(activeHandler.validate);
+		});
+	});
+
+	describe('notification', (): void => {
+		it('should show errors as error notifications', (): void => {
+			validator = validationService.buildNotificationErrorValidator();
+
+			let handler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+				errorMessage: 'error',
+			};
+
+			validator.registerValidationHandler(<any>handler);
+
+			validator.validate();
+
+			sinon.assert.calledOnce(notification.error);
+			sinon.assert.calledWith(notification.error, 'error');
+		});
+
+		it('should show errors as warning notifications', (): void => {
+			validator = validationService.buildNotificationWarningValidator();
+
+			let handler: IMockValidationHandler = {
+				validate: sinon.spy((): boolean => { return false; }),
+				errorMessage: 'error',
+			};
+
+			validator.registerValidationHandler(<any>handler);
+
+			validator.validate();
+
+			sinon.assert.calledOnce(notification.warning);
+			sinon.assert.calledWith(notification.warning, 'error');
 		});
 	});
 });
