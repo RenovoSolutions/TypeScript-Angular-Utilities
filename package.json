@@ -28,7 +28,7 @@
     "chai": "^2.1.2",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
-    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/1.0.1.tar.gz",
+    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/1.0.7.tar.gz",
     "karma": "^0.13.10",
     "karma-browserify": "^4.1.2",
     "karma-chai": "~0.1.0",
@@ -46,7 +46,7 @@
     "mocha": "^2.2.1",
     "sinon": "^1.17.0",
     "source-map-loader": "^0.1.5",
-    "ts-loader": "^0.5.5",
+    "ts-loader": "^0.7.1",
     "typescript": "^1.6.2",
     "webpack": "^1.12.2"
   },
