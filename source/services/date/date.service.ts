@@ -35,6 +35,7 @@ export interface IDateUtility {
 	getDays(month: number, year?: number): number;
 	subtractDates(start: string | Date, end: string | Date, dateFormat?: string): IDateValue;
 	subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number;
+	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number;
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
 	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
 	getDate(date: string | Date, dateFormat?: string): Date;
@@ -102,6 +103,11 @@ export class DateUtility {
 	}
 
 	subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number {
+		var milliseconds: number = this.subtractDateInMilliseconds(start, end, dateFormat);
+		return this.time.millisecondsToDays(milliseconds);
+	}
+
+	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number {
 		if (start == null || end == null) {
 			return null;
 		}
@@ -109,14 +115,12 @@ export class DateUtility {
 		var startDate: Date = this.getDate(start, dateFormat);
 		var endDate: Date = this.getDate(end, dateFormat);
 
-		var milliseconds: number = endDate.getTime() - startDate.getTime();
-
-		return this.time.millisecondsToDays(milliseconds);
+		return endDate.getTime() - startDate.getTime();
 	}
 
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult {
 		// subtractDateInDays subtracts the fist from the second, assuming start and end dates
-		var difference: number = this.subtractDateInDays(date2, date1, dateFormat);
+		var difference: number = this.subtractDateInMilliseconds(date2, date1, dateFormat);
 		return getCompareResult(difference);
 	}
 
