@@ -54,17 +54,20 @@ var DateUtility = (function () {
         return result;
     };
     DateUtility.prototype.subtractDateInDays = function (start, end, dateFormat) {
+        var milliseconds = this.subtractDateInMilliseconds(start, end, dateFormat);
+        return this.time.millisecondsToDays(milliseconds);
+    };
+    DateUtility.prototype.subtractDateInMilliseconds = function (start, end, dateFormat) {
         if (start == null || end == null) {
             return null;
         }
         var startDate = this.getDate(start, dateFormat);
         var endDate = this.getDate(end, dateFormat);
-        var milliseconds = endDate.getTime() - startDate.getTime();
-        return this.time.millisecondsToDays(milliseconds);
+        return endDate.getTime() - startDate.getTime();
     };
     DateUtility.prototype.compareDates = function (date1, date2, dateFormat) {
         // subtractDateInDays subtracts the fist from the second, assuming start and end dates
-        var difference = this.subtractDateInDays(date2, date1, dateFormat);
+        var difference = this.subtractDateInMilliseconds(date2, date1, dateFormat);
         return compareResult_1.getCompareResult(difference);
     };
     DateUtility.prototype.dateInRange = function (date, rangeStart, rangeEnd) {

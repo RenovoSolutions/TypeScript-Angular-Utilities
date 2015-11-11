@@ -15,6 +15,7 @@ export interface IDateUtility {
     getDays(month: number, year?: number): number;
     subtractDates(start: string | Date, end: string | Date, dateFormat?: string): IDateValue;
     subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number;
+    subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number;
     compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
     dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
     getDate(date: string | Date, dateFormat?: string): Date;
@@ -32,6 +33,7 @@ export declare class DateUtility {
     getDays(month: number, year?: number): number;
     subtractDates(start: string | Date, end: string | Date, dateFormat?: string): IDateValue;
     subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number;
+    subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number;
     compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
     dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
     getDate(date: string | Date, dateFormat?: string): Date;
