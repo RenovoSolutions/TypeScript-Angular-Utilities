@@ -19,7 +19,7 @@ export interface IErrorHandler {
 }
 
 export class Validator implements IValidator {
-	private validationHandlers: { [index: number]: IValidationHandler } = {};
+	private validationHandlers: { [index: string]: IValidationHandler } = {};
 	private nextKey: number = 0;
 
 	constructor(private showError: IErrorHandler) {}

@@ -17,7 +17,7 @@ export interface ICompositeValidator {
 }
 
 export class CompositeValidator implements ICompositeValidator {
-	private childValidators: { [index: number]: IValidator } = {};
+	private childValidators: { [index: string]: IValidator } = {};
 	private nextKey: number = 0;
 
 	constructor(private showError: IErrorHandler) {}
