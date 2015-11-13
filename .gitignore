@@ -1,8 +1,8 @@
 # Definitively typed files (resolved via tsd)
 /typings/*/
 
-# Bundled output files
-/output/
+# Bower file
+/output/bower.json
 
 # Node deps
 /node_modules/
