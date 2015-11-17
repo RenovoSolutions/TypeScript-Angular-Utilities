@@ -10,9 +10,10 @@ export interface IControllerResult<TControllerType> {
 	scope: angular.IScope;
 }
 
-export interface IDirectiveResult {
+export interface IDirectiveResult<TControllerType> {
 	directive: angular.IDirective;
 	scope: angular.IScope;
+	controller: TControllerType;
 }
 
 export interface IAngularFixture {
@@ -20,7 +21,7 @@ export interface IAngularFixture {
 	mock: (mocks: any) => void;
 	controllerWithBindings<TControllerType>(controllerName: string, bindings?: any, locals?: any, scope?: any)
 		: IControllerResult<TControllerType>;
-	directive: (dom: string) => IDirectiveResult;
+	directive<TControllerType>(directiveName: string, dom: string, scope: angular.IScope): IDirectiveResult<TControllerType>;
 }
 
 class AngularFixture implements IAngularFixture {
@@ -72,18 +73,19 @@ class AngularFixture implements IAngularFixture {
 		};
 	}
 
-	directive(dom: string): IDirectiveResult {
+	directive<TControllerType>(directiveName: string, dom: string, scope: any): IDirectiveResult<TControllerType> {
 		var services: any = this.inject('$rootScope', '$compile');
-		var $rootScope: angular.IScope = services.$rootScope;
-		var $compile: any = services.$compile;
+		scope = _.extend(services.$rootScope.$new(), scope);
 
-		angular.mock.module('renovoTemplates');
+		var $compile: angular.ICompileService = services.$compile;
 
-		var component: any = $compile(dom)($rootScope);
-		$rootScope.$digest();
+		var component: angular.IAugmentedJQuery = $compile(dom)(scope);
+		scope.$digest();
+
 		return {
 			directive: component,
 			scope: component.isolateScope(),
+			controller: component.controller(directiveName),
 		};
 	}
 }
