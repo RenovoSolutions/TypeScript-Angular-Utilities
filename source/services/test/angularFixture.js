@@ -50,16 +50,16 @@ var AngularFixture = (function () {
             controller: $controller(controllerName, locals, bindings),
         };
     };
-    AngularFixture.prototype.directive = function (dom) {
+    AngularFixture.prototype.directive = function (directiveName, dom, scope) {
         var services = this.inject('$rootScope', '$compile');
-        var $rootScope = services.$rootScope;
+        scope = _.extend(services.$rootScope.$new(), scope);
         var $compile = services.$compile;
-        angular.mock.module('renovoTemplates');
-        var component = $compile(dom)($rootScope);
-        $rootScope.$digest();
+        var component = $compile(dom)(scope);
+        scope.$digest();
         return {
             directive: component,
             scope: component.isolateScope(),
+            controller: component.controller(directiveName),
         };
     };
     return AngularFixture;
