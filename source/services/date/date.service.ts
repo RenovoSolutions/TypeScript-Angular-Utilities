@@ -137,20 +137,23 @@ export class DateUtility {
 	}
 
 	getDate(date: string | Date, dateFormat?: string): Date {
-		var format: string = dateFormat != null ? dateFormat : this.baseFormat;
-
 		if (_.isDate(date)) {
 			return <Date>date;
 		} else {
-			return this.moment(<string>date, format).toDate();
+			return this.moment(<string>date, this.format(dateFormat)).toDate();
 		}
 	}
 
 	isDate(date: string | Date, dateFormat?: string): boolean {
-		return _.isDate(this.getDate(date, dateFormat));
+		return _.isDate(date)
+			|| this.moment(<string>date, this.format(dateFormat)).isValid();
 	}
 
 	getNow(): Date {
 		return new Date();
+	}
+
+	private format(customFormat: string): string {
+		return customFormat != null ? customFormat : this.baseFormat;
 	}
 }
