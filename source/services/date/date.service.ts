@@ -1,6 +1,8 @@
 ﻿'use strict';
 
 import * as angular from 'angular';
+import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import {
 	moduleName as timeModuleName,
@@ -13,7 +15,6 @@ import {
 	serviceName as momentServiceName,
 } from '../moment/moment.module';
 
-import * as moment from 'moment';
 
 import { CompareResult, getCompareResult } from '../../types/compareResult';
 
@@ -39,6 +40,7 @@ export interface IDateUtility {
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
 	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
 	getDate(date: string | Date, dateFormat?: string): Date;
+	isDate(date: string | Date, dateFormat?: string): boolean;
 	getNow(): Date;
 }
 
@@ -135,16 +137,23 @@ export class DateUtility {
 	}
 
 	getDate(date: string | Date, dateFormat?: string): Date {
-		var format: string = dateFormat != null ? dateFormat : this.baseFormat;
-
 		if (_.isDate(date)) {
 			return <Date>date;
 		} else {
-			return this.moment(<string>date, format).toDate();
+			return this.moment(<string>date, this.format(dateFormat)).toDate();
 		}
+	}
+
+	isDate(date: string | Date, dateFormat?: string): boolean {
+		return _.isDate(date)
+			|| this.moment(<string>date, this.format(dateFormat)).isValid();
 	}
 
 	getNow(): Date {
 		return new Date();
+	}
+
+	private format(customFormat: string): string {
+		return customFormat != null ? customFormat : this.baseFormat;
 	}
 }

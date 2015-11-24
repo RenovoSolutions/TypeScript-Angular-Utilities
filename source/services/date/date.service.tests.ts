@@ -79,6 +79,19 @@ describe('dateUtility', () => {
 		});
 	});
 
+	describe('isDate', (): void => {
+		it('should be true if item is a date or a string in date format', (): void => {
+			expect(dateUtility.isDate('1/1/2014')).to.be.true;
+			expect(dateUtility.isDate(new Date('1/1/2014'))).to.be.true;
+		});
+
+		it('should return false if object is not a date', (): void => {
+			expect(dateUtility.isDate(null)).to.be.false;
+			expect(dateUtility.isDate(<any>{})).to.be.false;
+			expect(dateUtility.isDate('123456')).to.be.false;
+		});
+	});
+
 	describe('subtractDates', (): void => {
 		it('should get 0 years, months , and days when subtracting ths same date from itself', (): void => {
 			var startDate: string = '9/10/2014';
