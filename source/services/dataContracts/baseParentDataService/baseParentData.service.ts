@@ -26,7 +26,7 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 			return this.resourceDictionaryBuilder(this.endpoint);
 		} else {
 			let dictionary: {[index: string]: any} = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
-			_.map(dictionary, (dataService: IBaseDataServiceView<TDataType, TSearchParams>): IBaseSingletonDataService<TDataType> | IBaseDataService<TDataType, TSearchParams> => {
+			return <any>_.mapValues(dictionary, (dataService: IBaseDataServiceView<TDataType, TSearchParams>): IBaseSingletonDataService<TDataType> | IBaseDataService<TDataType, TSearchParams> => {
 				if (_.isFunction(dataService.AsSingleton)) {
 					return dataService.AsSingleton(id);
 				}
