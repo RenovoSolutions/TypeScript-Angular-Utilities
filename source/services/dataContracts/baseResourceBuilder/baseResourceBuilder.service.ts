@@ -163,6 +163,7 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 				logRequests: dataServiceView.logRequests,
 			};
 		}
+		return dataServiceView;
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
