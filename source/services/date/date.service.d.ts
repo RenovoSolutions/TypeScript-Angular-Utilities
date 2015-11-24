@@ -19,6 +19,7 @@ export interface IDateUtility {
     compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
     dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
     getDate(date: string | Date, dateFormat?: string): Date;
+    isDate(date: string | Date, dateFormat?: string): boolean;
     getNow(): Date;
 }
 export declare class DateUtility {
@@ -37,5 +38,7 @@ export declare class DateUtility {
     compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
     dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
     getDate(date: string | Date, dateFormat?: string): Date;
+    isDate(date: string | Date, dateFormat?: string): boolean;
     getNow(): Date;
+    private format(customFormat);
 }

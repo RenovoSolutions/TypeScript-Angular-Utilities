@@ -1,4 +1,5 @@
 'use strict';
+var _ = require('lodash');
 var time_service_1 = require('../time/time.service');
 var moment_module_1 = require('../moment/moment.module');
 var compareResult_1 = require('../../types/compareResult');
@@ -82,16 +83,22 @@ var DateUtility = (function () {
         }
     };
     DateUtility.prototype.getDate = function (date, dateFormat) {
-        var format = dateFormat != null ? dateFormat : this.baseFormat;
         if (_.isDate(date)) {
             return date;
         }
         else {
-            return this.moment(date, format).toDate();
+            return this.moment(date, this.format(dateFormat)).toDate();
         }
+    };
+    DateUtility.prototype.isDate = function (date, dateFormat) {
+        return _.isDate(date)
+            || this.moment(date, this.format(dateFormat)).isValid();
     };
     DateUtility.prototype.getNow = function () {
         return new Date();
+    };
+    DateUtility.prototype.format = function (customFormat) {
+        return customFormat != null ? customFormat : this.baseFormat;
     };
     DateUtility.$inject = [moment_module_1.serviceName, time_service_1.serviceName];
     return DateUtility;
