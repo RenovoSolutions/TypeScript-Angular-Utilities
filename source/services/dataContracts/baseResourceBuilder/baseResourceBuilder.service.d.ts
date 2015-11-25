@@ -2,6 +2,7 @@ import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
 import { ILibraryServices } from './contractLibrary';
 import { IBaseDataService, IBaseDomainObject, ITransformFunction } from '../baseDataService/baseData.service';
+import { IBaseDataServiceView } from '../baseDataService/baseDataServiceView';
 import { IBaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 import { IBaseParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
@@ -84,6 +85,16 @@ export interface IBaseResourceBuilder {
     */
     createResource<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, void>;
     /**
+    * Create a view of a parent resource that can be used as a base resource or
+    * as a singleton if a parent is selected
+    */
+    createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams>;
+    /**
+    * Create a view of a parent resource that can be used as a base resource or
+    * as a singleton if a parent is selected
+    */
+    createResourceView<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, void>;
+    /**
     * Create a parent resource that extends the standard with child resources available through childContracts(id)
     */
     createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
@@ -92,11 +103,11 @@ export interface IBaseResourceBuilder {
     */
     createParentResource<TDataType extends IBaseDomainObject, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
     /**
-    * Create a singleton resource with get and update
+    * Deprecated - Create a singleton resource with get and update
     */
     createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
     /**
-    * Create a parent singleton resource that extends the singleton with child resources available through childContracts(id)
+    * Deprecated - Create a parent singleton resource that extends the singleton with child resources available through childContracts(id)
     */
     createParentSingletonResource<TDataType, TResourceDictionaryType>(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
@@ -109,6 +120,7 @@ export declare class BaseResourceBuilder implements IBaseResourceBuilder {
     constructor($http: angular.IHttpService, $q: angular.IQService, $rootScope: angular.IRootScopeService, array: IArrayUtility);
     getLibraryServices(): ILibraryServices;
     createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams>;
+    createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams>;
     createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
     createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
     createParentSingletonResource<TDataType, TResourceDictionaryType>(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;

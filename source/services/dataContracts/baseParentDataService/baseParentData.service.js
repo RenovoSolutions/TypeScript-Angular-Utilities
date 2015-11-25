@@ -11,7 +11,18 @@ var BaseParentDataService = (function (_super) {
         this.resourceDictionaryBuilder = resourceDictionaryBuilder;
     }
     BaseParentDataService.prototype.childContracts = function (id) {
-        return this.resourceDictionaryBuilder(this.endpoint + '/' + id);
+        if (_.isUndefined(id)) {
+            return this.resourceDictionaryBuilder(this.endpoint);
+        }
+        else {
+            var dictionary = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
+            return _.mapValues(dictionary, function (dataService) {
+                if (_.isFunction(dataService.AsSingleton)) {
+                    return dataService.AsSingleton(id);
+                }
+                return dataService;
+            });
+        }
     };
     return BaseParentDataService;
 })(baseData_service_1.BaseDataService);

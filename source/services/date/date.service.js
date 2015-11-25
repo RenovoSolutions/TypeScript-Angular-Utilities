@@ -90,6 +90,9 @@ var DateUtility = (function () {
             return this.moment(date, this.format(dateFormat)).toDate();
         }
     };
+    DateUtility.prototype.getDateFromISOString = function (date) {
+        return this.moment(date).toDate();
+    };
     DateUtility.prototype.isDate = function (date, dateFormat) {
         return _.isDate(date)
             || this.moment(date, this.format(dateFormat)).isValid();

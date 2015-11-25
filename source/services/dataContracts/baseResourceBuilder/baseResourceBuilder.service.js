@@ -24,6 +24,18 @@ var BaseResourceBuilder = (function () {
         options.useMock = options.endpoint == null ? true : options.useMock;
         return new baseData_service_1.BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
     };
+    BaseResourceBuilder.prototype.createResourceView = function (options) {
+        var dataServiceView = this.createResource(options);
+        dataServiceView.AsSingleton = function (parentId) {
+            return {
+                get: function () { return dataServiceView.getDetail(parentId); },
+                update: function (domainObject) { return dataServiceView.update(domainObject); },
+                useMock: dataServiceView.useMock,
+                logRequests: dataServiceView.logRequests,
+            };
+        };
+        return dataServiceView;
+    };
     BaseResourceBuilder.prototype.createParentResource = function (options) {
         options.useMock = options.endpoint == null ? true : options.useMock;
         return new baseParentData_service_1.BaseParentDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
