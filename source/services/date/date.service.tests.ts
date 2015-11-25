@@ -79,6 +79,15 @@ describe('dateUtility', () => {
 		});
 	});
 
+	describe('getDateFromServer', (): void => {
+		it('should get dates from string in server format, "YYYY-MM-DDTHH:MM:SS"', (): void => {
+			var expectedDate = new Date(2015, 10, 24, 20, 12, 0);
+			var dateString: string = '2015-11-24T20:12:00';
+			var date: Date = dateUtility.getDateFromServer(dateString);
+			expect(date).to.deep.equal(expectedDate);
+		});
+	})
+
 	describe('isDate', (): void => {
 		it('should be true if item is a date or a string in date format', (): void => {
 			expect(dateUtility.isDate('1/1/2014')).to.be.true;

@@ -15,6 +15,7 @@ import {
 	serviceName as momentServiceName,
 } from '../moment/moment.module';
 
+import { defaultFormats } from './dateTimeFormatStrings';
 
 import { CompareResult, getCompareResult } from '../../types/compareResult';
 
@@ -40,6 +41,7 @@ export interface IDateUtility {
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
 	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
 	getDate(date: string | Date, dateFormat?: string): Date;
+	getDateFromISOString(date: string): Date;
 	isDate(date: string | Date, dateFormat?: string): boolean;
 	getNow(): Date;
 }
@@ -142,6 +144,10 @@ export class DateUtility {
 		} else {
 			return this.moment(<string>date, this.format(dateFormat)).toDate();
 		}
+	}
+
+	getDateFromISOString(date: string): Date {
+		return this.moment(date).toDate();
 	}
 
 	isDate(date: string | Date, dateFormat?: string): boolean {
