@@ -83,7 +83,7 @@ describe('dateUtility', () => {
 		it('should get dates from string in server format, "YYYY-MM-DDTHH:MM:SS"', (): void => {
 			var expectedDate = new Date(2015, 10, 24, 20, 12, 0);
 			var dateString: string = '2015-11-24T20:12:00';
-			var date: Date = dateUtility.getDateFromServer(dateString);
+			var date: Date = dateUtility.getDateFromISOString(dateString);
 			expect(date).to.deep.equal(expectedDate);
 		});
 	})
