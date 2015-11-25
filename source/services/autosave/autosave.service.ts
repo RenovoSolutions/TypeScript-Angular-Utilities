@@ -24,6 +24,7 @@ export interface IAutosaveServiceOptions {
 	contentForm?: angular.IFormController;
 	debounceDuration?: number;
 	setChangeListener?: { (callback: IChangeListener): IClearChangeListener };
+	triggers?: string;
 }
 
 export interface IChangeListener {
@@ -96,6 +97,10 @@ class AutosaveService implements IAutosaveService {
 		} else {
 			return false;
 		}
+	}
+
+	private initTriggers(triggers: string): void {
+		let triggerList: string[] = triggers.split(' ');
 	}
 
 	private setTimer(): void {
