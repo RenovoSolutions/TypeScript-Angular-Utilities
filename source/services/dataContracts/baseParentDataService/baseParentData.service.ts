@@ -9,6 +9,7 @@ import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingl
 export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends IBaseDataService<TDataType, TSearchParams>{
 	childContracts(id?: number): TResourceDictionaryType;
+	baseChildContracts(): TResourceDictionaryType;
 }
 
 export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
@@ -45,5 +46,9 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 				return contract;
 			});
 		}
+	}
+
+	baseChildContracts(): TResourceDictionaryType {
+		return this._childContracts;
 	}
 }
