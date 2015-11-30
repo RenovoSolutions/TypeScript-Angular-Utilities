@@ -47,7 +47,7 @@ export interface IParentResourceParams<TDataType extends IBaseDomainObject, TRes
 	/**
 	* Function that builds a dictionary of child resources available through childContracts(id)
 	*/
-	resourceDictionaryBuilder?: { (baseEndpoint: string): TResourceDictionaryType };
+	resourceDictionaryBuilder?: { (): TResourceDictionaryType };
 }
 
 export interface ISingletonResourceParams<TDataType> {
@@ -150,11 +150,14 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams> {
 		options.useMock = options.endpoint == null ? true : options.useMock;
-		return new BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+		let dataService: IBaseDataService<TDataType, TSearchParams> = new BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+		(<any>dataService).clone = (endpoint: string): IBaseDataService<TDataType, TSearchParams> => { return this.cloneResource(dataService, endpoint); };
+		return dataService;
 	}
 
 	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams> {
 		let dataServiceView: IBaseDataServiceView<TDataType, TSearchParams> = <any>this.createResource(options);
+		(<any>dataServiceView).clone = (endpoint: string): IBaseDataServiceView<TDataType, TSearchParams> => { return <any>this.cloneResource(dataServiceView, endpoint); };
 		dataServiceView.AsSingleton = function(parentId: number): IBaseSingletonDataService<TDataType> {
 			return {
 				get(): angular.IPromise<TDataType> { return dataServiceView.getDetail(parentId); },
@@ -181,6 +184,19 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType> {
 		options.useMock = options.endpoint == null ? true : options.useMock;
 		return new BaseParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+	}
+
+	private cloneResource<TDataType extends IBaseDomainObject, TSearchParams>(resource: IBaseDataService<TDataType, TSearchParams>, endpoint: string): IBaseDataService<TDataType, TSearchParams> {
+		let castedResource: BaseDataService<TDataType, TSearchParams> = <BaseDataService<TDataType, TSearchParams>>resource;
+		return {
+			getList(params?: TSearchParams): angular.IPromise<TDataType[]> { return castedResource.getList(params, endpoint); },
+			getDetail(id: number): angular.IPromise<TDataType> { return castedResource.getDetail(id, endpoint); },
+			create(domainObject: TDataType): angular.IPromise<TDataType> { return castedResource.create(domainObject, endpoint); },
+			update(domainObject: TDataType): angular.IPromise<void> { return castedResource.update(domainObject, endpoint); },
+			delete(domainObject: TDataType): angular.IPromise<void> { return castedResource.delete(domainObject, endpoint); },
+			useMock: castedResource.useMock,
+			logRequests: castedResource.logRequests,
+		};
 	}
 }
 
