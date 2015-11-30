@@ -198,6 +198,16 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 			logRequests: castedResource.logRequests,
 		};
 	}
+
+	private cloneSingletonResource<TDataType>(resource: IBaseSingletonDataService<TDataType>): IBaseSingletonDataService<TDataType> {
+		let castedResource: BaseSingletonDataService<TDataType> = <BaseSingletonDataService<TDataType>>resource;
+		return {
+			get(): angular.IPromise<TDataType> { return castedResource.get(endpoint); },
+			update(domainObject: TDataType): angular.IPromise<void> { return castedResource.update(domainObject, endpoint); },
+			useMock: castedResource.useMock,
+			logRequests: castedResource.logRequests,
+		};
+	}
 }
 
 angular.module(moduleName, [arrayModuleName])
