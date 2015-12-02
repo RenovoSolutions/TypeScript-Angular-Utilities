@@ -28,13 +28,14 @@ export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearc
     logRequests: boolean;
     constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], transform: ITransformFunction<TDataType>, useMock: boolean, logRequests: boolean);
     endpoint: string;
-    private getItemEndpoint(id);
-    getList(params: TSearchParams): angular.IPromise<TDataType[]>;
-    getDetail(id: number): angular.IPromise<TDataType>;
-    create(domainObject: TDataType): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<void>;
-    delete(domainObject: TDataType): angular.IPromise<void>;
+    private getItemEndpoint(id, endpoint?);
+    getList(params: TSearchParams, endpoint?: string): angular.IPromise<TDataType[]>;
+    getDetail(id: number, endpoint?: string): angular.IPromise<TDataType>;
+    create(domainObject: TDataType, endpoint?: string): angular.IPromise<TDataType>;
+    update(domainObject: TDataType, endpoint?: string): angular.IPromise<void>;
+    delete(domainObject: TDataType, endpoint?: string): angular.IPromise<void>;
     private log(requestName, data);
+    private getEndpointOrDefault(endpoint?);
 }
 export interface IBaseDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;

@@ -2,7 +2,7 @@ import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
 import { ILibraryServices } from './contractLibrary';
 import { IBaseDataService, IBaseDomainObject, ITransformFunction } from '../baseDataService/baseData.service';
-import { IBaseDataServiceView } from '../baseDataService/baseDataServiceView';
+import { IBaseDataServiceView, IBaseParentDataServiceView } from '../baseDataService/baseDataServiceView';
 import { IBaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 import { IBaseParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
@@ -37,7 +37,7 @@ export interface IParentResourceParams<TDataType extends IBaseDomainObject, TRes
     * Function that builds a dictionary of child resources available through childContracts(id)
     */
     resourceDictionaryBuilder?: {
-        (baseEndpoint: string): TResourceDictionaryType;
+        (): TResourceDictionaryType;
     };
 }
 export interface ISingletonResourceParams<TDataType> {
@@ -103,6 +103,16 @@ export interface IBaseResourceBuilder {
     */
     createParentResource<TDataType extends IBaseDomainObject, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
     /**
+    * Create a view of a parent resource with sub-resources that can be used as a base resource or
+    * as a singleton if a parent is selected
+    */
+    createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
+    /**
+    * Create a view of a parent resource with sub-resources that can be used as a base resource or
+    * as a singleton if a parent is selected
+    */
+    createParentResourceView<TDataType extends IBaseDomainObject, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
+    /**
     * Deprecated - Create a singleton resource with get and update
     */
     createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
@@ -122,6 +132,11 @@ export declare class BaseResourceBuilder implements IBaseResourceBuilder {
     createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams>;
     createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams>;
     createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
+    createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType>;
     createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
     createParentSingletonResource<TDataType, TResourceDictionaryType>(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
+    private cloneResource<TDataType, TSearchParams>(resource, endpoint);
+    private cloneParentResource<TDataType, TSearchParams, TResourceDictionaryType>(resource, endpoint);
+    private cloneSingletonResource<TDataType>(resource, endpoint);
+    private cloneParentSingletonResource<TDataType, TResourceDictionaryType>(resource, endpoint);
 }

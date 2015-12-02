@@ -2,10 +2,6 @@
 var angular = require('angular');
 var array = require('./array/array.service');
 exports.array = array;
-var autosave = require('./autosave/autosave.service');
-exports.autosave = autosave;
-var autosaveAction = require('./autosaveAction/autosaveAction.service');
-exports.autosaveAction = autosaveAction;
 var boolean = require('./boolean/boolean.service');
 exports.boolean = boolean;
 var dataContracts = require('./dataContracts/dataContracts.module');
@@ -45,8 +41,6 @@ exports.validation = validation;
 exports.moduleName = 'rl.utilities.services';
 angular.module(exports.moduleName, [
     array.moduleName,
-    autosave.moduleName,
-    autosaveAction.moduleName,
     boolean.moduleName,
     dataContracts.moduleName,
     date.moduleName,

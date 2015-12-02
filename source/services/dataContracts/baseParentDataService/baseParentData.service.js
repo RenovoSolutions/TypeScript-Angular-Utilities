@@ -9,21 +9,39 @@ var BaseParentDataService = (function (_super) {
     function BaseParentDataService($http, $q, array, endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests) {
         _super.call(this, $http, $q, array, endpoint, mockData, transform, useMock, logRequests);
         this.resourceDictionaryBuilder = resourceDictionaryBuilder;
+        this._childContracts = this.resourceDictionaryBuilder();
     }
     BaseParentDataService.prototype.childContracts = function (id) {
+        var _this = this;
         if (_.isUndefined(id)) {
-            return this.resourceDictionaryBuilder(this.endpoint);
+            return _.mapValues(this._childContracts, function (dataService) {
+                var contract = dataService.clone();
+                contract.endpoint = _this.endpoint + contract.endpoint;
+                return contract;
+            });
         }
         else {
-            var dictionary = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
+            var dictionary = this._childContracts;
             return _.mapValues(dictionary, function (dataService) {
-                if (_.isFunction(dataService.AsSingleton)) {
-                    return dataService.AsSingleton(id);
+                var contract = dataService;
+                if (_.isFunction(contract.AsSingleton)) {
+                    contract = contract.AsSingleton(id);
                 }
-                return dataService;
+                else {
+                    contract = contract.clone();
+                }
+                contract.endpoint = _this.endpoint + '/' + id + contract.endpoint;
+                return contract;
             });
         }
     };
+    Object.defineProperty(BaseParentDataService.prototype, "baseChildContracts", {
+        get: function () {
+            return this._childContracts;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return BaseParentDataService;
 })(baseData_service_1.BaseDataService);
 exports.BaseParentDataService = BaseParentDataService;

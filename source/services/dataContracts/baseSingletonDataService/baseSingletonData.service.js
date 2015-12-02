@@ -20,14 +20,14 @@ var BaseSingletonDataService = (function () {
         enumerable: true,
         configurable: true
     });
-    BaseSingletonDataService.prototype.get = function () {
+    BaseSingletonDataService.prototype.get = function (endpoint) {
         var _this = this;
         var promise;
         if (this.useMock) {
             promise = this.$q.when(this.mockData);
         }
         else {
-            promise = this.$http.get(this.endpoint)
+            promise = this.$http.get(this.getEndpointOrDefault(endpoint))
                 .then(function (response) {
                 return response.data;
             });
@@ -42,7 +42,7 @@ var BaseSingletonDataService = (function () {
             return data;
         });
     };
-    BaseSingletonDataService.prototype.update = function (domainObject) {
+    BaseSingletonDataService.prototype.update = function (domainObject, endpoint) {
         var _this = this;
         var promise;
         if (this.useMock) {
@@ -50,7 +50,7 @@ var BaseSingletonDataService = (function () {
             promise = this.$q.when();
         }
         else {
-            promise = this.$http.put(this.endpoint, domainObject).then(function () { return null; });
+            promise = this.$http.put(this.getEndpointOrDefault(endpoint), domainObject).then(function () { return null; });
         }
         return promise.then(function () {
             if (_this.logRequests) {
@@ -63,6 +63,9 @@ var BaseSingletonDataService = (function () {
         var endpointString = this.endpoint == null ? 'unspecified' : this.endpoint;
         console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
         console.log(data);
+    };
+    BaseSingletonDataService.prototype.getEndpointOrDefault = function (endpoint) {
+        return endpoint != null ? endpoint : this.endpoint;
     };
     return BaseSingletonDataService;
 })();
