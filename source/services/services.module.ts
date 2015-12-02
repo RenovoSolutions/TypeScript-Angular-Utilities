@@ -3,8 +3,6 @@
 import * as angular from 'angular';
 
 import * as array from './array/array.service';
-import * as autosave from './autosave/autosave.service';
-import * as autosaveAction from './autosaveAction/autosaveAction.service';
 import * as boolean from './boolean/boolean.service';
 import * as dataContracts from './dataContracts/dataContracts.module';
 import * as date from './date/date.module';
@@ -26,8 +24,6 @@ import * as validation from './validation/validation.service';
 
 export {
 	array,
-	autosave,
-	autosaveAction,
 	boolean,
 	dataContracts,
 	date,
@@ -52,8 +48,6 @@ export var moduleName: string = 'rl.utilities.services';
 
 angular.module(moduleName, [
 	array.moduleName,
-	autosave.moduleName,
-	autosaveAction.moduleName,
 	boolean.moduleName,
 	dataContracts.moduleName,
 	date.moduleName,

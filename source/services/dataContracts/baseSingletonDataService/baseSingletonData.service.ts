@@ -29,12 +29,12 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
         return this._endpoint;
     }
 
-    get(): angular.IPromise<TDataType> {
+    get(endpoint?: string): angular.IPromise<TDataType> {
         let promise: angular.IPromise<TDataType>;
         if (this.useMock) {
             promise = this.$q.when(this.mockData);
         } else {
-            promise = this.$http.get(this.endpoint)
+            promise = this.$http.get(this.getEndpointOrDefault(endpoint))
                 .then((response: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
                 return response.data;
             });
@@ -50,13 +50,13 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
         });
     }
 
-    update(domainObject: TDataType): angular.IPromise<void> {
+    update(domainObject: TDataType, endpoint?: string): angular.IPromise<void> {
         let promise: angular.IPromise<void>;
         if (this.useMock) {
             this.mockData = <TDataType>_.assign(this.mockData, domainObject);
             promise = this.$q.when();
         } else {
-            promise = this.$http.put<void>(this.endpoint, domainObject).then((): void => { return null; });
+            promise = this.$http.put<void>(this.getEndpointOrDefault(endpoint), domainObject).then((): void => { return null; });
         }
         return promise.then((): void => {
             if (this.logRequests) {
@@ -70,6 +70,10 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
         let endpointString = this.endpoint == null ? 'unspecified' : this.endpoint;
         console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
         console.log(data);
+    }
+
+    private getEndpointOrDefault(endpoint?: string): string {
+        return endpoint != null ? endpoint : this.endpoint;
     }
 }
 
