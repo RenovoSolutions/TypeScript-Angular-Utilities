@@ -2,6 +2,7 @@
 Contains a list of reusable TypeScript libraries, services, and general utilities. These are all defined as angular services and can be injected via the angular dependency injector.
 
 ## Behaviors
+Angular directives that are applied as attributes to an element in order to modify the element's behavior.
 ### stopEventPropogation
 Absorbs the passed in DOM event so that it will not propogate outside of the current element. Generally useful for restricting click events within an element so that the click events on parent elements are not triggered.
 ```
@@ -9,7 +10,6 @@ Absorbs the passed in DOM event so that it will not propogate outside of the cur
   <button class="child-button" click="doSomethingDifferent()" stop-event-propogation="click">Click me</button>
 </div>
 ```
-
 
 ## Setup
 Clone the repository into your working directory.
