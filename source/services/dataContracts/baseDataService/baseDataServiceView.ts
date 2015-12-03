@@ -11,6 +11,9 @@ export interface IBaseDataServiceView<TDataType extends IBaseDomainObject, TSear
 	AsSingleton(parentId: number): IBaseSingletonDataService<TDataType>;
 }
 
+export interface IBaseParentDataServiceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+	extends IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>{
+	AsSingleton(parentId: number): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
 
 export class BaseDataServiceView<TDataType extends IBaseDomainObject, TSearchParams>
@@ -56,3 +59,4 @@ export class BaseParentDataServiceView<TDataType extends IBaseDomainObject, TSea
 		});
 		return new BaseParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests);
 	}
+}

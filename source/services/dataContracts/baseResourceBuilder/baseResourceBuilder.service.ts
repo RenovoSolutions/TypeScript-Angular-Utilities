@@ -104,6 +104,19 @@ export interface IBaseResourceBuilder {
 		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
 
 	/**
+	* Create a view of a parent resource with sub-resources that can be used as a base resource or
+	* as a singleton if a parent is selected
+	*/
+	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
+	/**
+	* Create a view of a parent resource with sub-resources that can be used as a base resource or
+	* as a singleton if a parent is selected
+	*/
+	createParentResourceView<TDataType extends IBaseDomainObject, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
+
+	/**
 	* Deprecated - Create a singleton resource with get and update
 	*/
 	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
@@ -136,16 +149,19 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 
 	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
-		let dataServiceView: IBaseDataServiceView<TDataType, TSearchParams> = new BaseDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
-		return dataServiceView;
+		return new BaseDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
 		return new BaseParentDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
-		let dataServiceView: IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType>
-s			= new BaseParentDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+	}
+
+	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
+		options = this.useMockIfNoEndpoint(options);
+		return new BaseParentDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
 	}
 
 	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType> {
@@ -158,11 +174,11 @@ s			= new BaseParentDataServiceView(this.$http, this.$q, this.array, options.end
 		options = this.useMockIfNoEndpoint(options);
 		return new BaseParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
 	}
-	}
 
 	private useMockIfNoEndpoint<TDataType>(options: IBaseOptions<TDataType>): IBaseOptions<TDataType> {
 		options.useMock = options.endpoint == null ? true : options.useMock;
 		return options;
+	}
 }
 
 angular.module(moduleName, [arrayModuleName])
