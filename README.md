@@ -57,6 +57,27 @@ Converts any object to a string.
 If the value is not null, returns it, otherwise returns the default value.
 
 
+### Injecting a service
+```
+import { services } from 'typescript-angular-utilities';
+import objectNamespace = services.object;
+
+export class MyController {
+  static $inject: string[] = [objectNamespace.serviceName];
+  constructor(private objectService: objectNamespace.IObjectUtility): void {
+  }
+  
+  ...
+  
+  private testForEmpty(): boolean {
+    return this.objectService.isNullOrEmpty(this.someValue);
+  }
+}
+
+angular.module('moduleName', [objectNamespace.moduleName])
+  .controller('controllerName', MyController);
+```
+
 ## Setup
 Clone the repository into your working directory.
 
