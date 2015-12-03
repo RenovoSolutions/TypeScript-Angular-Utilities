@@ -10,6 +10,52 @@ Absorbs the passed in DOM event so that it will not propogate outside of the cur
   <button class="child-button" click="doSomethingDifferent()" stop-event-propogation="click">Click me</button>
 </div>
 ```
+## Filters
+* Contains Angular filters, which can be applied to bindings using the Angular pipe operator `<span>{{myMoney | currency}}</span>`
+* Contains a generic filter interface `IFilter`
+
+### isEmpty
+Tests the provided value to see if it is null or empty using the (object)[] utility to call isNullOrEmpty on the value. Returns true if the item is empty. If you specify `isEmpty:false`, returns true for non-empty values.
+```
+<span ng-if="myArray | isEmpty:false">
+  My array has values!
+</span>
+```
+
+### truncate
+Converts the input value to a string using `.toString()` and then limits the length of the string to the truncate length. Can optionally add an ellipses to the end (...).
+```
+<span>{{myString | truncate:10:true}}</span>
+```
+
+## Services
+### object
+Contains generic utilities for operations on any object.
+Contains the following methods:
+
+* `isNullOrEmpty(object: any): boolean`
+
+Returns true if the object is null.
+Returns true if the object is an empty array.
+Returns true if the object is NaN.
+Returns true if the object is an empty string.
+
+* `isNullOrWhitespace(object: any): boolean`
+
+If the object is a string, first trims it then passes the object into isNullOrEmpty().
+
+* `areEqual(obj1: any, obj2: any): boolean`
+
+Recursively compares all of the properties on the two objects and returns true if they are equal.
+
+* `toString(object: any) string`
+
+Converts any object to a string.
+
+* `valueOrDefault(value: any, defaultValue: any): any`
+
+If the value is not null, returns it, otherwise returns the default value.
+
 
 ## Setup
 Clone the repository into your working directory.
