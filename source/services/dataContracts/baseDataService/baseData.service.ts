@@ -28,12 +28,12 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
 }
 
 export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
-    constructor(private $http: angular.IHttpService
-            , private $q: angular.IQService
-            , private array: IArrayUtility
-            , private _endpoint: string
-            , private mockData: TDataType[]
-            , private transform: ITransformFunction<TDataType>
+    constructor(protected $http: angular.IHttpService
+            , protected $q: angular.IQService
+            , protected array: IArrayUtility
+            , protected _endpoint: string
+            , protected mockData: TDataType[]
+            , protected transform: ITransformFunction<TDataType>
             , public useMock: boolean
             , public logRequests: boolean) { }
 

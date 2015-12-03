@@ -17,7 +17,7 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 	private _childContracts: TResourceDictionaryType;
 
 	constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[]
-		, private resourceDictionaryBuilder: { (): TResourceDictionaryType }
+		, protected resourceDictionaryBuilder: { (): TResourceDictionaryType }
 		, transform?: ITransformFunction<TDataType>
 		, useMock?: boolean
         , logRequests?: boolean) {
