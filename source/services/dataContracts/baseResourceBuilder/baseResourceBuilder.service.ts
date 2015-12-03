@@ -131,15 +131,12 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
-		let dataService: IBaseDataService<TDataType, TSearchParams> = new BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
-		(<any>dataService).clone = (endpoint: string): IBaseDataService<TDataType, TSearchParams> => { return this.cloneResource(dataService, endpoint); };
-		return dataService;
+		return new BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
 	}
 
 	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
 		let dataServiceView: IBaseDataServiceView<TDataType, TSearchParams> = new BaseDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
-		(<any>dataServiceView).clone = (endpoint: string): IBaseDataServiceView<TDataType, TSearchParams> => { return <any>this.cloneResource(dataServiceView, endpoint); };
 		return dataServiceView;
 	}
 
@@ -160,19 +157,6 @@ s			= new BaseParentDataServiceView(this.$http, this.$q, this.array, options.end
 		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
 		return new BaseParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
-	}
-
-	private cloneResource<TDataType extends IBaseDomainObject, TSearchParams>(resource: IBaseDataService<TDataType, TSearchParams>, endpoint: string): IBaseDataService<TDataType, TSearchParams> {
-		let castedResource: BaseDataService<TDataType, TSearchParams> = <BaseDataService<TDataType, TSearchParams>>resource;
-		return {
-			getList(params?: TSearchParams): angular.IPromise<TDataType[]> { return castedResource.getList(params, endpoint); },
-			getDetail(id: number): angular.IPromise<TDataType> { return castedResource.getDetail(id, endpoint); },
-			create(domainObject: TDataType): angular.IPromise<TDataType> { return castedResource.create(domainObject, endpoint); },
-			update(domainObject: TDataType): angular.IPromise<void> { return castedResource.update(domainObject, endpoint); },
-			delete(domainObject: TDataType): angular.IPromise<void> { return castedResource.delete(domainObject, endpoint); },
-			useMock: castedResource.useMock,
-			logRequests: castedResource.logRequests,
-		};
 	}
 	}
 
