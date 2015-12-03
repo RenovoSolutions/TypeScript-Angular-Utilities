@@ -1,5 +1,15 @@
 # TypeScript-Angular-Utilities
-Contains various TypeScript Angular services and features.
+Contains a list of reusable TypeScript libraries, services, and general utilities. These are all defined as angular services and can be injected via the angular dependency injector.
+
+## Behaviors
+### stopEventPropogation
+Absorbs the passed in DOM event so that it will not propogate outside of the current element. Generally useful for restricting click events within an element so that the click events on parent elements are not triggered.
+```
+<div class="my-parent-div" click="doSomething()">
+  <button class="child-button" click="doSomethingDifferent()" stop-event-propogation="click">Click me</button>
+</div>
+```
+
 
 ## Setup
 Clone the repository into your working directory.
