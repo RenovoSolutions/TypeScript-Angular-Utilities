@@ -15,6 +15,8 @@ export interface IContractLibrary {
 	mockGet(resource: any, data: any): Sinon.SinonSpy;
 	mockGetList(resource: any, data: any): Sinon.SinonSpy;
 	mockGetDetail(resource: any, data: any): Sinon.SinonSpy;
+
+	mockChild(parent: any, mockCallback: { (children: any): void }): void;
 }
 
 export interface ILibraryServices {
@@ -46,6 +48,15 @@ export class ContractLibrary implements IContractLibrary {
 
 	mockGetDetail(resource: any, data: any): Sinon.SinonSpy {
 		return this.baseMockGet(resource, 'getDetail', data);
+	}
+
+	mockChild(parent: any, mockCallback: { (children: any): void }): void {
+		let getChildren: {(id: number): any} = parent.childContracts.bind(parent);
+		parent.childContracts = (id: number): any => {
+			let children: any = getChildren(id);
+			mockCallback(children);
+			return children;
+		}
 	}
 
 	private baseMockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
