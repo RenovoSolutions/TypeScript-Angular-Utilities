@@ -13,6 +13,10 @@ export interface IContractLibrary {
 
 	flush(): void;
 
+	mockGet(resource: any, data: any): Sinon.SinonSpy;
+	mockGetList(resource: any, data: any): Sinon.SinonSpy;
+	mockGetDetail(resource: any, data: any): Sinon.SinonSpy;
+
 	mockChild(parent: any, mockCallback: { (children: any): void }): void;
 	createMock(resource?: any): IBaseDataServiceMock<any, any>;
 	createMockParent(resource?: any): IBaseParentDataServiceMock<any, any, any>;
@@ -36,6 +40,17 @@ export class ContractLibrary implements IContractLibrary {
 
 	flush(): void {
 		this.$rootScope.$digest();
+	}
+	mockGet(resource: any, data: any): Sinon.SinonSpy {
+		return this.baseMockGet(resource, 'get', data);
+	}
+
+	mockGetList(resource: any, data: any): Sinon.SinonSpy {
+		return this.baseMockGet(resource, 'getList', data);
+	}
+
+	mockGetDetail(resource: any, data: any): Sinon.SinonSpy {
+		return this.baseMockGet(resource, 'getDetail', data);
 	}
 
 	mockChild(parent: any, mockCallback: { (children: any): void }): void {
