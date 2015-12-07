@@ -1,4 +1,5 @@
 import * as ng from 'angular';
+import * as _ from 'lodash';
 
 import { IArrayUtility } from '../../array/array.service';
 
@@ -23,14 +24,21 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 
 	childContracts(id?: number): TResourceDictionaryType {
 		if (_.isUndefined(id)) {
-			return this.resourceDictionaryBuilder(this.endpoint);
+			let dictionary: TResourceDictionaryType = this.resourceDictionaryBuilder(this.endpoint);
+			_.each(dictionary, (dataService: any): void => {
+				dataService.endpoint = this.endpoint + dataService.endpoint;
+			});
 		} else {
 			let dictionary: {[index: string]: any} = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
 			return <any>_.mapValues(dictionary, (dataService: IBaseDataServiceView<TDataType, TSearchParams>): IBaseSingletonDataService<TDataType> | IBaseDataService<TDataType, TSearchParams> => {
+				let contract: any;
 				if (_.isFunction(dataService.AsSingleton)) {
-					return dataService.AsSingleton(id);
+					contract = dataService.AsSingleton(id);
 				}
-				return dataService;
+
+				contract.endpoint = this.endpoint + '/' + id + contract.endpoint;
+
+				return contract;
 			});
 		}
 	}
