@@ -34,6 +34,8 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 				let contract: any;
 				if (_.isFunction(dataService.AsSingleton)) {
 					contract = dataService.AsSingleton(id);
+				} else {
+					contract = dataService;
 				}
 
 				contract.endpoint = this.endpoint + '/' + id + contract.endpoint;

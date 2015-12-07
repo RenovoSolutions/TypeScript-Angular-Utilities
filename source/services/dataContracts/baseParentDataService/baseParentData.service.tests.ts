@@ -74,22 +74,20 @@ describe('base parent data service', () => {
 			children = baseParentDataService.childContracts(1);
 		});
 
-		it('should wrap the child getDetail function and provide the id', (done: MochaDone): void => {
-			sinon.spy(dataServiceView, 'getDetail');
+		it('should expose a get function', (done: MochaDone): void => {
 			(<any>children.testView).get().then((item: ITestMock): void => {
 				expect(item).to.equal(dataSet[0]);
 				done();
 			});
-			sinon.assert.calledOnce(<Sinon.SinonSpy>dataServiceView.getDetail);
-			sinon.assert.calledWith(<Sinon.SinonSpy>dataServiceView.getDetail, 1);
 			$rootScope.$digest();
 		});
 
-		it('should expose the child update function', (): void => {
-			sinon.spy(dataServiceView, 'update');
-			(<any>children.testView).update(dataSet[0]);
-			sinon.assert.calledOnce(<Sinon.SinonSpy>dataServiceView.update);
-			sinon.assert.calledWith(<Sinon.SinonSpy>dataServiceView.update, dataSet[0]);
+		it('should expose an update function and return the result of the update', (done: MochaDone): void => {
+			(<any>children.testView).update(dataSet[0]).then((item: ITestMock): void => {
+				expect(item).to.equal(dataSet[0]);
+				done();
+			});
+			$rootScope.$digest();
 		});
 
 		it('should disable getList, getDetail, and create', (): void => {
