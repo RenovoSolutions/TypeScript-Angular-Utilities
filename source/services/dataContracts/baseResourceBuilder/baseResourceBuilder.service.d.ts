@@ -8,16 +8,12 @@ import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingl
 import { IBaseParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
 export declare var moduleName: string;
 export declare var serviceName: string;
-export interface IBaseResourceParams<TDataType extends IBaseDomainObject> {
+export interface IBaseOptions<TDataType> {
     /**
     * Url to hit with getList and create
     * - extended with /id for getDetail, update, and delete
     */
     endpoint?: string;
-    /**
-    * Example data set to be used for testing and prototyping instead of hitting the endpoint
-    */
-    mockData?: TDataType[];
     /**
     * Flag for specifying if the data service should use the mock data or hit the actual endpoint
     * defaults to true if endpoint is not defined
@@ -31,6 +27,12 @@ export interface IBaseResourceParams<TDataType extends IBaseDomainObject> {
     * Processes data coming back from the server
     */
     transform?: ITransformFunction<TDataType>;
+}
+export interface IBaseResourceParams<TDataType extends IBaseDomainObject> extends IBaseOptions<TDataType> {
+    /**
+    * Example data set to be used for testing and prototyping instead of hitting the endpoint
+    */
+    mockData?: TDataType[];
 }
 export interface IParentResourceParams<TDataType extends IBaseDomainObject, TResourceDictionaryType> extends IBaseResourceParams<TDataType> {
     /**
@@ -40,28 +42,11 @@ export interface IParentResourceParams<TDataType extends IBaseDomainObject, TRes
         (): TResourceDictionaryType;
     };
 }
-export interface ISingletonResourceParams<TDataType> {
-    /**
-    * Url to hit with get and update
-    */
-    endpoint?: string;
+export interface ISingletonResourceParams<TDataType> extends IBaseOptions<TDataType> {
     /**
     * Example object to be used for testing and prototyping instead of hitting the endpoint
     */
     mockData?: TDataType;
-    /**
-    * Flag for specifying if the data service should use the mock data or hit the actual endpoint
-    * defaults to true if endpoint is not defined
-    */
-    useMock?: boolean;
-    /**
-    * Flag for specifying if the data service should log all requests against the contract
-    */
-    logRequests?: boolean;
-    /**
-    * Processes data coming back from the server
-    */
-    transform?: ITransformFunction<TDataType>;
 }
 export interface IParentSingletonResourceParams<TDataType, TResourceDictionaryType> extends ISingletonResourceParams<TDataType> {
     /**
@@ -135,8 +120,5 @@ export declare class BaseResourceBuilder implements IBaseResourceBuilder {
     createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType>;
     createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
     createParentSingletonResource<TDataType, TResourceDictionaryType>(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
-    private cloneResource<TDataType, TSearchParams>(resource, endpoint);
-    private cloneParentResource<TDataType, TSearchParams, TResourceDictionaryType>(resource, endpoint);
-    private cloneSingletonResource<TDataType>(resource, endpoint);
-    private cloneParentSingletonResource<TDataType, TResourceDictionaryType>(resource, endpoint);
+    private useMockIfNoEndpoint<TDataType>(options);
 }

@@ -4,7 +4,7 @@ export declare var moduleName: string;
 export declare var factoryName: string;
 export interface IBaseSingletonDataService<TDataType> {
     get(): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<void>;
+    update(domainObject: TDataType): angular.IPromise<TDataType>;
     useMock: boolean;
     logRequests: boolean;
 }
@@ -18,10 +18,9 @@ export declare class BaseSingletonDataService<TDataType> implements IBaseSinglet
     logRequests: boolean;
     constructor($http: angular.IHttpService, $q: angular.IQService, _endpoint: string, mockData: TDataType, transform: ITransformFunction<TDataType>, useMock: boolean, logRequests: boolean);
     endpoint: string;
-    get(endpoint?: string): angular.IPromise<TDataType>;
-    update(domainObject: TDataType, endpoint?: string): angular.IPromise<void>;
+    get(): angular.IPromise<TDataType>;
+    update(domainObject: TDataType): angular.IPromise<TDataType>;
     private log(requestName, data);
-    private getEndpointOrDefault(endpoint?);
 }
 export interface IBaseSingletonDataServiceFactory {
     getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseSingletonDataService<TDataType>;

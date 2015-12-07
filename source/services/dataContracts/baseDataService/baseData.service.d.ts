@@ -12,30 +12,29 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
     getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
     create(domainObject: TDataType): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<void>;
+    update(domainObject: TDataType): angular.IPromise<TDataType>;
     delete(domainObject: TDataType): angular.IPromise<void>;
     useMock: boolean;
     logRequests: boolean;
 }
 export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
-    private $http;
-    private $q;
-    private array;
-    private _endpoint;
-    private mockData;
-    private transform;
+    protected $http: angular.IHttpService;
+    protected $q: angular.IQService;
+    protected array: IArrayUtility;
+    protected _endpoint: string;
+    protected mockData: TDataType[];
+    protected transform: ITransformFunction<TDataType>;
     useMock: boolean;
     logRequests: boolean;
     constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], transform: ITransformFunction<TDataType>, useMock: boolean, logRequests: boolean);
     endpoint: string;
-    private getItemEndpoint(id, endpoint?);
-    getList(params: TSearchParams, endpoint?: string): angular.IPromise<TDataType[]>;
-    getDetail(id: number, endpoint?: string): angular.IPromise<TDataType>;
-    create(domainObject: TDataType, endpoint?: string): angular.IPromise<TDataType>;
-    update(domainObject: TDataType, endpoint?: string): angular.IPromise<void>;
-    delete(domainObject: TDataType, endpoint?: string): angular.IPromise<void>;
+    private getItemEndpoint(id);
+    getList(params: TSearchParams): angular.IPromise<TDataType[]>;
+    getDetail(id: number): angular.IPromise<TDataType>;
+    create(domainObject: TDataType): angular.IPromise<TDataType>;
+    update(domainObject: TDataType): angular.IPromise<TDataType>;
+    delete(domainObject: TDataType): angular.IPromise<void>;
     private log(requestName, data);
-    private getEndpointOrDefault(endpoint?);
 }
 export interface IBaseDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], transform?: ITransformFunction<TDataType>, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;

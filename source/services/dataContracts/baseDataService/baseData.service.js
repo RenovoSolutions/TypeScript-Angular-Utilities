@@ -22,18 +22,17 @@ var BaseDataService = (function () {
         enumerable: true,
         configurable: true
     });
-    BaseDataService.prototype.getItemEndpoint = function (id, endpoint) {
-        var targetEndpoint = this.getEndpointOrDefault(endpoint);
-        return targetEndpoint + '/' + id.toString();
+    BaseDataService.prototype.getItemEndpoint = function (id) {
+        return this.endpoint + '/' + id.toString();
     };
-    BaseDataService.prototype.getList = function (params, endpoint) {
+    BaseDataService.prototype.getList = function (params) {
         var _this = this;
         var promise;
         if (this.useMock) {
             promise = this.$q.when(this.mockData);
         }
         else {
-            promise = this.$http.get(this.getEndpointOrDefault(endpoint), { params: params })
+            promise = this.$http.get(this.endpoint, { params: params })
                 .then(function (response) {
                 return response.data;
             });
@@ -48,7 +47,7 @@ var BaseDataService = (function () {
             return data;
         });
     };
-    BaseDataService.prototype.getDetail = function (id, endpoint) {
+    BaseDataService.prototype.getDetail = function (id) {
         var _this = this;
         var promise;
         if (this.useMock) {
@@ -57,7 +56,7 @@ var BaseDataService = (function () {
             }));
         }
         else {
-            promise = this.$http.get(this.getItemEndpoint(id, endpoint))
+            promise = this.$http.get(this.getItemEndpoint(id))
                 .then(function (response) {
                 return response.data;
             });
@@ -72,7 +71,7 @@ var BaseDataService = (function () {
             return data;
         });
     };
-    BaseDataService.prototype.create = function (domainObject, endpoint) {
+    BaseDataService.prototype.create = function (domainObject) {
         var _this = this;
         var promise;
         if (this.useMock) {
@@ -82,7 +81,7 @@ var BaseDataService = (function () {
             promise = this.$q.when(domainObject);
         }
         else {
-            promise = this.$http.post(this.getEndpointOrDefault(endpoint), JSON.stringify(domainObject))
+            promise = this.$http.post(this.endpoint, JSON.stringify(domainObject))
                 .then(function (result) {
                 return result.data;
             });
@@ -94,7 +93,7 @@ var BaseDataService = (function () {
             return data;
         });
     };
-    BaseDataService.prototype.update = function (domainObject, endpoint) {
+    BaseDataService.prototype.update = function (domainObject) {
         var _this = this;
         var promise;
         if (this.useMock) {
@@ -102,18 +101,19 @@ var BaseDataService = (function () {
                 return item.id === domainObject.id;
             }));
             oldObject = _.assign(oldObject, domainObject);
-            promise = this.$q.when();
+            promise = this.$q.when(oldObject);
         }
         else {
-            promise = this.$http.put(this.getItemEndpoint(domainObject.id, endpoint), domainObject).then(function () { return null; });
+            promise = this.$http.put(this.getItemEndpoint(domainObject.id), domainObject);
         }
-        return promise.then(function () {
+        return promise.then(function (data) {
             if (_this.logRequests) {
                 _this.log('update', domainObject);
             }
+            return data;
         });
     };
-    BaseDataService.prototype.delete = function (domainObject, endpoint) {
+    BaseDataService.prototype.delete = function (domainObject) {
         var _this = this;
         var promise;
         if (this.useMock) {
@@ -121,7 +121,7 @@ var BaseDataService = (function () {
             promise = this.$q.when();
         }
         else {
-            promise = this.$http.delete(this.getItemEndpoint(domainObject.id, endpoint)).then(function () { return null; });
+            promise = this.$http.delete(this.getItemEndpoint(domainObject.id)).then(function () { return null; });
         }
         return promise.then(function () {
             if (_this.logRequests) {
@@ -134,9 +134,6 @@ var BaseDataService = (function () {
         var endpointString = this.endpoint == null ? 'unspecified' : this.endpoint;
         console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
         console.log(data);
-    };
-    BaseDataService.prototype.getEndpointOrDefault = function (endpoint) {
-        return endpoint != null ? endpoint : this.endpoint;
     };
     return BaseDataService;
 })();

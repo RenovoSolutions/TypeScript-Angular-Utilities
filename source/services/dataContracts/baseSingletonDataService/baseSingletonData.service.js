@@ -20,14 +20,14 @@ var BaseSingletonDataService = (function () {
         enumerable: true,
         configurable: true
     });
-    BaseSingletonDataService.prototype.get = function (endpoint) {
+    BaseSingletonDataService.prototype.get = function () {
         var _this = this;
         var promise;
         if (this.useMock) {
             promise = this.$q.when(this.mockData);
         }
         else {
-            promise = this.$http.get(this.getEndpointOrDefault(endpoint))
+            promise = this.$http.get(this.endpoint)
                 .then(function (response) {
                 return response.data;
             });
@@ -42,20 +42,21 @@ var BaseSingletonDataService = (function () {
             return data;
         });
     };
-    BaseSingletonDataService.prototype.update = function (domainObject, endpoint) {
+    BaseSingletonDataService.prototype.update = function (domainObject) {
         var _this = this;
         var promise;
         if (this.useMock) {
             this.mockData = _.assign(this.mockData, domainObject);
-            promise = this.$q.when();
+            promise = this.$q.when(this.mockData);
         }
         else {
-            promise = this.$http.put(this.getEndpointOrDefault(endpoint), domainObject).then(function () { return null; });
+            promise = this.$http.put(this.endpoint, domainObject);
         }
-        return promise.then(function () {
+        return promise.then(function (data) {
             if (_this.logRequests) {
                 _this.log('update', domainObject);
             }
+            return data;
         });
     };
     BaseSingletonDataService.prototype.log = function (requestName, data) {
@@ -63,9 +64,6 @@ var BaseSingletonDataService = (function () {
         var endpointString = this.endpoint == null ? 'unspecified' : this.endpoint;
         console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
         console.log(data);
-    };
-    BaseSingletonDataService.prototype.getEndpointOrDefault = function (endpoint) {
-        return endpoint != null ? endpoint : this.endpoint;
     };
     return BaseSingletonDataService;
 })();

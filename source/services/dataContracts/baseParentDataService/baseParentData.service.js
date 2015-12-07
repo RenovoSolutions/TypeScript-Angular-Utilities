@@ -3,45 +3,37 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var _ = require('lodash');
 var baseData_service_1 = require('../baseDataService/baseData.service');
 var BaseParentDataService = (function (_super) {
     __extends(BaseParentDataService, _super);
     function BaseParentDataService($http, $q, array, endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests) {
         _super.call(this, $http, $q, array, endpoint, mockData, transform, useMock, logRequests);
         this.resourceDictionaryBuilder = resourceDictionaryBuilder;
-        this._childContracts = this.resourceDictionaryBuilder();
     }
     BaseParentDataService.prototype.childContracts = function (id) {
         var _this = this;
         if (_.isUndefined(id)) {
-            return _.mapValues(this._childContracts, function (dataService) {
-                var contract = dataService.clone();
-                contract.endpoint = _this.endpoint + contract.endpoint;
-                return contract;
+            var dictionary = this.resourceDictionaryBuilder(this.endpoint);
+            _.each(dictionary, function (dataService) {
+                dataService.endpoint = _this.endpoint + dataService.endpoint;
             });
         }
         else {
-            var dictionary = this._childContracts;
+            var dictionary = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
             return _.mapValues(dictionary, function (dataService) {
-                var contract = dataService;
-                if (_.isFunction(contract.AsSingleton)) {
-                    contract = contract.AsSingleton(id);
+                var contract;
+                if (_.isFunction(dataService.AsSingleton)) {
+                    contract = dataService.AsSingleton(id);
                 }
                 else {
-                    contract = contract.clone();
+                    contract = dataService;
                 }
                 contract.endpoint = _this.endpoint + '/' + id + contract.endpoint;
                 return contract;
             });
         }
     };
-    Object.defineProperty(BaseParentDataService.prototype, "baseChildContracts", {
-        get: function () {
-            return this._childContracts;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return BaseParentDataService;
 })(baseData_service_1.BaseDataService);
 exports.BaseParentDataService = BaseParentDataService;
