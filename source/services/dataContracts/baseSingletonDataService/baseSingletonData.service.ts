@@ -10,7 +10,7 @@ export var factoryName: string = 'baseSingletonDataService';
 
 export interface IBaseSingletonDataService<TDataType> {
     get(): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<void>;
+    update(domainObject: TDataType): angular.IPromise<TDataType>;
 
     useMock: boolean;
     logRequests: boolean;
@@ -50,18 +50,19 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
         });
     }
 
-    update(domainObject: TDataType): angular.IPromise<void> {
-        let promise: angular.IPromise<void>;
+    update(domainObject: TDataType): angular.IPromise<TDataType> {
+        let promise: angular.IPromise<TDataType>;
         if (this.useMock) {
             this.mockData = <TDataType>_.assign(this.mockData, domainObject);
-            promise = this.$q.when();
+            promise = this.$q.when(this.mockData);
         } else {
-            promise = this.$http.put<void>(this.endpoint, domainObject).then((): void => { return null; });
+            promise = this.$http.put<void>(this.endpoint, domainObject);
         }
-        return promise.then((): void => {
+        return promise.then((data: TDataType): TDataType => {
             if (this.logRequests) {
                 this.log('update', domainObject);
             }
+            return data;
         });
     }
 

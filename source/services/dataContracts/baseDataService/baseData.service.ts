@@ -20,7 +20,7 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
 	getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
     create(domainObject: TDataType): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<void>;
+    update(domainObject: TDataType): angular.IPromise<TDataType>;
     delete(domainObject: TDataType): angular.IPromise<void>;
 
     useMock: boolean;
@@ -110,21 +110,22 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         });
     }
 
-    update(domainObject: TDataType): angular.IPromise<void> {
-        let promise: angular.IPromise<void>;
+    update(domainObject: TDataType): angular.IPromise<TDataType> {
+        let promise: angular.IPromise<TDataType>;
         if (this.useMock) {
             let oldObject: TDataType = _.find(this.mockData, _.find(this.mockData, (item: TDataType): boolean => {
                 return item.id === domainObject.id;
             }));
             oldObject = <TDataType>_.assign(oldObject, domainObject);
-            promise = this.$q.when();
+            promise = this.$q.when(oldObject);
         } else {
-            promise = this.$http.put<void>(this.getItemEndpoint(domainObject.id), domainObject).then((): void => { return null; });
+            promise = this.$http.put<void>(this.getItemEndpoint(domainObject.id), domainObject);
         }
-        return promise.then((): void => {
+        return promise.then((data: TDataType): TDataType => {
             if (this.logRequests) {
                 this.log('update', domainObject);
             }
+            return data;
         });
     }
 
