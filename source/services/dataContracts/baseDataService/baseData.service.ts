@@ -31,15 +31,11 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     constructor(protected $http: angular.IHttpService
             , protected $q: angular.IQService
             , protected array: IArrayUtility
-            , protected _endpoint: string
+            , public endpoint: string
             , protected mockData: TDataType[]
             , protected transform: ITransformFunction<TDataType>
             , public useMock: boolean
             , public logRequests: boolean) { }
-
-    get endpoint(): string {
-        return this._endpoint;
-    }
 
     private getItemEndpoint(id: number): string {
         return this.endpoint + '/' + id.toString();
