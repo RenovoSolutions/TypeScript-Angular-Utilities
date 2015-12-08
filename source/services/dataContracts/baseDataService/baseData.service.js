@@ -5,23 +5,16 @@ var array_service_1 = require('../../array/array.service');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
 var BaseDataService = (function () {
-    function BaseDataService($http, $q, array, _endpoint, mockData, transform, useMock, logRequests) {
+    function BaseDataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests) {
         this.$http = $http;
         this.$q = $q;
         this.array = array;
-        this._endpoint = _endpoint;
+        this.endpoint = endpoint;
         this.mockData = mockData;
         this.transform = transform;
         this.useMock = useMock;
         this.logRequests = logRequests;
     }
-    Object.defineProperty(BaseDataService.prototype, "endpoint", {
-        get: function () {
-            return this._endpoint;
-        },
-        enumerable: true,
-        configurable: true
-    });
     BaseDataService.prototype.getItemEndpoint = function (id) {
         return this.endpoint + '/' + id.toString();
     };

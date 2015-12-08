@@ -4,22 +4,15 @@ var _ = require('lodash');
 exports.moduleName = 'rl.utilities.services.baseSingletonDataService';
 exports.factoryName = 'baseSingletonDataService';
 var BaseSingletonDataService = (function () {
-    function BaseSingletonDataService($http, $q, _endpoint, mockData, transform, useMock, logRequests) {
+    function BaseSingletonDataService($http, $q, endpoint, mockData, transform, useMock, logRequests) {
         this.$http = $http;
         this.$q = $q;
-        this._endpoint = _endpoint;
+        this.endpoint = endpoint;
         this.mockData = mockData;
         this.transform = transform;
         this.useMock = useMock;
         this.logRequests = logRequests;
     }
-    Object.defineProperty(BaseSingletonDataService.prototype, "endpoint", {
-        get: function () {
-            return this._endpoint;
-        },
-        enumerable: true,
-        configurable: true
-    });
     BaseSingletonDataService.prototype.get = function () {
         var _this = this;
         var promise;

@@ -21,13 +21,12 @@ export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearc
     protected $http: angular.IHttpService;
     protected $q: angular.IQService;
     protected array: IArrayUtility;
-    protected _endpoint: string;
+    endpoint: string;
     protected mockData: TDataType[];
     protected transform: ITransformFunction<TDataType>;
     useMock: boolean;
     logRequests: boolean;
-    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], transform: ITransformFunction<TDataType>, useMock: boolean, logRequests: boolean);
-    endpoint: string;
+    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], transform: ITransformFunction<TDataType>, useMock: boolean, logRequests: boolean);
     private getItemEndpoint(id);
     getList(params: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
