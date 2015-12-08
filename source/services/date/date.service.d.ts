@@ -22,6 +22,7 @@ export interface IDateUtility {
     getDateFromISOString(date: string): Date;
     isDate(date: string | Date, dateFormat?: string): boolean;
     getNow(): Date;
+    formatDate(date: string | Date, dateFormat?: string): string;
 }
 export declare class DateUtility {
     private moment;
@@ -42,5 +43,6 @@ export declare class DateUtility {
     getDateFromISOString(date: string): Date;
     isDate(date: string | Date, dateFormat?: string): boolean;
     getNow(): Date;
-    private format(customFormat);
+    formatDate(date: string | Date, dateFormat?: string): string;
+    private getFormat(customFormat);
 }

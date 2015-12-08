@@ -87,7 +87,7 @@ var DateUtility = (function () {
             return date;
         }
         else {
-            return this.moment(date, this.format(dateFormat)).toDate();
+            return this.moment(date, this.getFormat(dateFormat)).toDate();
         }
     };
     DateUtility.prototype.getDateFromISOString = function (date) {
@@ -95,12 +95,15 @@ var DateUtility = (function () {
     };
     DateUtility.prototype.isDate = function (date, dateFormat) {
         return _.isDate(date)
-            || this.moment(date, this.format(dateFormat)).isValid();
+            || this.moment(date, this.getFormat(dateFormat)).isValid();
     };
     DateUtility.prototype.getNow = function () {
         return new Date();
     };
-    DateUtility.prototype.format = function (customFormat) {
+    DateUtility.prototype.formatDate = function (date, dateFormat) {
+        return this.moment(this.getDate(date, dateFormat)).format(this.getFormat(dateFormat));
+    };
+    DateUtility.prototype.getFormat = function (customFormat) {
         return customFormat != null ? customFormat : this.baseFormat;
     };
     DateUtility.$inject = [moment_module_1.serviceName, time_service_1.serviceName];

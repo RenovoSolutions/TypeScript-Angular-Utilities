@@ -18,6 +18,7 @@ var BaseParentDataService = (function (_super) {
             _.each(dictionary, function (dataService) {
                 dataService.endpoint = _this.endpoint + dataService.endpoint;
             });
+            return dictionary;
         }
         else {
             var dictionary = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
