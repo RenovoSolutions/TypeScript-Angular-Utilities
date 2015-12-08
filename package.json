@@ -20,6 +20,7 @@
     "test.full": "karma start karma.full.conf.js",
     "build": "gulp clean && tsc && echo Build complete",
     "build.library": "webpack & webpack --config webpack.min.config.js",
+    "build.all": "npm run build && npm run build.library",
     "clean": "gulp clean",
     "publish.prep": "npm run update && npm run build && npm run test.full && npm run build.library"
   },
