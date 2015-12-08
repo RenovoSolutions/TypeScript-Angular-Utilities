@@ -28,6 +28,7 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 			_.each(dictionary, (dataService: any): void => {
 				dataService.endpoint = this.endpoint + dataService.endpoint;
 			});
+			return dictionary;
 		} else {
 			let dictionary: {[index: string]: any} = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
 			return <any>_.mapValues(dictionary, (dataService: IBaseDataServiceView<TDataType, TSearchParams>): IBaseSingletonDataService<TDataType> | IBaseDataService<TDataType, TSearchParams> => {
