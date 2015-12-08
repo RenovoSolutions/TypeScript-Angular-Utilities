@@ -142,7 +142,7 @@ export class DateUtility {
 		if (_.isDate(date)) {
 			return <Date>date;
 		} else {
-			return this.moment(<string>date, this.format(dateFormat)).toDate();
+			return this.moment(<string>date, this.getFormat(dateFormat)).toDate();
 		}
 	}
 
@@ -152,14 +152,18 @@ export class DateUtility {
 
 	isDate(date: string | Date, dateFormat?: string): boolean {
 		return _.isDate(date)
-			|| this.moment(<string>date, this.format(dateFormat)).isValid();
+			|| this.moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}
 
 	getNow(): Date {
 		return new Date();
 	}
 
-	private format(customFormat: string): string {
+	formatDate(date: string | Date, dateFormat?: string): string {
+		return this.moment(this.getDate(date, dateFormat)).format(this.getFormat(dateFormat));
+	}
+
+	private getFormat(customFormat: string): string {
 		return customFormat != null ? customFormat : this.baseFormat;
 	}
 }
