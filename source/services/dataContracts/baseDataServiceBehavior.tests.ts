@@ -292,7 +292,12 @@ describe('base data service behavior', () => {
 			transform = {
 				fromServer: sinon.spy((rawData: ITestMock): string => {
 					return rawData.prop;
-				}),
+                }),
+                toServer: sinon.spy((data: string): ITestMock => {
+                    return {
+                        prop: data,
+                    };
+                }),
 			};
 
 			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, transform);
@@ -330,6 +335,29 @@ describe('base data service behavior', () => {
 			});
 
 			$rootScope.$digest();
-		});
+        });
+
+        it('should reverse transform the data when sending it back to the server', (done: MochaDone): void => {
+            let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+                dataSet[1] = item;
+            });
+
+            dataServiceBehavior.update({
+                domainObject: 'made some changes',
+                useMock: true,
+                updateMockData: updateSpy,
+                endpoint: null,
+                logRequests: false,
+            }).then((data: ITestMock): void => {
+                expect(data).to.equal('made some changes');
+				sinon.assert.calledOnce(transform.fromServer);
+				done();
+            });
+
+            expect(updateSpy.firstCall.args[0].prop).to.equal('made some changes');
+            sinon.assert.calledOnce(transform.toServer);
+
+			$rootScope.$digest();
+        });
 	});
 });
