@@ -105,7 +105,7 @@ describe('base singleton data service', () => {
 	describe('transform', (): void => {
 		let $rootScope: angular.IRootScopeService;
 		let mockItem: ITestMock;
-		let transform: Sinon.SinonSpy;
+		let transform: any;
 
 		beforeEach((): void => {
 			mockItem = { prop: 'item' };
@@ -114,9 +114,16 @@ describe('base singleton data service', () => {
 			let baseSingletonDataServiceFactory: IBaseSingletonDataServiceFactory = services[factoryName];
 			$rootScope = services.$rootScope;
 
-			transform = sinon.spy((rawData: ITestMock): string => {
-				return rawData.prop;
-			});
+			transform = {
+				fromServer: sinon.spy((rawData: ITestMock): string => {
+					return rawData.prop;
+				}),
+				toServer: sinon.spy((data: string): ITestMock => {
+					return {
+						prop: data,
+					};
+				}),
+			};
 
 			baseSingletonDataService = baseSingletonDataServiceFactory.getInstance<ITestMock>(null, mockItem, transform, true);
 		});
@@ -124,7 +131,7 @@ describe('base singleton data service', () => {
 		it('should transform the single item', (done: MochaDone): void => {
 			baseSingletonDataService.get().then((data: ITestMock): void => {
 				expect(data).to.equal(mockItem.prop);
-				sinon.assert.calledOnce(transform);
+				sinon.assert.calledOnce(transform.fromServer);
 				done();
 			});
 
