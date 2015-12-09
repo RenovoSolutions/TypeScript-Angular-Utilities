@@ -3,7 +3,8 @@ import * as _ from 'lodash';
 
 import { IArrayUtility } from '../../array/array.service';
 
-import { IBaseDataService, BaseDataService, IBaseDomainObject, ITransformFunction } from '../baseDataService/baseData.service';
+import { ITransform } from '../baseDataServiceBehavior';
+import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IBaseDataServiceView } from '../baseDataService/baseDataServiceView';
 import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 
@@ -16,7 +17,7 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 	extends BaseDataService<TDataType, TSearchParams> implements IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 	constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[]
 		, public resourceDictionaryBuilder: { (baseEndpoint: string): TResourceDictionaryType }
-		, transform?: ITransformFunction<TDataType>
+		, transform?: ITransform<TDataType>
 		, useMock?: boolean
         , logRequests?: boolean) {
 		super($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
