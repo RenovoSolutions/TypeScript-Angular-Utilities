@@ -12,6 +12,9 @@ var BaseDataServiceView = (function (_super) {
     __extends(BaseDataServiceView, _super);
     function BaseDataServiceView($http, $q, array, _endpoint, mockData, transform, useMock, logRequests) {
         _super.call(this, $http, $q, array, _endpoint, mockData, transform, useMock, logRequests);
+        this.$http = $http;
+        this.$q = $q;
+        this.transform = transform;
     }
     BaseDataServiceView.prototype.AsSingleton = function (parentId) {
         var mockData = _.find(this.mockData, function (item) {
@@ -26,6 +29,9 @@ var BaseParentDataServiceView = (function (_super) {
     __extends(BaseParentDataServiceView, _super);
     function BaseParentDataServiceView($http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests) {
         _super.call(this, $http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests);
+        this.$http = $http;
+        this.$q = $q;
+        this.transform = transform;
     }
     BaseParentDataServiceView.prototype.AsSingleton = function (parentId) {
         var mockData = _.find(this.mockData, function (item) {

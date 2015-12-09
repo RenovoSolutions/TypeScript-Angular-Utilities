@@ -2,131 +2,84 @@
 var angular = require('angular');
 var _ = require('lodash');
 var array_service_1 = require('../../array/array.service');
+var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
 var BaseDataService = (function () {
     function BaseDataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests) {
-        this.$http = $http;
-        this.$q = $q;
         this.array = array;
         this.endpoint = endpoint;
         this.mockData = mockData;
-        this.transform = transform;
         this.useMock = useMock;
         this.logRequests = logRequests;
+        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, transform);
     }
     BaseDataService.prototype.getItemEndpoint = function (id) {
         return this.endpoint + '/' + id.toString();
     };
     BaseDataService.prototype.getList = function (params) {
         var _this = this;
-        var promise;
-        if (this.useMock) {
-            promise = this.$q.when(this.mockData);
-        }
-        else {
-            promise = this.$http.get(this.endpoint, { params: params })
-                .then(function (response) {
-                return response.data;
-            });
-        }
-        return promise.then(function (data) {
-            if (_this.transform != null) {
-                data = _.map(data, _this.transform);
-            }
-            if (_this.logRequests) {
-                _this.log('getList', data);
-            }
-            return data;
+        return this.behavior.getList({
+            params: params,
+            endpoint: this.endpoint,
+            getMockData: function () { return _this.mockData; },
+            useMock: this.useMock,
+            logRequests: this.logRequests,
         });
     };
     BaseDataService.prototype.getDetail = function (id) {
         var _this = this;
-        var promise;
-        if (this.useMock) {
-            promise = this.$q.when(_.find(this.mockData, function (item) {
-                return item.id === id;
-            }));
-        }
-        else {
-            promise = this.$http.get(this.getItemEndpoint(id))
-                .then(function (response) {
-                return response.data;
-            });
-        }
-        return promise.then(function (data) {
-            if (_this.transform != null) {
-                data = _this.transform(data);
-            }
-            if (_this.logRequests) {
-                _this.log('getDetail', data);
-            }
-            return data;
+        return this.behavior.getItem({
+            endpoint: this.getItemEndpoint(id),
+            getMockData: function () {
+                return _.find(_this.mockData, function (item) {
+                    return item.id === id;
+                });
+            },
+            useMock: this.useMock,
+            logRequests: this.logRequests,
         });
     };
     BaseDataService.prototype.create = function (domainObject) {
         var _this = this;
-        var promise;
-        if (this.useMock) {
-            var nextId = _.max(this.mockData, 'id').id + 1;
-            domainObject.id = nextId;
-            this.mockData.push(domainObject);
-            promise = this.$q.when(domainObject);
-        }
-        else {
-            promise = this.$http.post(this.endpoint, JSON.stringify(domainObject))
-                .then(function (result) {
-                return result.data;
-            });
-        }
-        return promise.then(function (data) {
-            if (_this.logRequests) {
-                _this.log('create', data);
-            }
-            return data;
+        return this.behavior.create({
+            domainObject: domainObject,
+            endpoint: this.endpoint,
+            addMockData: function (data) {
+                var nextId = _.max(_this.mockData, 'id').id + 1;
+                domainObject.id = nextId;
+                _this.mockData.push(domainObject);
+            },
+            useMock: this.useMock,
+            logRequests: this.logRequests,
         });
     };
     BaseDataService.prototype.update = function (domainObject) {
         var _this = this;
-        var promise;
-        if (this.useMock) {
-            var oldObject = _.find(this.mockData, _.find(this.mockData, function (item) {
-                return item.id === domainObject.id;
-            }));
-            oldObject = _.assign(oldObject, domainObject);
-            promise = this.$q.when(oldObject);
-        }
-        else {
-            promise = this.$http.put(this.getItemEndpoint(domainObject.id), domainObject);
-        }
-        return promise.then(function (data) {
-            if (_this.logRequests) {
-                _this.log('update', domainObject);
-            }
-            return data;
+        return this.behavior.update({
+            domainObject: domainObject,
+            endpoint: this.getItemEndpoint(domainObject.id),
+            updateMockData: function (data) {
+                var oldObject = _.find(_this.mockData, function (item) {
+                    return item.id === data.id;
+                });
+                oldObject = _.assign(oldObject, data);
+            },
+            useMock: this.useMock,
+            logRequests: this.logRequests,
         });
     };
     BaseDataService.prototype.delete = function (domainObject) {
         var _this = this;
-        var promise;
-        if (this.useMock) {
-            this.array.remove(this.mockData, domainObject);
-            promise = this.$q.when();
-        }
-        else {
-            promise = this.$http.delete(this.getItemEndpoint(domainObject.id)).then(function () { return null; });
-        }
-        return promise.then(function () {
-            if (_this.logRequests) {
-                _this.log('update', domainObject);
-            }
+        return this.behavior.delete({
+            domainObject: domainObject,
+            endpoint: this.getItemEndpoint(domainObject.id),
+            removeMockData: function (data) {
+                _this.array.remove(_this.mockData, domainObject);
+            },
+            useMock: this.useMock,
+            logRequests: this.logRequests,
         });
-    };
-    BaseDataService.prototype.log = function (requestName, data) {
-        var mockString = this.useMock ? 'Mocked ' : '';
-        var endpointString = this.endpoint == null ? 'unspecified' : this.endpoint;
-        console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
-        console.log(data);
     };
     return BaseDataService;
 })();
