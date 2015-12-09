@@ -196,7 +196,7 @@ describe('base data service', () => {
 	describe('transform', (): void => {
 		let $rootScope: angular.IRootScopeService;
 		let dataSet: ITestMock[];
-		let transform: Sinon.SinonSpy;
+		let transform: any;
 
 		beforeEach((): void => {
 			dataSet = [
@@ -209,9 +209,11 @@ describe('base data service', () => {
 			let baseDataServiceFactory: IBaseDataServiceFactory = services[factoryName];
 			$rootScope = services.$rootScope;
 
-			transform = sinon.spy((rawData: ITestMock): string => {
-				return rawData.prop;
-			});
+			transform = {
+				fromServer: sinon.spy((rawData: ITestMock): string => {
+					return rawData.prop;
+				}),
+			};
 
 			baseDataService = baseDataServiceFactory.getInstance<ITestMock, void>(null, dataSet, transform, true);
 		});
@@ -222,7 +224,7 @@ describe('base data service', () => {
 				expect(data[0]).to.equal(dataSet[0].prop);
 				expect(data[1]).to.equal(dataSet[1].prop);
 				expect(data[2]).to.equal(dataSet[2].prop);
-				sinon.assert.calledThrice(transform);
+				sinon.assert.calledThrice(transform.fromServer);
 				done();
 			});
 
@@ -232,7 +234,7 @@ describe('base data service', () => {
 		it('should transform the single item', (done: MochaDone): void => {
 			baseDataService.getDetail(2).then((data: ITestMock): void => {
 				expect(data).to.equal(dataSet[1].prop);
-				sinon.assert.calledOnce(transform);
+				sinon.assert.calledOnce(transform.fromServer);
 				done();
 			});
 
