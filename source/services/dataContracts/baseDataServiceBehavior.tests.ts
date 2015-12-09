@@ -116,7 +116,7 @@ describe('base data service behavior', () => {
 		it('should make an http request to save an existing domain object', (done: MochaDone): void => {
 			let mockItem: ITestMock = { id: 1 };
 
-			$httpBackend.expectPUT(testUrl, mockItem).respond(200);
+			$httpBackend.expectPUT(testUrl, mockItem).respond(200, mockItem);
 
             dataServiceBehavior.update({
                 domainObject: mockItem,
@@ -125,7 +125,7 @@ describe('base data service behavior', () => {
                 logRequests: false,
                 updateMockData: null,
             }).then((data: ITestMock): void => {
-                expect(data).to.equal(mockItem);
+                expect(data).to.deep.equal(mockItem);
                 done();
 			});
 
