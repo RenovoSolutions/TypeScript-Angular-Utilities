@@ -46,7 +46,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
         return this.behavior.getList({
             params: params,
             endpoint: this.endpoint,
-            getMockData(): TDataType[] { return this.mockData },
+            getMockData: (): TDataType[] => { return this.mockData },
             useMock: this.useMock,
             logRequests: this.logRequests,
         });

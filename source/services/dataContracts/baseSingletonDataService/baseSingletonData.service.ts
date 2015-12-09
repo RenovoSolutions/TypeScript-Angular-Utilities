@@ -32,7 +32,7 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
     get(): angular.IPromise<TDataType> {
         return this.behavior.getItem({
             endpoint: this.endpoint,
-            getMockData(): TDataType { return this.mockData; },
+            getMockData: (): TDataType => { return this.mockData; },
             useMock: this.useMock,
             logRequests: this.logRequests,
         });
