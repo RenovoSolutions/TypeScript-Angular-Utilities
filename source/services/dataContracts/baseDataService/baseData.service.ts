@@ -82,7 +82,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     update(domainObject: TDataType): angular.IPromise<TDataType> {
         return this.behavior.update({
             domainObject: domainObject,
-            endpoint: this.endpoint,
+            endpoint: this.getItemEndpoint(domainObject.id),
             updateMockData: (data: TDataType): void => {
                 let oldObject: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
                     return item.id === data.id;
@@ -97,7 +97,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     delete(domainObject: TDataType): angular.IPromise<void> {
         return this.behavior.delete({
             domainObject: domainObject,
-            endpoint: this.endpoint,
+            endpoint: this.getItemEndpoint(domainObject.id),
             removeMockData: (data: TDataType): void => {
                 this.array.remove(this.mockData, domainObject);
             },
