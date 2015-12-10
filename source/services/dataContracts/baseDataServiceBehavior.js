@@ -79,7 +79,10 @@ var BaseDataServiceBehavior = (function () {
             promise = this.$q.when(options.domainObject);
         }
         else {
-            promise = this.$http.put(options.endpoint, options.domainObject);
+            promise = this.$http.put(options.endpoint, options.domainObject)
+                .then(function (result) {
+                return result.data;
+            });
         }
         return promise.then(function (data) {
             data = _this.transformFromServer(data);
