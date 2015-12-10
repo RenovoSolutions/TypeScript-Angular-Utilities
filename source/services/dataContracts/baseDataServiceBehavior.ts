@@ -119,7 +119,10 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             options.updateMockData(options.domainObject)
             promise = this.$q.when(options.domainObject);
         } else {
-            promise = this.$http.put(options.endpoint, options.domainObject);
+            promise = this.$http.put(options.endpoint, options.domainObject)
+                .then((result: angular.IHttpPromiseCallbackArg<TDataType>): TDataType => {
+                return result.data;
+            });
         }
         return promise.then((data: TDataType): TDataType => {
             data = this.transformFromServer(data);
