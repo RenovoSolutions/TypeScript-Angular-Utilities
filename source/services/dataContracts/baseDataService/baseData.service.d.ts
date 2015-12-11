@@ -4,7 +4,7 @@ import { ITransform } from '../baseDataServiceBehavior';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export interface IBaseDomainObject {
-    id: number;
+    id?: number;
 }
 export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> {
     getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
