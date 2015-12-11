@@ -109,13 +109,13 @@ export interface IBaseResourceBuilder {
 	* as a singleton if a parent is selected
 	*/
 	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType>;
 	/**
 	* Create a view of a parent resource with sub-resources that can be used as a base resource or
 	* as a singleton if a parent is selected
 	*/
 	createParentResourceView<TDataType extends IBaseDomainObject, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, void, TResourceDictionaryType>;
 
 	/**
 	* Deprecated - Create a singleton resource with get and update
