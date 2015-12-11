@@ -10,7 +10,7 @@ export var moduleName: string = 'rl.utilities.services.baseDataService';
 export var factoryName: string = 'baseDataService';
 
 export interface IBaseDomainObject {
-    id: number;
+    id?: number;
 }
 
 export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> {
