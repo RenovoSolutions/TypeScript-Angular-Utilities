@@ -14,7 +14,8 @@ export class BaseParentSingletonDataService<TDataType, TResourceDictionaryType>
 		, private resourceDictionaryBuilder: { (): TResourceDictionaryType }
 		, transform?: ITransform<TDataType>
 		, useMock?: boolean
-		, logRequests?: boolean) {
+		, logRequests?: boolean
+		, private parentId?: number) {
 		super($http, $q, endpoint, mockData, transform, useMock, logRequests);
 	}
 
