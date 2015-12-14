@@ -11,7 +11,7 @@ export interface IBaseParentSingletonDataService<TDataType, TResourceDictionaryT
 export class BaseParentSingletonDataService<TDataType, TResourceDictionaryType>
 	extends BaseSingletonDataService<TDataType> implements IBaseParentSingletonDataService<TDataType, TResourceDictionaryType> {
 	constructor($http: ng.IHttpService, $q: ng.IQService, endpoint: string, mockData: TDataType
-		, private resourceDictionaryBuilder: { (baseEndpoint: string): TResourceDictionaryType }
+		, private resourceDictionaryBuilder: { (): TResourceDictionaryType }
 		, transform?: ITransform<TDataType>
 		, useMock?: boolean
 		, logRequests?: boolean) {
