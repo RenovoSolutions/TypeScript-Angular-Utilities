@@ -3,30 +3,15 @@ Contains a list of reusable TypeScript libraries, services, and general utilitie
 
 ## Behaviors
 Angular directives that are applied as attributes to an element in order to modify the element's behavior.
-### stopEventPropogation
-Absorbs the passed in DOM event so that it will not propogate outside of the current element. Generally useful for restricting click events within an element so that the click events on parent elements are not triggered.
-```
-<div class="my-parent-div" click="doSomething()">
-  <button class="child-button" click="doSomethingDifferent()" stop-event-propogation="click">Click me</button>
-</div>
-```
+[stopEventPropogation](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/behaviors/stopEventPropagation/documentation.md)
+
 ## Filters
 * Contains Angular filters, which can be applied to bindings using the Angular pipe operator `<span>{{myMoney | currency}}</span>`
 * Contains a generic filter interface `IFilter`
 
-### isEmpty
-Tests the provided value to see if it is null or empty using the [object](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/README.md#object) utility to call isNullOrEmpty on the value. Returns true if the item is empty. If you specify `isEmpty:false`, returns true for non-empty values.
-```
-<span ng-if="myArray | isEmpty:false">
-  My array has values!
-</span>
-```
+[isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/documentation.md)
 
-### truncate
-Converts the input value to a string using `.toString()` and then limits the length of the string to the truncate length. Can optionally add an ellipses to the end (...).
-```
-<span>{{myString | truncate:10:true}}</span>
-```
+[truncate](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/truncate/documentation.md)
 
 ## Services
 ### object
