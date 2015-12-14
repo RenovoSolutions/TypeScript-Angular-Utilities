@@ -2,6 +2,8 @@ import * as ng from 'angular';
 
 import { ITransform } from '../baseDataServiceBehavior';
 import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
+import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
+import { IBaseDataServiceView } from '../baseDataService/baseDataServiceView';
 
 export interface IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>
 	extends IBaseSingletonDataService<TDataType>{
@@ -20,6 +22,18 @@ export class BaseParentSingletonDataService<TDataType, TResourceDictionaryType>
 	}
 
 	childContracts(): TResourceDictionaryType {
-		return this.resourceDictionaryBuilder(this.endpoint);
+		let dictionary: {[index: string]: any} = this.resourceDictionaryBuilder();
+		return <any>_.mapValues(dictionary, (dataService: IBaseDataServiceView<TDataType, any>): IBaseSingletonDataService<TDataType> | IBaseDataService<TDataType, any> => {
+			let contract: any;
+			if (_.isFunction(dataService.AsSingleton)) {
+				contract = dataService.AsSingleton(this.parentId);
+			} else {
+				contract = dataService;
+			}
+
+			contract.endpoint = this.endpoint + contract.endpoint;
+
+			return contract;
+		});
 	}
 }
