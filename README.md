@@ -3,15 +3,17 @@ Contains a list of reusable TypeScript libraries, services, and general utilitie
 
 ## Behaviors
 Angular directives that are applied as attributes to an element in order to modify the element's behavior.
-[stopEventPropogation](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/behaviors/stopEventPropagation/documentation.md)
+
+* [stopEventPropogation](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/behaviors/stopEventPropagation/documentation.md)
 
 ## Filters
-* Contains Angular filters, which can be applied to bindings using the Angular pipe operator `<span>{{myMoney | currency}}</span>`
-* Contains a generic filter interface `IFilter`
+Contains Angular filters, which can be applied to bindings using the Angular pipe operator `<span>{{myMoney | currency}}</span>`
 
-[isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/documentation.md)
+Contains a generic filter interface `IFilter`
 
-[truncate](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/truncate/documentation.md)
+* [isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/documentation.md)
+
+* [truncate](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/truncate/documentation.md)
 
 ## Services
 ### object
