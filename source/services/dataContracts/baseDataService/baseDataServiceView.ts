@@ -58,6 +58,6 @@ export class BaseParentDataServiceView<TDataType extends IBaseDomainObject, TSea
 		let mockData: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
 			return item.id === parentId;
 		});
-		return new BaseParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests);
+		return new BaseParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests, parentId);
 	}
 }
