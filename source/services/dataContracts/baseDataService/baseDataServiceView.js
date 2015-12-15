@@ -37,7 +37,7 @@ var BaseParentDataServiceView = (function (_super) {
         var mockData = _.find(this.mockData, function (item) {
             return item.id === parentId;
         });
-        return new baseParentSingletonData_service_1.BaseParentSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests);
+        return new baseParentSingletonData_service_1.BaseParentSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests, parentId);
     };
     return BaseParentDataServiceView;
 })(baseParentData_service_1.BaseParentDataService);

@@ -54,7 +54,7 @@ export interface IParentSingletonResourceParams<TDataType, TResourceDictionaryTy
     * Function that builds a dictionary of child resources available through childContracts(id)
     */
     resourceDictionaryBuilder?: {
-        (baseEndpoint: string): TResourceDictionaryType;
+        (): TResourceDictionaryType;
     };
 }
 export interface IBaseResourceBuilder {

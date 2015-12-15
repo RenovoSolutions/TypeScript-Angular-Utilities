@@ -14,14 +14,14 @@ var BaseParentDataService = (function (_super) {
     BaseParentDataService.prototype.childContracts = function (id) {
         var _this = this;
         if (_.isUndefined(id)) {
-            var dictionary = this.resourceDictionaryBuilder(this.endpoint);
+            var dictionary = this.resourceDictionaryBuilder();
             _.each(dictionary, function (dataService) {
                 dataService.endpoint = _this.endpoint + dataService.endpoint;
             });
             return dictionary;
         }
         else {
-            var dictionary = this.resourceDictionaryBuilder(this.endpoint + '/' + id);
+            var dictionary = this.resourceDictionaryBuilder();
             return _.mapValues(dictionary, function (dataService) {
                 var contract;
                 if (_.isFunction(dataService.AsSingleton)) {
