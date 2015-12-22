@@ -24,11 +24,19 @@ export interface IErrorHandlerService {
 	httpResponseError(rejection: IRejection): void;
 }
 
-export class ErrorHandlerService implements IErrorHandlerService {
-	static $inject: string[] = ['$window', __notification.serviceName];
-	constructor(private $window: ng.IWindowService, private notification: __notification.INotificationService) { }
+export interface IErrorMessages {
+    forbiddenError: string;
+    invalidUrlError: string;
+    timeoutError: string;
+    internalServerError: string;
+    defaultError: string;
+}
 
-	private loginUrl: Location = <any>'/login.aspx';
+export class ErrorHandlerService implements IErrorHandlerService {
+	constructor(private $window: ng.IWindowService
+            , private notification: __notification.INotificationService
+            , private loginUrl: string
+            , private errorMessages: IErrorMessages) { }
 
 	httpResponseError(rejection: IRejection): void {
 		switch (rejection.status) {
@@ -48,34 +56,61 @@ export class ErrorHandlerService implements IErrorHandlerService {
 				this.systemError();
 				break;
 			default:
-				console.log('Http status' + rejection.status + ' not handled');
-				console.log('Response: ' + rejection);
+				console.error(this.errorMessages.defaultError);
+				console.error('Status: ' + rejection.status);
+				console.error('Response: ' + rejection);
 				break;
 		}
 	}
 
 	private loggedOutError(): void {
-		this.$window.location = this.loginUrl;
+		this.$window.location = <any>this.loginUrl;
 	}
 
 	private insufficientPermissionsError(): void {
-		this.notification.error('You have insufficient permissions to perform this action');
+		this.notification.error(this.errorMessages.forbiddenError);
 	}
 
 	private invalidUrlError(): void {
-		this.notification.error('Resource not found. This issue has been logged');
+		this.notification.error(this.errorMessages.invalidUrlError);
 	}
 
 	private timeoutError(): void {
-		this.notification.error('Request timed out. Check your network connection or contact your administrator for issues');
+		this.notification.error(this.errorMessages.timeoutError);
 		// retry
 	}
 
 	private systemError(): void {
-		this.notification.error('The system has encountered an error. This issue has been logged.' +
-								' Please contact support if you are unable to complete critical tasks');
+		this.notification.error(this.errorMessages.internalServerError);
 	}
 }
 
+export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
+    loginUrl: string;
+    errorMessages: IErrorMessages;
+    $get(): IErrorHandlerService;
+}
+
+errorHandlerServiceProvider.$inject = ['$window', __notification.serviceName];
+export function errorHandlerServiceProvider($window: ng.IWindowService
+                                        , notification: __notification.INotificationService): IErrorHandlerServiceProvider {
+	'use strict';
+
+    return {
+        loginUrl: '/login',
+        errorMessages: {
+            forbiddenError: 'You have insufficient permissions to perform this action',
+            invalidUrlError: 'Resource not found. This issue has been logged',
+            timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
+            internalServerError: 'The system has encountered an error. This issue has been logged.' +
+								' Please contact support if you are unable to complete critical tasks',
+            defaultError: 'Http status code not handled',
+        },
+		$get: (): IErrorHandlerService => {
+			return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages);
+		},
+	};
+}
+
 angular.module(moduleName, [__notification.moduleName])
-	.service(serviceName, ErrorHandlerService);
+	.provider(serviceName, errorHandlerServiceProvider);
