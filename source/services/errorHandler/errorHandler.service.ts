@@ -2,8 +2,11 @@
 
 import * as ng from 'angular';
 
-import { services } from 'typescript-angular-utilities';
-import __notification = services.notification;
+import {
+    INotificationService,
+    serviceName as notificationServiceName,
+    moduleName as notificationModuleName,
+} from '../notification/notification.service';
 
 export var moduleName: string = 'rl21.services.errorHandler';
 export var serviceName: string = 'errorHandler';
@@ -34,7 +37,7 @@ export interface IErrorMessages {
 
 export class ErrorHandlerService implements IErrorHandlerService {
 	constructor(private $window: ng.IWindowService
-            , private notification: __notification.INotificationService
+            , private notification: INotificationService
             , private loginUrl: string
             , private errorMessages: IErrorMessages) { }
 
@@ -91,9 +94,9 @@ export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
     $get(): IErrorHandlerService;
 }
 
-errorHandlerServiceProvider.$inject = ['$window', __notification.serviceName];
+errorHandlerServiceProvider.$inject = ['$window', notificationServiceName];
 export function errorHandlerServiceProvider($window: ng.IWindowService
-                                        , notification: __notification.INotificationService): IErrorHandlerServiceProvider {
+                                        , notification: INotificationService): IErrorHandlerServiceProvider {
 	'use strict';
 
     return {
@@ -112,5 +115,5 @@ export function errorHandlerServiceProvider($window: ng.IWindowService
 	};
 }
 
-angular.module(moduleName, [__notification.moduleName])
+angular.module(moduleName, [notificationModuleName])
 	.provider(serviceName, errorHandlerServiceProvider);
