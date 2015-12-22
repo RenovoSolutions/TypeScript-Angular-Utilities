@@ -8,6 +8,8 @@ var dataContracts = require('./dataContracts/dataContracts.module');
 exports.dataContracts = dataContracts;
 var date = require('./date/date.module');
 exports.date = date;
+var errorHandler = require('./errorHandler/errorHandler.service');
+exports.errorHandler = errorHandler;
 var fileSize = require('./fileSize/fileSize.module');
 exports.fileSize = fileSize;
 var genericSearchFilter = require('./genericSearchFilter/genericSearchFilter.service');
@@ -44,6 +46,7 @@ angular.module(exports.moduleName, [
     boolean.moduleName,
     dataContracts.moduleName,
     date.moduleName,
+    errorHandler.moduleName,
     fileSize.moduleName,
     genericSearchFilter.moduleName,
     guid.moduleName,

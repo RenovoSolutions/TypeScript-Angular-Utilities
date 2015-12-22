@@ -8,8 +8,7 @@
 import * as angular from 'angular';
 import 'angular-mocks';
 
-import { services } from 'typescript-angular-utilities';
-import __test = services.test;
+import { angularFixture } from '../test/angularFixture';
 
 import {
 	moduleName,
@@ -43,12 +42,12 @@ describe('errorHandler', () => {
 			error: sinon.spy(),
 		};
 
-		__test.angularFixture.mock({
+		angularFixture.mock({
 			$window: $window,
 			notification: notification,
 		});
 
-		var services: any = __test.angularFixture.inject(serviceName);
+		var services: any = angularFixture.inject(serviceName);
 		errorHandler = services[serviceName];
 	});
 
@@ -59,7 +58,7 @@ describe('errorHandler', () => {
 
 		errorHandler.httpResponseError(rejection);
 
-		expect($window.location).to.equal('/login.aspx');
+		expect($window.location).to.equal('/login');
 	});
 
 	it('should show an error for insufficient permissions', (): void => {
