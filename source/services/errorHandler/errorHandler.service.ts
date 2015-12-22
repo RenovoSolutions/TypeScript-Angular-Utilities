@@ -2,8 +2,11 @@
 
 import * as ng from 'angular';
 
-import { services } from 'typescript-angular-utilities';
-import __notification = services.notification;
+import {
+    INotificationService,
+    serviceName as notificationServiceName,
+    moduleName as notificationModuleName,
+} from '../notification/notification.service';
 
 export var moduleName: string = 'rl21.services.errorHandler';
 export var serviceName: string = 'errorHandler';
@@ -34,7 +37,7 @@ export interface IErrorMessages {
 
 export class ErrorHandlerService implements IErrorHandlerService {
 	constructor(private $window: ng.IWindowService
-            , private notification: __notification.INotificationService
+            , private notification: INotificationService
             , private loginUrl: string
             , private errorMessages: IErrorMessages) { }
 
@@ -88,15 +91,14 @@ export class ErrorHandlerService implements IErrorHandlerService {
 export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
     loginUrl: string;
     errorMessages: IErrorMessages;
-    $get(): IErrorHandlerService;
+    $get($window: ng.IWindowService
+        , notification: INotificationService): IErrorHandlerService;
 }
 
-errorHandlerServiceProvider.$inject = ['$window', __notification.serviceName];
-export function errorHandlerServiceProvider($window: ng.IWindowService
-                                        , notification: __notification.INotificationService): IErrorHandlerServiceProvider {
+export function errorHandlerServiceProvider(): IErrorHandlerServiceProvider {
 	'use strict';
 
-    return {
+    let provider: IErrorHandlerServiceProvider = {
         loginUrl: '/login',
         errorMessages: {
             forbiddenError: 'You have insufficient permissions to perform this action',
@@ -106,11 +108,15 @@ export function errorHandlerServiceProvider($window: ng.IWindowService
 								' Please contact support if you are unable to complete critical tasks',
             defaultError: 'Http status code not handled',
         },
-		$get: (): IErrorHandlerService => {
+		$get: ($window: ng.IWindowService
+            , notification: INotificationService): IErrorHandlerService => {
 			return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages);
 		},
-	};
+    };
+
+    provider.$get.$inject = ['$window', notificationServiceName];
+    return provider;
 }
 
-angular.module(moduleName, [__notification.moduleName])
+angular.module(moduleName, [notificationModuleName])
 	.provider(serviceName, errorHandlerServiceProvider);
