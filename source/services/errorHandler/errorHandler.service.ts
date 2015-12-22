@@ -91,15 +91,14 @@ export class ErrorHandlerService implements IErrorHandlerService {
 export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
     loginUrl: string;
     errorMessages: IErrorMessages;
-    $get(): IErrorHandlerService;
+    $get($window: ng.IWindowService
+        , notification: INotificationService): IErrorHandlerService;
 }
 
-errorHandlerServiceProvider.$inject = ['$window', notificationServiceName];
-export function errorHandlerServiceProvider($window: ng.IWindowService
-                                        , notification: INotificationService): IErrorHandlerServiceProvider {
+export function errorHandlerServiceProvider(): IErrorHandlerServiceProvider {
 	'use strict';
 
-    return {
+    let provider: IErrorHandlerServiceProvider = {
         loginUrl: '/login',
         errorMessages: {
             forbiddenError: 'You have insufficient permissions to perform this action',
@@ -109,10 +108,14 @@ export function errorHandlerServiceProvider($window: ng.IWindowService
 								' Please contact support if you are unable to complete critical tasks',
             defaultError: 'Http status code not handled',
         },
-		$get: (): IErrorHandlerService => {
+		$get: ($window: ng.IWindowService
+            , notification: INotificationService): IErrorHandlerService => {
 			return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages);
 		},
-	};
+    };
+
+    provider.$get.$inject = ['$window', notificationServiceName];
+    return provider;
 }
 
 angular.module(moduleName, [notificationModuleName])
