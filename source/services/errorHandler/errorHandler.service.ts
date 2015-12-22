@@ -95,28 +95,27 @@ export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
         , notification: INotificationService): IErrorHandlerService;
 }
 
-export function errorHandlerServiceProvider(): IErrorHandlerServiceProvider {
-	'use strict';
+class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
+    loginUrl: string;
+    errorMessages: IErrorMessages;
 
-    let provider: IErrorHandlerServiceProvider = {
-        loginUrl: '/login',
-        errorMessages: {
+    constructor() {
+        this.loginUrl = '/login';
+        this.errorMessages = {
             forbiddenError: 'You have insufficient permissions to perform this action',
             invalidUrlError: 'Resource not found. This issue has been logged',
             timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
             internalServerError: 'The system has encountered an error. This issue has been logged.' +
-								' Please contact support if you are unable to complete critical tasks',
+            ' Please contact support if you are unable to complete critical tasks',
             defaultError: 'Http status code not handled',
-        },
-		$get: ($window: ng.IWindowService
-            , notification: INotificationService): IErrorHandlerService => {
-			return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages);
-		},
-    };
+        };
+    }
 
-    provider.$get.$inject = ['$window', notificationServiceName];
-    return provider;
+    $get: any = ($window: ng.IWindowService
+            , notification: INotificationService): IErrorHandlerService => {
+        return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages);
+    }
 }
 
 angular.module(moduleName, [notificationModuleName])
-	.provider(serviceName, errorHandlerServiceProvider);
+	.provider(serviceName, new ErrorHandlerServiceProvider());
