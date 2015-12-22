@@ -6,6 +6,7 @@ import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
 import * as dataContracts from './dataContracts/dataContracts.module';
 import * as date from './date/date.module';
+import * as errorHandler from './errorHandler/errorHandler.service';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 import * as guid from './guid/guid.service';
@@ -26,7 +27,8 @@ export {
 	array,
 	boolean,
 	dataContracts,
-	date,
+    date,
+    errorHandler,
 	fileSize,
 	genericSearchFilter,
 	guid,
@@ -50,7 +52,8 @@ angular.module(moduleName, [
 	array.moduleName,
 	boolean.moduleName,
 	dataContracts.moduleName,
-	date.moduleName,
+    date.moduleName,
+    errorHandler.moduleName,
 	fileSize.moduleName,
 	genericSearchFilter.moduleName,
 	guid.moduleName,
