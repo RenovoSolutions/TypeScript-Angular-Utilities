@@ -18,8 +18,10 @@ Contains a generic filter interface `IFilter`
 ## Services
 Contains miscellaneous tools and utilities for working with objects and other useful tasks.
 
-* [object](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/object/object.md)
 * [array](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/array/array.md)
+* [boolean](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/boolean/boolean.md)
+* [date](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/date/date.md)
+* [object](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/object/object.md)
 
 ### Injecting a service
 ```
