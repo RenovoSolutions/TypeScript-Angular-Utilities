@@ -75,6 +75,7 @@ var ErrorHandlerServiceProvider = (function () {
                 ' Please contact support if you are unable to complete critical tasks',
             defaultError: 'Http status code not handled',
         };
+        this.$get.$inject = ['$window', notification_service_1.serviceName];
     }
     return ErrorHandlerServiceProvider;
 })();
