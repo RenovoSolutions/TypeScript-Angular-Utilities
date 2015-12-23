@@ -264,4 +264,17 @@ describe('dateUtility', () => {
 			expect(dateUtility.dateInRange('1/1/2018', '1/1/2015', '1/1/2018')).to.be.true;
 		});
 	});
+
+	describe('sameDate', (): void=> {
+		it('should return true that if the dates are the same date', (): void => {
+			expect(dateUtility.sameDate("5/10/1986", "5/10/1986")).to.be.true;
+			expect(dateUtility.sameDate("5/11/1986", "05/10/1986")).to.be.false;
+		});
+	});
+	describe('sameDateTime', (): void=> {
+		it('should return true if the dates are the same date and time down to hour and minute', (): void => {
+			expect(dateUtility.sameDateTime('9/10/2000 10:00 AM', '9/10/2000 8:00 AM')).to.be.false;
+			expect(dateUtility.sameDateTime("5/10/1986T01:15:00", "5/10/1986T01:15:00")).to.be.true;
+		});
+	});
 });

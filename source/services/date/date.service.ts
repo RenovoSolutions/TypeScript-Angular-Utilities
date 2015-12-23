@@ -45,6 +45,8 @@ export interface IDateUtility {
 	isDate(date: string | Date, dateFormat?: string): boolean;
 	getNow(): Date;
 	formatDate(date: string | Date, dateFormat?: string): string;
+	sameDate(date1: string | Date, date2: string | Date): boolean;
+	sameDateTime(date1: string | Date, date2: string | Date): boolean;
 }
 
 export class DateUtility {
@@ -166,5 +168,21 @@ export class DateUtility {
 
 	private getFormat(customFormat: string): string {
 		return customFormat != null ? customFormat : this.baseFormat;
+	}
+
+	sameDate(date1: string | Date, date2: string | Date) {
+		if (this.isDate(date1) && this.isDate(date2)) {
+			return moment(date1).format("MM/dd/yyyy") === moment(date2).format("MM/dd/yyyy");
+		} else {
+			return false;
+		}
+	}
+
+	sameDateTime(date1: string | Date, date2: string | Date) {
+		if (this.isDate(date1) && this.isDate(date2)) {
+			return moment(date1).format("MM/dd/yyyy +-HHmm") === moment(date2).format("MM/dd/yyyy +-HHmm");
+		} else {
+			return false;
+		}
 	}
 }
