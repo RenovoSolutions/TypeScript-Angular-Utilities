@@ -267,12 +267,23 @@ describe('dateUtility', () => {
 
 	describe('sameDate', (): void=> {
 		it('should return true that if the dates are the same date', (): void => {
+			let date1 = new Date(1995, 11, 17, 12, 0, 0);
+			let date2 = new Date(1995, 11, 17, 3, 24, 0);
+			let date3 = new Date(1995, 11, 18, 3, 24, 0);
+			expect(dateUtility.sameDate(date1, date2)).to.be.true;
+			expect(dateUtility.sameDate(date1, date3)).to.be.false;
+			expect(dateUtility.sameDate("5/10/1986", "5/10/1986")).to.be.true;
 			expect(dateUtility.sameDate("5/10/1986", "5/10/1986")).to.be.true;
 			expect(dateUtility.sameDate("5/11/1986", "05/10/1986")).to.be.false;
 		});
 	});
 	describe('sameDateTime', (): void=> {
 		it('should return true if the dates are the same date and time down to hour and minute', (): void => {
+			let date1 = new Date(1995, 11, 17, 0, 24, 0);
+			let date2 = new Date(1995, 11, 17, 3, 24, 0);
+			let date3 = new Date(1995, 11, 17, 3, 24, 0);
+			expect(dateUtility.sameDateTime(date1, date2)).to.be.false;
+			expect(dateUtility.sameDateTime(date2, date3)).to.be.true;
 			expect(dateUtility.sameDateTime('9/10/2000 10:00 AM', '9/10/2000 8:00 AM')).to.be.false;
 			expect(dateUtility.sameDateTime("5/10/1986T01:15:00", "5/10/1986T01:15:00")).to.be.true;
 		});
