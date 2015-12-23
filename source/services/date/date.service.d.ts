@@ -23,6 +23,8 @@ export interface IDateUtility {
     isDate(date: string | Date, dateFormat?: string): boolean;
     getNow(): Date;
     formatDate(date: string | Date, dateFormat?: string): string;
+    sameDate(date1: string | Date, date2: string | Date): boolean;
+    sameDateTime(date1: string | Date, date2: string | Date): boolean;
 }
 export declare class DateUtility {
     private moment;
@@ -45,4 +47,6 @@ export declare class DateUtility {
     getNow(): Date;
     formatDate(date: string | Date, dateFormat?: string): string;
     private getFormat(customFormat);
+    sameDate(date1: string | Date, date2: string | Date): boolean;
+    sameDateTime(date1: string | Date, date2: string | Date): boolean;
 }

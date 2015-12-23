@@ -1,5 +1,6 @@
 'use strict';
 var _ = require('lodash');
+var moment = require('moment');
 var time_service_1 = require('../time/time.service');
 var moment_module_1 = require('../moment/moment.module');
 var compareResult_1 = require('../../types/compareResult');
@@ -105,6 +106,22 @@ var DateUtility = (function () {
     };
     DateUtility.prototype.getFormat = function (customFormat) {
         return customFormat != null ? customFormat : this.baseFormat;
+    };
+    DateUtility.prototype.sameDate = function (date1, date2) {
+        if (this.isDate(date1) && this.isDate(date2)) {
+            return moment(date1).format("MM/dd/yyyy") === moment(date2).format("MM/dd/yyyy");
+        }
+        else {
+            return false;
+        }
+    };
+    DateUtility.prototype.sameDateTime = function (date1, date2) {
+        if (this.isDate(date1) && this.isDate(date2)) {
+            return moment(date1).format("MM/dd/yyyy +-HHmm") === moment(date2).format("MM/dd/yyyy +-HHmm");
+        }
+        else {
+            return false;
+        }
     };
     DateUtility.$inject = [moment_module_1.serviceName, time_service_1.serviceName];
     return DateUtility;
