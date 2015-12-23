@@ -109,6 +109,7 @@ class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
             ' Please contact support if you are unable to complete critical tasks',
             defaultError: 'Http status code not handled',
         };
+        this.$get.$inject = ['$window', notificationServiceName];
     }
 
     $get: any = ($window: ng.IWindowService
