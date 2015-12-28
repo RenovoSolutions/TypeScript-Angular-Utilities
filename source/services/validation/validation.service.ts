@@ -9,38 +9,32 @@ import {
 	INotificationService,
 } from '../notification/notification.service';
 
-import { IValidator, Validator, IErrorHandler } from './validator';
-import { ICompositeValidator, CompositeValidator } from './compositeValidator';
+import { IValidator, ISimpleValidator, IErrorHandler, ICompositeValidator } from './validationTypes';
+import { Validator } from './validator';
+import { CompositeValidator } from './compositeValidator';
 
-export { IUnregisterFunction, IValidator, IErrorHandler } from './validator';
-export { ICompositeValidator } from './compositeValidator';
+export * from './validationTypes';
 
 export var moduleName: string = 'rl.utilities.services.validation';
 export var serviceName: string = 'validationFactory';
-
-export interface IValidationHandler {
-	isActive?: {(): boolean} | boolean;
-	validate(): boolean;
-	errorMessage: string | {(): string};
-}
 
 export interface IValidationService {
 	/**
 	* Build a validator that uses warning notifications to show errors
 	*/
-	buildNotificationWarningValidator(): IValidator;
+	buildNotificationWarningValidator(): ISimpleValidator;
 
 	/**
 	* Build a validator that uses error notifications to show errors
 	*/
-	buildNotificationErrorValidator(): IValidator;
+	buildNotificationErrorValidator(): ISimpleValidator;
 
 	/**
 	* Build a validator that uses a custom handler to show errors
 	*
 	* @param showError A custom handler for validation errors
 	*/
-	buildCustomValidator(showError: IErrorHandler): IValidator;
+	buildCustomValidator(showError: IErrorHandler): ISimpleValidator;
 
 	/**
 	* Build a validator that groups child validators
@@ -67,19 +61,19 @@ export class ValidationService implements IValidationService {
 	static $inject: string[] = [notificationServiceName];
 	constructor(private notification: INotificationService) { }
 
-	buildNotificationWarningValidator(): IValidator {
+	buildNotificationWarningValidator(): ISimpleValidator {
 		return new Validator((error: string): void => {
 			this.notification.warning(error);
 		});
 	}
 
-	buildNotificationErrorValidator(): IValidator {
+	buildNotificationErrorValidator(): ISimpleValidator {
 		return new Validator((error: string): void => {
 			this.notification.error(error);
 		});
 	}
 
-	buildCustomValidator(showError: IErrorHandler): IValidator {
+	buildCustomValidator(showError: IErrorHandler): ISimpleValidator {
 		return new Validator(showError);
 	}
 

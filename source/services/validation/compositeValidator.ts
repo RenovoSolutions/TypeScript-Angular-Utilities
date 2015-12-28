@@ -2,22 +2,15 @@
 
 import * as _ from 'lodash';
 
-import { IValidationService, IValidationHandler } from './validation.service';
-import { IValidator, Validator, IErrorHandler, IUnregisterFunction } from './validator';
+import { ICompositeValidator, ISimpleValidator, IErrorHandler, IUnregisterFunction, IValidationHandler } from './validationTypes';
+import { Validator } from './validator';
 
-interface IRegisteredValidator extends IValidator {
+interface IRegisteredValidator extends ISimpleValidator {
 	key: number;
 }
 
-export interface ICompositeValidator {
-	validate(): boolean;
-	getErrorCount(): number;
-	buildChildValidator(): IValidator;
-	unregisterChild(validator: IValidator): void;
-}
-
 export class CompositeValidator implements ICompositeValidator {
-	private childValidators: { [index: string]: IValidator } = {};
+	private childValidators: { [index: string]: ISimpleValidator } = {};
 	private nextKey: number = 0;
 
 	constructor(private showError: IErrorHandler) {}
@@ -25,7 +18,7 @@ export class CompositeValidator implements ICompositeValidator {
 	validate(): boolean {
 		let isValid: boolean = true;
 
-		_.each(this.childValidators, (handler: IValidator): boolean => {
+		_.each(this.childValidators, (handler: ISimpleValidator): boolean => {
 			if (!handler.validate()) {
 				isValid = false;
 				return false;
@@ -36,13 +29,13 @@ export class CompositeValidator implements ICompositeValidator {
 	}
 
 	getErrorCount(): number {
-		return _.reduce(<any>this.childValidators, (count: number, handler: IValidator): number => {
+		return _.reduce(<any>this.childValidators, (count: number, handler: ISimpleValidator): number => {
 			return count += handler.getErrorCount();
 		}, 0);
 	}
 
-	buildChildValidator(): IValidator {
-		let validator: IValidator = new Validator((error: string): void => {
+	buildChildValidator(): ISimpleValidator {
+		let validator: ISimpleValidator = new Validator((error: string): void => {
 			this.showError(error);
 		});
 
@@ -54,7 +47,7 @@ export class CompositeValidator implements ICompositeValidator {
 		return validator;
 	}
 
-	unregisterChild(validator: IValidator): void {
+	unregisterChild(validator: ISimpleValidator): void {
 		delete this.childValidators[(<IRegisteredValidator>validator).key];
 	}
 }
