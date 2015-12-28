@@ -2,23 +2,9 @@
 
 import * as _ from 'lodash';
 
-import { IValidationService, IValidationHandler } from './validation.service';
+import { ISimpleValidator, IErrorHandler, IUnregisterFunction, IValidationHandler } from './validationTypes';
 
-export interface IUnregisterFunction {
-	(): void;
-}
-
-export interface IValidator {
-	validate(): boolean;
-	getErrorCount(): number;
-	registerValidationHandler(handler: IValidationHandler): IUnregisterFunction;
-}
-
-export interface IErrorHandler {
-	(error: string): void;
-}
-
-export class Validator implements IValidator {
+export class Validator implements ISimpleValidator {
 	private validationHandlers: { [index: string]: IValidationHandler } = {};
 	private nextKey: number = 0;
 
