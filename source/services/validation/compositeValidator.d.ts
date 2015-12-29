@@ -1,10 +1,4 @@
-import { IValidator, IErrorHandler } from './validator';
-export interface ICompositeValidator {
-    validate(): boolean;
-    getErrorCount(): number;
-    buildChildValidator(): IValidator;
-    unregisterChild(validator: IValidator): void;
-}
+import { ICompositeValidator, ISimpleValidator, IErrorHandler } from './validationTypes';
 export declare class CompositeValidator implements ICompositeValidator {
     private showError;
     private childValidators;
@@ -12,6 +6,6 @@ export declare class CompositeValidator implements ICompositeValidator {
     constructor(showError: IErrorHandler);
     validate(): boolean;
     getErrorCount(): number;
-    buildChildValidator(): IValidator;
-    unregisterChild(validator: IValidator): void;
+    buildChildValidator(): ISimpleValidator;
+    unregisterChild(validator: ISimpleValidator): void;
 }

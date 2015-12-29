@@ -10,7 +10,7 @@ import {
 	IValidationService,
 	moduleName,
 	serviceName,
-	IValidator,
+	ISimpleValidator,
 	ICompositeValidator,
 } from './validation.service';
 
@@ -32,7 +32,7 @@ interface IMockNotification {
 
 describe('validation', () => {
 	let validationService: IValidationService;
-	let validator: IValidator;
+	let validator: ISimpleValidator;
 	let notification: IMockNotification;
 	let showErrorSpy: Sinon.SinonSpy;
 
@@ -281,8 +281,8 @@ describe('validation', () => {
 	describe('compositeValidator', (): void => {
 		it('should run each of the child validators', (): void => {
 			let compositeValidator: ICompositeValidator = validationService.buildCompositeCustomValidator(showErrorSpy);
-			let firstChild: IValidator = compositeValidator.buildChildValidator();
-			let secondChild: IValidator = compositeValidator.buildChildValidator();
+			let firstChild: ISimpleValidator = compositeValidator.buildChildValidator();
+			let secondChild: ISimpleValidator = compositeValidator.buildChildValidator();
 			let firstChildHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return true; }),
 			};
@@ -302,8 +302,8 @@ describe('validation', () => {
 
 		it('should show the first error from a child validator', (): void => {
 			let compositeValidator: ICompositeValidator = validationService.buildCompositeCustomValidator(showErrorSpy);
-			let firstChild: IValidator = compositeValidator.buildChildValidator();
-			let secondChild: IValidator = compositeValidator.buildChildValidator();
+			let firstChild: ISimpleValidator = compositeValidator.buildChildValidator();
+			let secondChild: ISimpleValidator = compositeValidator.buildChildValidator();
 			let failingChildHandler: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 				errorMessage: 'error1',
@@ -327,8 +327,8 @@ describe('validation', () => {
 
 		it('should sum the counts of the child validation failures', (): void => {
 			let compositeValidator: ICompositeValidator = validationService.buildCompositeCustomValidator(showErrorSpy);
-			let firstChild: IValidator = compositeValidator.buildChildValidator();
-			let secondChild: IValidator = compositeValidator.buildChildValidator();
+			let firstChild: ISimpleValidator = compositeValidator.buildChildValidator();
+			let secondChild: ISimpleValidator = compositeValidator.buildChildValidator();
 			let firstChildFailingHandler1: IMockValidationHandler = {
 				validate: sinon.spy((): boolean => { return false; }),
 			};

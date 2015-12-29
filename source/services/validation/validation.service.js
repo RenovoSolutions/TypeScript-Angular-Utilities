@@ -1,8 +1,12 @@
 'use strict';
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 var angular = require('angular');
 var notification_service_1 = require('../notification/notification.service');
 var validator_1 = require('./validator');
 var compositeValidator_1 = require('./compositeValidator');
+__export(require('./validationTypes'));
 exports.moduleName = 'rl.utilities.services.validation';
 exports.serviceName = 'validationFactory';
 var ValidationService = (function () {

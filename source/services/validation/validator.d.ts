@@ -1,16 +1,5 @@
-import { IValidationHandler } from './validation.service';
-export interface IUnregisterFunction {
-    (): void;
-}
-export interface IValidator {
-    validate(): boolean;
-    getErrorCount(): number;
-    registerValidationHandler(handler: IValidationHandler): IUnregisterFunction;
-}
-export interface IErrorHandler {
-    (error: string): void;
-}
-export declare class Validator implements IValidator {
+import { ISimpleValidator, IErrorHandler, IUnregisterFunction, IValidationHandler } from './validationTypes';
+export declare class Validator implements ISimpleValidator {
     private showError;
     private validationHandlers;
     private nextKey;
