@@ -172,7 +172,7 @@ export class DateUtility {
 
 	sameDate(date1: string | Date, date2: string | Date) {
 		if (this.isDate(date1) && this.isDate(date2)) {
-			return moment(date1).format("MM/dd/yyyy") === moment(date2).format("MM/dd/yyyy");
+			return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
 		} else {
 			return false;
 		}
@@ -180,7 +180,7 @@ export class DateUtility {
 
 	sameDateTime(date1: string | Date, date2: string | Date) {
 		if (this.isDate(date1) && this.isDate(date2)) {
-			return moment(date1).format("MM/dd/yyyy +-HHmm") === moment(date2).format("MM/dd/yyyy +-HHmm");
+			return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
 		} else {
 			return false;
 		}
