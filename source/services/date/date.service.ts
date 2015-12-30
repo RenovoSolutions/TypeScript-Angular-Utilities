@@ -5,14 +5,14 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 
 import {
-	moduleName as timeModuleName,
-	serviceName as timeServiceName,
-	ITimeUtility,
+moduleName as timeModuleName,
+serviceName as timeServiceName,
+ITimeUtility,
 } from '../time/time.service';
 
 import {
-	moduleName as momentModuleName,
-	serviceName as momentServiceName,
+moduleName as momentModuleName,
+serviceName as momentServiceName,
 } from '../moment/moment.module';
 
 import { defaultFormats } from './dateTimeFormatStrings';
@@ -170,16 +170,16 @@ export class DateUtility {
 		return customFormat != null ? customFormat : this.baseFormat;
 	}
 
-	sameDate(date1: string | Date, date2: string | Date) {
-		if (this.isDate(date1) && this.isDate(date2)) {
+	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
 		} else {
 			return false;
 		}
 	}
 
-	sameDateTime(date1: string | Date, date2: string | Date) {
-		if (this.isDate(date1) && this.isDate(date2)) {
+	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
 		} else {
 			return false;
