@@ -107,17 +107,17 @@ var DateUtility = (function () {
     DateUtility.prototype.getFormat = function (customFormat) {
         return customFormat != null ? customFormat : this.baseFormat;
     };
-    DateUtility.prototype.sameDate = function (date1, date2) {
-        if (this.isDate(date1) && this.isDate(date2)) {
-            return moment(date1).format("MM/dd/yyyy") === moment(date2).format("MM/dd/yyyy");
+    DateUtility.prototype.sameDate = function (date1, date2, date1Format, date2Format) {
+        if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
+            return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
         }
         else {
             return false;
         }
     };
-    DateUtility.prototype.sameDateTime = function (date1, date2) {
-        if (this.isDate(date1) && this.isDate(date2)) {
-            return moment(date1).format("MM/dd/yyyy +-HHmm") === moment(date2).format("MM/dd/yyyy +-HHmm");
+    DateUtility.prototype.sameDateTime = function (date1, date2, date1Format, date2Format) {
+        if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
+            return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
         }
         else {
             return false;
