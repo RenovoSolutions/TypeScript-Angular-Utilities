@@ -45,8 +45,8 @@ export interface IDateUtility {
 	isDate(date: string | Date, dateFormat?: string): boolean;
 	getNow(): Date;
 	formatDate(date: string | Date, dateFormat?: string): string;
-	sameDate(date1: string | Date, date2: string | Date): boolean;
-	sameDateTime(date1: string | Date, date2: string | Date): boolean;
+	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
+	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
 }
 
 export class DateUtility {
