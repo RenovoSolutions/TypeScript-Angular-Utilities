@@ -33,7 +33,7 @@ var ContractLibrary = (function () {
         var dataService = this.builder.createResource({});
         dataService.mockGetList = function (data) { return _this.baseMockGet(dataService, 'getList', data); };
         dataService.mockGetDetail = function (data) { return _this.baseMockGet(dataService, 'get', data); };
-        this.updateResource(dataService, resource);
+        dataService = this.updateResource(dataService, resource);
         return dataService;
     };
     ContractLibrary.prototype.createMockParent = function (resource) {
@@ -45,20 +45,21 @@ var ContractLibrary = (function () {
         dataService.mockGetList = function (data) { return _this.baseMockGet(dataService, 'getList', data); };
         dataService.mockGetDetail = function (data) { return _this.baseMockGet(dataService, 'get', data); };
         dataService.mockChild = function (mockCallback) { return _this.mockChild(dataService, mockCallback); };
-        this.updateResource(dataService, resource);
+        dataService = this.updateResource(dataService, resource);
         return dataService;
     };
     ContractLibrary.prototype.createMockSingleton = function (resource) {
         var _this = this;
         var dataService = this.builder.createSingletonResource({});
         dataService.mockGet = function (data) { return _this.baseMockGet(dataService, 'get', data); };
-        this.updateResource(dataService, resource);
+        dataService = this.updateResource(dataService, resource);
         return dataService;
     };
     ContractLibrary.prototype.updateResource = function (dataService, resource) {
         if (resource != null) {
-            _.extend(resource, dataService);
+            dataService = _.extend(resource, dataService);
         }
+        return dataService;
     };
     ContractLibrary.prototype.baseMockGet = function (resource, actionName, data) {
         var _this = this;

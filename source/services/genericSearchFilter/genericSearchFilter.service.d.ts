@@ -12,7 +12,7 @@ export interface IGenericSearchFilter extends IFilter {
     filter<TItemType>(item: TItemType): boolean;
 }
 export declare class GenericSearchFilter implements IGenericSearchFilter {
-    private object;
+    protected object: IObjectUtility;
     private string;
     type: string;
     searchText: string;
