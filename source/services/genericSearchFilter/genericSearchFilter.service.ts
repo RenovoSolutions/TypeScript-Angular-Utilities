@@ -35,10 +35,10 @@ export class GenericSearchFilter implements IGenericSearchFilter {
 	minSearchLength: number = 1;
 	caseSensitive: boolean = false;
 
-	constructor(private object: IObjectUtility, private string: IStringUtilityService) {}
+	constructor(protected object: IObjectUtility, private string: IStringUtilityService) {}
 
 	filter<TItemType>(item: TItemType): boolean {
-			if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
+		if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
 			return true;
 		}
 
