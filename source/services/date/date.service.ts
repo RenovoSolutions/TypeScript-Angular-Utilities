@@ -154,8 +154,22 @@ export class DateUtility {
 	}
 
 	isDate(date: string | Date, dateFormat?: string): boolean {
-		return _.isDate(date)
-			|| this.moment(<string>date, this.getFormat(dateFormat)).isValid();
+		if (_.isDate(date))
+		{
+			//lodash will return true if it is a valid date object, but has in invalid value.
+			//check the time value of the date object to verify that it's a Valid Date.
+			return !isNaN(date.getTime());
+		}
+		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
+	}
+	private isValidDate(str) {
+		var tempDate = this.moment(str, 'D/M/YYYY');
+		if (tempDate == null || !tempDate.isValid()) return false;
+
+		return str.indexOf(tempDate.format('D/M/YYYY')) >= 0
+			|| str.indexOf(tempDate.format('DD/MM/YYYY')) >= 0
+			|| str.indexOf(tempDate.format('D/M/YY')) >= 0
+			|| str.indexOf(tempDate.format('DD/MM/YY')) >= 0;
 	}
 
 	getNow(): Date {
