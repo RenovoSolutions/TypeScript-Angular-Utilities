@@ -158,7 +158,8 @@ export class DateUtility {
 		{
 			//lodash will return true if it is a valid date object, but has in invalid value.
 			//check the time value of the date object to verify that it's a Valid Date.
-			return !isNaN(date.getTime());
+			let r =!isNaN(date.getTime());
+			return r;
 		}
 		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}

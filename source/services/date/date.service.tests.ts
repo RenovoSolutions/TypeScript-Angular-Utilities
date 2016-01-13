@@ -291,7 +291,7 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDateTime(date2, date3)).to.be.true;
 			expect(dateUtility.sameDateTime('9/10/2000 10:00 AM', '9/10/2000 8:00 AM')).to.be.false;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD hour:minute", "MM/DD/YYYY hour:minute")).to.be.true;
+			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm", "MM/DD/YYYY H:mm")).to.be.true;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
 			expect(dateUtility.sameDateTime("5/10/1986T01:15:00", "5/10/1986T01:15:00")).to.be.true;
 		});
