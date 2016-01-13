@@ -163,15 +163,6 @@ export class DateUtility {
 		}
 		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}
-	private isValidDate(str) {
-		var tempDate = this.moment(str, 'D/M/YYYY');
-		if (tempDate == null || !tempDate.isValid()) return false;
-
-		return str.indexOf(tempDate.format('D/M/YYYY')) >= 0
-			|| str.indexOf(tempDate.format('DD/MM/YYYY')) >= 0
-			|| str.indexOf(tempDate.format('D/M/YY')) >= 0
-			|| str.indexOf(tempDate.format('DD/MM/YY')) >= 0;
-	}
 
 	getNow(): Date {
 		return new Date();
@@ -186,6 +177,9 @@ export class DateUtility {
 	}
 
 	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+		if (date1Format != undefined && date2Format === undefined) {
+			date2Format = date1Format;
+		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
 		} else {
@@ -194,6 +188,9 @@ export class DateUtility {
 	}
 
 	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+		if (date1Format != undefined && date2Format === undefined) {
+			date2Format = date1Format;
+		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
 		} else {
