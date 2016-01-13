@@ -279,9 +279,9 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDate("5/10/1986", "5/10/1986")).to.be.true;
 			expect(dateUtility.sameDate("5/11/1986", "05/10/1986")).to.be.false;
 			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm", "MM/DD/YYYY HH:mm")).to.be.true;
-			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm")).to.be.true;
+			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm")).to.be.false;
 			expect(dateUtility.sameDate("2011-01-06 10:42:00", "2011-01-06 10:42:00", "YYYY-MM-DD H:mm")).to.be.true;
-			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:43", "YYYY-MM-DD H:mm")).to.be.true;
+			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:43", "YYYY-MM-DD H:mm")).to.be.false;
 			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
 		});
 	});
@@ -295,7 +295,7 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDateTime('9/10/2000 10:00 AM', '9/10/2000 8:00 AM')).to.be.false;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm", "MM/DD/YYYY H:mm")).to.be.true;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm")).to.be.true;
+			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm")).to.be.false;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:43", "YYYY-MM-DD H:mm")).to.be.false;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "2011-01-06 10:42:00", "YYYY-MM-DD H:mm")).to.be.true;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
