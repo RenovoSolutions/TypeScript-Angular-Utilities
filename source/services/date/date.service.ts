@@ -154,8 +154,14 @@ export class DateUtility {
 	}
 
 	isDate(date: string | Date, dateFormat?: string): boolean {
-		return _.isDate(date)
-			|| this.moment(<string>date, this.getFormat(dateFormat)).isValid();
+		if (_.isDate(date))
+		{
+			//lodash will return true if it is a valid date object, but has in invalid value.
+			//check the time value of the date object to verify that it's a Valid Date.
+			let r =!isNaN(date.getTime());
+			return r;
+		}
+		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}
 
 	getNow(): Date {
@@ -171,6 +177,9 @@ export class DateUtility {
 	}
 
 	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+		if (date1Format != undefined && date2Format === undefined) {
+			date2Format = date1Format;
+		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
 		} else {
@@ -179,6 +188,9 @@ export class DateUtility {
 	}
 
 	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+		if (date1Format != undefined && date2Format === undefined) {
+			date2Format = date1Format;
+		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
 		} else {
