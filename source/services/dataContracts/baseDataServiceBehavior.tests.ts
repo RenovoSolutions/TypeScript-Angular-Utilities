@@ -437,7 +437,7 @@ describe('base data service behavior', () => {
                 endpoint: null,
                 logRequests: false,
             }).then((data: ITestMock2): void => {
-                expect(data.prop1).to.equal(4);
+                expect(data.prop1).to.equal(5);
                 expect(data.prop2).to.equal(4);
 				sinon.assert.calledOnce(numberConverter.fromServer);
 				done();
