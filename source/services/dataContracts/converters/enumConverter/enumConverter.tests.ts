@@ -8,7 +8,7 @@
 import { EnumConverter, IConverter } from './enumConverter';
 import { ItemList, IItem } from '../../../../types/itemList';
 
-class TestEnum {
+class TestEnum extends ItemList {
 	type1: IItem = {
 		value: 0,
 		name: 'type1',
