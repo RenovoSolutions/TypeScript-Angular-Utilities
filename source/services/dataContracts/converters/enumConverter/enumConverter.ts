@@ -12,10 +12,10 @@ export class EnumConverter<TItemType extends IItem> implements IConverter<IItemL
 
 	fromServer(raw: number): TItemType {
 		return this.enumType.get(raw);
-	},
+	}
 	toServer(data: TItemType): number {
 		return data != null
 			? data.value
 			: null;
-	},
+	}
 };
