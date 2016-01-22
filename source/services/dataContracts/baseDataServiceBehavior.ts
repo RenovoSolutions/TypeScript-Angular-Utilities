@@ -162,7 +162,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		if (this.transform != null) {
 			return this.transform.fromServer(rawData);
 		} else if (this.map != null) {
-			return <any>_.map(rawData, (prop: any, key: string): any => {
+			return <any>_.mapValues(rawData, (prop: any, key: string): any => {
 				if (_.has(this.map, key)) {
 					return this.map[key].fromServer(prop);
 				}
@@ -177,7 +177,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		if (this.transform != null) {
 			return this.transform.toServer(data);
 		} else if (this.map != null) {
-			return <any>_.map(data, (prop: any, key: string): any => {
+			return <any>_.mapValues(data, (prop: any, key: string): any => {
 				if (_.has(this.map, key)) {
 					return this.map[key].toServer(prop);
 				}
