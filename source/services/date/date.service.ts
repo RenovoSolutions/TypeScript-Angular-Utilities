@@ -5,14 +5,15 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 
 import {
-moduleName as timeModuleName,
-serviceName as timeServiceName,
-ITimeUtility,
+	moduleName as timeModuleName,
+	serviceName as timeServiceName,
+	ITimeUtility,
+	timeUtility,
 } from '../time/time.service';
 
 import {
-moduleName as momentModuleName,
-serviceName as momentServiceName,
+	moduleName as momentModuleName,
+	serviceName as momentServiceName,
 } from '../moment/moment.module';
 
 import { defaultFormats } from './dateTimeFormatStrings';
@@ -198,3 +199,5 @@ export class DateUtility {
 		}
 	}
 }
+
+export let dateUtility: IDateUtility = new DateUtility(moment, timeUtility);
