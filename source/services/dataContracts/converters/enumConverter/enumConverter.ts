@@ -7,7 +7,7 @@ import { IItemList, IItem } from '../../../../types/itemList';
 
 export { IConverter };
 
-export class EnumConverter<TItemType extends IItem> implements IConverter<IItemList<TItemType>> {
+export class EnumConverter<TItemType extends IItem> implements IConverter<TItemType> {
 	constructor(private enumType: IItemList<TItemType>) {}
 
 	fromServer(raw: number): TItemType {
