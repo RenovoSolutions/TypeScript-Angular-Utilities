@@ -43,5 +43,12 @@ describe('enumConverter', (): void => {
 		expect(enumConverter.toServer(testEnum.type2)).to.equal(1);
 	});
 
-	it('should ')
+	it('should return undefined if an invalid value is specified', (): void => {
+		expect(enumConverter.fromServer(10)).to.not.exist;
+		expect(enumConverter.fromServer(null)).to.not.exist;
+	});
+
+	it('should return null if the enum type is null', (): void => {
+		expect(enumConverter.toServer(null)).to.not.exist;
+	});
 });
