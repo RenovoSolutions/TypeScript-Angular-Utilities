@@ -1,6 +1,6 @@
 import * as ng from 'angular';
 
-import { ITransform } from '../baseDataServiceBehavior';
+import { IConverter, ITransform } from '../baseDataServiceBehavior';
 import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IBaseDataServiceView } from '../baseDataService/baseDataServiceView';
@@ -15,10 +15,11 @@ export class BaseParentSingletonDataService<TDataType, TResourceDictionaryType>
 	constructor($http: ng.IHttpService, $q: ng.IQService, endpoint: string, mockData: TDataType
 		, private resourceDictionaryBuilder: { (): TResourceDictionaryType }
 		, transform?: ITransform<TDataType>
+		, map?: { [index: string]: IConverter<TDataType> }
 		, useMock?: boolean
 		, logRequests?: boolean
 		, private parentId?: number) {
-		super($http, $q, endpoint, mockData, transform, useMock, logRequests);
+		super($http, $q, endpoint, mockData, transform, map, useMock, logRequests);
 	}
 
 	childContracts(): TResourceDictionaryType {
