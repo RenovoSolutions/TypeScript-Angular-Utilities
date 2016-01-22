@@ -5,12 +5,6 @@
 
 'use strict';
 
-import * as angular from 'angular';
-import 'angular-mocks';
-
-import { services as utilityServices } from 'typescript-angular-utilities';
-import __test = utilityServices.test;
-
 import { dateConverter } from './dateConverter';
 
 describe('dateConverter', (): void => {
