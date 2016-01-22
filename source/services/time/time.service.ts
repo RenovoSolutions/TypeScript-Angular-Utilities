@@ -30,5 +30,7 @@ export class TimeUtility {
 	}
 }
 
+export let timeUtility: ITimeUtility = new TimeUtility();
+
 angular.module(moduleName, [])
 	.service(serviceName, TimeUtility);
