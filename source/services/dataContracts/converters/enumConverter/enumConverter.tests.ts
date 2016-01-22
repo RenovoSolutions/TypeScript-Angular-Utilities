@@ -6,19 +6,19 @@
 'use strict';
 
 import { EnumConverter, IConverter } from './enumConverter';
-import { ItemList, IItem } from '../../../types/itemList';
+import { ItemList, IItem } from '../../../../types/itemList';
 
-class TestEnum = {
+class TestEnum {
 	type1: IItem = {
 		value: 0,
 		name: 'type1',
 		display: 'Type 1',
-	},
+	};
 	type2: IItem = {
 		value: 1,
 		name: 'type2',
 		display: 'Type 2',
-	},
+	};
 
 	constructor() {
 		super();
@@ -42,4 +42,6 @@ describe('enumConverter', (): void => {
 		expect(enumConverter.toServer(testEnum.type1)).to.equal(0);
 		expect(enumConverter.toServer(testEnum.type2)).to.equal(1);
 	});
+
+	it('should ')
 });
