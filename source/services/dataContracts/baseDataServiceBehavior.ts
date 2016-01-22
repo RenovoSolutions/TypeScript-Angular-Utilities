@@ -3,10 +3,12 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 
-export interface ITransform<TDataType> {
-    fromServer(rawData: any): TDataType;
+export interface IConverter<TDataType> {
+	fromServer(raw: TDataType): TDataType;
     toServer(data: TDataType): any,
 }
+
+export interface ITransform<TDataType> extends IConverter<TDataType> {}
 
 export interface IRequestOptions {
     endpoint: string;
@@ -49,7 +51,8 @@ export interface IBaseDataServiceBehavior<TDataType> {
 export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehavior<TDataType> {
     constructor(private $http: angular.IHttpService
             , private $q: angular.IQService
-            , private transform: ITransform<TDataType>) { }
+            , private transform: ITransform<TDataType>
+			, private map: {[index: string]: IConverter<any>}) { }
 
     getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]> {
         let promise: angular.IPromise<TDataType[]>;
@@ -156,14 +159,32 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
     }
 
     private transformFromServer(rawData: any): TDataType {
-        return this.transform != null
-            ? this.transform.fromServer(rawData)
-            : rawData;
+		if (this.transform != null) {
+			return this.transform.fromServer(rawData);
+		} else if (this.map != null) {
+			return <any>_.map(rawData, (prop: any, key: string): any => {
+				if (_.has(this.map, key)) {
+					return this.map[key].fromServer(prop);
+				}
+				return prop;
+			});
+		}
+
+		return rawData;
     }
 
     private transformToServer(data: TDataType): any {
-        return this.transform != null
-            ? this.transform.toServer(data)
-            : data;
+		if (this.transform != null) {
+			return this.transform.toServer(data);
+		} else if (this.map != null) {
+			return <any>_.map(data, (prop: any, key: string): any => {
+				if (_.has(this.map, key)) {
+					return this.map[key].toServer(prop);
+				}
+				return prop;
+			});
+		}
+
+		return data;
     }
 }

@@ -43,7 +43,7 @@ describe('base data service behavior', () => {
 			$httpBackend = services.$httpBackend;
 
 			testUrl = '/api/test';
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null, null);
 		});
 
 		afterEach((): void => {
@@ -173,7 +173,7 @@ describe('base data service behavior', () => {
             $rootScope = services.$rootScope;
             array = services[arrayService];
 
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null, null);
 		});
 
 		it('should get the mocked data set', (done: MochaDone): void => {
@@ -316,7 +316,7 @@ describe('base data service behavior', () => {
                 }),
 			};
 
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, transform);
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, transform, null);
 		});
 
 		it('should transform each entry in the list', (done: MochaDone): void => {

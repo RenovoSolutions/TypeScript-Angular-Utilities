@@ -35,7 +35,8 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             , transform: ITransform<TDataType>
             , public useMock: boolean
             , public logRequests: boolean) {
-        this.behavior = new BaseDataServiceBehavior($http, $q, transform);
+		// needs map property
+		this.behavior = new BaseDataServiceBehavior($http, $q, transform, null);
     }
 
     private getItemEndpoint(id: number): string {

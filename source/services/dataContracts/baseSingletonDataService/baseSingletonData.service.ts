@@ -26,7 +26,8 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
             , transform: ITransform<TDataType>
             , public useMock: boolean
             , public logRequests: boolean) {
-        this.behavior = new BaseDataServiceBehavior($http, $q, transform);
+		// needs map property
+		this.behavior = new BaseDataServiceBehavior($http, $q, transform, null);
     }
 
     get(): angular.IPromise<TDataType> {
