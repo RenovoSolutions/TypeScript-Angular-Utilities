@@ -3,7 +3,7 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 
-import { IBaseDataServiceBehavior, BaseDataServiceBehavior, ITransform } from '../baseDataServiceBehavior';
+import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter, ITransform } from '../baseDataServiceBehavior';
 
 export var moduleName: string = 'rl.utilities.services.baseSingletonDataService';
 export var factoryName: string = 'baseSingletonDataService';
@@ -24,9 +24,10 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
             , public endpoint: string
             , private mockData: TDataType
             , transform: ITransform<TDataType>
+			, map: { [index: string]: IConverter<TDataType> }
             , public useMock: boolean
             , public logRequests: boolean) {
-        this.behavior = new BaseDataServiceBehavior($http, $q, transform);
+		this.behavior = new BaseDataServiceBehavior($http, $q, transform, map);
     }
 
     get(): angular.IPromise<TDataType> {
@@ -52,14 +53,14 @@ export class BaseSingletonDataService<TDataType> implements IBaseSingletonDataSe
 }
 
 export interface IBaseSingletonDataServiceFactory {
-    getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransform<TDataType>, useMock?: boolean): IBaseSingletonDataService<TDataType>;
+    getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransform<TDataType>, map?: { [index: string]: IConverter<TDataType> }, useMock?: boolean): IBaseSingletonDataService<TDataType>;
 }
 
 baseSingletonDataServiceFactory.$inject = ['$http', '$q'];
 export function baseSingletonDataServiceFactory($http: angular.IHttpService, $q: angular.IQService): IBaseSingletonDataServiceFactory {
     return {
-        getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransform<TDataType>, useMock?: boolean, logRequests?: boolean): IBaseSingletonDataService<TDataType> {
-            return new BaseSingletonDataService<TDataType>($http, $q, endpoint, mockData, transform, useMock, logRequests);
+        getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransform<TDataType>, map?: { [index: string]: IConverter<TDataType> }, useMock?: boolean, logRequests?: boolean): IBaseSingletonDataService<TDataType> {
+            return new BaseSingletonDataService<TDataType>($http, $q, endpoint, mockData, transform, map, useMock, logRequests);
         },
     };
 }

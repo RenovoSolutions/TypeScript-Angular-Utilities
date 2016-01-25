@@ -2,7 +2,7 @@
 
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
 
-import { ITransform } from '../baseDataServiceBehavior';
+import { IConverter, ITransform } from '../baseDataServiceBehavior';
 import { IBaseDataService, BaseDataService, IBaseDomainObject } from './baseData.service';
 import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
@@ -26,16 +26,17 @@ export class BaseDataServiceView<TDataType extends IBaseDomainObject, TSearchPar
             , _endpoint: string
             , mockData: TDataType[]
             , private transform: ITransform<TDataType>
+			, private map: { [index: string]: IConverter<TDataType> }
             , useMock: boolean
             , logRequests: boolean) {
-		super($http, $q, array, _endpoint, mockData, transform, useMock, logRequests);
+		super($http, $q, array, _endpoint, mockData, transform, map, useMock, logRequests);
 	}
 
 	AsSingleton(parentId: number): IBaseSingletonDataService<TDataType> {
 		let mockData: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
 			return item.id === parentId;
 		});
-		return new BaseSingletonDataService<TDataType>(this.$http, this.$q, this.endpoint, mockData, this.transform, this.useMock, this.logRequests);
+		return new BaseSingletonDataService<TDataType>(this.$http, this.$q, this.endpoint, mockData, this.transform, this.map, this.useMock, this.logRequests);
 	}
 }
 
@@ -49,15 +50,16 @@ export class BaseParentDataServiceView<TDataType extends IBaseDomainObject, TSea
             , mockData: TDataType[]
 			, resourceDictionaryBuilder: {(): TResourceDictionaryType}
             , private transform: ITransform<TDataType>
+			, private map: { [index: string]: IConverter<TDataType> }
             , useMock: boolean
             , logRequests: boolean) {
-		super($http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests);
+		super($http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, map, useMock, logRequests);
 	}
 
 	AsSingleton(parentId: number): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType> {
 		let mockData: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
 			return item.id === parentId;
 		});
-		return new BaseParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests, parentId);
+		return new BaseParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.map, this.useMock, this.logRequests, parentId);
 	}
 }
