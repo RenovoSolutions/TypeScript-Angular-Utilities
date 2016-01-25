@@ -75,7 +75,7 @@ describe('dateUtility', () => {
 		it('should handle dates in a user-defined format', (): void => {
 			var dateString: string = '2014-1-1T12:00:00';
 			var date: Date = new Date('1/1/2014');
-			expect(dateUtility.getDate(dateString, 'YYYY-MM-DDTHH:mm:ss').getDate()).to.equal(date.getDate());
+			expect(dateUtility.getDate(dateString, defaultFormats.isoFormat).getDate()).to.equal(date.getDate());
 		});
 	});
 

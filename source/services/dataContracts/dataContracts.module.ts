@@ -6,6 +6,7 @@ import { moduleName as resourceBuilderModuleName } from './baseResourceBuilder/b
 import { moduleName as baseDataServiceModuleName } from './baseDataService/baseData.service';
 import { moduleName as baseSingletonDataServiceModuleName } from './baseSingletonDataService/baseSingletonData.service';
 
+import * as converters from './converters/converters';
 import * as mocks from './baseResourceBuilder/dataServiceMocks';
 
 export var moduleName: string = 'rl.utilities.services.dataContracts';
@@ -17,7 +18,7 @@ export * from './baseParentDataService/baseParentData.service';
 export { IBaseSingletonDataService, IBaseSingletonDataServiceFactory, BaseSingletonDataService, factoryName as baseSingletonDataServiceFactoryName } from './baseSingletonDataService/baseSingletonData.service';
 export * from './baseParentSingletonDataService/baseParentSingletonData.service';
 export { IBaseResourceBuilder, serviceName as builderServiceName } from './baseResourceBuilder/baseResourceBuilder.service';
-export { mocks };
+export { converters, mocks };
 
 angular.module(moduleName, [
 	baseDataServiceModuleName,

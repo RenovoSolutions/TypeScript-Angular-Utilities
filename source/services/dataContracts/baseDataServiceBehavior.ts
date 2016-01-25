@@ -4,7 +4,7 @@ import * as angular from 'angular';
 import * as _ from 'lodash';
 
 export interface IConverter<TDataType> {
-	fromServer(raw: TDataType): TDataType;
+	fromServer(raw: any): TDataType;
     toServer(data: TDataType): any,
 }
 
