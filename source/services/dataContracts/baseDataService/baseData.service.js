@@ -46,7 +46,7 @@ var BaseDataService = (function () {
             domainObject: domainObject,
             endpoint: this.endpoint,
             addMockData: function (data) {
-                var nextId = _.max(_this.mockData, 'id').id + 1;
+                var nextId = _.maxBy(_this.mockData, 'id').id + 1;
                 domainObject.id = nextId;
                 _this.mockData.push(domainObject);
             },

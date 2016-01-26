@@ -24,7 +24,7 @@ var GenericSearchFilter = (function () {
         var _this = this;
         if (_.isObject(item)) {
             var values = _.values(item);
-            return _.any(values, function (value) { return _this.searchObject(value, search, caseSensitive); });
+            return _.some(values, function (value) { return _this.searchObject(value, search, caseSensitive); });
         }
         else {
             var dataString = this.object.toString(item);
