@@ -1,7 +1,7 @@
 import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
 import { ILibraryServices } from './contractLibrary';
-import { ITransform } from '../baseDataServiceBehavior';
+import { IConverter, ITransform } from '../baseDataServiceBehavior';
 import { IBaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IBaseDataServiceView, IBaseParentDataServiceView } from '../baseDataService/baseDataServiceView';
 import { IBaseParentDataService } from '../baseParentDataService/baseParentData.service';
@@ -24,6 +24,12 @@ export interface IBaseOptions<TDataType> {
     * Flag for specifying if the data service should log all requests against the contract
     */
     logRequests?: boolean;
+    /**
+    * Mapping to specify how properties should be transformed to and from the server
+    */
+    map?: {
+        [index: string]: IConverter<TDataType>;
+    };
     /**
     * Processes data coming back from the server
     */

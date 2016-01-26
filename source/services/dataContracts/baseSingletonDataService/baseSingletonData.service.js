@@ -5,12 +5,12 @@ var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
 exports.moduleName = 'rl.utilities.services.baseSingletonDataService';
 exports.factoryName = 'baseSingletonDataService';
 var BaseSingletonDataService = (function () {
-    function BaseSingletonDataService($http, $q, endpoint, mockData, transform, useMock, logRequests) {
+    function BaseSingletonDataService($http, $q, endpoint, mockData, transform, map, useMock, logRequests) {
         this.endpoint = endpoint;
         this.mockData = mockData;
         this.useMock = useMock;
         this.logRequests = logRequests;
-        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, transform);
+        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, transform, map);
     }
     BaseSingletonDataService.prototype.get = function () {
         var _this = this;
@@ -39,8 +39,8 @@ exports.BaseSingletonDataService = BaseSingletonDataService;
 baseSingletonDataServiceFactory.$inject = ['$http', '$q'];
 function baseSingletonDataServiceFactory($http, $q) {
     return {
-        getInstance: function (endpoint, mockData, transform, useMock, logRequests) {
-            return new BaseSingletonDataService($http, $q, endpoint, mockData, transform, useMock, logRequests);
+        getInstance: function (endpoint, mockData, transform, map, useMock, logRequests) {
+            return new BaseSingletonDataService($http, $q, endpoint, mockData, transform, map, useMock, logRequests);
         },
     };
 }

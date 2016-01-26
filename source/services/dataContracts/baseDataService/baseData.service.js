@@ -6,13 +6,13 @@ var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
 var BaseDataService = (function () {
-    function BaseDataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests) {
+    function BaseDataService($http, $q, array, endpoint, mockData, transform, map, useMock, logRequests) {
         this.array = array;
         this.endpoint = endpoint;
         this.mockData = mockData;
         this.useMock = useMock;
         this.logRequests = logRequests;
-        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, transform);
+        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, transform, map);
     }
     BaseDataService.prototype.getItemEndpoint = function (id) {
         return this.endpoint + '/' + id.toString();
@@ -87,8 +87,8 @@ exports.BaseDataService = BaseDataService;
 baseDataServiceFactory.$inject = ['$http', '$q', array_service_1.serviceName];
 function baseDataServiceFactory($http, $q, array) {
     return {
-        getInstance: function (endpoint, mockData, transform, useMock, logRequests) {
-            return new BaseDataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
+        getInstance: function (endpoint, mockData, transform, map, useMock, logRequests) {
+            return new BaseDataService($http, $q, array, endpoint, mockData, transform, map, useMock, logRequests);
         },
     };
 }

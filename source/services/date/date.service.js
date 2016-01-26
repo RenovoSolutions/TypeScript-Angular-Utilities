@@ -138,4 +138,5 @@ var DateUtility = (function () {
     return DateUtility;
 })();
 exports.DateUtility = DateUtility;
+exports.dateUtility = new DateUtility(moment, time_service_1.timeUtility);
 //# sourceMappingURL=date.service.js.map

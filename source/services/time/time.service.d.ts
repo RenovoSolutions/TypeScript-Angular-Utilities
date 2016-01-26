@@ -12,3 +12,4 @@ export declare class TimeUtility {
     millisecondsToHours(milliseconds: number): number;
     millisecondsToDays(milliseconds: number): number;
 }
+export declare let timeUtility: ITimeUtility;

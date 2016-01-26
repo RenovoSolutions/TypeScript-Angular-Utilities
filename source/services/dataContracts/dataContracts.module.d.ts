@@ -1,3 +1,4 @@
+import * as converters from './converters/converters';
 import * as mocks from './baseResourceBuilder/dataServiceMocks';
 export declare var moduleName: string;
 export * from './baseResourceBuilder/contractLibrary';
@@ -7,4 +8,4 @@ export * from './baseParentDataService/baseParentData.service';
 export { IBaseSingletonDataService, IBaseSingletonDataServiceFactory, BaseSingletonDataService, factoryName as baseSingletonDataServiceFactoryName } from './baseSingletonDataService/baseSingletonData.service';
 export * from './baseParentSingletonDataService/baseParentSingletonData.service';
 export { IBaseResourceBuilder, serviceName as builderServiceName } from './baseResourceBuilder/baseResourceBuilder.service';
-export { mocks };
+export { converters, mocks };

@@ -1,5 +1,5 @@
 import { IArrayUtility } from '../../array/array.service';
-import { ITransform } from '../baseDataServiceBehavior';
+import { IConverter, ITransform } from '../baseDataServiceBehavior';
 import { IBaseDataService, BaseDataService, IBaseDomainObject } from './baseData.service';
 import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
@@ -14,15 +14,21 @@ export declare class BaseDataServiceView<TDataType extends IBaseDomainObject, TS
     private $http;
     private $q;
     private transform;
-    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], transform: ITransform<TDataType>, useMock: boolean, logRequests: boolean);
+    private map;
+    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], transform: ITransform<TDataType>, map: {
+        [index: string]: IConverter<TDataType>;
+    }, useMock: boolean, logRequests: boolean);
     AsSingleton(parentId: number): IBaseSingletonDataService<TDataType>;
 }
 export declare class BaseParentDataServiceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends BaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> implements IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
     private $http;
     private $q;
     private transform;
+    private map;
     constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: {
         (): TResourceDictionaryType;
-    }, transform: ITransform<TDataType>, useMock: boolean, logRequests: boolean);
+    }, transform: ITransform<TDataType>, map: {
+        [index: string]: IConverter<TDataType>;
+    }, useMock: boolean, logRequests: boolean);
     AsSingleton(parentId: number): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
