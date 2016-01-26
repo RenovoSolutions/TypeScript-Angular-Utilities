@@ -71,7 +71,7 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             domainObject: domainObject,
             endpoint: this.endpoint,
             addMockData: (data: TDataType): void => {
-                let nextId: number = _.max(this.mockData, 'id').id + 1;
+                let nextId: number = _.maxBy(this.mockData, 'id').id + 1;
                 domainObject.id = nextId;
                 this.mockData.push(domainObject);
             },
