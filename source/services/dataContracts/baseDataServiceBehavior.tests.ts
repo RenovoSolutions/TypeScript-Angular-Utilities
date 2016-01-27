@@ -26,6 +26,11 @@ interface ITestMock2 {
 	prop2?: number;
 }
 
+interface IComplexTestMock {
+	id?: number;
+	obj: ITestMock2;
+}
+
 describe('base data service behavior', () => {
 	let dataServiceBehavior: IBaseDataServiceBehavior<ITestMock>;
 
@@ -446,5 +451,36 @@ describe('base data service behavior', () => {
 
 			$rootScope.$digest();
         });
+
+		it('should recursively transform nested object properties', (done: MochaDone): void => {
+			let map: any = {
+				obj: {
+					prop1: numberConverter,
+				},
+			};
+
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, map);
+
+			let item: IComplexTestMock = {
+				obj: {
+					prop1: 4,
+					prop2: 4,
+				},
+			};
+
+			dataServiceBehavior.getItem({
+				useMock: true,
+				getMockData(): ITestMock { return item; },
+				endpoint: null,
+				logRequests: false,
+			}).then((data: IComplexTestMock): void => {
+				expect(data.obj.prop1).to.equal(5);
+				expect(data.obj.prop2).to.equal(4);
+				sinon.assert.calledOnce(numberConverter.fromServer);
+				done();
+			});
+
+			$rootScope.$digest();
+		});
 	});
 });
