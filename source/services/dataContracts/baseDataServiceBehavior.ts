@@ -154,7 +154,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
     }
 
     private transformFromServer(rawData: any): TDataType {
-		if (this.transform != null) {
+		if (this.isConverter(this.transform)) {
 			return this.transform.fromServer(rawData);
 		} else if (this.map != null) {
 			return <any>_.mapValues(rawData, (prop: any, key: string): any => {
@@ -169,7 +169,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
     }
 
     private transformToServer(data: TDataType): any {
-		if (this.transform != null) {
+		if (this.isConverter(this.transform)) {
 			return this.transform.toServer(data);
 		} else if (this.map != null) {
 			return <any>_.mapValues(data, (prop: any, key: string): any => {
