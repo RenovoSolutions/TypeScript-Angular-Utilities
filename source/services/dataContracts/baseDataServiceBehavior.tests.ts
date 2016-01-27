@@ -315,7 +315,7 @@ describe('base data service behavior', () => {
 			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
 		});
 
-		it('should transform each entry in the list', (done: MochaDone): void => {
+		it('should transform each entry in the list', (): void => {
 			let dataSet: ITestMock = [
 				{ id: 1, prop: 'item1' },
 				{ id: 2, prop: 'item2' },
@@ -331,7 +331,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledThrice(transform.fromServer);
 		});
 
-		it('should transform a single item', (done: MochaDone): void => {
+		it('should transform a single item', (): void => {
 			let item: ITestMock = { prop: 'item1' };
 			let transformedItem: string = dataServiceBehavior.applyTransform(item, transform, false);
 			expect(transformedItem).to.equal(item.prop);
@@ -345,7 +345,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(transform.fromServer);
 		});
 
-		it('should use a an object map to transform properties', (done: MochaDone): void => {
+		it('should use a an object map to transform properties', (): void => {
 			let map: any = {
 				prop1: numberConverter,
 			};
@@ -379,7 +379,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(numberConverter.toServer);
 		});
 
-		it('should recursively transform nested object properties', (done: MochaDone): void => {
+		it('should recursively transform nested object properties', (): void => {
 			let map: any = {
 				obj: {
 					prop1: numberConverter,
