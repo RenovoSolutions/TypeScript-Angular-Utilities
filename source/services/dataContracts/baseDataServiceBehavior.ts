@@ -62,7 +62,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType[]): TDataType[] => {
-			data = _.map(data, (item: any): TDataType => { return this.applyTransform(item, this.transform, false); });
+			data = this.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('getList', data, options.endpoint, options.useMock);
             }
@@ -156,6 +156,10 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
     applyTransform(data: any, transform: IConverter<any> | {[index: string]: IConverter<any>}, toServer: boolean): any {
 		if (transform == null) {
 			return data;
+		}
+
+		if (_.isArray(data)) {
+			return _.map(data, (item: any): any => { return this.applyTransform(item, transform, toServer); });
 		}
 
 		if (this.isConverter(transform)) {
