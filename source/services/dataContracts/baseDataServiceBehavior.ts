@@ -62,7 +62,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType[]): TDataType[] => {
-			data = _.map(data, (item: any): TDataType => { return this.transformFromServer(item, this.transform); });
+			data = _.map(data, (item: any): TDataType => { return this.applyTransform(data, this.transform, false); });
             if (options.logRequests) {
                 this.log('getList', data, options.endpoint, options.useMock);
             }
@@ -81,7 +81,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.transformFromServer(data, this.transform);
+            data = this.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('get', data, options.endpoint, options.useMock);
             }
@@ -91,7 +91,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 
     create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType> {
         let promise: angular.IPromise<TDataType>;
-        options.domainObject = this.transformToServer(options.domainObject, this.transform);
+        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.addMockData(options.domainObject);
             promise = this.$q.when(options.domainObject);
@@ -102,7 +102,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.transformFromServer(data, this.transform);
+            data = this.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('create', data, options.endpoint, options.useMock);
             }
@@ -112,7 +112,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType> {
         let promise: angular.IPromise<TDataType>;
-        options.domainObject = this.transformToServer(options.domainObject, this.transform);
+        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.updateMockData(options.domainObject)
             promise = this.$q.when(options.domainObject);
@@ -123,7 +123,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.transformFromServer(data, this.transform);
+            data = this.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('update', options.domainObject, options.endpoint, options.useMock);
             }
@@ -153,28 +153,16 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
         console.log(data);
     }
 
-    private transformFromServer(rawData: any, transform: IConverter<any> | {[index: string]: IConverter<any>}): TDataType {
+    private applyTransform(data: any, transform: IConverter<any> | {[index: string]: IConverter<any>}, toServer: boolean): TDataType {
 		if (this.isConverter(this.transform)) {
-			return this.transform.fromServer(rawData);
-		} else if (this.transform != null) {
-			return <any>_.mapValues(rawData, (prop: any, key: string): any => {
-				if (_.has(this.transform, key)) {
-					return this.transform[key].fromServer(prop);
-				}
-				return prop;
-			});
-		}
-
-		return rawData;
-    }
-
-    private transformToServer(data: TDataType, transform: IConverter<any> | {[index: string]: IConverter<any>}): any {
-		if (this.isConverter(this.transform)) {
-			return this.transform.toServer(data);
+			let transformFunc: { (data: any): any } = toServer
+				? (<IConverter<any>>this.transform).toServer
+				: (<IConverter<any>>this.transform).fromServer;
+			return transformFunc(data);
 		} else if (this.transform != null) {
 			return <any>_.mapValues(data, (prop: any, key: string): any => {
 				if (_.has(this.transform, key)) {
-					return this.transform[key].toServer(prop);
+					return this.transform[key].fromServer(prop);
 				}
 				return prop;
 			});
