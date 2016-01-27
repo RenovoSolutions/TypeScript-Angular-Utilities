@@ -284,7 +284,6 @@ describe('base data service behavior', () => {
 		let $rootScope: angular.IRootScopeService;
 		let dataSet: ITestMock[];
 		let transform: any;
-		let numberConverter: any;
 
 		beforeEach((): void => {
 			dataSet = [
@@ -304,15 +303,6 @@ describe('base data service behavior', () => {
                     return {
                         prop: data,
                     };
-                }),
-			};
-
-			numberConverter = {
-				fromServer: sinon.spy((rawData: number): number => {
-					return rawData + 1;
-                }),
-                toServer: sinon.spy((data: number): number => {
-                    return data - 1;
                 }),
 			};
 
