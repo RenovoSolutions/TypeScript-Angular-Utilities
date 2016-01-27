@@ -62,7 +62,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType[]): TDataType[] => {
-			data = _.map(data, (item: any): TDataType => { return this.applyTransform(data, this.transform, false); });
+			data = _.map(data, (item: any): TDataType => { return this.applyTransform(item, this.transform, false); });
             if (options.logRequests) {
                 this.log('getList', data, options.endpoint, options.useMock);
             }
