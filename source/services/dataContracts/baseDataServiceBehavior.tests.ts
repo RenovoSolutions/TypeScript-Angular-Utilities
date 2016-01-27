@@ -43,7 +43,7 @@ describe('base data service behavior', () => {
 			$httpBackend = services.$httpBackend;
 
 			testUrl = '/api/test';
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null, null);
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
 		});
 
 		afterEach((): void => {
@@ -173,7 +173,7 @@ describe('base data service behavior', () => {
             $rootScope = services.$rootScope;
             array = services[arrayService];
 
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null, null);
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
 		});
 
 		it('should get the mocked data set', (done: MochaDone): void => {
@@ -282,8 +282,11 @@ describe('base data service behavior', () => {
 
 	describe('transform', (): void => {
 		let $rootScope: angular.IRootScopeService;
+		let $http: angular.IHttpService;
+		let $q: angular.IQService;
 		let dataSet: ITestMock[];
 		let transform: any;
+		let numberConverter: any;
 
 		beforeEach((): void => {
 			dataSet = [
@@ -294,6 +297,8 @@ describe('base data service behavior', () => {
 
 			let services: any = angularFixture.inject('$rootScope', '$q', '$http');
 			$rootScope = services.$rootScope;
+			$http = services.$http;
+			$q = services.$q;
 
 			transform = {
 				fromServer: sinon.spy((rawData: ITestMock): string => {
@@ -306,11 +311,21 @@ describe('base data service behavior', () => {
                 }),
 			};
 
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, transform, null);
+			numberConverter = {
+				fromServer: sinon.spy((rawData: number): number => {
+					return rawData + 1;
+				}),
+				toServer: sinon.spy((data: number): number => {
+					return data - 1;
+				}),
+			};
+
 		});
 
 		it('should transform each entry in the list', (done: MochaDone): void => {
-            dataServiceBehavior.getList({
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, transform);
+
+			dataServiceBehavior.getList({
                 useMock: true,
                 getMockData(): ITestMock[] { return dataSet; },
                 endpoint: null,
@@ -329,6 +344,8 @@ describe('base data service behavior', () => {
 		});
 
 		it('should transform the single item', (done: MochaDone): void => {
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, transform);
+
 			dataServiceBehavior.getItem({
                 useMock: true,
                 getMockData(): ITestMock { return dataSet[1]; },
@@ -344,7 +361,9 @@ describe('base data service behavior', () => {
         });
 
         it('should reverse transform the data when sending it back to the server', (done: MochaDone): void => {
-            let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, transform);
+
+			let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
                 dataSet[1] = item;
             });
 
@@ -365,33 +384,14 @@ describe('base data service behavior', () => {
 
 			$rootScope.$digest();
         });
-	});
 
-	describe('map', (): void => {
-		let $rootScope: angular.IRootScopeService;
-		let numberConverter: any;
-
-		beforeEach((): void => {
-			let services: any = angularFixture.inject('$rootScope', '$q', '$http');
-			$rootScope = services.$rootScope;
-
-			numberConverter = {
-				fromServer: sinon.spy((rawData: number): number => {
-					return rawData + 1;
-                }),
-                toServer: sinon.spy((data: number): number => {
-                    return data - 1;
-                }),
-			};
-
+		it('should use a an object map to transform properties from the server', (done: MochaDone): void => {
 			let map: any = {
 				prop1: numberConverter,
 			};
 
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null, map);
-		});
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, map);
 
-		it('should use a an object map to transform properties from the server', (done: MochaDone): void => {
 			let item: ITestMock2 = {
 				prop1: 4,
 				prop2: 4,
@@ -413,6 +413,12 @@ describe('base data service behavior', () => {
 		});
 
         it('should use an object map to transform properties for sending back to the server', (done: MochaDone): void => {
+			let map: any = {
+				prop1: numberConverter,
+			};
+
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, map);
+
 			let updatedItem: ITestMock2 = {
 				prop1: 5,
 				prop2: 4,
