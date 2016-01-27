@@ -32,7 +32,7 @@ interface IComplexTestMock {
 }
 
 describe('base data service behavior', () => {
-	let dataServiceBehavior: IBaseDataServiceBehavior<ITestMock>;
+	let dataServiceBehavior: BaseDataServiceBehavior<ITestMock>;
 
 	beforeEach(() => {
 		angular.mock.module(arrayModule);
@@ -286,24 +286,11 @@ describe('base data service behavior', () => {
 	});
 
 	describe('transform', (): void => {
-		let $rootScope: angular.IRootScopeService;
-		let $http: angular.IHttpService;
-		let $q: angular.IQService;
-		let dataSet: ITestMock[];
 		let transform: any;
 		let numberConverter: any;
 
 		beforeEach((): void => {
-			dataSet = [
-				{ id: 1, prop: 'item1' },
-				{ id: 2, prop: 'item2' },
-				{ id: 3, prop: 'item3' },
-			];
-
-			let services: any = angularFixture.inject('$rootScope', '$q', '$http');
-			$rootScope = services.$rootScope;
-			$http = services.$http;
-			$q = services.$q;
+			let services: any = angularFixture.inject('$q', '$http');
 
 			transform = {
 				fromServer: sinon.spy((rawData: ITestMock): string => {
@@ -325,132 +312,72 @@ describe('base data service behavior', () => {
 				}),
 			};
 
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
 		});
 
 		it('should transform each entry in the list', (done: MochaDone): void => {
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, transform);
+			let dataSet: ITestMock = [
+				{ id: 1, prop: 'item1' },
+				{ id: 2, prop: 'item2' },
+				{ id: 3, prop: 'item3' },
+			];
 
-			dataServiceBehavior.getList({
-                useMock: true,
-                getMockData(): ITestMock[] { return dataSet; },
-                endpoint: null,
-                logRequests: false,
-                params: null,
-            }).then((data: ITestMock[]): void => {
-				expect(data).to.have.length(3);
-				expect(data[0]).to.equal(dataSet[0].prop);
-				expect(data[1]).to.equal(dataSet[1].prop);
-				expect(data[2]).to.equal(dataSet[2].prop);
-				sinon.assert.calledThrice(transform.fromServer);
-				done();
-			});
+			let transformedData: string[] = dataServiceBehavior.applyTransform(dataSet, transform, false);
 
-			$rootScope.$digest();
+			expect(transformedData).to.have.length(3);
+			expect(transformedData[0]).to.equal(dataSet[0].prop);
+			expect(transformedData[1]).to.equal(dataSet[1].prop);
+			expect(transformedData[2]).to.equal(dataSet[2].prop);
+			sinon.assert.calledThrice(transform.fromServer);
 		});
 
-		it('should transform the single item', (done: MochaDone): void => {
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, transform);
+		it('should transform a single item', (done: MochaDone): void => {
+			let item: ITestMock = { prop: 'item1' };
+			let transformedItem: string = dataServiceBehavior.applyTransform(item, transform, false);
+			expect(transformedItem).to.equal(item.prop);
+			sinon.assert.calledOnce(transform.fromServer);
+		});
 
-			dataServiceBehavior.getItem({
-                useMock: true,
-                getMockData(): ITestMock { return dataSet[1]; },
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock): void => {
-				expect(data).to.equal(dataSet[1].prop);
-				sinon.assert.calledOnce(transform.fromServer);
-				done();
-			});
+		it('should reverse the transformation if toServer is specified', (): void => {
+			let item: string = 'item1';
+			let transformedItem: ITestMock = dataServiceBehavior.applyTransform(item, transform, true);
+			expect(transformedItem.prop).to.equal(item);
+			sinon.assert.calledOnce(transform.fromServer);
+		});
 
-			$rootScope.$digest();
-        });
-
-        it('should reverse transform the data when sending it back to the server', (done: MochaDone): void => {
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, transform);
-
-			let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
-                dataSet[1] = item;
-            });
-
-            dataServiceBehavior.update({
-                domainObject: 'made some changes',
-                useMock: true,
-                updateMockData: updateSpy,
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock): void => {
-                expect(data).to.equal('made some changes');
-				sinon.assert.calledOnce(transform.fromServer);
-				done();
-            });
-
-            expect(updateSpy.firstCall.args[0].prop).to.equal('made some changes');
-            sinon.assert.calledOnce(transform.toServer);
-
-			$rootScope.$digest();
-        });
-
-		it('should use a an object map to transform properties from the server', (done: MochaDone): void => {
+		it('should use a an object map to transform properties', (done: MochaDone): void => {
 			let map: any = {
 				prop1: numberConverter,
 			};
-
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, map);
 
 			let item: ITestMock2 = {
 				prop1: 4,
 				prop2: 4,
 			};
 
-			dataServiceBehavior.getItem({
-                useMock: true,
-                getMockData(): ITestMock { return item; },
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock2): void => {
-				expect(data.prop1).to.equal(5);
-				expect(data.prop2).to.equal(4);
-				sinon.assert.calledOnce(numberConverter.fromServer);
-				done();
-			});
+			let transformedItem: ITestMock2 = dataServiceBehavior.applyTransform(item, map, false);
 
-			$rootScope.$digest();
+			expect(transformedItem.prop1).to.equal(5);
+			expect(transformedItem.prop2).to.equal(4);
+			sinon.assert.calledOnce(numberConverter.fromServer);
 		});
 
-        it('should use an object map to transform properties for sending back to the server', (done: MochaDone): void => {
+		it('should transform properties in reverse if toServer is specified', (): void => {
 			let map: any = {
 				prop1: numberConverter,
 			};
 
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, map);
-
-			let updatedItem: ITestMock2 = {
+			let item: ITestMock2 = {
 				prop1: 5,
 				prop2: 4,
 			};
 
-			let updateSpy: Sinon.SinonSpy = sinon.spy();
+			let transformedItem: ITestMock2 = dataServiceBehavior.applyTransform(item, map, true);
 
-            dataServiceBehavior.update({
-                domainObject: updatedItem,
-                useMock: true,
-                updateMockData: updateSpy,
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock2): void => {
-                expect(data.prop1).to.equal(5);
-                expect(data.prop2).to.equal(4);
-				sinon.assert.calledOnce(numberConverter.fromServer);
-				done();
-            });
-
-            sinon.assert.calledOnce(updateSpy);
-			let updateArg: any = updateSpy.firstCall.args[0];
-            expect(updateArg.prop1).to.equal(4);
-            expect(updateArg.prop2).to.equal(4);
-
-			$rootScope.$digest();
-        });
+			expect(transformedItem.prop1).to.equal(4);
+			expect(transformedItem.prop2).to.equal(4);
+			sinon.assert.calledOnce(numberConverter.toServer);
+		});
 
 		it('should recursively transform nested object properties', (done: MochaDone): void => {
 			let map: any = {
@@ -459,8 +386,6 @@ describe('base data service behavior', () => {
 				},
 			};
 
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>($http, $q, map);
-
 			let item: IComplexTestMock = {
 				obj: {
 					prop1: 4,
@@ -468,19 +393,11 @@ describe('base data service behavior', () => {
 				},
 			};
 
-			dataServiceBehavior.getItem({
-				useMock: true,
-				getMockData(): ITestMock { return item; },
-				endpoint: null,
-				logRequests: false,
-			}).then((data: IComplexTestMock): void => {
-				expect(data.obj.prop1).to.equal(5);
-				expect(data.obj.prop2).to.equal(4);
-				sinon.assert.calledOnce(numberConverter.fromServer);
-				done();
-			});
+			let transformedItem: IComplexTestMock = dataServiceBehavior.applyTransform(item, map, false);
 
-			$rootScope.$digest();
+			expect(transformedItem.obj.prop1).to.equal(5);
+			expect(transformedItem.obj.prop2).to.equal(4);
+			sinon.assert.calledOnce(numberConverter.fromServer);
 		});
 	});
 });
