@@ -153,7 +153,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
         console.log(data);
     }
 
-    private applyTransform(data: any, transform: IConverter<any> | {[index: string]: IConverter<any>}, toServer: boolean): TDataType {
+    applyTransform(data: any, transform: IConverter<any> | {[index: string]: IConverter<any>}, toServer: boolean): TDataType {
 		if (this.transform == null) {
 			return data;
 		}
