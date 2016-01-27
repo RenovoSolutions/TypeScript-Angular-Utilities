@@ -154,12 +154,16 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
     }
 
     private applyTransform(data: any, transform: IConverter<any> | {[index: string]: IConverter<any>}, toServer: boolean): TDataType {
+		if (this.transform == null) {
+			return data;
+		}
+
 		if (this.isConverter(this.transform)) {
 			let transformFunc: { (data: any): any } = toServer
 				? (<IConverter<any>>this.transform).toServer
 				: (<IConverter<any>>this.transform).fromServer;
 			return transformFunc(data);
-		} else if (this.transform != null) {
+		} else {
 			return <any>_.mapValues(data, (prop: any, key: string): any => {
 				if (_.has(this.transform, key)) {
 					return this.transform[key].fromServer(prop);
@@ -167,8 +171,6 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 				return prop;
 			});
 		}
-
-		return data;
     }
 
 	private isConverter(object: any): boolean {
