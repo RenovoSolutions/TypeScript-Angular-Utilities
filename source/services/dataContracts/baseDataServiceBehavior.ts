@@ -8,8 +8,6 @@ export interface IConverter<TDataType> {
     toServer(data: TDataType): any,
 }
 
-export interface ITransform<TDataType> extends IConverter<TDataType> {}
-
 export interface IRequestOptions {
     endpoint: string;
     useMock: boolean;
@@ -51,8 +49,7 @@ export interface IBaseDataServiceBehavior<TDataType> {
 export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehavior<TDataType> {
     constructor(private $http: angular.IHttpService
             , private $q: angular.IQService
-            , private transform: ITransform<TDataType>
-			, private map: {[index: string]: IConverter<any>}) { }
+            , private transform: IConverter<TDataType> | {[index: string]: IConverter<any>}) { }
 
     getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]> {
         let promise: angular.IPromise<TDataType[]>;
