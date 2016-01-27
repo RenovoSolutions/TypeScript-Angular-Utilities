@@ -342,7 +342,7 @@ describe('base data service behavior', () => {
 			let item: string = 'item1';
 			let transformedItem: ITestMock = dataServiceBehavior.applyTransform(item, transform, true);
 			expect(transformedItem.prop).to.equal(item);
-			sinon.assert.calledOnce(transform.fromServer);
+			sinon.assert.calledOnce(transform.toServer);
 		});
 
 		it('should use a an object map to transform properties', (): void => {
