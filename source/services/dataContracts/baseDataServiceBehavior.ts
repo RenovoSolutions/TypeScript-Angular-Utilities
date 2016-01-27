@@ -62,7 +62,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType[]): TDataType[] => {
-			data = _.map(data, this.transformFromServer);
+			data = _.map(data, (item: any): TDataType => { return this.transformFromServer(item, this.transform); });
             if (options.logRequests) {
                 this.log('getList', data, options.endpoint, options.useMock);
             }
@@ -81,7 +81,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.transformFromServer(data);
+            data = this.transformFromServer(data, this.transform);
             if (options.logRequests) {
                 this.log('get', data, options.endpoint, options.useMock);
             }
@@ -91,7 +91,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 
     create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType> {
         let promise: angular.IPromise<TDataType>;
-        options.domainObject = this.transformToServer(options.domainObject);
+        options.domainObject = this.transformToServer(options.domainObject, this.transform);
         if (options.useMock) {
             options.addMockData(options.domainObject);
             promise = this.$q.when(options.domainObject);
@@ -102,7 +102,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.transformFromServer(data);
+            data = this.transformFromServer(data, this.transform);
             if (options.logRequests) {
                 this.log('create', data, options.endpoint, options.useMock);
             }
@@ -112,7 +112,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType> {
         let promise: angular.IPromise<TDataType>;
-        options.domainObject = this.transformToServer(options.domainObject);
+        options.domainObject = this.transformToServer(options.domainObject, this.transform);
         if (options.useMock) {
             options.updateMockData(options.domainObject)
             promise = this.$q.when(options.domainObject);
@@ -123,7 +123,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.transformFromServer(data);
+            data = this.transformFromServer(data, this.transform);
             if (options.logRequests) {
                 this.log('update', options.domainObject, options.endpoint, options.useMock);
             }
@@ -153,7 +153,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
         console.log(data);
     }
 
-    private transformFromServer(rawData: any): TDataType {
+    private transformFromServer(rawData: any, transform: IConverter<any> | {[index: string]: IConverter<any>}): TDataType {
 		if (this.isConverter(this.transform)) {
 			return this.transform.fromServer(rawData);
 		} else if (this.transform != null) {
@@ -168,7 +168,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		return rawData;
     }
 
-    private transformToServer(data: TDataType): any {
+    private transformToServer(data: TDataType, transform: IConverter<any> | {[index: string]: IConverter<any>}): any {
 		if (this.isConverter(this.transform)) {
 			return this.transform.toServer(data);
 		} else if (this.transform != null) {
