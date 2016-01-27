@@ -165,8 +165,8 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 			return transformFunc(data);
 		} else {
 			return <any>_.mapValues(data, (prop: any, key: string): any => {
-				if (_.has(this.transform, key)) {
-					return this.transform[key].fromServer(prop);
+				if (_.has(transform, key)) {
+					return this.applyTransform(prop, transform[key], toServer);
 				}
 				return prop;
 			});
