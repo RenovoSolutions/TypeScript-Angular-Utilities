@@ -1,9 +1,3 @@
-﻿/// <reference path='../../../typings/chai/chai.d.ts' />
-/// <reference path='../../../typings/mocha/mocha.d.ts' />
-/// <reference path='../../../typings/chaiAssertions.d.ts' />
-
-'use strict';
-
 import { ITruncateFilter, moduleName, filterName } from './truncate';
 
 import { angularFixture } from '../../services/test/angularFixture';

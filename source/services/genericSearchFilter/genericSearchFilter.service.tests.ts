@@ -1,9 +1,3 @@
-/// <reference path='../../../typings/chai/chai.d.ts' />
-/// <reference path='../../../typings/mocha/mocha.d.ts' />
-/// <reference path='../../../typings/chaiAssertions.d.ts' />
-
-'use strict';
-
 import { IGenericSearchFilter, IGenericSearchFilterFactory, moduleName, factoryName } from './genericSearchFilter.service';
 
 import { angularFixture } from '../test/angularFixture';

@@ -1,10 +1,3 @@
-/// <reference path='../../../typings/mocha/mocha.d.ts' />
-/// <reference path='../../../typings/chai/chai.d.ts' />
-
-/// <reference path='../../../typings/chaiAssertions.d.ts' />
-
-'use strict';
-
 import { IIsEmptyFilter, moduleName, filterName } from './isEmpty';
 
 import { angularFixture } from '../../services/test/angularFixture';
