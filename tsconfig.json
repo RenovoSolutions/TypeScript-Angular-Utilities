@@ -8,6 +8,7 @@
 	},
 	"files": [
 		"./typings/browser.d.ts",
+		"./typings/custom.d.ts",
 		"./source/utilities.ts"
 	]
 }
