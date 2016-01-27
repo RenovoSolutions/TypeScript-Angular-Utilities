@@ -154,14 +154,14 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
     }
 
     applyTransform(data: any, transform: IConverter<any> | {[index: string]: IConverter<any>}, toServer: boolean): any {
-		if (this.transform == null) {
+		if (transform == null) {
 			return data;
 		}
 
-		if (this.isConverter(this.transform)) {
+		if (this.isConverter(transform)) {
 			let transformFunc: { (data: any): any } = toServer
-				? (<IConverter<any>>this.transform).toServer
-				: (<IConverter<any>>this.transform).fromServer;
+				? (<IConverter<any>>transform).toServer
+				: (<IConverter<any>>transform).fromServer;
 			return transformFunc(data);
 		} else {
 			return <any>_.mapValues(data, (prop: any, key: string): any => {
