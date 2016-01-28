@@ -1,4 +1,8 @@
 {
+  "name": "typescript-angular-utilities",
+  "main": "source/utilities.d.ts",
+  "author": "Renovo Solutions, LLC",
+  "description": "Typescript utility classes published as angular services",
   "ambientDependencies": {
     "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
     "angular-mocks": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-mocks.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",

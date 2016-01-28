@@ -4,7 +4,6 @@
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
   "main": "source/utilities.js",
-  "typings": "source/utilities.d.ts",
   "keywords": [
     "typescript",
     "utilities"
