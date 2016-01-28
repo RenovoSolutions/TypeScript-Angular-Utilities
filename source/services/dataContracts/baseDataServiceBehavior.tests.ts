@@ -1,10 +1,3 @@
-/// <reference path='../../../typings/chai/chai.d.ts' />
-/// <reference path='../../../typings/sinon/sinon.d.ts' />
-/// <reference path='../../../typings/mocha/mocha.d.ts' />
-/// <reference path='../../../typings/chaiAssertions.d.ts' />
-
-'use strict';
-
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior } from './baseDataServiceBehavior';
 import { moduleName } from './dataContracts.module';
 
@@ -62,13 +55,13 @@ describe('base data service behavior', () => {
 
 			$httpBackend.expectGET(testUrl).respond(200, mockList);
 
-            dataServiceBehavior.getList({
-                endpoint: testUrl,
-                useMock: false,
-                logRequests: false,
-                getMockData: null,
-                params: null,
-            }).then((data: ITestMock[]): void => {
+			dataServiceBehavior.getList({
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				getMockData: null,
+				params: null,
+			}).then((data: ITestMock[]): void => {
 				expect(data).to.have.length(5);
 				expect(data[0].id).to.equal(1);
 				expect(data[1].id).to.equal(2);
@@ -87,12 +80,12 @@ describe('base data service behavior', () => {
 
 			$httpBackend.expectGET(testUrl).respond(200, mockItem);
 
-            dataServiceBehavior.getItem({
-                endpoint: testUrl,
-                useMock: false,
-                logRequests: false,
-                getMockData: null,
-            }).then((data: ITestMock): void => {
+			dataServiceBehavior.getItem({
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				getMockData: null,
+			}).then((data: ITestMock): void => {
 				expect(data).to.deep.equal(mockItem);
 				done();
 			});
@@ -105,13 +98,13 @@ describe('base data service behavior', () => {
 
 			$httpBackend.expectPOST(testUrl, mockItem).respond(200, mockItem);
 
-            dataServiceBehavior.create({
-                domainObject: mockItem,
-                endpoint: testUrl,
-                useMock: false,
-                logRequests: false,
-                addMockData: null,
-            }).then((data: ITestMock): void => {
+			dataServiceBehavior.create({
+				domainObject: mockItem,
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				addMockData: null,
+			}).then((data: ITestMock): void => {
 				expect(data).to.deep.equal(mockItem);
 				done();
 			});
@@ -124,15 +117,15 @@ describe('base data service behavior', () => {
 
 			$httpBackend.expectPUT(testUrl, mockItem).respond(200, mockItem);
 
-            dataServiceBehavior.update({
-                domainObject: mockItem,
-                endpoint: testUrl,
-                useMock: false,
-                logRequests: false,
-                updateMockData: null,
-            }).then((data: ITestMock): void => {
-                expect(data).to.deep.equal(mockItem);
-                done();
+			dataServiceBehavior.update({
+				domainObject: mockItem,
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				updateMockData: null,
+			}).then((data: ITestMock): void => {
+				expect(data).to.deep.equal(mockItem);
+				done();
 			});
 
 			$httpBackend.flush();
@@ -143,13 +136,13 @@ describe('base data service behavior', () => {
 
 			$httpBackend.expectDELETE(testUrl).respond(200);
 
-            dataServiceBehavior.delete({
-                domainObject: mockItem,
-                endpoint: testUrl,
-                useMock: false,
-                logRequests: false,
-                removeMockData: null,
-            }).then((): void => {
+			dataServiceBehavior.delete({
+				domainObject: mockItem,
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				removeMockData: null,
+			}).then((): void => {
 				done();
 			});
 
@@ -159,8 +152,8 @@ describe('base data service behavior', () => {
 
 	describe('use mock', (): void => {
 		let $rootScope: angular.IRootScopeService;
-        let dataSet: ITestMock[];
-        let array: IArrayUtility;
+		let dataSet: ITestMock[];
+		let array: IArrayUtility;
 
 		beforeEach((): void => {
 			dataSet = [
@@ -170,20 +163,20 @@ describe('base data service behavior', () => {
 			];
 
 			let services: any = angularFixture.inject('$rootScope', '$q', '$http', arrayService);
-            $rootScope = services.$rootScope;
-            array = services[arrayService];
+			$rootScope = services.$rootScope;
+			array = services[arrayService];
 
 			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null, null);
 		});
 
 		it('should get the mocked data set', (done: MochaDone): void => {
-            dataServiceBehavior.getList({
-                useMock: true,
-                getMockData(): ITestMock[] { return dataSet; },
-                endpoint: null,
-                logRequests: false,
-                params: null,
-            }).then((data: ITestMock[]): void => {
+			dataServiceBehavior.getList({
+				useMock: true,
+				getMockData(): ITestMock[] { return dataSet; },
+				endpoint: null,
+				logRequests: false,
+				params: null,
+			}).then((data: ITestMock[]): void => {
 				expect(data).to.have.length(3);
 				expect(data[0]).to.equal(dataSet[0]);
 				expect(data[1]).to.equal(dataSet[1]);
@@ -195,12 +188,12 @@ describe('base data service behavior', () => {
 		});
 
 		it('should get an item from the mocked data set', (done: MochaDone): void => {
-            dataServiceBehavior.getItem({
-                useMock: true,
-                getMockData(): ITestMock { return dataSet[1]; },
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock): void => {
+			dataServiceBehavior.getItem({
+				useMock: true,
+				getMockData(): ITestMock { return dataSet[1]; },
+				endpoint: null,
+				logRequests: false,
+			}).then((data: ITestMock): void => {
 				expect(data).to.equal(dataSet[1]);
 				done();
 			});
@@ -209,71 +202,71 @@ describe('base data service behavior', () => {
 		});
 
 		it('should create an item and call the add callback to add it to the mock data set', (done: MochaDone): void => {
-            let newItem: ITestMock = { id: null, prop: 'item4' };
-            let addSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
-                dataSet.push(item);
-            });
+			let newItem: ITestMock = { id: null, prop: 'item4' };
+			let addSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+				dataSet.push(item);
+			});
 
-            dataServiceBehavior.create({
-                domainObject: newItem,
-                useMock: true,
-                addMockData: addSpy,
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock): void => {
+			dataServiceBehavior.create({
+				domainObject: newItem,
+				useMock: true,
+				addMockData: addSpy,
+				endpoint: null,
+				logRequests: false,
+			}).then((data: ITestMock): void => {
 				expect(data).to.equal(newItem);
 				done();
 			});
 
 			$rootScope.$digest();
 
-            sinon.assert.calledOnce(addSpy);
-            sinon.assert.calledWith(addSpy, newItem);
+			sinon.assert.calledOnce(addSpy);
+			sinon.assert.calledWith(addSpy, newItem);
 			expect(dataSet[3]).to.equal(newItem);
 		});
 
 		it('should update an item', (done: MochaDone): void => {
 			let updatedItem: ITestMock = { id: 2, prop: 'made changes' };
-            let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
-                dataSet[1] = item;
-            });
+			let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+				dataSet[1] = item;
+			});
 
-            dataServiceBehavior.update({
-                domainObject: updatedItem,
-                useMock: true,
-                updateMockData: updateSpy,
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock): void => {
+			dataServiceBehavior.update({
+				domainObject: updatedItem,
+				useMock: true,
+				updateMockData: updateSpy,
+				endpoint: null,
+				logRequests: false,
+			}).then((data: ITestMock): void => {
 				expect(data).to.equal(updatedItem);
 				done();
 			});
 
 			$rootScope.$digest();
 
-            sinon.assert.calledOnce(updateSpy);
-            sinon.assert.calledWith(updateSpy, updatedItem);
+			sinon.assert.calledOnce(updateSpy);
+			sinon.assert.calledWith(updateSpy, updatedItem);
 			expect(dataSet[1]).to.equal(updatedItem);
 		});
 
 		it('should delete an item', (): void => {
-            let removedItem: ITestMock = dataSet[1];
-            let removeSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
-                array.remove(dataSet, item);
-            });
+			let removedItem: ITestMock = dataSet[1];
+			let removeSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+				array.remove(dataSet, item);
+			});
 
-            dataServiceBehavior.delete({
-                domainObject: removedItem,
-                useMock: true,
-                removeMockData: removeSpy,
-                endpoint: null,
-                logRequests: false,
-            });
+			dataServiceBehavior.delete({
+				domainObject: removedItem,
+				useMock: true,
+				removeMockData: removeSpy,
+				endpoint: null,
+				logRequests: false,
+			});
 
 			$rootScope.$digest();
 
-            sinon.assert.calledOnce(removeSpy);
-            sinon.assert.calledWith(removeSpy, removedItem);
+			sinon.assert.calledOnce(removeSpy);
+			sinon.assert.calledWith(removeSpy, removedItem);
 			expect(dataSet).to.have.length(2);
 			expect(dataSet[0].id).to.equal(1);
 			expect(dataSet[1].id).to.equal(3);
@@ -299,34 +292,34 @@ describe('base data service behavior', () => {
 			transform = {
 				fromServer: sinon.spy((rawData: ITestMock): string => {
 					return rawData.prop;
-                }),
-                toServer: sinon.spy((data: string): ITestMock => {
-                    return {
-                        prop: data,
-                    };
-                }),
+				}),
+				toServer: sinon.spy((data: string): ITestMock => {
+					return {
+						prop: data,
+					};
+				}),
 			};
 
 			numberConverter = {
 				fromServer: sinon.spy((rawData: number): number => {
 					return rawData + 1;
-                }),
-                toServer: sinon.spy((data: number): number => {
-                    return data - 1;
-                }),
+				}),
+				toServer: sinon.spy((data: number): number => {
+					return data - 1;
+				}),
 			};
 
 			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, transform, null);
 		});
 
 		it('should transform each entry in the list', (done: MochaDone): void => {
-            dataServiceBehavior.getList({
-                useMock: true,
-                getMockData(): ITestMock[] { return dataSet; },
-                endpoint: null,
-                logRequests: false,
-                params: null,
-            }).then((data: ITestMock[]): void => {
+			dataServiceBehavior.getList({
+				useMock: true,
+				getMockData(): ITestMock[] { return dataSet; },
+				endpoint: null,
+				logRequests: false,
+				params: null,
+			}).then((data: ITestMock[]): void => {
 				expect(data).to.have.length(3);
 				expect(data[0]).to.equal(dataSet[0].prop);
 				expect(data[1]).to.equal(dataSet[1].prop);
@@ -340,41 +333,41 @@ describe('base data service behavior', () => {
 
 		it('should transform the single item', (done: MochaDone): void => {
 			dataServiceBehavior.getItem({
-                useMock: true,
-                getMockData(): ITestMock { return dataSet[1]; },
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock): void => {
+				useMock: true,
+				getMockData(): ITestMock { return dataSet[1]; },
+				endpoint: null,
+				logRequests: false,
+			}).then((data: ITestMock): void => {
 				expect(data).to.equal(dataSet[1].prop);
 				sinon.assert.calledOnce(transform.fromServer);
 				done();
 			});
 
 			$rootScope.$digest();
-        });
+		});
 
-        it('should reverse transform the data when sending it back to the server', (done: MochaDone): void => {
-            let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
-                dataSet[1] = item;
-            });
+		it('should reverse transform the data when sending it back to the server', (done: MochaDone): void => {
+			let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+				dataSet[1] = item;
+			});
 
-            dataServiceBehavior.update({
-                domainObject: 'made some changes',
-                useMock: true,
-                updateMockData: updateSpy,
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock): void => {
-                expect(data).to.equal('made some changes');
+			dataServiceBehavior.update({
+				domainObject: 'made some changes',
+				useMock: true,
+				updateMockData: updateSpy,
+				endpoint: null,
+				logRequests: false,
+			}).then((data: ITestMock): void => {
+				expect(data).to.equal('made some changes');
 				sinon.assert.calledOnce(transform.fromServer);
 				done();
-            });
+			});
 
-            expect(updateSpy.firstCall.args[0].prop).to.equal('made some changes');
-            sinon.assert.calledOnce(transform.toServer);
+			expect(updateSpy.firstCall.args[0].prop).to.equal('made some changes');
+			sinon.assert.calledOnce(transform.toServer);
 
 			$rootScope.$digest();
-        });
+		});
 	});
 
 	describe('map', (): void => {
@@ -388,10 +381,10 @@ describe('base data service behavior', () => {
 			numberConverter = {
 				fromServer: sinon.spy((rawData: number): number => {
 					return rawData + 1;
-                }),
-                toServer: sinon.spy((data: number): number => {
-                    return data - 1;
-                }),
+				}),
+				toServer: sinon.spy((data: number): number => {
+					return data - 1;
+				}),
 			};
 
 			let map: any = {
@@ -408,11 +401,11 @@ describe('base data service behavior', () => {
 			};
 
 			dataServiceBehavior.getItem({
-                useMock: true,
-                getMockData(): ITestMock { return item; },
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock2): void => {
+				useMock: true,
+				getMockData(): ITestMock { return item; },
+				endpoint: null,
+				logRequests: false,
+			}).then((data: ITestMock2): void => {
 				expect(data.prop1).to.equal(5);
 				expect(data.prop2).to.equal(4);
 				sinon.assert.calledOnce(numberConverter.fromServer);
@@ -422,7 +415,7 @@ describe('base data service behavior', () => {
 			$rootScope.$digest();
 		});
 
-        it('should use an object map to transform properties for sending back to the server', (done: MochaDone): void => {
+		it('should use an object map to transform properties for sending back to the server', (done: MochaDone): void => {
 			let updatedItem: ITestMock2 = {
 				prop1: 5,
 				prop2: 4,
@@ -430,25 +423,25 @@ describe('base data service behavior', () => {
 
 			let updateSpy: Sinon.SinonSpy = sinon.spy();
 
-            dataServiceBehavior.update({
-                domainObject: updatedItem,
-                useMock: true,
-                updateMockData: updateSpy,
-                endpoint: null,
-                logRequests: false,
-            }).then((data: ITestMock2): void => {
-                expect(data.prop1).to.equal(5);
-                expect(data.prop2).to.equal(4);
+			dataServiceBehavior.update({
+				domainObject: updatedItem,
+				useMock: true,
+				updateMockData: updateSpy,
+				endpoint: null,
+				logRequests: false,
+			}).then((data: ITestMock2): void => {
+				expect(data.prop1).to.equal(5);
+				expect(data.prop2).to.equal(4);
 				sinon.assert.calledOnce(numberConverter.fromServer);
 				done();
-            });
+			});
 
-            sinon.assert.calledOnce(updateSpy);
+			sinon.assert.calledOnce(updateSpy);
 			let updateArg: any = updateSpy.firstCall.args[0];
-            expect(updateArg.prop1).to.equal(4);
-            expect(updateArg.prop2).to.equal(4);
+			expect(updateArg.prop1).to.equal(4);
+			expect(updateArg.prop2).to.equal(4);
 
 			$rootScope.$digest();
-        });
+		});
 	});
 });

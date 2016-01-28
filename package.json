@@ -14,7 +14,7 @@
     "url": "https://github.com/RenovoSolutions/TypeScript-Angular-Utilities"
   },
   "scripts": {
-    "update": "npm install & tsd update",
+    "update": "npm install & typings install",
     "test": "karma start",
     "test.debug": "karma start karma.debug.conf.js",
     "test.full": "karma start karma.full.conf.js",
@@ -49,6 +49,7 @@
     "source-map-loader": "^0.1.5",
     "ts-loader": "^0.7.1",
     "typescript": "^1.6.2",
+    "typings": "^0.6.2",
     "webpack": "^1.12.2"
   },
   "dependencies": {

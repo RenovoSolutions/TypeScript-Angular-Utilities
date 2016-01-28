@@ -1,7 +1,3 @@
-/// <reference path='../../../typings/chai/chai.d.ts' />
-/// <reference path='../../../typings/mocha/mocha.d.ts' />
-/// <reference path='../../../typings/chaiAssertions.d.ts' />
-
 import { IArrayUtility, moduleName, serviceName } from './array.service';
 
 import { angularFixture } from '../../services/test/angularFixture';
@@ -9,8 +5,6 @@ import { angularFixture } from '../../services/test/angularFixture';
 import * as angular from 'angular';
 import 'angular-mocks';
 import * as _ from 'lodash';
-
-'use strict';
 
 interface ITestObj {
 	prop: number;
