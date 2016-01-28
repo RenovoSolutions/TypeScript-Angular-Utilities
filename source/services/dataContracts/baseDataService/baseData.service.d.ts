@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
-import { IConverter, ITransform } from '../baseDataServiceBehavior';
+import { IConverter } from '../baseDataServiceBehavior';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export interface IBaseDomainObject {
@@ -22,8 +22,8 @@ export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearc
     useMock: boolean;
     logRequests: boolean;
     private behavior;
-    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], transform: ITransform<TDataType>, map: {
-        [index: string]: IConverter<TDataType>;
+    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], transform: IConverter<TDataType> | {
+        [index: string]: IConverter<any>;
     }, useMock: boolean, logRequests: boolean);
     private getItemEndpoint(id);
     getList(params: TSearchParams): angular.IPromise<TDataType[]>;
@@ -33,7 +33,7 @@ export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearc
     delete(domainObject: TDataType): angular.IPromise<void>;
 }
 export interface IBaseDataServiceFactory {
-    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], transform?: ITransform<TDataType>, map?: {
+    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], transform?: IConverter<TDataType> | {
         [index: string]: IConverter<TDataType>;
     }, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
 }

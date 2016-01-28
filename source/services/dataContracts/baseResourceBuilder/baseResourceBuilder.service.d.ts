@@ -1,7 +1,7 @@
 import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
 import { ILibraryServices } from './contractLibrary';
-import { IConverter, ITransform } from '../baseDataServiceBehavior';
+import { IConverter } from '../baseDataServiceBehavior';
 import { IBaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IBaseDataServiceView, IBaseParentDataServiceView } from '../baseDataService/baseDataServiceView';
 import { IBaseParentDataService } from '../baseParentDataService/baseParentData.service';
@@ -27,13 +27,9 @@ export interface IBaseOptions<TDataType> {
     /**
     * Mapping to specify how properties should be transformed to and from the server
     */
-    map?: {
+    transform?: IConverter<TDataType> | {
         [index: string]: IConverter<TDataType>;
     };
-    /**
-    * Processes data coming back from the server
-    */
-    transform?: ITransform<TDataType>;
 }
 export interface IBaseResourceParams<TDataType extends IBaseDomainObject> extends IBaseOptions<TDataType> {
     /**

@@ -10,36 +10,34 @@ var baseSingletonData_service_1 = require('../baseSingletonDataService/baseSingl
 var baseParentSingletonData_service_1 = require('../baseParentSingletonDataService/baseParentSingletonData.service');
 var BaseDataServiceView = (function (_super) {
     __extends(BaseDataServiceView, _super);
-    function BaseDataServiceView($http, $q, array, _endpoint, mockData, transform, map, useMock, logRequests) {
-        _super.call(this, $http, $q, array, _endpoint, mockData, transform, map, useMock, logRequests);
+    function BaseDataServiceView($http, $q, array, _endpoint, mockData, transform, useMock, logRequests) {
+        _super.call(this, $http, $q, array, _endpoint, mockData, transform, useMock, logRequests);
         this.$http = $http;
         this.$q = $q;
         this.transform = transform;
-        this.map = map;
     }
     BaseDataServiceView.prototype.AsSingleton = function (parentId) {
         var mockData = _.find(this.mockData, function (item) {
             return item.id === parentId;
         });
-        return new baseSingletonData_service_1.BaseSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.transform, this.map, this.useMock, this.logRequests);
+        return new baseSingletonData_service_1.BaseSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.transform, this.useMock, this.logRequests);
     };
     return BaseDataServiceView;
 })(baseData_service_1.BaseDataService);
 exports.BaseDataServiceView = BaseDataServiceView;
 var BaseParentDataServiceView = (function (_super) {
     __extends(BaseParentDataServiceView, _super);
-    function BaseParentDataServiceView($http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, map, useMock, logRequests) {
-        _super.call(this, $http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, map, useMock, logRequests);
+    function BaseParentDataServiceView($http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests) {
+        _super.call(this, $http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests);
         this.$http = $http;
         this.$q = $q;
         this.transform = transform;
-        this.map = map;
     }
     BaseParentDataServiceView.prototype.AsSingleton = function (parentId) {
         var mockData = _.find(this.mockData, function (item) {
             return item.id === parentId;
         });
-        return new baseParentSingletonData_service_1.BaseParentSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.map, this.useMock, this.logRequests, parentId);
+        return new baseParentSingletonData_service_1.BaseParentSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests, parentId);
     };
     return BaseParentDataServiceView;
 })(baseParentData_service_1.BaseParentDataService);

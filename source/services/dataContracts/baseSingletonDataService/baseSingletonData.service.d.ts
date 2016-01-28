@@ -1,5 +1,5 @@
 import * as angular from 'angular';
-import { IConverter, ITransform } from '../baseDataServiceBehavior';
+import { IConverter } from '../baseDataServiceBehavior';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export interface IBaseSingletonDataService<TDataType> {
@@ -14,14 +14,14 @@ export declare class BaseSingletonDataService<TDataType> implements IBaseSinglet
     useMock: boolean;
     logRequests: boolean;
     private behavior;
-    constructor($http: angular.IHttpService, $q: angular.IQService, endpoint: string, mockData: TDataType, transform: ITransform<TDataType>, map: {
-        [index: string]: IConverter<TDataType>;
+    constructor($http: angular.IHttpService, $q: angular.IQService, endpoint: string, mockData: TDataType, transform: IConverter<TDataType> | {
+        [index: string]: IConverter<any>;
     }, useMock: boolean, logRequests: boolean);
     get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
 }
 export interface IBaseSingletonDataServiceFactory {
-    getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: ITransform<TDataType>, map?: {
+    getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: IConverter<TDataType> | {
         [index: string]: IConverter<TDataType>;
     }, useMock?: boolean): IBaseSingletonDataService<TDataType>;
 }

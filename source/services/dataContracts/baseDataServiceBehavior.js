@@ -1,11 +1,10 @@
 'use strict';
 var _ = require('lodash');
 var BaseDataServiceBehavior = (function () {
-    function BaseDataServiceBehavior($http, $q, transform, map) {
+    function BaseDataServiceBehavior($http, $q, transform) {
         this.$http = $http;
         this.$q = $q;
         this.transform = transform;
-        this.map = map;
     }
     BaseDataServiceBehavior.prototype.getList = function (options) {
         var _this = this;
@@ -20,9 +19,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            if (_this.transform != null) {
-                data = _.map(data, _this.transform.fromServer);
-            }
+            data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('getList', data, options.endpoint, options.useMock);
             }
@@ -42,7 +39,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            data = _this.transformFromServer(data);
+            data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('get', data, options.endpoint, options.useMock);
             }
@@ -52,7 +49,7 @@ var BaseDataServiceBehavior = (function () {
     BaseDataServiceBehavior.prototype.create = function (options) {
         var _this = this;
         var promise;
-        options.domainObject = this.transformToServer(options.domainObject);
+        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.addMockData(options.domainObject);
             promise = this.$q.when(options.domainObject);
@@ -64,7 +61,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            data = _this.transformFromServer(data);
+            data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('create', data, options.endpoint, options.useMock);
             }
@@ -74,7 +71,7 @@ var BaseDataServiceBehavior = (function () {
     BaseDataServiceBehavior.prototype.update = function (options) {
         var _this = this;
         var promise;
-        options.domainObject = this.transformToServer(options.domainObject);
+        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.updateMockData(options.domainObject);
             promise = this.$q.when(options.domainObject);
@@ -86,7 +83,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            data = _this.transformFromServer(data);
+            data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('update', options.domainObject, options.endpoint, options.useMock);
             }
@@ -115,35 +112,32 @@ var BaseDataServiceBehavior = (function () {
         console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
         console.log(data);
     };
-    BaseDataServiceBehavior.prototype.transformFromServer = function (rawData) {
+    BaseDataServiceBehavior.prototype.applyTransform = function (data, transform, toServer) {
         var _this = this;
-        if (this.transform != null) {
-            return this.transform.fromServer(rawData);
+        if (transform == null) {
+            return data;
         }
-        else if (this.map != null) {
-            return _.mapValues(rawData, function (prop, key) {
-                if (_.has(_this.map, key)) {
-                    return _this.map[key].fromServer(prop);
-                }
-                return prop;
-            });
+        if (_.isArray(data)) {
+            return _.map(data, function (item) { return _this.applyTransform(item, transform, toServer); });
         }
-        return rawData;
-    };
-    BaseDataServiceBehavior.prototype.transformToServer = function (data) {
-        var _this = this;
-        if (this.transform != null) {
-            return this.transform.toServer(data);
+        if (this.isConverter(transform)) {
+            var transformFunc = toServer
+                ? transform.toServer
+                : transform.fromServer;
+            return transformFunc(data);
         }
-        else if (this.map != null) {
+        else {
             return _.mapValues(data, function (prop, key) {
-                if (_.has(_this.map, key)) {
-                    return _this.map[key].toServer(prop);
+                if (_.has(transform, key)) {
+                    return _this.applyTransform(prop, transform[key], toServer);
                 }
                 return prop;
             });
         }
-        return data;
+    };
+    BaseDataServiceBehavior.prototype.isConverter = function (object) {
+        return _.isFunction(object.fromServer)
+            && _.isFunction(object.toServer);
     };
     return BaseDataServiceBehavior;
 })();

@@ -3,8 +3,6 @@ export interface IConverter<TDataType> {
     fromServer(raw: any): TDataType;
     toServer(data: TDataType): any;
 }
-export interface ITransform<TDataType> extends IConverter<TDataType> {
-}
 export interface IRequestOptions {
     endpoint: string;
     useMock: boolean;
@@ -40,8 +38,7 @@ export declare class BaseDataServiceBehavior<TDataType> implements IBaseDataServ
     private $http;
     private $q;
     private transform;
-    private map;
-    constructor($http: angular.IHttpService, $q: angular.IQService, transform: ITransform<TDataType>, map: {
+    constructor($http: angular.IHttpService, $q: angular.IQService, transform: IConverter<TDataType> | {
         [index: string]: IConverter<any>;
     });
     getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]>;
@@ -50,6 +47,8 @@ export declare class BaseDataServiceBehavior<TDataType> implements IBaseDataServ
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType>;
     delete(options: IDeleteOptions<TDataType>): angular.IPromise<void>;
     private log(requestName, data, endpoint, useMock);
-    private transformFromServer(rawData);
-    private transformToServer(data);
+    applyTransform(data: any, transform: IConverter<any> | {
+        [index: string]: IConverter<any>;
+    }, toServer: boolean): any;
+    private isConverter(object);
 }

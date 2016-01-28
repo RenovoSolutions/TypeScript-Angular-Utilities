@@ -1,5 +1,5 @@
 import { IArrayUtility } from '../../array/array.service';
-import { IConverter, ITransform } from '../baseDataServiceBehavior';
+import { IConverter } from '../baseDataServiceBehavior';
 import { IBaseDataService, BaseDataService, IBaseDomainObject } from './baseData.service';
 import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
 import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
@@ -14,9 +14,8 @@ export declare class BaseDataServiceView<TDataType extends IBaseDomainObject, TS
     private $http;
     private $q;
     private transform;
-    private map;
-    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], transform: ITransform<TDataType>, map: {
-        [index: string]: IConverter<TDataType>;
+    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], transform: IConverter<TDataType> | {
+        [index: string]: IConverter<any>;
     }, useMock: boolean, logRequests: boolean);
     AsSingleton(parentId: number): IBaseSingletonDataService<TDataType>;
 }
@@ -24,11 +23,10 @@ export declare class BaseParentDataServiceView<TDataType extends IBaseDomainObje
     private $http;
     private $q;
     private transform;
-    private map;
     constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, _endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: {
         (): TResourceDictionaryType;
-    }, transform: ITransform<TDataType>, map: {
-        [index: string]: IConverter<TDataType>;
+    }, transform: IConverter<TDataType> | {
+        [index: string]: IConverter<any>;
     }, useMock: boolean, logRequests: boolean);
     AsSingleton(parentId: number): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
