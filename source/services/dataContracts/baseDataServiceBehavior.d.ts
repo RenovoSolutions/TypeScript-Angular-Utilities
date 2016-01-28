@@ -1,7 +1,9 @@
 import * as angular from 'angular';
-export interface ITransform<TDataType> {
-    fromServer(rawData: any): TDataType;
+export interface IConverter<TDataType> {
+    fromServer(raw: any): TDataType;
     toServer(data: TDataType): any;
+}
+export interface ITransform<TDataType> extends IConverter<TDataType> {
 }
 export interface IRequestOptions {
     endpoint: string;
@@ -38,7 +40,10 @@ export declare class BaseDataServiceBehavior<TDataType> implements IBaseDataServ
     private $http;
     private $q;
     private transform;
-    constructor($http: angular.IHttpService, $q: angular.IQService, transform: ITransform<TDataType>);
+    private map;
+    constructor($http: angular.IHttpService, $q: angular.IQService, transform: ITransform<TDataType>, map: {
+        [index: string]: IConverter<any>;
+    });
     getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]>;
     getItem(options: IGetItemOptions<TDataType>): angular.IPromise<TDataType>;
     create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType>;

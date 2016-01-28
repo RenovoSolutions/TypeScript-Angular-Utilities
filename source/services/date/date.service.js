@@ -95,8 +95,13 @@ var DateUtility = (function () {
         return this.moment(date).toDate();
     };
     DateUtility.prototype.isDate = function (date, dateFormat) {
-        return _.isDate(date)
-            || this.moment(date, this.getFormat(dateFormat)).isValid();
+        if (_.isDate(date)) {
+            //lodash will return true if it is a valid date object, but has in invalid value.
+            //check the time value of the date object to verify that it's a Valid Date.
+            var r = !isNaN(date.getTime());
+            return r;
+        }
+        return this.moment(date, this.getFormat(dateFormat)).isValid();
     };
     DateUtility.prototype.getNow = function () {
         return new Date();
@@ -108,6 +113,9 @@ var DateUtility = (function () {
         return customFormat != null ? customFormat : this.baseFormat;
     };
     DateUtility.prototype.sameDate = function (date1, date2, date1Format, date2Format) {
+        if (date1Format != undefined && date2Format === undefined) {
+            date2Format = date1Format;
+        }
         if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
             return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
         }
@@ -116,6 +124,9 @@ var DateUtility = (function () {
         }
     };
     DateUtility.prototype.sameDateTime = function (date1, date2, date1Format, date2Format) {
+        if (date1Format != undefined && date2Format === undefined) {
+            date2Format = date1Format;
+        }
         if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
             return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
         }
@@ -127,4 +138,5 @@ var DateUtility = (function () {
     return DateUtility;
 })();
 exports.DateUtility = DateUtility;
+exports.dateUtility = new DateUtility(moment, time_service_1.timeUtility);
 //# sourceMappingURL=date.service.js.map

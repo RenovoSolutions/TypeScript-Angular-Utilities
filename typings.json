@@ -1,0 +1,14 @@
+{
+  "ambientDependencies": {
+    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "angular-mocks": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-mocks.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "assertion-error": "github:DefinitelyTyped/DefinitelyTyped/assertion-error/assertion-error.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai-2.0.0.d.ts#91989d35b892f1526c35fb1e55219ba05bc5065e",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#86dbea8fc37d9473fee465da4f0a21bea4f8cbd9",
+    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "moment": "github:DefinitelyTyped/DefinitelyTyped/moment/moment.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "sinon": "github:DefinitelyTyped/DefinitelyTyped/sinon/sinon.d.ts#54f064352a3615443f7bff4198078db15e28247b"
+  }
+}

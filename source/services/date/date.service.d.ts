@@ -50,3 +50,4 @@ export declare class DateUtility {
     sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
     sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
 }
+export declare let dateUtility: IDateUtility;

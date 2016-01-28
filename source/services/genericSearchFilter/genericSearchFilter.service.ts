@@ -48,7 +48,7 @@ export class GenericSearchFilter implements IGenericSearchFilter {
 	private searchObject<TItemType>(item: TItemType, search: string, caseSensitive: boolean): boolean {
 		if (_.isObject(item)) {
 			var values: any = _.values(item);
-			return _.any(values, (value: any): boolean => { return this.searchObject(value, search, caseSensitive); });
+			return _.some(values, (value: any): boolean => { return this.searchObject(value, search, caseSensitive); });
 		} else {
 			var dataString: string = this.object.toString(item);
 

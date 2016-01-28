@@ -1,10 +1,11 @@
 'use strict';
 var _ = require('lodash');
 var BaseDataServiceBehavior = (function () {
-    function BaseDataServiceBehavior($http, $q, transform) {
+    function BaseDataServiceBehavior($http, $q, transform, map) {
         this.$http = $http;
         this.$q = $q;
         this.transform = transform;
+        this.map = map;
     }
     BaseDataServiceBehavior.prototype.getList = function (options) {
         var _this = this;
@@ -115,14 +116,34 @@ var BaseDataServiceBehavior = (function () {
         console.log(data);
     };
     BaseDataServiceBehavior.prototype.transformFromServer = function (rawData) {
-        return this.transform != null
-            ? this.transform.fromServer(rawData)
-            : rawData;
+        var _this = this;
+        if (this.transform != null) {
+            return this.transform.fromServer(rawData);
+        }
+        else if (this.map != null) {
+            return _.mapValues(rawData, function (prop, key) {
+                if (_.has(_this.map, key)) {
+                    return _this.map[key].fromServer(prop);
+                }
+                return prop;
+            });
+        }
+        return rawData;
     };
     BaseDataServiceBehavior.prototype.transformToServer = function (data) {
-        return this.transform != null
-            ? this.transform.toServer(data)
-            : data;
+        var _this = this;
+        if (this.transform != null) {
+            return this.transform.toServer(data);
+        }
+        else if (this.map != null) {
+            return _.mapValues(data, function (prop, key) {
+                if (_.has(_this.map, key)) {
+                    return _this.map[key].toServer(prop);
+                }
+                return prop;
+            });
+        }
+        return data;
     };
     return BaseDataServiceBehavior;
 })();

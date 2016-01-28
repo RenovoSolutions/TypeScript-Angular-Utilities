@@ -13,7 +13,7 @@ var ObjectUtility = (function () {
             return true;
         }
         else if (_.isArray(object)) {
-            return _.any(object) === false;
+            return _.some(object) === false;
         }
         else if (_.isNumber(object)) {
             return _.isNaN(object);
@@ -69,7 +69,7 @@ var ObjectUtility = (function () {
                 }
             });
             //if there are still keys left in keys2, we know they are not equal (obj2 has more properties)
-            if (_.any(keys2)) {
+            if (_.some(keys2)) {
                 return false;
             }
         }

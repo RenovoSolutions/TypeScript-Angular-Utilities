@@ -20,6 +20,7 @@ var TimeUtility = (function () {
     return TimeUtility;
 })();
 exports.TimeUtility = TimeUtility;
+exports.timeUtility = new TimeUtility();
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, TimeUtility);
 //# sourceMappingURL=time.service.js.map
