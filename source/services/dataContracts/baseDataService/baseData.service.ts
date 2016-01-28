@@ -4,7 +4,7 @@ import * as angular from 'angular';
 import * as _ from 'lodash';
 
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
-import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter, ITransform } from '../baseDataServiceBehavior';
+import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter } from '../baseDataServiceBehavior';
 
 export var moduleName: string = 'rl.utilities.services.baseDataService';
 export var factoryName: string = 'baseDataService';
@@ -32,11 +32,10 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
             , protected array: IArrayUtility
             , public endpoint: string
             , protected mockData: TDataType[]
-            , transform: ITransform<TDataType>
-			, map: { [index: string]: IConverter<TDataType> }
+            , transform: IConverter<TDataType> | { [index: string]: IConverter<any> }
             , public useMock: boolean
             , public logRequests: boolean) {
-		this.behavior = new BaseDataServiceBehavior($http, $q, transform, map);
+		this.behavior = new BaseDataServiceBehavior($http, $q, transform);
     }
 
     private getItemEndpoint(id: number): string {
@@ -110,15 +109,15 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
 
 export interface IBaseDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[]
-        , transform?: ITransform<TDataType>, map?: { [index: string]: IConverter<TDataType> }, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
+        , transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
 }
 
 baseDataServiceFactory.$inject = ['$http', '$q', arrayServiceName];
 export function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IBaseDataServiceFactory {
     return {
         getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[]
-            , transform?: ITransform<TDataType>, map?: { [index: string]: IConverter<TDataType> }, useMock?: boolean, logRequests?: boolean): IBaseDataService<TDataType, TSearchParams> {
-            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, transform, map, useMock, logRequests);
+            , transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean, logRequests?: boolean): IBaseDataService<TDataType, TSearchParams> {
+            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
         },
     };
 }
