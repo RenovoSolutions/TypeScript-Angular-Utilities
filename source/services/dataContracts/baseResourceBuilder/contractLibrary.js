@@ -33,6 +33,8 @@ var ContractLibrary = (function () {
         var dataService = this.builder.createResource({});
         dataService.mockGetList = function (data) { return _this.baseMockGet(dataService, 'getList', data); };
         dataService.mockGetDetail = function (data) { return _this.baseMockGet(dataService, 'get', data); };
+        dataService.mockUpdate = function () { return _this.baseMockSave(dataService, 'update'); };
+        dataService.mockCreate = function () { return _this.baseMockSave(dataService, 'create'); };
         dataService = this.updateResource(dataService, resource);
         return dataService;
     };
@@ -45,6 +47,8 @@ var ContractLibrary = (function () {
         dataService.mockGetList = function (data) { return _this.baseMockGet(dataService, 'getList', data); };
         dataService.mockGetDetail = function (data) { return _this.baseMockGet(dataService, 'get', data); };
         dataService.mockChild = function (mockCallback) { return _this.mockChild(dataService, mockCallback); };
+        dataService.mockUpdate = function () { return _this.baseMockSave(dataService, 'update'); };
+        dataService.mockCreate = function () { return _this.baseMockSave(dataService, 'create'); };
         dataService = this.updateResource(dataService, resource);
         return dataService;
     };
@@ -52,6 +56,7 @@ var ContractLibrary = (function () {
         var _this = this;
         var dataService = this.builder.createSingletonResource({});
         dataService.mockGet = function (data) { return _this.baseMockGet(dataService, 'get', data); };
+        dataService.mockUpdate = function () { return _this.baseMockSave(dataService, 'update'); };
         dataService = this.updateResource(dataService, resource);
         return dataService;
     };
@@ -64,6 +69,14 @@ var ContractLibrary = (function () {
     ContractLibrary.prototype.baseMockGet = function (resource, actionName, data) {
         var _this = this;
         var func = this.sinon.spy(function () {
+            return _this.$q.when(data);
+        });
+        resource[actionName] = func;
+        return func;
+    };
+    ContractLibrary.prototype.baseMockSave = function (resource, actionName) {
+        var _this = this;
+        var func = this.sinon.spy(function (data) {
             return _this.$q.when(data);
         });
         resource[actionName] = func;
