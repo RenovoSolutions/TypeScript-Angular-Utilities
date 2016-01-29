@@ -66,6 +66,8 @@ export class ContractLibrary implements IContractLibrary {
 		let dataService: IBaseDataServiceMock<any, any> = <any>this.builder.createResource<any, any>({});
 		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
 		dataService.mockGetDetail = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
+		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
+		dataService.mockCreate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create'); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -78,6 +80,8 @@ export class ContractLibrary implements IContractLibrary {
 		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
 		dataService.mockGetDetail = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
 		dataService.mockChild = (mockCallback: { (children: any): void }): void => { return this.mockChild(dataService, mockCallback); };
+		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
+		dataService.mockCreate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create'); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -85,6 +89,7 @@ export class ContractLibrary implements IContractLibrary {
 	createMockSingleton(resource?: any): IBaseSingletonDataServiceMock<any> {
 		let dataService: IBaseSingletonDataServiceMock<any> = <any>this.builder.createSingletonResource({});
 		dataService.mockGet = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
+		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -98,6 +103,14 @@ export class ContractLibrary implements IContractLibrary {
 
 	private baseMockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
 		let func: Sinon.SinonSpy = this.sinon.spy((): any => {
+			return this.$q.when(data);
+		});
+		resource[actionName] = func;
+		return func;
+	}
+
+	private baseMockSave(resource: any, actionName: string): Sinon.SinonSpy {
+		let func: Sinon.SinonSpy = this.sinon.spy((data: any): any => {
 			return this.$q.when(data);
 		});
 		resource[actionName] = func;
