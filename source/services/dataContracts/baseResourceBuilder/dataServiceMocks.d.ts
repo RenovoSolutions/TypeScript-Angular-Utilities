@@ -4,6 +4,8 @@ import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingl
 export interface IBaseDataServiceMock<TDataType extends IBaseDomainObject, TSearchParams> extends IBaseDataService<TDataType, TSearchParams> {
     mockGetList(data: any[]): Sinon.SinonSpy;
     mockGetDetail(data: any): Sinon.SinonSpy;
+    mockUpdate(): Sinon.SinonSpy;
+    mockCreate(): Sinon.SinonSpy;
 }
 export interface IBaseParentDataServiceMock<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
     mockGetList(data: any[]): Sinon.SinonSpy;
@@ -11,7 +13,10 @@ export interface IBaseParentDataServiceMock<TDataType extends IBaseDomainObject,
     mockChild(mockCallback: {
         (children: any): void;
     }): void;
+    mockUpdate(): Sinon.SinonSpy;
+    mockCreate(): Sinon.SinonSpy;
 }
 export interface IBaseSingletonDataServiceMock<TDataType> extends IBaseSingletonDataService<TDataType> {
     mockGet(data: any): Sinon.SinonSpy;
+    mockUpdate(): Sinon.SinonSpy;
 }
