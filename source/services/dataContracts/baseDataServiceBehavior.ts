@@ -179,6 +179,6 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 
 	private isConverter(object: any): boolean {
 		return _.isFunction(object.fromServer)
-			&& _.isFunction(object.toServer);
+			|| _.isFunction(object.toServer);
 	}
 }
