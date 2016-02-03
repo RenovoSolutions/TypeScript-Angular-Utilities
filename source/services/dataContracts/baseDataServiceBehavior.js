@@ -137,7 +137,7 @@ var BaseDataServiceBehavior = (function () {
     };
     BaseDataServiceBehavior.prototype.isConverter = function (object) {
         return _.isFunction(object.fromServer)
-            && _.isFunction(object.toServer);
+            || _.isFunction(object.toServer);
     };
     return BaseDataServiceBehavior;
 })();
