@@ -82,6 +82,22 @@ describe('objectUtility', () => {
 			expect(objectUtility.areEqual(obj, null)).to.be.false;
 		});
 
+		it('should return false these objects are not equal', ():void => {
+			let object1 = {
+				name: 'objectName',
+				date: new Date('1/1/1901')
+			};
+			let object2 = {
+				name: 'objectName',
+				date:new Date('1/1/1901')
+			}
+
+			expect(objectUtility.areEqual(object1, object2)).to.be.true;
+
+			object2.date = new Date('1/2/1901');
+			expect(objectUtility.areEqual(object1, object2)).to.be.false;
+		});
+
 		it('should return false if arrays have different lengths', (): void => {
 			var array1: number[] = [1, 2, 3, 4, 5];
 			var array2: number[] = [1, 2, 3];

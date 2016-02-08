@@ -159,8 +159,7 @@ export class DateUtility {
 		{
 			//lodash will return true if it is a valid date object, but has in invalid value.
 			//check the time value of the date object to verify that it's a Valid Date.
-			let r =!isNaN(date.getTime());
-			return r;
+			return !isNaN(date.getTime());
 		}
 		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}
@@ -182,7 +181,7 @@ export class DateUtility {
 			date2Format = date1Format;
 		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-			return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
+			return moment(<any>date1,date1Format).format("MM/DD/YYYY") === moment(<any>date2,date2Format).format("MM/DD/YYYY");
 		} else {
 			return false;
 		}
@@ -193,7 +192,7 @@ export class DateUtility {
 			date2Format = date1Format;
 		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-			return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
+			return moment(<any>date1,date1Format).format("MM/DD/YYYY +-HHmm") === moment(<any>date2,date2Format).format("MM/DD/YYYY +-HHmm");
 		} else {
 			return false;
 		}

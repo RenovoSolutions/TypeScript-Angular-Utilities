@@ -9,6 +9,8 @@ import {
 	IArrayUtility
 } from '../array/array.service';
 
+import * as __dateUtility from '../date/date.module';
+
 export var moduleName: string = 'rl.utilities.services.object';
 export var serviceName: string = 'objectUtility';
 
@@ -27,9 +29,9 @@ export interface IObjectUtility {
 }
 
 class ObjectUtility implements IObjectUtility {
-		static $inject: string[] = [arrayServiceName];
-		constructor(private array: IArrayUtility) {
-		}
+	static $inject: string[] = [arrayServiceName, __dateUtility.serviceName];
+	constructor(private array: IArrayUtility, private dateUtility: __dateUtility.IDateUtility) {
+	}
 
 	isNullOrEmpty(object: any): boolean {
 		if (object == null) {
@@ -73,6 +75,8 @@ class ObjectUtility implements IObjectUtility {
 					return false;
 				}
 			}
+		} else if (_.isDate(obj1) && _.isDate(obj2)) {
+			return this.dateUtility.sameDateTime(obj1, obj2);
 		} else if (type1 === 'object') {
 			//init an object with the keys from obj2
 			var keys2: string[] = _.keys(obj2);
@@ -113,5 +117,5 @@ class ObjectUtility implements IObjectUtility {
 	}
 }
 
-angular.module(moduleName, [arrayModuleName])
+angular.module(moduleName, [arrayModuleName,__dateUtility.moduleName])
 	.service(serviceName, ObjectUtility);
