@@ -26,6 +26,8 @@ export interface IObjectUtility {
 	areEqual(obj1: any, obj2: any): boolean;
 	toString(object: any): string;
 	valueOrDefault(value: any, defaultValue: any): any;
+	propertyNameToString(propertyFunction: () => any): string;
+
 }
 
 class ObjectUtility implements IObjectUtility {
@@ -114,6 +116,13 @@ class ObjectUtility implements IObjectUtility {
 		} else {
 			return defaultValue;
 		}
+	}
+
+	propertyNameToString(propertyFunction: () => any): string {
+		let stringValue = propertyFunction.toString();
+		let regExpLiteral = /\.([^\.;]+);?\s*\}$/;
+		let propertyName =  regExpLiteral.exec(stringValue)[1];
+		return propertyName;
 	}
 }
 
