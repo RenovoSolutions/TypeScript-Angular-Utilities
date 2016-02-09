@@ -216,4 +216,18 @@ describe('objectUtility', () => {
 			expect(objectUtility.valueOrDefault(someObject.missingProperty, 'default')).to.equal('default');
 		});
 	});
+	describe('propertyNameToString', (): void => {
+		it('should return a value of name', (): void => {
+			let object = {
+				name: "John Doe",
+				address: {
+					street: "123 test st.",
+				}
+			};
+			expect(objectUtility.propertyNameToString(() => object.name)).to.equal('name');
+			expect(objectUtility.propertyNameToString(() => object.name)).to.not.equal('John Doe');
+			expect(objectUtility.propertyNameToString(() => object.address.street)).to.equal('street');
+			expect(objectUtility.propertyNameToString(() => object.address.street)).to.not.equal('123 test st.');
+		});
+	});
 });
