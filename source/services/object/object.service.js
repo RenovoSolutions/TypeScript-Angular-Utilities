@@ -2,11 +2,13 @@
 var angular = require('angular');
 var _ = require('lodash');
 var array_service_1 = require('../array/array.service');
+var __dateUtility = require('../date/date.module');
 exports.moduleName = 'rl.utilities.services.object';
 exports.serviceName = 'objectUtility';
 var ObjectUtility = (function () {
-    function ObjectUtility(array) {
+    function ObjectUtility(array, dateUtility) {
         this.array = array;
+        this.dateUtility = dateUtility;
     }
     ObjectUtility.prototype.isNullOrEmpty = function (object) {
         if (object == null) {
@@ -51,6 +53,9 @@ var ObjectUtility = (function () {
                 }
             }
         }
+        else if (_.isDate(obj1) && _.isDate(obj2)) {
+            return this.dateUtility.sameDateTime(obj1, obj2);
+        }
         else if (type1 === 'object') {
             //init an object with the keys from obj2
             var keys2 = _.keys(obj2);
@@ -90,9 +95,15 @@ var ObjectUtility = (function () {
             return defaultValue;
         }
     };
-    ObjectUtility.$inject = [array_service_1.serviceName];
+    ObjectUtility.prototype.propertyNameToString = function (propertyFunction) {
+        var stringValue = propertyFunction.toString();
+        var regExpLiteral = /\.([^\.;]+);?\s*\}$/;
+        var propertyName = regExpLiteral.exec(stringValue)[1];
+        return propertyName;
+    };
+    ObjectUtility.$inject = [array_service_1.serviceName, __dateUtility.serviceName];
     return ObjectUtility;
 })();
-angular.module(exports.moduleName, [array_service_1.moduleName])
+angular.module(exports.moduleName, [array_service_1.moduleName, __dateUtility.moduleName])
     .service(exports.serviceName, ObjectUtility);
 //# sourceMappingURL=object.service.js.map

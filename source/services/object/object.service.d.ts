@@ -12,4 +12,5 @@ export interface IObjectUtility {
     areEqual(obj1: any, obj2: any): boolean;
     toString(object: any): string;
     valueOrDefault(value: any, defaultValue: any): any;
+    propertyNameToString(propertyFunction: () => any): string;
 }

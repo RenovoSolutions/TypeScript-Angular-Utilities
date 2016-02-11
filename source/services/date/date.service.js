@@ -98,8 +98,7 @@ var DateUtility = (function () {
         if (_.isDate(date)) {
             //lodash will return true if it is a valid date object, but has in invalid value.
             //check the time value of the date object to verify that it's a Valid Date.
-            var r = !isNaN(date.getTime());
-            return r;
+            return !isNaN(date.getTime());
         }
         return this.moment(date, this.getFormat(dateFormat)).isValid();
     };
@@ -117,7 +116,7 @@ var DateUtility = (function () {
             date2Format = date1Format;
         }
         if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-            return moment(date1).format("MM/DD/YYYY") === moment(date2).format("MM/DD/YYYY");
+            return moment(date1, date1Format).format("MM/DD/YYYY") === moment(date2, date2Format).format("MM/DD/YYYY");
         }
         else {
             return false;
@@ -128,7 +127,7 @@ var DateUtility = (function () {
             date2Format = date1Format;
         }
         if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-            return moment(date1).format("MM/DD/YYYY +-HHmm") === moment(date2).format("MM/DD/YYYY +-HHmm");
+            return moment(date1, date1Format).format("MM/DD/YYYY +-HHmm") === moment(date2, date2Format).format("MM/DD/YYYY +-HHmm");
         }
         else {
             return false;
