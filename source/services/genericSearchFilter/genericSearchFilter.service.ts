@@ -15,18 +15,19 @@ import {
 	IStringUtilityService,
 } from '../string/string.service';
 
-import { IFilter } from '../../filters/filter';
+import { ISerializableFilter } from '../../filters/filter';
 
 export var moduleName: string = 'rl.utilities.services.genericSearchFilter';
 export var factoryName: string = 'genericSearchFilterFactory';
 export var filterName: string = 'search';
 
-export interface IGenericSearchFilter extends IFilter {
+export interface IGenericSearchFilter extends ISerializableFilter {
 	type: string;
 	searchText: string;
 	minSearchLength: number;
 	caseSensitive: boolean;
 	filter<TItemType>(item: TItemType): boolean;
+	serialize(): string;
 }
 
 export class GenericSearchFilter implements IGenericSearchFilter {
@@ -35,7 +36,13 @@ export class GenericSearchFilter implements IGenericSearchFilter {
 	minSearchLength: number = 1;
 	caseSensitive: boolean = false;
 
-	constructor(protected object: IObjectUtility, private string: IStringUtilityService) {}
+	constructor(protected object: IObjectUtility, private string: IStringUtilityService) { }
+
+	serialize(): string {
+		return this.searchText != null && this.searchText.length >= this.minSearchLength
+			? this.searchText
+			: '';
+	}
 
 	filter<TItemType>(item: TItemType): boolean {
 		if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
