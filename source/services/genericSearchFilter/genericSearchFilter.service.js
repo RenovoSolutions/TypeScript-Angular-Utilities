@@ -14,6 +14,11 @@ var GenericSearchFilter = (function () {
         this.minSearchLength = 1;
         this.caseSensitive = false;
     }
+    GenericSearchFilter.prototype.serialize = function () {
+        return this.searchText != null && this.searchText.length >= this.minSearchLength
+            ? this.searchText
+            : '';
+    };
     GenericSearchFilter.prototype.filter = function (item) {
         if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
             return true;
