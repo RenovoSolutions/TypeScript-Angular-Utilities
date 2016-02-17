@@ -41,7 +41,7 @@ export class GenericSearchFilter implements IGenericSearchFilter {
 	serialize(): string {
 		return this.searchText != null && this.searchText.length >= this.minSearchLength
 			? this.searchText
-			: '';
+			: null;
 	}
 
 	filter<TItemType>(item: TItemType): boolean {

@@ -138,12 +138,12 @@ describe('genericSearchFilter', () => {
 		it('should return an empty string if the length is less than the minimum', (): void => {
 			genericSearchFilter.searchText = '123';
 			genericSearchFilter.minSearchLength = 4;
-			expect(genericSearchFilter.serialize()).to.be.empty;
+			expect(genericSearchFilter.serialize()).to.be.null;
 		});
 
 		it('should return an empty string if the search is null', (): void => {
 			genericSearchFilter.searchText = null;
-			expect(genericSearchFilter.serialize()).to.be.empty;
+			expect(genericSearchFilter.serialize()).to.be.null;
 		});
 	});
 });
