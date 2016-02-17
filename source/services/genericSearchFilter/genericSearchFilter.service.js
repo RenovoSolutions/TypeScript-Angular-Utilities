@@ -17,7 +17,7 @@ var GenericSearchFilter = (function () {
     GenericSearchFilter.prototype.serialize = function () {
         return this.searchText != null && this.searchText.length >= this.minSearchLength
             ? this.searchText
-            : '';
+            : null;
     };
     GenericSearchFilter.prototype.filter = function (item) {
         if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
