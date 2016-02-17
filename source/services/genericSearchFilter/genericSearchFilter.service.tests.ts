@@ -127,4 +127,23 @@ describe('genericSearchFilter', () => {
 
 		expect(genericSearchFilter.filter(objectWithNestedObject)).to.be.true;
 	});
+
+	describe('serialize', (): void => {
+		it('should return the search if the length is greater than or equal to the minimum search length', (): void => {
+			genericSearchFilter.searchText = '1234';
+			genericSearchFilter.minSearchLength = 4;
+			expect(genericSearchFilter.serialize()).to.equal('1234');
+		});
+
+		it('should return an empty string if the length is less than the minimum', (): void => {
+			genericSearchFilter.searchText = '123';
+			genericSearchFilter.minSearchLength = 4;
+			expect(genericSearchFilter.serialize()).to.be.null;
+		});
+
+		it('should return an empty string if the search is null', (): void => {
+			genericSearchFilter.searchText = null;
+			expect(genericSearchFilter.serialize()).to.be.null;
+		});
+	});
 });
