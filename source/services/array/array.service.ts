@@ -83,5 +83,7 @@ class ArrayUtility implements IArrayUtility {
 	}
 }
 
+export let arrayUtility: IArrayUtility = new ArrayUtility();
+
 angular.module(moduleName, [])
 	.service(serviceName, ArrayUtility);

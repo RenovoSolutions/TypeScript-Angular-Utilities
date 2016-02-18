@@ -6,7 +6,8 @@ import * as _ from 'lodash';
 import {
 	serviceName as arrayServiceName,
 	moduleName as arrayModuleName,
-	IArrayUtility
+	IArrayUtility,
+	arrayUtility,
 } from '../array/array.service';
 
 import * as __dateUtility from '../date/date.module';
@@ -125,6 +126,8 @@ class ObjectUtility implements IObjectUtility {
 		return propertyName;
 	}
 }
+
+export let objectUtility: IObjectUtility = new ObjectUtility(arrayUtility, __dateUtility.dateUtility);
 
 angular.module(moduleName, [arrayModuleName,__dateUtility.moduleName])
 	.service(serviceName, ObjectUtility);
