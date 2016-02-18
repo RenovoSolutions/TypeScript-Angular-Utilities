@@ -9,6 +9,7 @@ export interface IFilterWithCounts extends IFilter {
 }
 
 export interface ISerializableFilter extends IFilter {
+	type: string;
 	serialize<TFilterData>(): TFilterData;
 	subscribe<TFilterData>(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
 }
@@ -18,7 +19,6 @@ export interface IValueChangeCallback<TFilterData> {
 }
 
 export interface IFilter {
-	type: string;
 	filter<TItemType>(item: TItemType): boolean;
 }
 
