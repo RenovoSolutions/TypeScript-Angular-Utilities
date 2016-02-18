@@ -8,6 +8,10 @@ declare module "rx" {
 declare module Rx {
 	class Subject {
 		onNext(params: any): void;
-		subscribe(...params: any[]): void;
+		subscribe(...params: any[]): Subscriber;
+	}
+
+	interface Subscriber {
+		dispose(): void;
 	}
 }
