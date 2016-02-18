@@ -32,11 +32,19 @@ export interface IGenericSearchFilter extends ISerializableFilter {
 
 export class GenericSearchFilter implements IGenericSearchFilter {
 	type: string = filterName;
-	searchText: string;
 	minSearchLength: number = 1;
 	caseSensitive: boolean = false;
+	private _searchText: string;
 
 	constructor(protected object: IObjectUtility, private string: IStringUtilityService) { }
+
+	get searchText(): string {
+		return this._searchText;
+	}
+
+	set searchText(value: string) {
+		this._searchText = value;
+	}
 
 	serialize(): string {
 		return this.searchText != null && this.searchText.length >= this.minSearchLength
