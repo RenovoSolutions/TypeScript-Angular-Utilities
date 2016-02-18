@@ -1,6 +1,7 @@
 'use strict';
 var angular = require('angular');
 var _ = require('lodash');
+var Rx = require('rx');
 var object_service_1 = require('../object/object.service');
 var string_service_1 = require('../string/string.service');
 exports.moduleName = 'rl.utilities.services.genericSearchFilter';
@@ -13,11 +14,26 @@ var GenericSearchFilter = (function () {
         this.type = exports.filterName;
         this.minSearchLength = 1;
         this.caseSensitive = false;
+        this.subject = new Rx.Subject();
     }
+    Object.defineProperty(GenericSearchFilter.prototype, "searchText", {
+        get: function () {
+            return this._searchText;
+        },
+        set: function (value) {
+            this._searchText = value;
+            this.checkForValueChange();
+        },
+        enumerable: true,
+        configurable: true
+    });
     GenericSearchFilter.prototype.serialize = function () {
         return this.searchText != null && this.searchText.length >= this.minSearchLength
             ? this.searchText
             : null;
+    };
+    GenericSearchFilter.prototype.subscribe = function (onValueChange) {
+        return this.subject.subscribe(onValueChange);
     };
     GenericSearchFilter.prototype.filter = function (item) {
         if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
@@ -39,6 +55,13 @@ var GenericSearchFilter = (function () {
             }
             return this.string.contains(dataString, search);
         }
+    };
+    GenericSearchFilter.prototype.checkForValueChange = function () {
+        var newValue = this.serialize();
+        if (this._value != newValue) {
+            this.subject.onNext(newValue);
+        }
+        this._value = newValue;
     };
     return GenericSearchFilter;
 })();
