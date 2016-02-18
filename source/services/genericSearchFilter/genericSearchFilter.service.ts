@@ -16,32 +16,28 @@ import {
 	IStringUtilityService,
 } from '../string/string.service';
 
-import { ISerializableFilter, IValueChangeCallback } from '../../filters/filter';
+import { ISerializableFilter, SerializableFilter, IValueChangeCallback } from '../../filters/filter';
 
 export var moduleName: string = 'rl.utilities.services.genericSearchFilter';
 export var factoryName: string = 'genericSearchFilterFactory';
 export var filterName: string = 'search';
 
-export interface IGenericSearchFilter extends ISerializableFilter {
+export interface IGenericSearchFilter extends ISerializableFilter<string> {
 	type: string;
 	searchText: string;
 	minSearchLength: number;
 	caseSensitive: boolean;
 	filter<TItemType>(item: TItemType): boolean;
-	serialize(): string;
-	subscribe(onValueChange: IValueChangeCallback<string>): Rx.Subscriber;
 }
 
-export class GenericSearchFilter implements IGenericSearchFilter {
+export class GenericSearchFilter extends SerializableFilter<string> implements IGenericSearchFilter {
 	type: string = filterName;
 	minSearchLength: number = 1;
 	caseSensitive: boolean = false;
 	private _searchText: string;
-	private _value: string;
-	private subject: Rx.Subject;
 
 	constructor(protected object: IObjectUtility, private string: IStringUtilityService) {
-		this.subject = new Rx.Subject();
+		super();
 	}
 
 	get searchText(): string {
@@ -50,17 +46,13 @@ export class GenericSearchFilter implements IGenericSearchFilter {
 
 	set searchText(value: string) {
 		this._searchText = value;
-		this.checkForValueChange();
+		this.onChange(false);
 	}
 
 	serialize(): string {
 		return this.searchText != null && this.searchText.length >= this.minSearchLength
 			? this.searchText
 			: null;
-	}
-
-	subscribe(onValueChange: IValueChangeCallback<string>): Rx.Subscriber {
-		return this.subject.subscribe(onValueChange);
 	}
 
 	filter<TItemType>(item: TItemType): boolean {
@@ -85,15 +77,6 @@ export class GenericSearchFilter implements IGenericSearchFilter {
 
 			return this.string.contains(dataString, search);
 		}
-	}
-
-	private checkForValueChange(): void {
-		let newValue: string = this.serialize();
-		if (this._value != newValue) {
-			this.subject.onNext(newValue);
-		}
-
-		this._value = newValue;
 	}
 }
 
