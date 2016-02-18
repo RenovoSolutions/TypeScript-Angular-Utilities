@@ -1,7 +1,7 @@
 import { SerializableFilter } from './filter';
 
 describe('serializable filter', (): void => {
-	filter: SerializableFilter<any>;
+	let filter: SerializableFilter<any>;
 
 	beforeEach((): void {
 		filter = new SerializableFilter();
