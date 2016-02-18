@@ -2,7 +2,7 @@
 // declare var rx: rx.IUUID;
 
 declare module "rx" {
-	export { Rx };
+	export = Rx;
 }
 
 declare module Rx {
