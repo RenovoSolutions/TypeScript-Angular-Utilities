@@ -8,10 +8,10 @@ export interface IFilterWithCounts extends IFilter {
 	updateOptionCounts<TItemType>(data: TItemType[]): void;
 }
 
-export interface ISerializableFilter extends IFilter {
+export interface ISerializableFilter<TFilterData> extends IFilter {
 	type: string;
-	serialize<TFilterData>(): TFilterData;
-	subscribe<TFilterData>(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
+	serialize(): TFilterData;
+	subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
 }
 
 export interface IValueChangeCallback<TFilterData> {
@@ -22,10 +22,10 @@ export interface IFilter {
 	filter<TItemType>(item: TItemType): boolean;
 }
 
-export class SerializableFilter<TFilterValue> implements ISerializableFilter {
+export class SerializableFilter<TFilterData> implements ISerializableFilter<TFilterData> {
 	type: string;
 	protected subject: Rx.Subject;
-	private _value: TFilterValue;
+	private _value: TFilterData;
 
 	constructor() {
 		this.subject = new Rx.Subject();
@@ -36,16 +36,16 @@ export class SerializableFilter<TFilterValue> implements ISerializableFilter {
 		return true;
 	}
 
-	serialize(): TFilterValue {
+	serialize(): TFilterData {
 		return <any>this;
 	}
 
-	subscribe(onValueChange: IValueChangeCallback<TFilterValue>): Rx.Subscriber {
+	subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber {
 		return this.subject.subscribe(onValueChange);
 	}
 
 	protected onChange(force: boolean = true): void {
-		let newValue: TFilterValue = this.serialize();
+		let newValue: TFilterData = this.serialize();
 		if (force || !objectUtility.areEqual(newValue, this._value)) {
 			this._value = newValue;
 			this.subject.onNext(this._value);
