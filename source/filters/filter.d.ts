@@ -21,5 +21,5 @@ export declare class SerializableFilter<TFilterData> implements ISerializableFil
     filter(item: any): boolean;
     serialize(): TFilterData;
     subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
-    protected onChange(force?: boolean): void;
+    onChange(force?: boolean): void;
 }
