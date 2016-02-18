@@ -20,3 +20,4 @@ export interface IArrayUtility {
         [index: string]: TDataType;
     };
 }
+export declare let arrayUtility: IArrayUtility;

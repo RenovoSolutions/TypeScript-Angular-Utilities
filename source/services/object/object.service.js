@@ -104,6 +104,7 @@ var ObjectUtility = (function () {
     ObjectUtility.$inject = [array_service_1.serviceName, __dateUtility.serviceName];
     return ObjectUtility;
 })();
+exports.objectUtility = new ObjectUtility(array_service_1.arrayUtility, __dateUtility.dateUtility);
 angular.module(exports.moduleName, [array_service_1.moduleName, __dateUtility.moduleName])
     .service(exports.serviceName, ObjectUtility);
 //# sourceMappingURL=object.service.js.map
