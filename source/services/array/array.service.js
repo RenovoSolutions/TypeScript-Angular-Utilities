@@ -48,6 +48,9 @@ var ArrayUtility = (function () {
         return _.reduce(list, function (sum, num) { return sum + num; }, 0);
     };
     ArrayUtility.prototype.toDictionary = function (array, keySelector) {
+        array = _.reject(array, function (item) {
+            return keySelector(item) == null;
+        });
         // needs to be seeded with an object or it will be viewed as an array with no items
         return _.reduce(array, function (dictionary, item) {
             dictionary[keySelector(item)] = item;
