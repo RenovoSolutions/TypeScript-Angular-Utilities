@@ -146,4 +146,24 @@ describe('genericSearchFilter', () => {
 			expect(genericSearchFilter.serialize()).to.be.null;
 		});
 	});
+
+	describe('observable', (): void => {
+		it('should subscribe to changes to the serialized value', (): void => {
+			let valueChangeSpy: Sinon.SinonSpy = sinon.spy();
+			genericSearchFilter.searchText = null;
+			genericSearchFilter.minSearchLength = 4;
+
+			genericSearchFilter.subscribe(valueChangeSpy);
+
+			genericSearchFilter.searchText = '1234';
+
+			sinon.assert.calledOnce(valueChangeSpy);
+			sinon.assert.calledWith(valueChangeSpy, '1234');
+
+			genericSearchFilter.searchText = null;
+
+			sinon.assert.calledTwice(valueChangeSpy);
+			sinon.assert.calledWith(valueChangeSpy, null);
+		});
+	});
 });
