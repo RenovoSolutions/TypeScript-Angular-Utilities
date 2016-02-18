@@ -44,7 +44,7 @@ export class SerializableFilter<TFilterData> implements ISerializableFilter<TFil
 		return this.subject.subscribe(onValueChange);
 	}
 
-	protected onChange(force: boolean = true): void {
+	onChange(force: boolean = true): void {
 		let newValue: TFilterData = this.serialize();
 		if (force || !objectUtility.areEqual(newValue, this._value)) {
 			this._value = newValue;
