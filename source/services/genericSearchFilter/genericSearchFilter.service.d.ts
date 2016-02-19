@@ -1,25 +1,25 @@
 import { IObjectUtility } from '../object/object.service';
 import { IStringUtilityService } from '../string/string.service';
-import { ISerializableFilter } from '../../filters/filter';
+import { ISerializableFilter, SerializableFilter } from '../../filters/filter';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export declare var filterName: string;
-export interface IGenericSearchFilter extends ISerializableFilter {
+export interface IGenericSearchFilter extends ISerializableFilter<string> {
     type: string;
     searchText: string;
     minSearchLength: number;
     caseSensitive: boolean;
     filter<TItemType>(item: TItemType): boolean;
-    serialize(): string;
 }
-export declare class GenericSearchFilter implements IGenericSearchFilter {
+export declare class GenericSearchFilter extends SerializableFilter<string> implements IGenericSearchFilter {
     protected object: IObjectUtility;
     private string;
     type: string;
-    searchText: string;
     minSearchLength: number;
     caseSensitive: boolean;
+    private _searchText;
     constructor(object: IObjectUtility, string: IStringUtilityService);
+    searchText: string;
     serialize(): string;
     filter<TItemType>(item: TItemType): boolean;
     private searchObject<TItemType>(item, search, caseSensitive);

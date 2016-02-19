@@ -2,6 +2,7 @@
 
 import * as angular from 'angular';
 import * as _ from 'lodash';
+import * as Rx from 'rx';
 
 import {
 	moduleName as objectModuleName,
@@ -15,28 +16,38 @@ import {
 	IStringUtilityService,
 } from '../string/string.service';
 
-import { ISerializableFilter } from '../../filters/filter';
+import { ISerializableFilter, SerializableFilter, IValueChangeCallback } from '../../filters/filter';
 
 export var moduleName: string = 'rl.utilities.services.genericSearchFilter';
 export var factoryName: string = 'genericSearchFilterFactory';
 export var filterName: string = 'search';
 
-export interface IGenericSearchFilter extends ISerializableFilter {
+export interface IGenericSearchFilter extends ISerializableFilter<string> {
 	type: string;
 	searchText: string;
 	minSearchLength: number;
 	caseSensitive: boolean;
 	filter<TItemType>(item: TItemType): boolean;
-	serialize(): string;
 }
 
-export class GenericSearchFilter implements IGenericSearchFilter {
+export class GenericSearchFilter extends SerializableFilter<string> implements IGenericSearchFilter {
 	type: string = filterName;
-	searchText: string;
 	minSearchLength: number = 1;
 	caseSensitive: boolean = false;
+	private _searchText: string;
 
-	constructor(protected object: IObjectUtility, private string: IStringUtilityService) { }
+	constructor(protected object: IObjectUtility, private string: IStringUtilityService) {
+		super();
+	}
+
+	get searchText(): string {
+		return this._searchText;
+	}
+
+	set searchText(value: string) {
+		this._searchText = value;
+		this.onChange(false);
+	}
 
 	serialize(): string {
 		return this.searchText != null && this.searchText.length >= this.minSearchLength

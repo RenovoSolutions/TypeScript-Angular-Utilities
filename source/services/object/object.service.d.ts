@@ -14,3 +14,4 @@ export interface IObjectUtility {
     valueOrDefault(value: any, defaultValue: any): any;
     propertyNameToString(propertyFunction: () => any): string;
 }
+export declare let objectUtility: IObjectUtility;

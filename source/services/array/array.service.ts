@@ -69,6 +69,9 @@ class ArrayUtility implements IArrayUtility {
 
 	toDictionary<TDataType>(array: TDataType[], keySelector: { (item: TDataType): string })
 		: { [index: string]: TDataType } {
+		array = _.reject(array, (item: TDataType): boolean => {
+			return keySelector(item) == null;
+		});
 		// needs to be seeded with an object or it will be viewed as an array with no items
 		return _.reduce(array, (dictionary: { [index: string]: TDataType }, item: TDataType): { [index: string]: TDataType } => {
 			dictionary[keySelector(item)] = item;
@@ -82,6 +85,8 @@ class ArrayUtility implements IArrayUtility {
 		}
 	}
 }
+
+export let arrayUtility: IArrayUtility = new ArrayUtility();
 
 angular.module(moduleName, [])
 	.service(serviceName, ArrayUtility);
