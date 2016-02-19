@@ -1,10 +1,16 @@
 import { SerializableFilter } from './filter';
 
+class TestSerializableFilter extends SerializableFilter<any> {
+	filter(item: any): boolean {
+		return true;
+	}
+}
+
 describe('serializable filter', (): void => {
 	let filter: SerializableFilter<any>;
 
 	beforeEach((): void => {
-		filter = new SerializableFilter();
+		filter = new TestSerializableFilter();
 	});
 
 	it('should provide a default serialize that returns the filter directly', (): void => {

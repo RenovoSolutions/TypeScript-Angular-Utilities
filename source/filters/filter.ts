@@ -22,7 +22,7 @@ export interface IFilter {
 	filter<TItemType>(item: TItemType): boolean;
 }
 
-export class SerializableFilter<TFilterData> implements ISerializableFilter<TFilterData> {
+export abstract class SerializableFilter<TFilterData> implements ISerializableFilter<TFilterData> {
 	type: string;
 	protected subject: Rx.Subject;
 	private _value: TFilterData;
@@ -31,10 +31,7 @@ export class SerializableFilter<TFilterData> implements ISerializableFilter<TFil
 		this.subject = new Rx.Subject();
 	}
 
-	// override
-	filter(item: any): boolean {
-		return true;
-	}
+	abstract filter(item: any): boolean;
 
 	serialize(): TFilterData {
 		return <any>this;
