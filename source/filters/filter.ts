@@ -24,7 +24,7 @@ export interface IFilter {
 
 export abstract class SerializableFilter<TFilterData> implements ISerializableFilter<TFilterData> {
 	type: string;
-	protected subject: Rx.Subject;
+	protected subject: Rx.Subject<TFilterData>;
 	private _value: TFilterData;
 
 	constructor() {
