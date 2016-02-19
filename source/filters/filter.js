@@ -5,10 +5,6 @@ var SerializableFilter = (function () {
     function SerializableFilter() {
         this.subject = new Rx.Subject();
     }
-    // override
-    SerializableFilter.prototype.filter = function (item) {
-        return true;
-    };
     SerializableFilter.prototype.serialize = function () {
         return this;
     };

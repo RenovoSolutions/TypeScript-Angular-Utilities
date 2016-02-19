@@ -13,12 +13,12 @@ export interface IValueChangeCallback<TFilterData> {
 export interface IFilter {
     filter<TItemType>(item: TItemType): boolean;
 }
-export declare class SerializableFilter<TFilterData> implements ISerializableFilter<TFilterData> {
+export declare abstract class SerializableFilter<TFilterData> implements ISerializableFilter<TFilterData> {
     type: string;
-    protected subject: Rx.Subject;
+    protected subject: Rx.Subject<TFilterData>;
     private _value;
     constructor();
-    filter(item: any): boolean;
+    abstract filter(item: any): boolean;
     serialize(): TFilterData;
     subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
     onChange(force?: boolean): void;
