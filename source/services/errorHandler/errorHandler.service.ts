@@ -12,6 +12,7 @@ export var moduleName: string = 'rl21.services.errorHandler';
 export var serviceName: string = 'errorHandler';
 
 export enum HttpStatusCode {
+	badRequest = 400,
 	unauthorized = 401,
 	forbidden = 403,
 	invalidUrl = 404,
@@ -21,6 +22,7 @@ export enum HttpStatusCode {
 
 export interface IRejection {
 	status: HttpStatusCode;
+	data?: any;
 }
 
 export interface IErrorHandlerService {
@@ -28,6 +30,7 @@ export interface IErrorHandlerService {
 }
 
 export interface IErrorMessages {
+	badRequestError: string;
     forbiddenError: string;
     invalidUrlError: string;
     timeoutError: string;
@@ -43,6 +46,9 @@ export class ErrorHandlerService implements IErrorHandlerService {
 
 	httpResponseError(rejection: IRejection): void {
 		switch (rejection.status) {
+			case HttpStatusCode.badRequest:
+				this.badRequestError(rejection);
+				break;
 			case HttpStatusCode.unauthorized:
 				this.loggedOutError();
 				break;
@@ -65,7 +71,14 @@ export class ErrorHandlerService implements IErrorHandlerService {
 				break;
 		}
 	}
-
+	
+	private badRequestError (rejection: IRejection) {
+		if (rejection.data) {
+			return this.notification.warning(rejection.data);
+		}
+		return this.notification.error(this.errorMessages.badRequestError);
+	}
+	
 	private loggedOutError(): void {
 		this.$window.location = <any>this.loginUrl;
 	}
@@ -102,6 +115,7 @@ class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
     constructor() {
         this.loginUrl = '/login';
         this.errorMessages = {
+			badRequestError: 'Your reqest failed one or more validation checks.',
             forbiddenError: 'You have insufficient permissions to perform this action',
             invalidUrlError: 'Resource not found. This issue has been logged',
             timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
