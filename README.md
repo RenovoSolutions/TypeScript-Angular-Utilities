@@ -44,26 +44,46 @@ angular.module('moduleName', [objectNamespace.moduleName])
   .controller('controllerName', MyController);
 ```
 
-## Setup
-Clone the repository into your working directory.
+## Types
+Contains common type definitions or objects.
 
-Node must be installed.
+### compareResult
+Contains a simple enumeration describing less than, equal, greater than along with a primitive number comparison function.
 
-Install the karma client:
-`npm install karma -g`
-
-Install the typescript compiler:
-`npm install typescript -g`
-
-Navigate to the root of the repo in a cmd prompt and run:
-
-* `npm run update`
+### itemList
+Can be used to build more descriptive enumerations were each entry contains a value, a machine name (or abbreviation), and a display / pretty name. Extend to build enumeration lists. IItem can also be extended to provide additional meta information on items in the list.
 
 ## Building and Testing
 Please always test new builds to ensure non-breaking commits and PRs
 
-To build: `npm run build`
+The primary build scripts are:
+### `npm run update`
+Installs external libraries and dependencies. Should be run after pulling down code changes.
 
-To test: `npm test`
-To debug tests: `npm run test.debug`
-To run tests against additional browsers: `npm run test.full`
+### `npm run build`
+Compiles TypeScript files into JavaScript.
+
+### `npm test` or `npm run test`
+Runs the tests.
+
+Use `npm run test.debug` to debug test failures.
+`npm run test.tc` uses the TeamCity reporter to print out results for TeamCity.
+`npm run test.full` runs the tests in multiple browsers instead of Chrome alone.
+
+### `npm run bundle`
+Bundle all of the javascript files together and put in the output folder.
+
+### Combinations
+In addition, there are some useful combination tasks:
+`npm run update-build`
+`npm run build-test`
+
+To perform a full build from scratch, including `update`, `build`, `bundle`, run:
+`npm run full-build`
+
+### Watch
+Several tasks can be modified with `.watch` in order to watch the file system for changes:
+`npm run build.watch`
+`npm run build-bundle.watch`
+`npm run build-test.watch`
+`npm run build.watch`
