@@ -9,6 +9,9 @@
 /output/LICENSE
 /output/README.md
 
+# Don't need type definitions with bundles right now
+/output/**/*.d.ts
+
 # Node deps
 npm-debug.log
 /node_modules/
