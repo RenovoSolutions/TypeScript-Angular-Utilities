@@ -44,6 +44,15 @@ angular.module('moduleName', [objectNamespace.moduleName])
   .controller('controllerName', MyController);
 ```
 
+## Types
+Contains common type definitions or objects.
+
+### compareResult
+Contains a simple enumeration describing less than, equal, greater than along with a primitive number comparison function.
+
+### itemList
+Can be used to build more descriptive enumerations were each entry contains a value, a machine name (or abbreviation), and a display / pretty name. Extend to build enumeration lists. IItem can also be extended to provide additional meta information on items in the list.
+
 ## Setup
 Clone the repository into your working directory.
 
