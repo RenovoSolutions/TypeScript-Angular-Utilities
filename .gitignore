@@ -10,4 +10,5 @@
 /output/README.md
 
 # Node deps
+npm-debug.log
 /node_modules/
