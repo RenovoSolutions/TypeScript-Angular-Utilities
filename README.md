@@ -86,4 +86,5 @@ Several tasks can be modified with `.watch` in order to watch the file system fo
 `npm run build.watch`
 `npm run build-bundle.watch`
 `npm run build-test.watch`
-`npm run build.watch`
+
+In general, `-` is used to indicate combined / joint tasks; `.` is used to indicate a subtask or a modification or variation of a task.
