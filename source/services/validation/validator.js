@@ -53,6 +53,6 @@ var Validator = (function () {
             : handler.errorMessage;
     };
     return Validator;
-})();
+}());
 exports.Validator = Validator;
 //# sourceMappingURL=validator.js.map

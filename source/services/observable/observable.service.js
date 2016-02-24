@@ -41,7 +41,7 @@ var ObservableService = (function () {
         this.watchers[key] = null;
     };
     return ObservableService;
-})();
+}());
 exports.ObservableService = ObservableService;
 function observableServiceFactory() {
     'use strict';

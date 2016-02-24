@@ -23,7 +23,7 @@ var BaseDataServiceView = (function (_super) {
         return new baseSingletonData_service_1.BaseSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.transform, this.useMock, this.logRequests);
     };
     return BaseDataServiceView;
-})(baseData_service_1.BaseDataService);
+}(baseData_service_1.BaseDataService));
 exports.BaseDataServiceView = BaseDataServiceView;
 var BaseParentDataServiceView = (function (_super) {
     __extends(BaseParentDataServiceView, _super);
@@ -40,6 +40,6 @@ var BaseParentDataServiceView = (function (_super) {
         return new baseParentSingletonData_service_1.BaseParentSingletonDataService(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests, parentId);
     };
     return BaseParentDataServiceView;
-})(baseParentData_service_1.BaseParentDataService);
+}(baseParentData_service_1.BaseParentDataService));
 exports.BaseParentDataServiceView = BaseParentDataServiceView;
 //# sourceMappingURL=baseDataServiceView.js.map

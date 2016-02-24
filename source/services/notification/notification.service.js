@@ -1,10 +1,6 @@
 'use strict';
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 var angular = require('angular');
 var baseNotifier_1 = require('./baseNotifier');
-__export(require('./notificationTypes'));
 exports.moduleName = 'rl.utilities.services.notification';
 exports.serviceName = 'notification';
 var NotificationService = (function () {
@@ -24,7 +20,7 @@ var NotificationService = (function () {
         this.notifier.success(message);
     };
     return NotificationService;
-})();
+}());
 exports.NotificationService = NotificationService;
 function notificationServiceProvider() {
     'use strict';

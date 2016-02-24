@@ -9,7 +9,7 @@ var BooleanUtility = (function () {
         return !!object;
     };
     return BooleanUtility;
-})();
+}());
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, BooleanUtility);
 //# sourceMappingURL=boolean.service.js.map

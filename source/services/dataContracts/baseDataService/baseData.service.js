@@ -82,7 +82,7 @@ var BaseDataService = (function () {
         });
     };
     return BaseDataService;
-})();
+}());
 exports.BaseDataService = BaseDataService;
 baseDataServiceFactory.$inject = ['$http', '$q', array_service_1.serviceName];
 function baseDataServiceFactory($http, $q, array) {

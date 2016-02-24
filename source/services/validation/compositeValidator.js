@@ -37,6 +37,6 @@ var CompositeValidator = (function () {
         delete this.childValidators[validator.key];
     };
     return CompositeValidator;
-})();
+}());
 exports.CompositeValidator = CompositeValidator;
 //# sourceMappingURL=compositeValidator.js.map

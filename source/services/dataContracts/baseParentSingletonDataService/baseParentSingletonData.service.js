@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -27,6 +28,6 @@ var BaseParentSingletonDataService = (function (_super) {
         });
     };
     return BaseParentSingletonDataService;
-})(baseSingletonData_service_1.BaseSingletonDataService);
+}(baseSingletonData_service_1.BaseSingletonDataService));
 exports.BaseParentSingletonDataService = BaseParentSingletonDataService;
 //# sourceMappingURL=baseParentSingletonData.service.js.map

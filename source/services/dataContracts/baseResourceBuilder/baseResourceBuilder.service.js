@@ -51,7 +51,7 @@ var BaseResourceBuilder = (function () {
     };
     BaseResourceBuilder.$inject = ['$http', '$q', '$rootScope', array_service_1.serviceName];
     return BaseResourceBuilder;
-})();
+}());
 exports.BaseResourceBuilder = BaseResourceBuilder;
 angular.module(exports.moduleName, [array_service_1.moduleName])
     .service(exports.serviceName, BaseResourceBuilder);

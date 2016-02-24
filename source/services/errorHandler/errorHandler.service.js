@@ -3,6 +3,7 @@ var notification_service_1 = require('../notification/notification.service');
 exports.moduleName = 'rl21.services.errorHandler';
 exports.serviceName = 'errorHandler';
 (function (HttpStatusCode) {
+    HttpStatusCode[HttpStatusCode["badRequest"] = 400] = "badRequest";
     HttpStatusCode[HttpStatusCode["unauthorized"] = 401] = "unauthorized";
     HttpStatusCode[HttpStatusCode["forbidden"] = 403] = "forbidden";
     HttpStatusCode[HttpStatusCode["invalidUrl"] = 404] = "invalidUrl";
@@ -19,6 +20,9 @@ var ErrorHandlerService = (function () {
     }
     ErrorHandlerService.prototype.httpResponseError = function (rejection) {
         switch (rejection.status) {
+            case HttpStatusCode.badRequest:
+                this.badRequestError(rejection);
+                break;
             case HttpStatusCode.unauthorized:
                 this.loggedOutError();
                 break;
@@ -41,6 +45,12 @@ var ErrorHandlerService = (function () {
                 break;
         }
     };
+    ErrorHandlerService.prototype.badRequestError = function (rejection) {
+        if (rejection.data) {
+            return this.notification.warning(rejection.data);
+        }
+        return this.notification.error(this.errorMessages.badRequestError);
+    };
     ErrorHandlerService.prototype.loggedOutError = function () {
         this.$window.location = this.loginUrl;
     };
@@ -58,7 +68,7 @@ var ErrorHandlerService = (function () {
         this.notification.error(this.errorMessages.internalServerError);
     };
     return ErrorHandlerService;
-})();
+}());
 exports.ErrorHandlerService = ErrorHandlerService;
 var ErrorHandlerServiceProvider = (function () {
     function ErrorHandlerServiceProvider() {
@@ -68,6 +78,7 @@ var ErrorHandlerServiceProvider = (function () {
         };
         this.loginUrl = '/login';
         this.errorMessages = {
+            badRequestError: 'Your reqest failed one or more validation checks.',
             forbiddenError: 'You have insufficient permissions to perform this action',
             invalidUrlError: 'Resource not found. This issue has been logged',
             timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
@@ -78,7 +89,7 @@ var ErrorHandlerServiceProvider = (function () {
         this.$get.$inject = ['$window', notification_service_1.serviceName];
     }
     return ErrorHandlerServiceProvider;
-})();
+}());
 angular.module(exports.moduleName, [notification_service_1.moduleName])
     .provider(exports.serviceName, new ErrorHandlerServiceProvider());
 //# sourceMappingURL=errorHandler.service.js.map
