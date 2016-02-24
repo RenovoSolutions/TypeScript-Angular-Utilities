@@ -15,14 +15,29 @@
   },
   "scripts": {
     "update": "npm install & typings install",
+
+    "clean": "gulp clean",
+    "build": "gulp clean && tsc && echo Build complete",
+    "build.watch": "gulp clean && tsc -w",
+
     "test": "karma start",
     "test.debug": "karma start karma.debug.conf.js",
+    "test.tc": "karma start karma.tc.conf.js",
     "test.full": "karma start karma.full.conf.js",
-    "build": "gulp clean && tsc && echo Build complete",
-    "build.library": "webpack & webpack --config webpack.min.config.js",
-    "build.all": "npm run build && npm run build.library",
-    "clean": "gulp clean",
-    "publish.prep": "npm run update && npm run build && npm run test.full && npm run build.library"
+
+    "bundle": "webpack & webpack --config webpack.min.config.js",
+    "bundle.watch": "webpack -w",
+
+    "update-build": "npm run update && npm run build",
+    "update-build-test": "npm run update && npm run build && npm run test",
+    "build-bundle": "npm run build && npm run bundle",
+    "build-bundle.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run bundle.watch\"",
+    "build-test": "npm run build && npm run test",
+    "build-test.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run test.debug\"",
+
+    "full-build": "npm run update && npm run build && npm run bundle",
+
+    "all": "npm run update && npm run build && npm run test.full && npm run bundle"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0",
