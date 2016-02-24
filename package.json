@@ -53,7 +53,7 @@
     "webpack": "^1.12.2"
   },
   "dependencies": {
-    "angular": "^1.4.6",
+    "angular": "^1.5.0",
     "lodash": "^4.0.1",
     "moment": "^2.10.6",
     "rx": "^4.0.8",
