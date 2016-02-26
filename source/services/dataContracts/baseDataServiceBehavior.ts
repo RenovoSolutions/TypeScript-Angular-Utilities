@@ -19,11 +19,6 @@ export interface IGetListOptions<TDataType> extends IRequestOptions {
     getMockData(): TDataType[];
 }
 
-export interface ISearchOptions<TDataType> extends IRequestOptions {
-    params: any;
-    getMockData(): TDataType[];
-}
-
 export interface IGetItemOptions<TDataType> extends IRequestOptions {
     getMockData(): TDataType;
 }
@@ -80,7 +75,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
         })
     }
 
-	search<TResultType extends ISearchResult<TDataType>>(options: ISearchOptions<TDataType>): angular.IPromise<TResultType> {
+	search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): angular.IPromise<TResultType> {
 		let promise: angular.IPromise<TResultType>;
         if (options.useMock) {
             promise = this.$q.when({
