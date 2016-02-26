@@ -23,27 +23,27 @@ var BaseResourceBuilder = (function () {
     };
     BaseResourceBuilder.prototype.createResource = function (options) {
         options = this.useMockIfNoEndpoint(options);
-        return new baseData_service_1.BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+        return new baseData_service_1.DataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
     };
     BaseResourceBuilder.prototype.createResourceView = function (options) {
         options = this.useMockIfNoEndpoint(options);
-        return new baseDataServiceView_1.BaseDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+        return new baseDataServiceView_1.DataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
     };
     BaseResourceBuilder.prototype.createParentResource = function (options) {
         options = this.useMockIfNoEndpoint(options);
-        return new baseParentData_service_1.BaseParentDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+        return new baseParentData_service_1.ParentDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
     };
     BaseResourceBuilder.prototype.createParentResourceView = function (options) {
         options = this.useMockIfNoEndpoint(options);
-        return new baseDataServiceView_1.BaseParentDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+        return new baseDataServiceView_1.ParentDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
     };
     BaseResourceBuilder.prototype.createSingletonResource = function (options) {
         options = this.useMockIfNoEndpoint(options);
-        return new baseSingletonData_service_1.BaseSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+        return new baseSingletonData_service_1.SingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
     };
     BaseResourceBuilder.prototype.createParentSingletonResource = function (options) {
         options = this.useMockIfNoEndpoint(options);
-        return new baseParentSingletonData_service_1.BaseParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+        return new baseParentSingletonData_service_1.ParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
     };
     BaseResourceBuilder.prototype.useMockIfNoEndpoint = function (options) {
         options.useMock = options.endpoint == null ? true : options.useMock;
@@ -51,7 +51,7 @@ var BaseResourceBuilder = (function () {
     };
     BaseResourceBuilder.$inject = ['$http', '$q', '$rootScope', array_service_1.serviceName];
     return BaseResourceBuilder;
-}());
+})();
 exports.BaseResourceBuilder = BaseResourceBuilder;
 angular.module(exports.moduleName, [array_service_1.moduleName])
     .service(exports.serviceName, BaseResourceBuilder);

@@ -6,7 +6,7 @@ export declare var factoryName: string;
 export interface IBaseDomainObject {
     id?: number;
 }
-export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> {
+export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams> {
     getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
     create(domainObject: TDataType): angular.IPromise<TDataType>;
@@ -15,7 +15,9 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
     useMock: boolean;
     logRequests: boolean;
 }
-export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
+export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {
+}
+export declare class DataService<TDataType extends IBaseDomainObject, TSearchParams> implements IDataService<TDataType, TSearchParams> {
     protected array: IArrayUtility;
     endpoint: string;
     protected mockData: TDataType[];
@@ -32,9 +34,11 @@ export declare class BaseDataService<TDataType extends IBaseDomainObject, TSearc
     update(domainObject: TDataType): angular.IPromise<TDataType>;
     delete(domainObject: TDataType): angular.IPromise<void>;
 }
-export interface IBaseDataServiceFactory {
+export interface IDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], transform?: IConverter<TDataType> | {
         [index: string]: IConverter<TDataType>;
-    }, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
+    }, useMock?: boolean): IDataService<TDataType, TSearchParams>;
 }
-export declare function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IBaseDataServiceFactory;
+export interface IBaseDataServiceFactory extends IDataServiceFactory {
+}
+export declare function dataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IDataServiceFactory;

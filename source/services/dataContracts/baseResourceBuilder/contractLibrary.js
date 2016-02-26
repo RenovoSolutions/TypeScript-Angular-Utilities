@@ -90,6 +90,6 @@ var ContractLibrary = (function () {
         configurable: true
     });
     return ContractLibrary;
-}());
+})();
 exports.ContractLibrary = ContractLibrary;
 //# sourceMappingURL=contractLibrary.js.map

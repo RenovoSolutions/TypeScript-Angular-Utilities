@@ -1,4 +1,3 @@
-"use strict";
 var angular = require('angular');
 exports.moduleName = 'rl.utilities.behaviors.stopEventPropogation';
 exports.directiveName = 'rlStopEventPropagation';

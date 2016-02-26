@@ -63,7 +63,7 @@ var ArrayUtility = (function () {
         }
     };
     return ArrayUtility;
-}());
+})();
 exports.arrayUtility = new ArrayUtility();
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, ArrayUtility);

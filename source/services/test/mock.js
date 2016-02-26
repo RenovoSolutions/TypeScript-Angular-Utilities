@@ -75,7 +75,7 @@ var Mock = (function () {
     };
     Mock.$inject = ['$q', '$rootScope'];
     return Mock;
-}());
+})();
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, Mock);
 //# sourceMappingURL=mock.js.map

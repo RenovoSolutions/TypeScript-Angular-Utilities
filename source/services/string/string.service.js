@@ -30,7 +30,7 @@ var StringUtilityService = (function () {
         return str.replace(new RegExp(patternToFind, 'gi'), replacementString);
     };
     return StringUtilityService;
-}());
+})();
 exports.StringUtilityService = StringUtilityService;
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, StringUtilityService);

@@ -68,7 +68,7 @@ var ErrorHandlerService = (function () {
         this.notification.error(this.errorMessages.internalServerError);
     };
     return ErrorHandlerService;
-}());
+})();
 exports.ErrorHandlerService = ErrorHandlerService;
 var ErrorHandlerServiceProvider = (function () {
     function ErrorHandlerServiceProvider() {
@@ -89,7 +89,7 @@ var ErrorHandlerServiceProvider = (function () {
         this.$get.$inject = ['$window', notification_service_1.serviceName];
     }
     return ErrorHandlerServiceProvider;
-}());
+})();
 angular.module(exports.moduleName, [notification_service_1.moduleName])
     .provider(exports.serviceName, new ErrorHandlerServiceProvider());
 //# sourceMappingURL=errorHandler.service.js.map

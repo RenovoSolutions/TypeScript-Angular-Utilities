@@ -29,7 +29,7 @@ var SynchronizedRequestsService = (function () {
         });
     };
     return SynchronizedRequestsService;
-}());
+})();
 exports.SynchronizedRequestsService = SynchronizedRequestsService;
 synchronizedRequestsFactory.$inject = ['$q'];
 function synchronizedRequestsFactory($q) {

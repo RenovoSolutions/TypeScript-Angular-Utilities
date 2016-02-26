@@ -1,11 +1,13 @@
 import * as ng from 'angular';
 import { IArrayUtility } from '../../array/array.service';
 import { IConverter } from '../baseDataServiceBehavior';
-import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
-export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IBaseDataService<TDataType, TSearchParams> {
+import { IDataService, DataService, IBaseDomainObject } from '../baseDataService/baseData.service';
+export interface IParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IDataService<TDataType, TSearchParams> {
     childContracts(id?: number): TResourceDictionaryType;
 }
-export declare class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends BaseDataService<TDataType, TSearchParams> implements IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+}
+export declare class ParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends DataService<TDataType, TSearchParams> implements IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
     resourceDictionaryBuilder: {
         (): TResourceDictionaryType;
     };

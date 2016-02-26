@@ -1,18 +1,17 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var baseSingletonData_service_1 = require('../baseSingletonDataService/baseSingletonData.service');
-var BaseParentSingletonDataService = (function (_super) {
-    __extends(BaseParentSingletonDataService, _super);
-    function BaseParentSingletonDataService($http, $q, endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests, parentId) {
+var ParentSingletonDataService = (function (_super) {
+    __extends(ParentSingletonDataService, _super);
+    function ParentSingletonDataService($http, $q, endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests, parentId) {
         _super.call(this, $http, $q, endpoint, mockData, transform, useMock, logRequests);
         this.resourceDictionaryBuilder = resourceDictionaryBuilder;
         this.parentId = parentId;
     }
-    BaseParentSingletonDataService.prototype.childContracts = function () {
+    ParentSingletonDataService.prototype.childContracts = function () {
         var _this = this;
         var dictionary = this.resourceDictionaryBuilder();
         return _.mapValues(dictionary, function (dataService) {
@@ -27,7 +26,7 @@ var BaseParentSingletonDataService = (function (_super) {
             return contract;
         });
     };
-    return BaseParentSingletonDataService;
-}(baseSingletonData_service_1.BaseSingletonDataService));
-exports.BaseParentSingletonDataService = BaseParentSingletonDataService;
+    return ParentSingletonDataService;
+})(baseSingletonData_service_1.SingletonDataService);
+exports.ParentSingletonDataService = ParentSingletonDataService;
 //# sourceMappingURL=baseParentSingletonData.service.js.map

@@ -47,7 +47,7 @@ var ParentChildBehaviorService = (function () {
         }
     };
     return ParentChildBehaviorService;
-}());
+})();
 exports.ParentChildBehaviorService = ParentChildBehaviorService;
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, ParentChildBehaviorService);

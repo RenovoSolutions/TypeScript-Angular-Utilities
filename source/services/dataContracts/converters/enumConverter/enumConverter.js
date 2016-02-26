@@ -13,7 +13,7 @@ var EnumConverter = (function () {
         };
     }
     return EnumConverter;
-}());
+})();
 exports.EnumConverter = EnumConverter;
 ;
 //# sourceMappingURL=enumConverter.js.map
