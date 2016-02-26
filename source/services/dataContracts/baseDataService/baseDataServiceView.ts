@@ -7,6 +7,7 @@ import { IDataService, DataService, IBaseDomainObject } from './baseData.service
 import { IParentDataService, ParentDataService } from '../baseParentDataService/baseParentData.service';
 import { ISingletonDataService, SingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 import { IParentSingletonDataService, ParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
+import { IBaseResourceParams, IParentResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
 
 export interface IDataServiceView<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {
 	AsSingleton(parentId: number): ISingletonDataService<TDataType>;
@@ -26,44 +27,56 @@ export interface IBaseParentDataServiceView<TDataType extends IBaseDomainObject,
 export class DataServiceView<TDataType extends IBaseDomainObject, TSearchParams>
 	extends DataService<TDataType, TSearchParams>
 	implements IDataServiceView<TDataType, TSearchParams> {
-    constructor(private $http: angular.IHttpService
+
+	private transform: IConverter<TDataType> | { [index: string]: IConverter<any> };
+
+	constructor(private $http: angular.IHttpService
             , private $q: angular.IQService
             , array: IArrayUtility
-            , _endpoint: string
-            , mockData: TDataType[]
-            , private transform: IConverter<TDataType> | { [index: string]: IConverter<any> }
-            , useMock: boolean
-            , logRequests: boolean) {
-		super($http, $q, array, _endpoint, mockData, transform, useMock, logRequests);
+			, options: IBaseResourceParams<TDataType>) {
+		super($http, $q, array, options);
+		this.transform = options.transform;
 	}
 
 	AsSingleton(parentId: number): ISingletonDataService<TDataType> {
 		let mockData: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
 			return item.id === parentId;
 		});
-		return new SingletonDataService<TDataType>(this.$http, this.$q, this.endpoint, mockData, this.transform, this.useMock, this.logRequests);
+		return new SingletonDataService<TDataType>(this.$http, this.$q, {
+			endpoint: this.endpoint,
+			mockData: mockData,
+			transform: this.transform,
+			useMock: this.useMock,
+			logRequests: this.logRequests,
+		});
 	}
 }
 
 export class ParentDataServiceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends ParentDataService<TDataType, TSearchParams, TResourceDictionaryType>
 	implements IParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
-    constructor(private $http: angular.IHttpService
+
+	private transform: IConverter<TDataType> | { [index: string]: IConverter<any> };
+
+	constructor(private $http: angular.IHttpService
             , private $q: angular.IQService
             , array: IArrayUtility
-            , _endpoint: string
-            , mockData: TDataType[]
-			, resourceDictionaryBuilder: {(): TResourceDictionaryType}
-            , private transform: IConverter<TDataType> | { [index: string]: IConverter<any> }
-            , useMock: boolean
-            , logRequests: boolean) {
-		super($http, $q, array, _endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests);
+			, options: IParentResourceParams<TDataType, TResourceDictionaryType>) {
+		super($http, $q, array, options);
 	}
 
 	AsSingleton(parentId: number): IParentSingletonDataService<TDataType, TResourceDictionaryType> {
 		let mockData: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
 			return item.id === parentId;
 		});
-		return new ParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, this.endpoint, mockData, this.resourceDictionaryBuilder, this.transform, this.useMock, this.logRequests, parentId);
+		return new ParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, {
+			endpoint: this.endpoint,
+			mockData: mockData,
+			resourceDictionaryBuilder: this.resourceDictionaryBuilder,
+			transform: this.transform,
+			useMock: this.useMock,
+			logRequests: this.logRequests,
+			parentId: parentId,
+		});
 	}
 }

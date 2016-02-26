@@ -4,6 +4,7 @@ import * as angular from 'angular';
 import * as _ from 'lodash';
 
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter } from '../baseDataServiceBehavior';
+import { ISingletonResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
 
 export var moduleName: string = 'rl.utilities.services.baseSingletonDataService';
 export var factoryName: string = 'baseSingletonDataService';
@@ -21,15 +22,20 @@ export interface IBaseSingletonDataService<TDataType> extends ISingletonDataServ
 
 export class SingletonDataService<TDataType> implements ISingletonDataService<TDataType> {
     private behavior: IBaseDataServiceBehavior<TDataType>;
+	private mockData: TDataType;
+	endpoint: string;
+	useMock: boolean;
+	logRequests: boolean;
+
 
     constructor($http: angular.IHttpService
             , $q: angular.IQService
-            , public endpoint: string
-            , private mockData: TDataType
-            , transform: IConverter<TDataType> | { [index: string]: IConverter<any> }
-            , public useMock: boolean
-            , public logRequests: boolean) {
-		this.behavior = new BaseDataServiceBehavior($http, $q, transform);
+            , options: ISingletonResourceParams<TDataType>) {
+		this.behavior = new BaseDataServiceBehavior($http, $q, options.transform);
+		this.mockData = options.mockData;
+		this.endpoint = options.endpoint;
+		this.useMock = options.useMock;
+		this.logRequests = options.logRequests;
     }
 
     get(): angular.IPromise<TDataType> {
@@ -55,7 +61,7 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 }
 
 export interface ISingletonDataServiceFactory {
-    getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean): ISingletonDataService<TDataType>;
+    getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
 }
 
 // deprecated - use ISingletonDataServiceFactory
@@ -64,8 +70,8 @@ export interface IBaseSingletonDataServiceFactory extends ISingletonDataServiceF
 singletonDataServiceFactory.$inject = ['$http', '$q'];
 export function singletonDataServiceFactory($http: angular.IHttpService, $q: angular.IQService): ISingletonDataServiceFactory {
     return {
-        getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean, logRequests?: boolean): ISingletonDataService<TDataType> {
-            return new SingletonDataService<TDataType>($http, $q, endpoint, mockData, transform, useMock, logRequests);
+        getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType> {
+            return new SingletonDataService<TDataType>($http, $q, options);
         },
     };
 }

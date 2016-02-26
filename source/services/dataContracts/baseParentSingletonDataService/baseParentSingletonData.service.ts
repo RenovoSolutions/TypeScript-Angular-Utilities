@@ -4,10 +4,15 @@ import { IConverter } from '../baseDataServiceBehavior';
 import { ISingletonDataService, SingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 import { IDataService, DataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IDataServiceView } from '../baseDataService/baseDataServiceView';
+import { IParentSingletonResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
 
 export interface IParentSingletonDataService<TDataType, TResourceDictionaryType>
 	extends ISingletonDataService<TDataType>{
 	childContracts(): TResourceDictionaryType;
+}
+
+export interface IParentSingletonFromViewResourceParams<TDataType, TResourceDictionaryType> extends IParentSingletonResourceParams<TDataType, TResourceDictionaryType> {
+	parentId?: number;
 }
 
 // deprecated - use IParentSingletonDataService
@@ -15,13 +20,14 @@ export interface IBaseParentSingletonDataService<TDataType, TResourceDictionaryT
 
 export class ParentSingletonDataService<TDataType, TResourceDictionaryType>
 	extends SingletonDataService<TDataType> implements IParentSingletonDataService<TDataType, TResourceDictionaryType> {
-	constructor($http: ng.IHttpService, $q: ng.IQService, endpoint: string, mockData: TDataType
-		, private resourceDictionaryBuilder: { (): TResourceDictionaryType }
-		, transform?: IConverter<TDataType> | { [index: string]: IConverter<any> }
-		, useMock?: boolean
-		, logRequests?: boolean
-		, private parentId?: number) {
-		super($http, $q, endpoint, mockData, transform, useMock, logRequests);
+
+	private resourceDictionaryBuilder: { (): TResourceDictionaryType };
+	private parentId: number;
+
+	constructor($http: ng.IHttpService, $q: ng.IQService, options: IParentSingletonFromViewResourceParams<TDataType, TResourceDictionaryType>) {
+		super($http, $q, options);
+		this.resourceDictionaryBuilder = options.resourceDictionaryBuilder;
+		this.parentId = options.parentId;
 	}
 
 	childContracts(): TResourceDictionaryType {

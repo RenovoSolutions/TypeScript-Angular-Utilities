@@ -7,6 +7,7 @@ import { IConverter } from '../baseDataServiceBehavior';
 import { IDataService, DataService, IBaseDomainObject } from '../baseDataService/baseData.service';
 import { IDataServiceView } from '../baseDataService/baseDataServiceView';
 import { ISingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
+import { IParentResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
 
 export interface IParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends IDataService<TDataType, TSearchParams>{
@@ -18,12 +19,15 @@ export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSe
 
 export class ParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends DataService<TDataType, TSearchParams> implements IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
-	constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[]
-		, public resourceDictionaryBuilder: { (): TResourceDictionaryType }
-		, transform?: IConverter<TDataType> | { [index: string]: IConverter<any> }
-		, useMock?: boolean
-        , logRequests?: boolean) {
-		super($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
+
+	resourceDictionaryBuilder: { (): TResourceDictionaryType };
+
+	constructor($http: ng.IHttpService
+			, $q: ng.IQService
+			, array: IArrayUtility
+			, options: IParentResourceParams<TDataType, TResourceDictionaryType>) {
+		super($http, $q, array, options);
+		this.resourceDictionaryBuilder = options.resourceDictionaryBuilder;
 	}
 
 	childContracts(id?: number): TResourceDictionaryType {
