@@ -44,7 +44,7 @@ export interface ISearchResult<TDataType> {
 
 export interface IBaseDataServiceBehavior<TDataType> {
 	getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]>;
-	search<TResultType>(options: ISearchOptions<TDataType>): angular.IPromise<TResultType>;
+	search<TResultType>(options: IGetListOptions<TDataType>): angular.IPromise<TResultType>;
     getItem(options: IGetItemOptions<TDataType>): angular.IPromise<TDataType>;
     create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType>;
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType>;
