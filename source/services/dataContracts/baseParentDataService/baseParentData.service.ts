@@ -4,17 +4,20 @@ import * as _ from 'lodash';
 import { IArrayUtility } from '../../array/array.service';
 
 import { IConverter } from '../baseDataServiceBehavior';
-import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
-import { IBaseDataServiceView } from '../baseDataService/baseDataServiceView';
-import { IBaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
+import { IDataService, DataService, IBaseDomainObject } from '../baseDataService/baseData.service';
+import { IDataServiceView } from '../baseDataService/baseDataServiceView';
+import { ISingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
 
-export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-	extends IBaseDataService<TDataType, TSearchParams>{
+export interface IParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+	extends IDataService<TDataType, TSearchParams>{
 	childContracts(id?: number): TResourceDictionaryType;
 }
 
-export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-	extends BaseDataService<TDataType, TSearchParams> implements IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+// deprecated - use IParentDataService
+export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> { }
+
+export class ParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+	extends DataService<TDataType, TSearchParams> implements IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 	constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[]
 		, public resourceDictionaryBuilder: { (): TResourceDictionaryType }
 		, transform?: IConverter<TDataType> | { [index: string]: IConverter<any> }
@@ -32,7 +35,7 @@ export class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchP
 			return dictionary;
 		} else {
 			let dictionary: {[index: string]: any} = this.resourceDictionaryBuilder();
-			return <any>_.mapValues(dictionary, (dataService: IBaseDataServiceView<TDataType, TSearchParams>): IBaseSingletonDataService<TDataType> | IBaseDataService<TDataType, TSearchParams> => {
+			return <any>_.mapValues(dictionary, (dataService: IDataServiceView<TDataType, TSearchParams>): ISingletonDataService<TDataType> | IDataService<TDataType, TSearchParams> => {
 				let contract: any;
 				if (_.isFunction(dataService.AsSingleton)) {
 					contract = dataService.AsSingleton(id);

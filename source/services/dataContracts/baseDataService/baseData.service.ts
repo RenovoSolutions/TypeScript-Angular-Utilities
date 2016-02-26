@@ -13,7 +13,7 @@ export interface IBaseDomainObject {
     id?: number;
 }
 
-export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> {
+export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams> {
 	getList(params?: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
     create(domainObject: TDataType): angular.IPromise<TDataType>;
@@ -24,7 +24,10 @@ export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchPa
     logRequests: boolean;
 }
 
-export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams> implements IBaseDataService<TDataType, TSearchParams> {
+// deprecated - use IDataService
+export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {}
+
+export class DataService<TDataType extends IBaseDomainObject, TSearchParams> implements IDataService<TDataType, TSearchParams> {
     private behavior: IBaseDataServiceBehavior<TDataType>;
 
     constructor($http: angular.IHttpService
@@ -107,20 +110,23 @@ export class BaseDataService<TDataType extends IBaseDomainObject, TSearchParams>
     }
 }
 
-export interface IBaseDataServiceFactory {
+export interface IDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[]
-        , transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean): IBaseDataService<TDataType, TSearchParams>;
+        , transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean): IDataService<TDataType, TSearchParams>;
 }
 
-baseDataServiceFactory.$inject = ['$http', '$q', arrayServiceName];
-export function baseDataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IBaseDataServiceFactory {
+// deprecated - use IDataServiceFactory
+export interface IBaseDataServiceFactory extends IDataServiceFactory { }
+
+dataServiceFactory.$inject = ['$http', '$q', arrayServiceName];
+export function dataServiceFactory($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility): IDataServiceFactory {
     return {
         getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[]
-            , transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean, logRequests?: boolean): IBaseDataService<TDataType, TSearchParams> {
-            return new BaseDataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
+            , transform?: IConverter<TDataType> | { [index: string]: IConverter<TDataType> }, useMock?: boolean, logRequests?: boolean): IDataService<TDataType, TSearchParams> {
+            return new DataService<TDataType, TSearchParams>($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
         },
     };
 }
 
 angular.module(moduleName, [arrayModuleName])
-    .factory(factoryName, baseDataServiceFactory);
+    .factory(factoryName, dataServiceFactory);

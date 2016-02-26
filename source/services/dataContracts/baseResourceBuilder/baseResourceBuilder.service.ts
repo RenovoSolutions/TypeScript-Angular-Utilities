@@ -6,11 +6,11 @@ import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModu
 
 import { IContractLibrary, ContractLibrary, ILibraryServices } from './contractLibrary';
 import { IConverter } from '../baseDataServiceBehavior';
-import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
-import { IBaseDataServiceView, IBaseParentDataServiceView, BaseDataServiceView, BaseParentDataServiceView } from '../baseDataService/baseDataServiceView';
-import { IBaseParentDataService, BaseParentDataService } from '../baseParentDataService/baseParentData.service';
-import { IBaseSingletonDataService, BaseSingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
-import { IBaseParentSingletonDataService, BaseParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
+import { IDataService, DataService, IBaseDomainObject } from '../baseDataService/baseData.service';
+import { IDataServiceView, IParentDataServiceView, DataServiceView, ParentDataServiceView } from '../baseDataService/baseDataServiceView';
+import { IParentDataService, ParentDataService } from '../baseParentDataService/baseParentData.service';
+import { ISingletonDataService, SingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
+import { IParentSingletonDataService, ParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
 
 export var moduleName: string = 'rl.utilities.services.baseResourceBuilder';
 export var serviceName: string = 'baseResourceBuilder';
@@ -76,57 +76,57 @@ export interface IBaseResourceBuilder {
 	/**
 	* Create a standard resource with getList, getDetail, create, update, delete
 	*/
-	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams>;
+	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
 	/**
 	* Create a standard resource with getList, getDetail, create, update, delete
 	*/
-	createResource<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, void>;
+	createResource<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, void>;
 
 	/**
 	* Create a view of a parent resource that can be used as a base resource or
 	* as a singleton if a parent is selected
 	*/
-	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams>;
+	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams>;
 	/**
 	* Create a view of a parent resource that can be used as a base resource or
 	* as a singleton if a parent is selected
 	*/
-	createResourceView<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, void>;
+	createResourceView<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, void>;
 
 	/**
 	* Create a parent resource that extends the standard with child resources available through childContracts(id)
 	*/
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
 	/**
 	* Create a parent resource that extends the standard with child resources available through childContracts(id)
 	*/
 	createParentResource<TDataType extends IBaseDomainObject, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, void, TResourceDictionaryType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, void, TResourceDictionaryType>;
 
 	/**
 	* Create a view of a parent resource with sub-resources that can be used as a base resource or
 	* as a singleton if a parent is selected
 	*/
 	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType>;
 	/**
 	* Create a view of a parent resource with sub-resources that can be used as a base resource or
 	* as a singleton if a parent is selected
 	*/
 	createParentResourceView<TDataType extends IBaseDomainObject, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, void, TResourceDictionaryType>;
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, void, TResourceDictionaryType>;
 
 	/**
 	* Deprecated - Create a singleton resource with get and update
 	*/
-	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType>;
+	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
 
 	/**
 	* Deprecated - Create a parent singleton resource that extends the singleton with child resources available through childContracts(id)
 	*/
 	createParentSingletonResource<TDataType, TResourceDictionaryType>
-		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType>;
+		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
 
 export class BaseResourceBuilder implements IBaseResourceBuilder {
@@ -143,37 +143,37 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 		};
 	}
 
-	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataService<TDataType, TSearchParams> {
+	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
-		return new BaseDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+		return new DataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
 	}
 
-	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IBaseDataServiceView<TDataType, TSearchParams> {
+	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
-		return new BaseDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+		return new DataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new BaseParentDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+		return new ParentDataService(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
 	}
 
 	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
-		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IBaseParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new BaseParentDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+		return new ParentDataServiceView(this.$http, this.$q, this.array, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
 	}
 
-	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): IBaseSingletonDataService<TDataType> {
+	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new BaseSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
+		return new SingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.transform, options.useMock, options.logRequests);
 	}
 
 	createParentSingletonResource<TDataType, TResourceDictionaryType>
-		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IBaseParentSingletonDataService<TDataType, TResourceDictionaryType> {
+		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new BaseParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
+		return new ParentSingletonDataService(this.$http, this.$q, options.endpoint, options.mockData, options.resourceDictionaryBuilder, options.transform, options.useMock, options.logRequests);
 	}
 
 	private useMockIfNoEndpoint<TDataType>(options: IBaseOptions<TDataType>): IBaseOptions<TDataType> {
