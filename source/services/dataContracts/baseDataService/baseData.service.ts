@@ -4,7 +4,7 @@ import * as angular from 'angular';
 import * as _ from 'lodash';
 
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
-import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter } from '../baseDataServiceBehavior';
+import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter, IGetListOptions } from '../baseDataServiceBehavior';
 import { IBaseResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
 
 export var moduleName: string = 'rl.utilities.services.baseDataService';
@@ -25,11 +25,16 @@ export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams
     logRequests: boolean;
 }
 
+export interface ISearchDataService<TDataType extends IBaseDomainObject, TSearchParams, TResultType> {
+	getList(params?: TSearchParams): angular.IPromise<TResultType>;
+}
+
 // deprecated - use IDataService
 export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {}
 
 export class DataService<TDataType extends IBaseDomainObject, TSearchParams> implements IDataService<TDataType, TSearchParams> {
     private behavior: IBaseDataServiceBehavior<TDataType>;
+	private useDeepSearch: boolean;
 	protected mockData: TDataType[];
 	endpoint: string;
 	useMock: boolean;
@@ -40,6 +45,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
             , protected array: IArrayUtility
 			, options: IBaseResourceParams<TDataType>) {
 		this.behavior = new BaseDataServiceBehavior($http, $q, options.transform);
+		this.useDeepSearch = options.useDeepSearch;
 		this.mockData = options.mockData;
 		this.endpoint = options.endpoint;
 		this.useMock = options.useMock;
@@ -50,15 +56,21 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
         return this.endpoint + '/' + id.toString();
     }
 
-    getList(params: TSearchParams): angular.IPromise<TDataType[]> {
-        return this.behavior.getList({
-            params: params,
-            endpoint: this.endpoint,
-            getMockData: (): TDataType[] => { return this.mockData },
-            useMock: this.useMock,
-            logRequests: this.logRequests,
-        });
-    }
+	getList(params: TSearchParams): angular.IPromise<TDataType[]> {
+		let requestParams: IGetListOptions<TDataType> = {
+			params: params,
+			endpoint: this.endpoint,
+			getMockData: (): TDataType[] => { return this.mockData },
+			useMock: this.useMock,
+			logRequests: this.logRequests,
+		};
+
+		if (this.useDeepSearch) {
+			return this.behavior.search(requestParams);
+		} else {
+			return this.behavior.getList(requestParams);
+		}
+	}
 
     getDetail(id: number): angular.IPromise<TDataType> {
         return this.behavior.getItem({

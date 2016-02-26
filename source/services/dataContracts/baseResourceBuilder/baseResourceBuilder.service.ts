@@ -44,6 +44,11 @@ export interface IBaseResourceParams<TDataType extends IBaseDomainObject> extend
 	 * Example data set to be used for testing and prototyping instead of hitting the endpoint
 	 */
 	mockData?: TDataType[];
+
+	/**
+	 * Specifies that the data service needs to use a POST request to send search params to the server
+	 */
+	useDeepSearch?: boolean;
 }
 
 export interface IParentResourceParams<TDataType extends IBaseDomainObject, TResourceDictionaryType> extends IBaseResourceParams<TDataType> {
