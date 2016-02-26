@@ -21,9 +21,31 @@ var BaseDataServiceBehavior = (function () {
         return promise.then(function (data) {
             data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
-                _this.log('getList', data, options.endpoint, options.useMock);
+                _this.log('getList', null, data, options.endpoint, options.useMock);
             }
             return data;
+        });
+    };
+    BaseDataServiceBehavior.prototype.search = function (options) {
+        var _this = this;
+        var promise;
+        if (options.useMock) {
+            promise = this.$q.when({
+                dataSet: options.getMockData(),
+            });
+        }
+        else {
+            promise = this.$http.post(options.endpoint, options.params)
+                .then(function (response) {
+                return response.data;
+            });
+        }
+        return promise.then(function (result) {
+            result.dataSet = _this.applyTransform(result.dataSet, _this.transform, false);
+            if (options.logRequests) {
+                _this.log('search', options.params, result, options.endpoint, options.useMock);
+            }
+            return result;
         });
     };
     BaseDataServiceBehavior.prototype.getItem = function (options) {
@@ -41,7 +63,7 @@ var BaseDataServiceBehavior = (function () {
         return promise.then(function (data) {
             data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
-                _this.log('get', data, options.endpoint, options.useMock);
+                _this.log('get', null, data, options.endpoint, options.useMock);
             }
             return data;
         });
@@ -63,7 +85,7 @@ var BaseDataServiceBehavior = (function () {
         return promise.then(function (data) {
             data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
-                _this.log('create', data, options.endpoint, options.useMock);
+                _this.log('create', options.domainObject, data, options.endpoint, options.useMock);
             }
             return data;
         });
@@ -85,7 +107,7 @@ var BaseDataServiceBehavior = (function () {
         return promise.then(function (data) {
             data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
-                _this.log('update', options.domainObject, options.endpoint, options.useMock);
+                _this.log('update', options.domainObject, data, options.endpoint, options.useMock);
             }
             return data;
         });
@@ -102,15 +124,22 @@ var BaseDataServiceBehavior = (function () {
         }
         return promise.then(function () {
             if (options.logRequests) {
-                _this.log('delete', options.domainObject, options.endpoint, options.useMock);
+                _this.log('delete', options.domainObject, null, options.endpoint, options.useMock);
             }
         });
     };
-    BaseDataServiceBehavior.prototype.log = function (requestName, data, endpoint, useMock) {
+    BaseDataServiceBehavior.prototype.log = function (requestName, params, data, endpoint, useMock) {
         var mockString = useMock ? 'Mocked ' : '';
         var endpointString = endpoint == null ? 'unspecified' : endpoint;
         console.log(mockString + requestName + ' for endpoint ' + endpointString + ':');
-        console.log(data);
+        if (params != null) {
+            console.log('params:');
+            console.log(params);
+        }
+        if (data != null) {
+            console.log('data:');
+            console.log(data);
+        }
     };
     BaseDataServiceBehavior.prototype.applyTransform = function (data, transform, toServer) {
         var _this = this;

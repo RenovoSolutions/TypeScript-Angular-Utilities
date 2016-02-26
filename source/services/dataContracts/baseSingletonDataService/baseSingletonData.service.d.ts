@@ -1,5 +1,5 @@
 import * as angular from 'angular';
-import { IConverter } from '../baseDataServiceBehavior';
+import { ISingletonResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export interface ISingletonDataService<TDataType> {
@@ -11,21 +11,17 @@ export interface ISingletonDataService<TDataType> {
 export interface IBaseSingletonDataService<TDataType> extends ISingletonDataService<TDataType> {
 }
 export declare class SingletonDataService<TDataType> implements ISingletonDataService<TDataType> {
-    endpoint: string;
+    private behavior;
     private mockData;
+    endpoint: string;
     useMock: boolean;
     logRequests: boolean;
-    private behavior;
-    constructor($http: angular.IHttpService, $q: angular.IQService, endpoint: string, mockData: TDataType, transform: IConverter<TDataType> | {
-        [index: string]: IConverter<any>;
-    }, useMock: boolean, logRequests: boolean);
+    constructor($http: angular.IHttpService, $q: angular.IQService, options: ISingletonResourceParams<TDataType>);
     get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
 }
 export interface ISingletonDataServiceFactory {
-    getInstance<TDataType>(endpoint: string, mockData?: TDataType, transform?: IConverter<TDataType> | {
-        [index: string]: IConverter<TDataType>;
-    }, useMock?: boolean): ISingletonDataService<TDataType>;
+    getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
 }
 export interface IBaseSingletonDataServiceFactory extends ISingletonDataServiceFactory {
 }

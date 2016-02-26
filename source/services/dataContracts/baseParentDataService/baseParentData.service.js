@@ -7,9 +7,9 @@ var _ = require('lodash');
 var baseData_service_1 = require('../baseDataService/baseData.service');
 var ParentDataService = (function (_super) {
     __extends(ParentDataService, _super);
-    function ParentDataService($http, $q, array, endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests) {
-        _super.call(this, $http, $q, array, endpoint, mockData, transform, useMock, logRequests);
-        this.resourceDictionaryBuilder = resourceDictionaryBuilder;
+    function ParentDataService($http, $q, array, options) {
+        _super.call(this, $http, $q, array, options);
+        this.resourceDictionaryBuilder = options.resourceDictionaryBuilder;
     }
     ParentDataService.prototype.childContracts = function (id) {
         var _this = this;

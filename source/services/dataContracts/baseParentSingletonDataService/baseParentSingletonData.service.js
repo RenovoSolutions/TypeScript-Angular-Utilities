@@ -6,10 +6,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 var baseSingletonData_service_1 = require('../baseSingletonDataService/baseSingletonData.service');
 var ParentSingletonDataService = (function (_super) {
     __extends(ParentSingletonDataService, _super);
-    function ParentSingletonDataService($http, $q, endpoint, mockData, resourceDictionaryBuilder, transform, useMock, logRequests, parentId) {
-        _super.call(this, $http, $q, endpoint, mockData, transform, useMock, logRequests);
-        this.resourceDictionaryBuilder = resourceDictionaryBuilder;
-        this.parentId = parentId;
+    function ParentSingletonDataService($http, $q, options) {
+        _super.call(this, $http, $q, options);
+        this.resourceDictionaryBuilder = options.resourceDictionaryBuilder;
+        this.parentId = options.parentId;
     }
     ParentSingletonDataService.prototype.childContracts = function () {
         var _this = this;

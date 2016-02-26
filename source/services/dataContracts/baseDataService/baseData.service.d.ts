@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
-import { IConverter } from '../baseDataServiceBehavior';
+import { IBaseResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export interface IBaseDomainObject {
@@ -15,18 +15,20 @@ export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams
     useMock: boolean;
     logRequests: boolean;
 }
+export interface ISearchDataService<TDataType extends IBaseDomainObject, TSearchParams, TResultType> {
+    getList(params?: TSearchParams): angular.IPromise<TResultType>;
+}
 export interface IBaseDataService<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {
 }
 export declare class DataService<TDataType extends IBaseDomainObject, TSearchParams> implements IDataService<TDataType, TSearchParams> {
     protected array: IArrayUtility;
-    endpoint: string;
+    private behavior;
+    private useDeepSearch;
     protected mockData: TDataType[];
+    endpoint: string;
     useMock: boolean;
     logRequests: boolean;
-    private behavior;
-    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], transform: IConverter<TDataType> | {
-        [index: string]: IConverter<any>;
-    }, useMock: boolean, logRequests: boolean);
+    constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, options: IBaseResourceParams<TDataType>);
     private getItemEndpoint(id);
     getList(params: TSearchParams): angular.IPromise<TDataType[]>;
     getDetail(id: number): angular.IPromise<TDataType>;
@@ -35,9 +37,7 @@ export declare class DataService<TDataType extends IBaseDomainObject, TSearchPar
     delete(domainObject: TDataType): angular.IPromise<void>;
 }
 export interface IDataServiceFactory {
-    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(endpoint: string, mockData?: TDataType[], transform?: IConverter<TDataType> | {
-        [index: string]: IConverter<TDataType>;
-    }, useMock?: boolean): IDataService<TDataType, TSearchParams>;
+    getInstance<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
 }
 export interface IBaseDataServiceFactory extends IDataServiceFactory {
 }

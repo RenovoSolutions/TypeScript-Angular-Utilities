@@ -6,26 +6,33 @@ var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
 var DataService = (function () {
-    function DataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests) {
+    function DataService($http, $q, array, options) {
         this.array = array;
-        this.endpoint = endpoint;
-        this.mockData = mockData;
-        this.useMock = useMock;
-        this.logRequests = logRequests;
-        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, transform);
+        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, options.transform);
+        this.useDeepSearch = options.useDeepSearch;
+        this.mockData = options.mockData;
+        this.endpoint = options.endpoint;
+        this.useMock = options.useMock;
+        this.logRequests = options.logRequests;
     }
     DataService.prototype.getItemEndpoint = function (id) {
         return this.endpoint + '/' + id.toString();
     };
     DataService.prototype.getList = function (params) {
         var _this = this;
-        return this.behavior.getList({
+        var requestParams = {
             params: params,
             endpoint: this.endpoint,
             getMockData: function () { return _this.mockData; },
             useMock: this.useMock,
             logRequests: this.logRequests,
-        });
+        };
+        if (this.useDeepSearch) {
+            return this.behavior.search(requestParams);
+        }
+        else {
+            return this.behavior.getList(requestParams);
+        }
     };
     DataService.prototype.getDetail = function (id) {
         var _this = this;
@@ -87,8 +94,8 @@ exports.DataService = DataService;
 dataServiceFactory.$inject = ['$http', '$q', array_service_1.serviceName];
 function dataServiceFactory($http, $q, array) {
     return {
-        getInstance: function (endpoint, mockData, transform, useMock, logRequests) {
-            return new DataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
+        getInstance: function (options) {
+            return new DataService($http, $q, array, options);
         },
     };
 }
