@@ -34,7 +34,7 @@ var SingletonDataService = (function () {
         });
     };
     return SingletonDataService;
-})();
+}());
 exports.SingletonDataService = SingletonDataService;
 singletonDataServiceFactory.$inject = ['$http', '$q'];
 function singletonDataServiceFactory($http, $q) {

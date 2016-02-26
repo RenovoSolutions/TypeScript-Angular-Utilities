@@ -29,7 +29,7 @@ var DataServiceView = (function (_super) {
         });
     };
     return DataServiceView;
-})(baseData_service_1.DataService);
+}(baseData_service_1.DataService));
 exports.DataServiceView = DataServiceView;
 var ParentDataServiceView = (function (_super) {
     __extends(ParentDataServiceView, _super);
@@ -53,6 +53,6 @@ var ParentDataServiceView = (function (_super) {
         });
     };
     return ParentDataServiceView;
-})(baseParentData_service_1.ParentDataService);
+}(baseParentData_service_1.ParentDataService));
 exports.ParentDataServiceView = ParentDataServiceView;
 //# sourceMappingURL=baseDataServiceView.js.map

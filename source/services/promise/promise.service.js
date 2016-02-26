@@ -29,7 +29,7 @@ var PromiseUtility = (function () {
     };
     PromiseUtility.$inject = ['$q', '$injector'];
     return PromiseUtility;
-})();
+}());
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, PromiseUtility);
 //# sourceMappingURL=promise.service.js.map

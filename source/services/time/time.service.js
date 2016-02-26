@@ -37,7 +37,7 @@ var TimeUtility = (function () {
         return Math.floor(this.millisecondsToHours(milliseconds) / 24);
     };
     return TimeUtility;
-})();
+}());
 exports.TimeUtility = TimeUtility;
 exports.timeUtility = new TimeUtility();
 angular.module(exports.moduleName, [])

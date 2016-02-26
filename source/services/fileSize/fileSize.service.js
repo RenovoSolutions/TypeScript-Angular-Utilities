@@ -48,7 +48,7 @@ var FileSizeService = (function () {
         }
     };
     return FileSizeService;
-})();
+}());
 fileSizeFactory.$inject = [number_service_1.serviceName];
 function fileSizeFactory(numberUtility) {
     'use strict';

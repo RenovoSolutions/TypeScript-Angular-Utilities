@@ -169,6 +169,6 @@ var BaseDataServiceBehavior = (function () {
             || _.isFunction(object.toServer);
     };
     return BaseDataServiceBehavior;
-})();
+}());
 exports.BaseDataServiceBehavior = BaseDataServiceBehavior;
 //# sourceMappingURL=baseDataServiceBehavior.js.map

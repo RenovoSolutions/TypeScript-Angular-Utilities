@@ -89,7 +89,7 @@ var DataService = (function () {
         });
     };
     return DataService;
-})();
+}());
 exports.DataService = DataService;
 dataServiceFactory.$inject = ['$http', '$q', array_service_1.serviceName];
 function dataServiceFactory($http, $q, array) {
