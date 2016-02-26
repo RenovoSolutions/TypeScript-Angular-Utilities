@@ -21,7 +21,7 @@ var BaseDataServiceBehavior = (function () {
         return promise.then(function (data) {
             data = _this.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
-                _this.log('getList', null, data, options.endpoint, options.useMock);
+                _this.log('getList', options.params, data, options.endpoint, options.useMock);
             }
             return data;
         });
