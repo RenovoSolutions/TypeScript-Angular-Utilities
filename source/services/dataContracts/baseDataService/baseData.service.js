@@ -5,29 +5,36 @@ var array_service_1 = require('../../array/array.service');
 var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
-var BaseDataService = (function () {
-    function BaseDataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests) {
+var DataService = (function () {
+    function DataService($http, $q, array, options) {
         this.array = array;
-        this.endpoint = endpoint;
-        this.mockData = mockData;
-        this.useMock = useMock;
-        this.logRequests = logRequests;
-        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, transform);
+        this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, options.transform);
+        this.useDeepSearch = options.useDeepSearch;
+        this.mockData = options.mockData;
+        this.endpoint = options.endpoint;
+        this.useMock = options.useMock;
+        this.logRequests = options.logRequests;
     }
-    BaseDataService.prototype.getItemEndpoint = function (id) {
+    DataService.prototype.getItemEndpoint = function (id) {
         return this.endpoint + '/' + id.toString();
     };
-    BaseDataService.prototype.getList = function (params) {
+    DataService.prototype.getList = function (params) {
         var _this = this;
-        return this.behavior.getList({
+        var requestParams = {
             params: params,
             endpoint: this.endpoint,
             getMockData: function () { return _this.mockData; },
             useMock: this.useMock,
             logRequests: this.logRequests,
-        });
+        };
+        if (this.useDeepSearch) {
+            return this.behavior.search(requestParams);
+        }
+        else {
+            return this.behavior.getList(requestParams);
+        }
     };
-    BaseDataService.prototype.getDetail = function (id) {
+    DataService.prototype.getDetail = function (id) {
         var _this = this;
         return this.behavior.getItem({
             endpoint: this.getItemEndpoint(id),
@@ -40,7 +47,7 @@ var BaseDataService = (function () {
             logRequests: this.logRequests,
         });
     };
-    BaseDataService.prototype.create = function (domainObject) {
+    DataService.prototype.create = function (domainObject) {
         var _this = this;
         return this.behavior.create({
             domainObject: domainObject,
@@ -54,7 +61,7 @@ var BaseDataService = (function () {
             logRequests: this.logRequests,
         });
     };
-    BaseDataService.prototype.update = function (domainObject) {
+    DataService.prototype.update = function (domainObject) {
         var _this = this;
         return this.behavior.update({
             domainObject: domainObject,
@@ -69,7 +76,7 @@ var BaseDataService = (function () {
             logRequests: this.logRequests,
         });
     };
-    BaseDataService.prototype.delete = function (domainObject) {
+    DataService.prototype.delete = function (domainObject) {
         var _this = this;
         return this.behavior.delete({
             domainObject: domainObject,
@@ -81,18 +88,18 @@ var BaseDataService = (function () {
             logRequests: this.logRequests,
         });
     };
-    return BaseDataService;
+    return DataService;
 }());
-exports.BaseDataService = BaseDataService;
-baseDataServiceFactory.$inject = ['$http', '$q', array_service_1.serviceName];
-function baseDataServiceFactory($http, $q, array) {
+exports.DataService = DataService;
+dataServiceFactory.$inject = ['$http', '$q', array_service_1.serviceName];
+function dataServiceFactory($http, $q, array) {
     return {
-        getInstance: function (endpoint, mockData, transform, useMock, logRequests) {
-            return new BaseDataService($http, $q, array, endpoint, mockData, transform, useMock, logRequests);
+        getInstance: function (options) {
+            return new DataService($http, $q, array, options);
         },
     };
 }
-exports.baseDataServiceFactory = baseDataServiceFactory;
+exports.dataServiceFactory = dataServiceFactory;
 angular.module(exports.moduleName, [array_service_1.moduleName])
-    .factory(exports.factoryName, baseDataServiceFactory);
+    .factory(exports.factoryName, dataServiceFactory);
 //# sourceMappingURL=baseData.service.js.map

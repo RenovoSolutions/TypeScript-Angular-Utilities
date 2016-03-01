@@ -1,6 +1,6 @@
 import * as ng from 'angular';
 import { IBaseResourceBuilder } from './baseResourceBuilder.service';
-import { IBaseDataServiceMock, IBaseParentDataServiceMock, IBaseSingletonDataServiceMock } from './dataServiceMocks';
+import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock } from './dataServiceMocks';
 export interface IContractLibrary {
     flush(): void;
     mockGet(resource: any, data: any): Sinon.SinonSpy;
@@ -9,9 +9,9 @@ export interface IContractLibrary {
     mockChild(parent: any, mockCallback: {
         (children: any): void;
     }): void;
-    createMock(resource?: any): IBaseDataServiceMock<any, any>;
-    createMockParent(resource?: any): IBaseParentDataServiceMock<any, any, any>;
-    createMockSingleton(resource?: any): IBaseSingletonDataServiceMock<any>;
+    createMock(resource?: any): IDataServiceMock<any, any>;
+    createMockParent(resource?: any): IParentDataServiceMock<any, any, any>;
+    createMockSingleton(resource?: any): ISingletonDataServiceMock<any>;
 }
 export interface ILibraryServices {
     $q: ng.IQService;
@@ -29,9 +29,9 @@ export declare class ContractLibrary implements IContractLibrary {
     mockChild(parent: any, mockCallback: {
         (children: any): void;
     }): void;
-    createMock(resource?: any): IBaseDataServiceMock<any, any>;
-    createMockParent(resource?: any): IBaseParentDataServiceMock<any, any, any>;
-    createMockSingleton(resource?: any): IBaseSingletonDataServiceMock<any>;
+    createMock(resource?: any): IDataServiceMock<any, any>;
+    createMockParent(resource?: any): IParentDataServiceMock<any, any, any>;
+    createMockSingleton(resource?: any): ISingletonDataServiceMock<any>;
     private updateResource(dataService, resource?);
     private baseMockGet(resource, actionName, data);
     private baseMockSave(resource, actionName);

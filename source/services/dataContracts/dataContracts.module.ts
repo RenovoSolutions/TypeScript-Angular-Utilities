@@ -12,10 +12,10 @@ import * as mocks from './baseResourceBuilder/dataServiceMocks';
 export var moduleName: string = 'rl.utilities.services.dataContracts';
 
 export * from './baseResourceBuilder/contractLibrary';
-export { IBaseDataService, IBaseDataServiceFactory, IBaseDomainObject, BaseDataService, factoryName as baseDataServiceFactoryName } from './baseDataService/baseData.service';
-export { IBaseDataServiceView, IBaseParentDataServiceView } from './baseDataService/baseDataServiceView';
+export { IDataService, IDataServiceFactory, IBaseDomainObject, DataService, factoryName as baseDataServiceFactoryName } from './baseDataService/baseData.service';
+export { IDataServiceView, IParentDataServiceView } from './baseDataService/baseDataServiceView';
 export * from './baseParentDataService/baseParentData.service';
-export { IBaseSingletonDataService, IBaseSingletonDataServiceFactory, BaseSingletonDataService, factoryName as baseSingletonDataServiceFactoryName } from './baseSingletonDataService/baseSingletonData.service';
+export { ISingletonDataService, ISingletonDataServiceFactory, SingletonDataService, factoryName as baseSingletonDataServiceFactoryName } from './baseSingletonDataService/baseSingletonData.service';
 export * from './baseParentSingletonDataService/baseParentSingletonData.service';
 export { IBaseResourceBuilder, serviceName as builderServiceName } from './baseResourceBuilder/baseResourceBuilder.service';
 export { converters, mocks };
