@@ -12,7 +12,7 @@ import {
 } from './errorHandler.service';
 
 interface IWindowMock {
-	location: string;
+	location: any;
 }
 
 interface INotificationMock {
@@ -28,7 +28,10 @@ describe('errorHandler', () => {
 		angular.mock.module(moduleName);
 
 		$window = {
-			location: null,
+			location: {
+				pathname: '/path',
+				search: '?x=123',
+			},
 		};
 
 		notification = {
@@ -44,14 +47,14 @@ describe('errorHandler', () => {
 		errorHandler = services[serviceName];
 	});
 
-	it('should redirect the user to the login page on an unauthorized error', (): void => {
+	it('should redirect the user to the login page with a redirect url on an unauthorized error', (): void => {
 		var rejection: IRejection = {
 			status: HttpStatusCode.unauthorized
 		};
 
 		errorHandler.httpResponseError(rejection);
 
-		expect($window.location).to.equal('/login');
+		expect($window.location).to.equal('/login?returnUrl=%2Fpath%3Fx%3D123');
 	});
 
 	it('should show an error for insufficient permissions', (): void => {

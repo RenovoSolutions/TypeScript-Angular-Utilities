@@ -42,7 +42,8 @@ export class ErrorHandlerService implements IErrorHandlerService {
 	constructor(private $window: ng.IWindowService
             , private notification: INotificationService
             , private loginUrl: string
-            , private errorMessages: IErrorMessages) { }
+            , private errorMessages: IErrorMessages
+			, private returnUrlParam: string) { }
 
 	httpResponseError(rejection: IRejection): void {
 		switch (rejection.status) {
@@ -71,16 +72,19 @@ export class ErrorHandlerService implements IErrorHandlerService {
 				break;
 		}
 	}
-	
+
 	private badRequestError (rejection: IRejection) {
 		if (rejection.data) {
 			return this.notification.warning(rejection.data);
 		}
 		return this.notification.error(this.errorMessages.badRequestError);
 	}
-	
+
 	private loggedOutError(): void {
-		this.$window.location = <any>this.loginUrl;
+		let baseUrl: string = this.$window.location.pathname;
+		let queryString: string = this.$window.location.search || '';
+		let returnUrl: string = encodeURIComponent(baseUrl + queryString);
+		this.$window.location = <any>(this.loginUrl + '?' + this.returnUrlParam + '=' + returnUrl);
 	}
 
 	private insufficientPermissionsError(): void {
@@ -111,6 +115,7 @@ export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
 class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
     loginUrl: string;
     errorMessages: IErrorMessages;
+	returnUrlParam: string;
 
     constructor() {
         this.loginUrl = '/login';
@@ -123,12 +128,13 @@ class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
             ' Please contact support if you are unable to complete critical tasks',
             defaultError: 'Http status code not handled',
         };
+		this.returnUrlParam = 'returnUrl';
         this.$get.$inject = ['$window', notificationServiceName];
     }
 
     $get: any = ($window: ng.IWindowService
             , notification: INotificationService): IErrorHandlerService => {
-        return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages);
+        return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages, this.returnUrlParam);
     }
 }
 
