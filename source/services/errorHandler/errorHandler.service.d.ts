@@ -43,5 +43,6 @@ export declare class ErrorHandlerService implements IErrorHandlerService {
 export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
     loginUrl: string;
     errorMessages: IErrorMessages;
+    returnUrlParam: string;
     $get($window: ng.IWindowService, notification: INotificationService): IErrorHandlerService;
 }
