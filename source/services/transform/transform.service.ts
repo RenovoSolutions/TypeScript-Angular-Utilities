@@ -12,6 +12,14 @@ export interface ITransformService {
 
 export class TransformService implements ITransformService {
 	getValue<TItemType, TReturnType>(item: TItemType, transform: { (item: TItemType): TReturnType } | string) {
+		if (item == null) {
+			return null;
+		}
+
+		if (transform == null) {
+			return item;
+		}
+
 		return _.isFunction(transform)
 			? (<{ (item: TItemType): TReturnType }>transform)(item)
 			: item[<string>transform];
