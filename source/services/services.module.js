@@ -38,6 +38,8 @@ var test = require('./test/test.module');
 exports.test = test;
 var time = require('./time/time.service');
 exports.time = time;
+var transform = require('./transform/transform.service');
+exports.transform = transform;
 var validation = require('./validation/validation.service');
 exports.validation = validation;
 exports.moduleName = 'rl.utilities.services';
@@ -61,6 +63,7 @@ angular.module(exports.moduleName, [
     synchronizedRequests.moduleName,
     time.moduleName,
     test.moduleName,
+    transform.moduleName,
     validation.moduleName,
 ]);
 //# sourceMappingURL=services.module.js.map
