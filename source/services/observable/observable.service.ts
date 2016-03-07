@@ -40,7 +40,7 @@ export class ObservableService implements IObservableService {
 
 		if (this.allowableEvents != null && !_.find(this.allowableEvents, (e: string): boolean => { return e === event; })) {
 			console.error('Error: This event is not allowed.');
-			console.error('Events: ' + this.allowableEvents);
+			console.error('Events: ' + this.allowableEvents.join(', '));
 			return null;
 		}
 
