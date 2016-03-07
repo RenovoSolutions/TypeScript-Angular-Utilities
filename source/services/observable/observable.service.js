@@ -14,6 +14,11 @@ var ObservableService = (function () {
             console.log('Error: watcher must be a function');
             return null;
         }
+        if (this.allowableEvents != null && !_.find(this.allowableEvents, function (e) { return e === event; })) {
+            console.error('Error: This event is not allowed.');
+            console.error('Events: ' + this.allowableEvents);
+            return null;
+        }
         var currentKey = this.nextKey;
         this.nextKey++;
         this.watchers[currentKey] = {
