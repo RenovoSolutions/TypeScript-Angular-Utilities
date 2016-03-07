@@ -3,8 +3,8 @@
 import * as ng from 'angular';
 import * as _ from 'lodash';
 
-export var moduleName: string = 'rl.utilities.services.observable';
-export var factoryName: string = 'observableFactory';
+export let moduleName: string = 'rl.utilities.services.observable';
+export let factoryName: string = 'observableFactory';
 
 export interface IWatcher<TReturnType> {
 	action: IAction<TReturnType>;
@@ -20,6 +20,7 @@ export interface IUnregisterFunction {
 }
 
 export interface IObservableService {
+	allowableEvents?: string[];
 	register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction;
 	register(action: IAction<void>, event?: string): IUnregisterFunction;
 	fire<TReturnType>(event?: string, ...params: any[]): TReturnType[];
@@ -29,6 +30,7 @@ export interface IObservableService {
 export class ObservableService implements IObservableService {
 	private watchers: IWatcher<any>[] = [];
 	private nextKey: number = 0;
+	allowableEvents: string[];
 
 	register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction {
 		if (!_.isFunction(action)) {
@@ -36,7 +38,13 @@ export class ObservableService implements IObservableService {
 			return null;
 		}
 
-		var currentKey: number = this.nextKey;
+		if (this.allowableEvents != null && !_.find(this.allowableEvents, (e: string): boolean => { return e === event; })) {
+			console.error('Error: This event is not allowed.');
+			console.error('Events: ' + this.allowableEvents);
+			return null;
+		}
+
+		let currentKey: number = this.nextKey;
 		this.nextKey++;
 		this.watchers[currentKey] = {
 			action: action,
