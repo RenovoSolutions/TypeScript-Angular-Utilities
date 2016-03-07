@@ -34,7 +34,7 @@ export class ObservableService implements IObservableService {
 
 	register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction {
 		if (!_.isFunction(action)) {
-			console.log('Error: watcher must be a function');
+			console.error('Error: watcher must be a function');
 			return null;
 		}
 
