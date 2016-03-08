@@ -21,6 +21,7 @@ import * as stringService from './string/string.service';
 import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
 import * as test from './test/test.module';
 import * as time from './time/time.service';
+import * as transform from './transform/transform.service';
 import * as validation from './validation/validation.service';
 
 export {
@@ -43,6 +44,7 @@ export {
 	synchronizedRequests,
 	test,
 	time,
+	transform,
 	validation,
 };
 
@@ -68,5 +70,6 @@ angular.module(moduleName, [
 	synchronizedRequests.moduleName,
 	time.moduleName,
 	test.moduleName,
+	transform.moduleName,
 	validation.moduleName,
 ]);
