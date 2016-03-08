@@ -30,7 +30,8 @@ export declare class ErrorHandlerService implements IErrorHandlerService {
     private notification;
     private loginUrl;
     private errorMessages;
-    constructor($window: ng.IWindowService, notification: INotificationService, loginUrl: string, errorMessages: IErrorMessages);
+    private returnUrlParam;
+    constructor($window: ng.IWindowService, notification: INotificationService, loginUrl: string, errorMessages: IErrorMessages, returnUrlParam: string);
     httpResponseError(rejection: IRejection): void;
     private badRequestError(rejection);
     private loggedOutError();
@@ -42,5 +43,6 @@ export declare class ErrorHandlerService implements IErrorHandlerService {
 export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
     loginUrl: string;
     errorMessages: IErrorMessages;
+    returnUrlParam: string;
     $get($window: ng.IWindowService, notification: INotificationService): IErrorHandlerService;
 }

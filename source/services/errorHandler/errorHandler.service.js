@@ -12,11 +12,12 @@ exports.serviceName = 'errorHandler';
 })(exports.HttpStatusCode || (exports.HttpStatusCode = {}));
 var HttpStatusCode = exports.HttpStatusCode;
 var ErrorHandlerService = (function () {
-    function ErrorHandlerService($window, notification, loginUrl, errorMessages) {
+    function ErrorHandlerService($window, notification, loginUrl, errorMessages, returnUrlParam) {
         this.$window = $window;
         this.notification = notification;
         this.loginUrl = loginUrl;
         this.errorMessages = errorMessages;
+        this.returnUrlParam = returnUrlParam;
     }
     ErrorHandlerService.prototype.httpResponseError = function (rejection) {
         switch (rejection.status) {
@@ -52,7 +53,10 @@ var ErrorHandlerService = (function () {
         return this.notification.error(this.errorMessages.badRequestError);
     };
     ErrorHandlerService.prototype.loggedOutError = function () {
-        this.$window.location = this.loginUrl;
+        var baseUrl = this.$window.location.pathname;
+        var queryString = this.$window.location.search || '';
+        var returnUrl = encodeURIComponent(baseUrl + queryString);
+        this.$window.location = (this.loginUrl + '?' + this.returnUrlParam + '=' + returnUrl);
     };
     ErrorHandlerService.prototype.insufficientPermissionsError = function () {
         this.notification.error(this.errorMessages.forbiddenError);
@@ -74,7 +78,7 @@ var ErrorHandlerServiceProvider = (function () {
     function ErrorHandlerServiceProvider() {
         var _this = this;
         this.$get = function ($window, notification) {
-            return new ErrorHandlerService($window, notification, _this.loginUrl, _this.errorMessages);
+            return new ErrorHandlerService($window, notification, _this.loginUrl, _this.errorMessages, _this.returnUrlParam);
         };
         this.loginUrl = '/login';
         this.errorMessages = {
@@ -86,6 +90,7 @@ var ErrorHandlerServiceProvider = (function () {
                 ' Please contact support if you are unable to complete critical tasks',
             defaultError: 'Http status code not handled',
         };
+        this.returnUrlParam = 'returnUrl';
         this.$get.$inject = ['$window', notification_service_1.serviceName];
     }
     return ErrorHandlerServiceProvider;
