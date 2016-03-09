@@ -14,7 +14,8 @@ export interface IArrayUtility {
 	sum<TDataType>(array: TDataType[], transform: { (item: TDataType): number }): number;
 	sum(array: number[]): number;
 	last<TDataType>(array: TDataType[]): TDataType;
-	toDictionary<TDataType>(array: TDataType[], keySelector: {(item: TDataType): string}): { [index: string]: TDataType };
+	toDictionary<TDataType>(array: TDataType[], keySelector: { (item: TDataType): string }): { [index: string]: TDataType };
+	has<TDataType>(array: TDataType[], index: number): boolean;
 }
 
 class ArrayUtility implements IArrayUtility {
@@ -83,6 +84,14 @@ class ArrayUtility implements IArrayUtility {
 		if (array != null && array.length > 0) {
 			return array[array.length - 1];
 		}
+	}
+
+	has<TDataType>(array: TDataType[], index: number): boolean {
+		if (array == null || index < 0 || index >= array.length) {
+			return false;
+		}
+
+		return array[index] != null;
 	}
 }
 

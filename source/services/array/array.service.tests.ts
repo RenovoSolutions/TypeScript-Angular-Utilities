@@ -155,4 +155,23 @@ describe('arrayUtility', () => {
 			expect(arrayUtility.last(null)).to.be.undefined;
 		});
 	});
+
+	describe('has', (): void => {
+		it('should return true', (): void => {
+			let someArray = [];
+			someArray[5] = 5;
+
+			expect(arrayUtility.has(someArray, 5)).to.be.true;
+		});
+
+		it('should return false', (): void => {
+			let someArray = [];
+			someArray[5] = 5;
+			someArray[4] = null;
+
+			expect(arrayUtility.has(someArray, 2)).to.be.false;
+			expect(arrayUtility.has(someArray, 10)).to.be.false;
+			expect(arrayUtility.has(someArray, 4)).to.be.false;
+		});
+	});
 });
