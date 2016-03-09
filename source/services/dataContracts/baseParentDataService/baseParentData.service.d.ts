@@ -1,18 +1,16 @@
 import * as ng from 'angular';
 import { IArrayUtility } from '../../array/array.service';
-import { IConverter } from '../baseDataServiceBehavior';
-import { IBaseDataService, BaseDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
-export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IBaseDataService<TDataType, TSearchParams> {
+import { IDataService, DataService, IBaseDomainObject } from '../baseDataService/baseData.service';
+import { IParentResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+export interface IParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IDataService<TDataType, TSearchParams> {
     childContracts(id?: number): TResourceDictionaryType;
 }
-export declare class BaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends BaseDataService<TDataType, TSearchParams> implements IBaseParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+}
+export declare class ParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends DataService<TDataType, TSearchParams> implements IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
     resourceDictionaryBuilder: {
         (): TResourceDictionaryType;
     };
-    constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, endpoint: string, mockData: TDataType[], resourceDictionaryBuilder: {
-        (): TResourceDictionaryType;
-    }, transform?: IConverter<TDataType> | {
-        [index: string]: IConverter<any>;
-    }, useMock?: boolean, logRequests?: boolean);
+    constructor($http: ng.IHttpService, $q: ng.IQService, array: IArrayUtility, options: IParentResourceParams<TDataType, TResourceDictionaryType>);
     childContracts(id?: number): TResourceDictionaryType;
 }

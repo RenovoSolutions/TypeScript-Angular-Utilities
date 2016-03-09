@@ -27,8 +27,12 @@ export interface IDeleteOptions<TDataType> extends IRequestOptions {
     domainObject: TDataType;
     removeMockData(data: TDataType): void;
 }
+export interface ISearchResult<TDataType> {
+    dataSet: TDataType[];
+}
 export interface IBaseDataServiceBehavior<TDataType> {
     getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]>;
+    search<TResultType>(options: IGetListOptions<TDataType>): angular.IPromise<TResultType>;
     getItem(options: IGetItemOptions<TDataType>): angular.IPromise<TDataType>;
     create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType>;
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType>;
@@ -42,11 +46,12 @@ export declare class BaseDataServiceBehavior<TDataType> implements IBaseDataServ
         [index: string]: IConverter<any>;
     });
     getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]>;
+    search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): angular.IPromise<TResultType>;
     getItem(options: IGetItemOptions<TDataType>): angular.IPromise<TDataType>;
     create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType>;
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType>;
     delete(options: IDeleteOptions<TDataType>): angular.IPromise<void>;
-    private log(requestName, data, endpoint, useMock);
+    private log(requestName, params, data, endpoint, useMock);
     applyTransform(data: any, transform: IConverter<any> | {
         [index: string]: IConverter<any>;
     }, toServer: boolean): any;

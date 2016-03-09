@@ -24,6 +24,6 @@ var ItemList = (function () {
         return this.items;
     };
     return ItemList;
-})();
+}());
 exports.ItemList = ItemList;
 //# sourceMappingURL=itemList.js.map

@@ -241,6 +241,13 @@ describe('dateUtility', () => {
 
 			expect(dateUtility.compareDates(date, earlierDate, defaultFormats.dateTimeFormat)).to.equal(CompareResult.greater);
 		});
+
+		it('should handle dates where the hour is the same', (): void => {
+			var date: string = '9/10/2000 10:30 AM';
+			var earlierDate: string = '9/10/2000 10:15 AM';
+
+			expect(dateUtility.compareDates(date, earlierDate, defaultFormats.dateTimeFormat)).to.equal(CompareResult.greater);
+		});
 	});
 
 	describe('dateInRange', (): void => {

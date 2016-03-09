@@ -20,6 +20,6 @@ var SerializableFilter = (function () {
         }
     };
     return SerializableFilter;
-})();
+}());
 exports.SerializableFilter = SerializableFilter;
 //# sourceMappingURL=filter.js.map

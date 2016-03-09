@@ -60,7 +60,7 @@ var GenericSearchFilter = (function (_super) {
         }
     };
     return GenericSearchFilter;
-})(filter_1.SerializableFilter);
+}(filter_1.SerializableFilter));
 exports.GenericSearchFilter = GenericSearchFilter;
 genericSearchFilterFactory.$inject = [object_service_1.serviceName, string_service_1.serviceName];
 function genericSearchFilterFactory(object, stringUtility) {

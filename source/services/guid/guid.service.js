@@ -13,7 +13,7 @@ var GuidService = (function () {
         return uuid.v4();
     };
     return GuidService;
-})();
+}());
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, GuidService);
 //# sourceMappingURL=guid.service.js.map

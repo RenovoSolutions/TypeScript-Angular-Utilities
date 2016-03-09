@@ -30,7 +30,7 @@ var NumberUtility = (function () {
         }
     };
     return NumberUtility;
-})();
+}());
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, NumberUtility);
 //# sourceMappingURL=number.service.js.map

@@ -1,4 +1,5 @@
 import * as angular from 'angular';
+import 'angular-mocks';
 export interface IControllerResult<TControllerType> {
     controller: TControllerType;
     scope: angular.IScope;

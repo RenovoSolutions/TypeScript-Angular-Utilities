@@ -63,6 +63,6 @@ var AngularFixture = (function () {
         };
     };
     return AngularFixture;
-})();
+}());
 exports.angularFixture = new AngularFixture();
 //# sourceMappingURL=angularFixture.js.map

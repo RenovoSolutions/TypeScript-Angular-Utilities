@@ -19,6 +19,6 @@ var BaseNotifier = (function () {
         console.log(message);
     };
     return BaseNotifier;
-})();
+}());
 exports.BaseNotifier = BaseNotifier;
 //# sourceMappingURL=baseNotifier.js.map

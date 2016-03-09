@@ -6,7 +6,7 @@ import * as ng from 'angular';
 import * as _ from 'lodash';
 
 import { IBaseResourceBuilder, BaseResourceBuilder } from './baseResourceBuilder.service';
-import { IBaseDataServiceMock, IBaseParentDataServiceMock, IBaseSingletonDataServiceMock } from './dataServiceMocks';
+import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock } from './dataServiceMocks';
 
 export interface IContractLibrary {
 	// extend with custom interface specifying child resources
@@ -18,9 +18,9 @@ export interface IContractLibrary {
 	mockGetDetail(resource: any, data: any): Sinon.SinonSpy;
 
 	mockChild(parent: any, mockCallback: { (children: any): void }): void;
-	createMock(resource?: any): IBaseDataServiceMock<any, any>;
-	createMockParent(resource?: any): IBaseParentDataServiceMock<any, any, any>;
-	createMockSingleton(resource?: any): IBaseSingletonDataServiceMock<any>;
+	createMock(resource?: any): IDataServiceMock<any, any>;
+	createMockParent(resource?: any): IParentDataServiceMock<any, any, any>;
+	createMockSingleton(resource?: any): ISingletonDataServiceMock<any>;
 }
 
 export interface ILibraryServices {
@@ -62,8 +62,8 @@ export class ContractLibrary implements IContractLibrary {
 		}
 	}
 
-	createMock(resource?: any): IBaseDataServiceMock<any, any> {
-		let dataService: IBaseDataServiceMock<any, any> = <any>this.builder.createResource<any, any>({});
+	createMock(resource?: any): IDataServiceMock<any, any> {
+		let dataService: IDataServiceMock<any, any> = <any>this.builder.createResource<any, any>({});
 		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
 		dataService.mockGetDetail = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
 		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
@@ -72,9 +72,9 @@ export class ContractLibrary implements IContractLibrary {
 		return dataService;
 	}
 
-	createMockParent(resource?: any): IBaseParentDataServiceMock<any, any, any> {
+	createMockParent(resource?: any): IParentDataServiceMock<any, any, any> {
 		let getChildren: any = resource != null ? resource.resourceDictionaryBuilder : (): any => { return {}; };
-		let dataService: IBaseParentDataServiceMock<any, any, any> = <any>this.builder.createParentResource<any, any, any>({
+		let dataService: IParentDataServiceMock<any, any, any> = <any>this.builder.createParentResource<any, any, any>({
 			resourceDictionaryBuilder: getChildren,
 		});
 		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
@@ -86,8 +86,8 @@ export class ContractLibrary implements IContractLibrary {
 		return dataService;
 	}
 
-	createMockSingleton(resource?: any): IBaseSingletonDataServiceMock<any> {
-		let dataService: IBaseSingletonDataServiceMock<any> = <any>this.builder.createSingletonResource({});
+	createMockSingleton(resource?: any): ISingletonDataServiceMock<any> {
+		let dataService: ISingletonDataServiceMock<any> = <any>this.builder.createSingletonResource({});
 		dataService.mockGet = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
 		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
 		dataService = this.updateResource(dataService, resource);

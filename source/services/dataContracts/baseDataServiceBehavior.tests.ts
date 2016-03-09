@@ -1,4 +1,4 @@
-import { IBaseDataServiceBehavior, BaseDataServiceBehavior } from './baseDataServiceBehavior';
+import { IBaseDataServiceBehavior, BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavior';
 import { moduleName } from './dataContracts.module';
 
 import { IArrayUtility, serviceName as arrayService, moduleName as arrayModule } from '../array/array.service';
@@ -67,6 +67,41 @@ describe('base data service behavior', () => {
 				getMockData: null,
 				params: null,
 			}).then((data: ITestMock[]): void => {
+				expect(data).to.have.length(5);
+				expect(data[0].id).to.equal(1);
+				expect(data[1].id).to.equal(2);
+				expect(data[2].id).to.equal(3);
+				expect(data[3].id).to.equal(4);
+				expect(data[4].id).to.equal(5);
+				done();
+			});
+
+			$httpBackend.flush();
+		});
+
+		it('should make a POST request to search the data', (done: MochaDone): void => {
+			let mockList: ITestMock[] = [
+				{ id: 1 },
+				{ id: 2 },
+				{ id: 3 },
+				{ id: 4 },
+				{ id: 5 },
+			];
+
+			let searchObject: ISearchResult<ITestMock> = {
+				dataSet: mockList,
+			};
+
+			$httpBackend.expectPOST(testUrl, 'search').respond(200, searchObject);
+
+			dataServiceBehavior.search<ISearchResult<ITestMock>>({
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				getMockData: null,
+				params: 'search',
+			}).then((result: ISearchResult<ITestMock>): void => {
+				let data: ITestMock[] = result.dataSet;
 				expect(data).to.have.length(5);
 				expect(data[0].id).to.equal(1);
 				expect(data[1].id).to.equal(2);
@@ -182,6 +217,25 @@ describe('base data service behavior', () => {
 				logRequests: false,
 				params: null,
 			}).then((data: ITestMock[]): void => {
+				expect(data).to.have.length(3);
+				expect(data[0]).to.equal(dataSet[0]);
+				expect(data[1]).to.equal(dataSet[1]);
+				expect(data[2]).to.equal(dataSet[2]);
+				done();
+			});
+
+			$rootScope.$digest();
+		});
+
+		it('should get the mocked data set wrapped in a dataSet property', (done: MochaDone): void => {
+			dataServiceBehavior.search<any>({
+				useMock: true,
+				getMockData(): ITestMock[] { return dataSet; },
+				endpoint: null,
+				logRequests: false,
+				params: null,
+			}).then((result: ISearchResult<ITestMock>): void => {
+				let data: ITestMock[] = result.dataSet;
 				expect(data).to.have.length(3);
 				expect(data[0]).to.equal(dataSet[0]);
 				expect(data[1]).to.equal(dataSet[1]);
