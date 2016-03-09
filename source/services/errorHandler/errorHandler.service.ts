@@ -74,7 +74,7 @@ export class ErrorHandlerService implements IErrorHandlerService {
 	
 	private badRequestError (rejection: IRejection) {
 		if (rejection.data) {
-			return this.notification.warning(rejection.data);
+			return this.notification.error(rejection.data);
 		}
 		return this.notification.error(this.errorMessages.badRequestError);
 	}
