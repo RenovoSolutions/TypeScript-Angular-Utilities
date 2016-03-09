@@ -62,6 +62,12 @@ var ArrayUtility = (function () {
             return array[array.length - 1];
         }
     };
+    ArrayUtility.prototype.has = function (array, index) {
+        if (array == null || index < 0 || index >= array.length) {
+            return false;
+        }
+        return array[index] != null;
+    };
     return ArrayUtility;
 }());
 exports.arrayUtility = new ArrayUtility();
