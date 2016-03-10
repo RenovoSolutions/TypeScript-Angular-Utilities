@@ -19,5 +19,6 @@ export interface IArrayUtility {
     }): {
         [index: string]: TDataType;
     };
+    has<TDataType>(array: TDataType[], index: number): boolean;
 }
 export declare let arrayUtility: IArrayUtility;
