@@ -32,6 +32,7 @@ export interface INumberUtility {
 	integerDivide(dividend: number, divisor: number): number;
 	roundToStep(num: number, step: number): number;
 	isValidServerInt(valueToCheck: any): IReturnStatus;
+	errorMessages: IErrorMessages;
 }
 
 class NumberUtility implements INumberUtility {
@@ -99,12 +100,12 @@ class NumberUtility implements INumberUtility {
 	}
 }
 	
-export interface INumberUtilityServiceProvider extends angular.IServiceProvider {
+export interface INumberUtilityProvider extends angular.IServiceProvider {
 	errorMessages: IErrorMessages;
 	$get(maxServerInt: number): INumberUtility;
 }
 
-class NumberUtilityServiceProvider implements INumberUtilityServiceProvider {
+class NumberUtilityProvider implements INumberUtilityProvider {
 	errorMessages: IErrorMessages;
 	
 	constructor() {
@@ -124,5 +125,5 @@ class NumberUtilityServiceProvider implements INumberUtilityServiceProvider {
 }
 
 angular.module(moduleName, [])
-	.service(serviceName, NumberUtility)
+	.provider(serviceName, new NumberUtilityProvider())
 	.value(maxServerIntName, 2147483647 /*The largest integer value in C#*/);
