@@ -1,4 +1,5 @@
-import { INumberUtility, moduleName, serviceName } from './number.service';
+import { INumberUtility, maxServerIntName, moduleName, serviceName } from './number.service';
+import {IReturnStatus} from '../../types/returnStatus';
 
 import { angularFixture } from '../test/angularFixture';
 
@@ -7,12 +8,14 @@ import 'angular-mocks';
 
 describe('numberUtility', () => {
 	var numberUtility: INumberUtility;
+	var maxServerInt: number;
 
 	beforeEach(() => {
 		angular.mock.module(moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
+		var services: any = angularFixture.inject(serviceName, maxServerIntName);
 		numberUtility = services[serviceName];
+		maxServerInt = services[maxServerIntName];
 	});
 
 	describe('preciseRound', (): void => {
@@ -61,6 +64,51 @@ describe('numberUtility', () => {
 			expect(numberUtility.roundToStep(125, 3.65)).to.equal(124.10);
 			expect(numberUtility.roundToStep(250, 3.65)).to.equal(248.20);
 			expect(numberUtility.roundToStep(10.95, 3.65)).to.equal(10.95);
+		});
+	});
+	
+	describe('isValidServerInt', (): void => {
+		it('should return valueIsNullError when provided value is null', (): void => {
+			var result: IReturnStatus = numberUtility.isValidServerInt(null);
+			expect(result.wasSuccessful).to.equal(false);
+			expect(result.error).to.equal(numberUtility.errorMessages.valueIsNullError);
+		});
+		
+		it('should return valueIsNaNError when provided value is not a number', (): void => {
+			var result: IReturnStatus = numberUtility.isValidServerInt({});
+			expect(result.wasSuccessful).to.equal(false);
+			expect(result.error).to.equal(numberUtility.errorMessages.valueIsNaNError);
+			
+			result = numberUtility.isValidServerInt("asdf");
+			expect(result.wasSuccessful).to.equal(false);
+			expect(result.error).to.equal(numberUtility.errorMessages.valueIsNaNError);
+		});
+		
+		it('should return valueIsTooBigError when provided value is greater than maxServerInt', (): void => {
+			var result: IReturnStatus = numberUtility.isValidServerInt(maxServerInt + 1);
+			expect(result.wasSuccessful).to.equal(false);
+			expect(result.error).to.equal(numberUtility.errorMessages.valueIsTooBigError);
+		});
+		
+		it('should return valueIsAFloatError when provided value is a decimal', (): void => {
+			var result: IReturnStatus = numberUtility.isValidServerInt(0.1);
+			expect(result.wasSuccessful).to.equal(false);
+			expect(result.error).to.equal(numberUtility.errorMessages.valueIsAFloatError);
+		});
+		
+		it('should return valueIsNegativeError when provided value is less than or equal to 0', (): void => {
+			var result: IReturnStatus = numberUtility.isValidServerInt(0);
+			expect(result.wasSuccessful).to.equal(false);
+			expect(result.error).to.equal(numberUtility.errorMessages.valueIsNegativeError);
+			
+			var result: IReturnStatus = numberUtility.isValidServerInt(-1);
+			expect(result.wasSuccessful).to.equal(false);
+			expect(result.error).to.equal(numberUtility.errorMessages.valueIsNegativeError);
+		});
+		
+		it('should return true when value is a whole number', (): void => {
+			var result: IReturnStatus = numberUtility.isValidServerInt(1);
+			expect(result.wasSuccessful).to.equal(true);
 		});
 	});
 });

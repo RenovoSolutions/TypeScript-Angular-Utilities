@@ -48,7 +48,7 @@ var ErrorHandlerService = (function () {
     };
     ErrorHandlerService.prototype.badRequestError = function (rejection) {
         if (rejection.data) {
-            return this.notification.warning(rejection.data);
+            return this.notification.error(rejection.data);
         }
         return this.notification.error(this.errorMessages.badRequestError);
     };
