@@ -20,7 +20,7 @@ export class Validator implements ISimpleValidator {
 				isValid = false;
 
 				let error: string = this.errorMessage(handler);
-				this.showError(error);
+				this.showError(error, handler.name);
 
 				return false;
 			}

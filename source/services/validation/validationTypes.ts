@@ -17,11 +17,12 @@ export interface ICompositeValidator extends IValidator {
 export interface IValidationHandler {
 	isActive?: {(): boolean} | boolean;
 	validate(): boolean;
-	errorMessage: string | {(): string};
+	errorMessage: string | { (): string };
+	name?: string;
 }
 
 export interface IErrorHandler {
-	(error: string): void;
+	(error: string, name?: string): void;
 }
 
 export interface IUnregisterFunction {
