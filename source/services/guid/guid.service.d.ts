@@ -4,3 +4,4 @@ export interface IGuidService {
     time(): string;
     random(): string;
 }
+export declare let guid: IGuidService;

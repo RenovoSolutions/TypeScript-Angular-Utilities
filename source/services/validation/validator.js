@@ -14,7 +14,7 @@ var Validator = (function () {
             if (isActive && !handler.validate()) {
                 isValid = false;
                 var error = _this.errorMessage(handler);
-                _this.showError(error);
+                _this.showError(error, handler.name);
                 return false;
             }
         });
