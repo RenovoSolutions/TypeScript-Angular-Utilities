@@ -22,3 +22,9 @@ class MyConsumer {
     }
 }
 ```
+
+## fileSize filter
+The fileSize module also contains an angular filter which will automatically instantiate a fileSize instance for you and print the display result:
+```
+<span>File size: {{ controller.bytes | fileSize }}</span>
+```
