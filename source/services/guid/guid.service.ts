@@ -22,5 +22,7 @@ class GuidService implements IGuidService {
 	}
 }
 
+export let guid: IGuidService = new GuidService();
+
 angular.module(moduleName, [])
 	.service(serviceName, GuidService);
