@@ -20,8 +20,8 @@ Contains miscellaneous tools and utilities for working with objects and other us
 
 * [array](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/array/array.md)
 * [boolean](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/boolean/boolean.md)
-* [date](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/date/date.md)
 * [dataContracts] (https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/dataContracts/dataContracts.md)
+* [date](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/date/date.md)
 * [errorHandler] (https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/errorHandler/errorHandler.md)
 * [fileSize] (https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/fileSize/fileSize.md)
 * [genericSearchFilter] (https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/services/genericSearchFilter/genericSearchFilter.md)
