@@ -17,9 +17,10 @@ export interface IValidationHandler {
     errorMessage: string | {
         (): string;
     };
+    name?: string;
 }
 export interface IErrorHandler {
-    (error: string): void;
+    (error: string, name?: string): void;
 }
 export interface IUnregisterFunction {
     (): void;

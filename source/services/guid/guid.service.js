@@ -14,6 +14,7 @@ var GuidService = (function () {
     };
     return GuidService;
 }());
+exports.guid = new GuidService();
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, GuidService);
 //# sourceMappingURL=guid.service.js.map
