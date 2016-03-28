@@ -1,10 +1,3 @@
-/// <reference path='../../../typings/main/ambient/chai/chai.d.ts' />
-/// <reference path='../../../typings/main/ambient/sinon/sinon.d.ts' />
-/// <reference path='../../../typings/main/ambient/mocha/mocha.d.ts' />
-/// <reference path='../../../typings/custom/chai/chaiAssertions.d.ts' />
-
-'use strict';
-
 import { helper } from './dataContractsHelper.service';
 
 describe('data contracts helper', () => {
