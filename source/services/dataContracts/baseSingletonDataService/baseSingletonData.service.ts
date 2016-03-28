@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter } from '../baseDataServiceBehavior';
 import { ISingletonResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { helper } from '../dataContractsHelper.service';
 
 export var moduleName: string = 'rl.utilities.services.baseSingletonDataService';
 export var factoryName: string = 'baseSingletonDataService';
@@ -12,6 +13,7 @@ export var factoryName: string = 'baseSingletonDataService';
 export interface ISingletonDataService<TDataType> {
     get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
+	version(versionNumber: number): SingletonDataService<TDataType>;
 
     useMock: boolean;
     logRequests: boolean;
@@ -58,6 +60,12 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
             logRequests: this.logRequests,
         });
     }
+
+	version(versionNumber: number): SingletonDataService<TDataType> {
+		let dataService: SingletonDataService<TDataType> = _.clone(this);
+		dataService.endpoint = helper.versionEndpoint(dataService.endpoint, versionNumber);
+		return dataService;
+	}
 }
 
 export interface ISingletonDataServiceFactory {

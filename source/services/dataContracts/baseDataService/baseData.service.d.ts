@@ -12,6 +12,7 @@ export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams
     create(domainObject: TDataType): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
     delete(domainObject: TDataType): angular.IPromise<void>;
+    version(versionNumber: number): DataService<TDataType, TSearchParams>;
     useMock: boolean;
     logRequests: boolean;
 }
@@ -35,6 +36,7 @@ export declare class DataService<TDataType extends IBaseDomainObject, TSearchPar
     create(domainObject: TDataType): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
     delete(domainObject: TDataType): angular.IPromise<void>;
+    version(versionNumber: number): DataService<TDataType, TSearchParams>;
 }
 export interface IDataServiceFactory {
     getInstance<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;

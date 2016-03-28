@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter, IGetListOptions } from '../baseDataServiceBehavior';
 import { IBaseResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { helper } from '../dataContractsHelper.service';
 
 export var moduleName: string = 'rl.utilities.services.baseDataService';
 export var factoryName: string = 'baseDataService';
@@ -20,6 +21,7 @@ export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams
     create(domainObject: TDataType): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
     delete(domainObject: TDataType): angular.IPromise<void>;
+	version(versionNumber: number): DataService<TDataType, TSearchParams>;
 
     useMock: boolean;
     logRequests: boolean;
@@ -125,6 +127,12 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
             logRequests: this.logRequests,
         });
     }
+
+	version(versionNumber: number): DataService<TDataType, TSearchParams> {
+		let dataService: DataService<TDataType, TSearchParams> = _.clone(this);
+		dataService.endpoint = helper.versionEndpoint(dataService.endpoint, versionNumber);
+		return dataService;
+	}
 }
 
 export interface IDataServiceFactory {
