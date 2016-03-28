@@ -2,6 +2,7 @@
 var angular = require('angular');
 var _ = require('lodash');
 var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
+var dataContractsHelper_service_1 = require('../dataContractsHelper.service');
 exports.moduleName = 'rl.utilities.services.baseSingletonDataService';
 exports.factoryName = 'baseSingletonDataService';
 var SingletonDataService = (function () {
@@ -32,6 +33,11 @@ var SingletonDataService = (function () {
             useMock: this.useMock,
             logRequests: this.logRequests,
         });
+    };
+    SingletonDataService.prototype.version = function (versionNumber) {
+        var dataService = _.clone(this);
+        dataService.endpoint = dataContractsHelper_service_1.helper.versionEndpoint(dataService.endpoint, versionNumber);
+        return dataService;
     };
     return SingletonDataService;
 }());

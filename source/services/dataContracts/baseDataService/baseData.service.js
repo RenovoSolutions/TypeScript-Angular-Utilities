@@ -3,6 +3,7 @@ var angular = require('angular');
 var _ = require('lodash');
 var array_service_1 = require('../../array/array.service');
 var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
+var dataContractsHelper_service_1 = require('../dataContractsHelper.service');
 exports.moduleName = 'rl.utilities.services.baseDataService';
 exports.factoryName = 'baseDataService';
 var DataService = (function () {
@@ -87,6 +88,11 @@ var DataService = (function () {
             useMock: this.useMock,
             logRequests: this.logRequests,
         });
+    };
+    DataService.prototype.version = function (versionNumber) {
+        var dataService = _.clone(this);
+        dataService.endpoint = dataContractsHelper_service_1.helper.versionEndpoint(dataService.endpoint, versionNumber);
+        return dataService;
     };
     return DataService;
 }());

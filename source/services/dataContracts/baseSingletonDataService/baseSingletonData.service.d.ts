@@ -5,6 +5,7 @@ export declare var factoryName: string;
 export interface ISingletonDataService<TDataType> {
     get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
+    version(versionNumber: number): SingletonDataService<TDataType>;
     useMock: boolean;
     logRequests: boolean;
 }
@@ -19,6 +20,7 @@ export declare class SingletonDataService<TDataType> implements ISingletonDataSe
     constructor($http: angular.IHttpService, $q: angular.IQService, options: ISingletonResourceParams<TDataType>);
     get(): angular.IPromise<TDataType>;
     update(domainObject: TDataType): angular.IPromise<TDataType>;
+    version(versionNumber: number): SingletonDataService<TDataType>;
 }
 export interface ISingletonDataServiceFactory {
     getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
