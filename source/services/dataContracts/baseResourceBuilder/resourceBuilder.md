@@ -41,7 +41,7 @@ Build a [parentDataService]().
 Build a [parentDataServiceView]().
 
 #### `createSingletonResource(options: ISingletonResourceParams): IParentDataService`
-Build a [singletonDataService]().
+Build a [singletonDataService](../baseSingletonDataService/singletonDataService.md).
 
 #### `createParentSingletonResource(options: IParentSingletonResourceParams): IParentDataService`
 Build a [parentSingletonDataService]().

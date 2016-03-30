@@ -13,7 +13,7 @@ The base configuration options for specifying a data contract.
 ### [Data service](./baseDataService/dataService.md)
 The basic data service type
 
-### [Singleton data service]()
+### [Singleton data service](./baseSingleDataService/singletonDataService.md)
 A data service for getting and updating a single entity.
 
 ### [Data service view](./baseDataService/dataServiceView.md)
