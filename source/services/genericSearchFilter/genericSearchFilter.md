@@ -1,6 +1,8 @@
 ## genericSearchFilter
 A service for performing generic text searching against json objects. Matches the ISerializableFilter interface.
 
+Implements [ISerializableFilter](../../filters/filters.md#ISerializableFilter).
+
 Example usage:
 ```
 import * as angular from 'angular';
@@ -29,7 +31,7 @@ Sets the minimum number of characters required to perform a search. If the searc
 #### `caseSensitive (default: false)`
 If true, matches search results only where the casing is the same.
 
-#### `filter(item: any): boolean`
+#### `filter(item: TItemType): boolean`
 Returns true if the search text matches against any field on the item. Always returns true if the searchText is empty or below the minimum.
 
 #### `serialize(): string`

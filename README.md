@@ -6,10 +6,10 @@ Angular directives that are applied as attributes to an element in order to modi
 
 * [stopEventPropogation](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/behaviors/stopEventPropagation/documentation.md)
 
-## Filters
+## [Filters](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/filters.md)
 Contains Angular filters, which can be applied to bindings using the Angular pipe operator `<span>{{myMoney | currency}}</span>`
 
-Contains a generic filter interface `IFilter`
+Contains interfaces for several types of filters. Also an abstract base class for defining serializable filters.
 
 * [isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/documentation.md)
 
