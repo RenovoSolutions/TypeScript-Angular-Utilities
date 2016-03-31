@@ -1,6 +1,6 @@
 import * as ng from 'angular';
-import { ISingletonDataService, SingletonDataService } from '../singletonDataService/singletonData.service';
-import { IParentSingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
+import { ISingletonDataService, SingletonDataService } from '../../singletonDataService/singletonData.service';
+import { IParentSingletonResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 export interface IParentSingletonDataService<TDataType, TResourceDictionaryType> extends ISingletonDataService<TDataType> {
     childContracts(): TResourceDictionaryType;
 }

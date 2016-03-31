@@ -2,10 +2,10 @@
 var angular = require('angular');
 var array_service_1 = require('../../array/array.service');
 var data_service_1 = require('../dataService/data.service');
-var dataServiceView_1 = require('../dataService/dataServiceView');
-var parentData_service_1 = require('../parentDataService/parentData.service');
+var dataServiceView_1 = require('../dataService/view/dataServiceView');
+var parentData_service_1 = require('../dataService/parent/parentData.service');
 var singletonData_service_1 = require('../singletonDataService/singletonData.service');
-var parentSingletonData_service_1 = require('../parentSingletonDataService/parentSingletonData.service');
+var parentSingletonData_service_1 = require('../singletonDataService/parent/parentSingletonData.service');
 exports.moduleName = 'rl.utilities.services.dataContracts.resourceBuilder';
 exports.serviceName = 'resourceBuilder';
 var BaseResourceBuilder = (function () {

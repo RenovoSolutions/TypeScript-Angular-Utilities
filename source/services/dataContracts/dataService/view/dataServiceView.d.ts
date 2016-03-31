@@ -1,9 +1,9 @@
-import { IArrayUtility } from '../../array/array.service';
-import { IDataService, DataService, IBaseDomainObject } from './data.service';
-import { IParentDataService, ParentDataService } from '../parentDataService/parentData.service';
-import { ISingletonDataService } from '../singletonDataService/singletonData.service';
-import { IParentSingletonDataService } from '../parentSingletonDataService/parentSingletonData.service';
-import { IBaseResourceParams, IParentResourceParams } from '../resourceBuilder/resourceBuilder.service';
+import { IArrayUtility } from '../../../array/array.service';
+import { IDataService, DataService, IBaseDomainObject } from '../data.service';
+import { IParentDataService, ParentDataService } from '../parent/parentData.service';
+import { ISingletonDataService } from '../../singletonDataService/singletonData.service';
+import { IParentSingletonDataService } from '../../singletonDataService/parent/parentSingletonData.service';
+import { IBaseResourceParams, IParentResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 export interface IDataServiceView<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {
     AsSingleton(parentId: number): ISingletonDataService<TDataType>;
 }

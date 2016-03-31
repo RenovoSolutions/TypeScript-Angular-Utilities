@@ -2,7 +2,7 @@
 var angular = require('angular');
 var _ = require('lodash');
 var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
-var dataContractsHelper_service_1 = require('../dataContractsHelper.service');
+var dataContractsHelper_service_1 = require('../dataContractsHelper/dataContractsHelper.service');
 exports.moduleName = 'rl.utilities.services.dataContracts.singletonDataService';
 exports.factoryName = 'singletonDataService';
 var SingletonDataService = (function () {

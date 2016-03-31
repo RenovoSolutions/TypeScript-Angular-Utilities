@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var singletonData_service_1 = require('../singletonDataService/singletonData.service');
+var singletonData_service_1 = require('../../singletonDataService/singletonData.service');
 var ParentSingletonDataService = (function (_super) {
     __extends(ParentSingletonDataService, _super);
     function ParentSingletonDataService($http, $q, options) {

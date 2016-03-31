@@ -3,10 +3,10 @@ import { IArrayUtility } from '../../array/array.service';
 import { ILibraryServices } from '../contractLibrary/contractLibrary';
 import { IConverter } from '../baseDataServiceBehavior';
 import { IDataService, IBaseDomainObject } from '../dataService/data.service';
-import { IDataServiceView, IParentDataServiceView } from '../dataService/dataServiceView';
-import { IParentDataService } from '../parentDataService/parentData.service';
+import { IDataServiceView, IParentDataServiceView } from '../dataService/view/dataServiceView';
+import { IParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
-import { IParentSingletonDataService } from '../parentSingletonDataService/parentSingletonData.service';
+import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
 export declare var moduleName: string;
 export declare var serviceName: string;
 export interface IBaseOptions<TDataType> {

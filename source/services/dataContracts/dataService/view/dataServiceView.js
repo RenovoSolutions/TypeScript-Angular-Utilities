@@ -4,10 +4,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var data_service_1 = require('./data.service');
-var parentData_service_1 = require('../parentDataService/parentData.service');
-var singletonData_service_1 = require('../singletonDataService/singletonData.service');
-var parentSingletonData_service_1 = require('../parentSingletonDataService/parentSingletonData.service');
+var data_service_1 = require('../data.service');
+var parentData_service_1 = require('../parent/parentData.service');
+var singletonData_service_1 = require('../../singletonDataService/singletonData.service');
+var parentSingletonData_service_1 = require('../../singletonDataService/parent/parentSingletonData.service');
 var DataServiceView = (function (_super) {
     __extends(DataServiceView, _super);
     function DataServiceView($http, $q, array, options) {

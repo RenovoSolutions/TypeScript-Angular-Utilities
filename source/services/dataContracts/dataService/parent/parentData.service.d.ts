@@ -1,7 +1,7 @@
 import * as ng from 'angular';
-import { IArrayUtility } from '../../array/array.service';
-import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
-import { IParentResourceParams } from '../resourceBuilder/resourceBuilder.service';
+import { IArrayUtility } from '../../../array/array.service';
+import { IDataService, DataService, IBaseDomainObject } from '../data.service';
+import { IParentResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 export interface IParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IDataService<TDataType, TSearchParams> {
     childContracts(id?: number): TResourceDictionaryType;
 }

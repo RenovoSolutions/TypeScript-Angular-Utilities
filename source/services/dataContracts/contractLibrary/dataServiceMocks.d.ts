@@ -1,5 +1,5 @@
 import { IDataService, IBaseDomainObject } from '../dataService/data.service';
-import { IParentDataService } from '../parentDataService/parentData.service';
+import { IParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 export interface IDataServiceMock<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {
     mockGetList(data: any[]): Sinon.SinonSpy;

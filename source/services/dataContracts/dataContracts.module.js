@@ -15,11 +15,11 @@ __export(require('./contractLibrary/contractLibrary'));
 var data_service_2 = require('./dataService/data.service');
 exports.DataService = data_service_2.DataService;
 exports.baseDataServiceFactoryName = data_service_2.factoryName;
-__export(require('./parentDataService/parentData.service'));
+__export(require('./dataService/parent/parentData.service'));
 var singletonData_service_2 = require('./singletonDataService/singletonData.service');
 exports.SingletonDataService = singletonData_service_2.SingletonDataService;
 exports.baseSingletonDataServiceFactoryName = singletonData_service_2.factoryName;
-__export(require('./parentSingletonDataService/parentSingletonData.service'));
+__export(require('./singletonDataService/parent/parentSingletonData.service'));
 var resourceBuilder_service_2 = require('./resourceBuilder/resourceBuilder.service');
 exports.builderServiceName = resourceBuilder_service_2.serviceName;
 angular.module(exports.moduleName, [
