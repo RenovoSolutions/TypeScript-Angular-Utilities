@@ -1,5 +1,6 @@
 'use strict';
 
+export * from './aliasConverter/aliasConverter';
 export * from './dateConverter/dateConverter';
 export * from './enumConverter/enumConverter';
 
