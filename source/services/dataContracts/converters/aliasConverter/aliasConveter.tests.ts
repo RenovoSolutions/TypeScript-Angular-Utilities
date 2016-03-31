@@ -1,4 +1,5 @@
 import { AliasConverter } from './aliasConverter';
+import { converterService } from '../converters';
 
 describe('aliasConverter', (): void => {
 	let aliasConverter: AliasConverter<string>;
@@ -42,5 +43,34 @@ describe('aliasConverter', (): void => {
 
 		sinon.assert.calledOnce(testConverter.toServer);
 		sinon.assert.calledWith(testConverter.toServer, 'value');
+	});
+
+	describe('integrationTest', (): void => {
+		it('should apply an alias as part of a transform mapping', (): void => {
+			let testConverter = {
+				fromServer(value: number): number { return value + 5; },
+				toServer(value: number): number { return value - 5; },
+			};
+
+			let transform: any = {
+				value: new AliasConverter('valueFromServer'),
+				number: new AliasConverter('numberFromServer', testConverter),
+			};
+
+			let serverData: any = {
+				valueFromServer: 5,
+				numberFromServer: 5,
+			};
+
+			let transformedData: any = converterService.applyTransform(serverData, transform, false);
+
+			expect(transformedData.value).to.equal(5);
+			expect(transformedData.number).to.equal(10);
+
+			serverData = converterService.applyTransform(transformedData, transform, true);
+
+			expect(serverData.valueFromServer).to.equal(5);
+			expect(serverData.numberFromServer).to.equal(5);
+		});
 	});
 });
