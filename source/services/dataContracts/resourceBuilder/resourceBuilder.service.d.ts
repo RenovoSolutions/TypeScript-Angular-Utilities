@@ -2,11 +2,11 @@ import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
 import { ILibraryServices } from './contractLibrary';
 import { IConverter } from '../baseDataServiceBehavior';
-import { IDataService, IBaseDomainObject } from '../baseDataService/baseData.service';
-import { IDataServiceView, IParentDataServiceView } from '../baseDataService/baseDataServiceView';
-import { IParentDataService } from '../baseParentDataService/baseParentData.service';
-import { ISingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
-import { IParentSingletonDataService } from '../baseParentSingletonDataService/baseParentSingletonData.service';
+import { IDataService, IBaseDomainObject } from '../dataService/data.service';
+import { IDataServiceView, IParentDataServiceView } from '../dataService/dataServiceView';
+import { IParentDataService } from '../parentDataService/parentData.service';
+import { ISingletonDataService } from '../singletonDataService/singletonData.service';
+import { IParentSingletonDataService } from '../parentSingletonDataService/parentSingletonData.service';
 export declare var moduleName: string;
 export declare var serviceName: string;
 export interface IBaseOptions<TDataType> {

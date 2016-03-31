@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var _ = require('lodash');
-var baseData_service_1 = require('../baseDataService/baseData.service');
+var data_service_1 = require('../dataService/data.service');
 var ParentDataService = (function (_super) {
     __extends(ParentDataService, _super);
     function ParentDataService($http, $q, array, options) {
@@ -37,6 +37,6 @@ var ParentDataService = (function (_super) {
         }
     };
     return ParentDataService;
-}(baseData_service_1.DataService));
+}(data_service_1.DataService));
 exports.ParentDataService = ParentDataService;
-//# sourceMappingURL=baseParentData.service.js.map
+//# sourceMappingURL=parentData.service.js.map

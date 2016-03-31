@@ -3,8 +3,8 @@ var angular = require('angular');
 var _ = require('lodash');
 var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
 var dataContractsHelper_service_1 = require('../dataContractsHelper.service');
-exports.moduleName = 'rl.utilities.services.baseSingletonDataService';
-exports.factoryName = 'baseSingletonDataService';
+exports.moduleName = 'rl.utilities.services.dataContracts.singletonDataService';
+exports.factoryName = 'singletonDataService';
 var SingletonDataService = (function () {
     function SingletonDataService($http, $q, options) {
         this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, options.transform);
@@ -53,4 +53,4 @@ function singletonDataServiceFactory($http, $q) {
 exports.singletonDataServiceFactory = singletonDataServiceFactory;
 angular.module(exports.moduleName, [])
     .factory(exports.factoryName, singletonDataServiceFactory);
-//# sourceMappingURL=baseSingletonData.service.js.map
+//# sourceMappingURL=singletonData.service.js.map

@@ -1,5 +1,5 @@
 import * as angular from 'angular';
-import { ISingletonResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export interface ISingletonDataService<TDataType> {

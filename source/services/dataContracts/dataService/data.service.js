@@ -4,8 +4,8 @@ var _ = require('lodash');
 var array_service_1 = require('../../array/array.service');
 var baseDataServiceBehavior_1 = require('../baseDataServiceBehavior');
 var dataContractsHelper_service_1 = require('../dataContractsHelper.service');
-exports.moduleName = 'rl.utilities.services.baseDataService';
-exports.factoryName = 'baseDataService';
+exports.moduleName = 'rl.utilities.services.dataContracts.dataService';
+exports.factoryName = 'dataService';
 var DataService = (function () {
     function DataService($http, $q, array, options) {
         this.array = array;
@@ -108,4 +108,4 @@ function dataServiceFactory($http, $q, array) {
 exports.dataServiceFactory = dataServiceFactory;
 angular.module(exports.moduleName, [array_service_1.moduleName])
     .factory(exports.factoryName, dataServiceFactory);
-//# sourceMappingURL=baseData.service.js.map
+//# sourceMappingURL=data.service.js.map

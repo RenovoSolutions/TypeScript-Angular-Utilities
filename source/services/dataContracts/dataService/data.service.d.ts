@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
-import { IBaseResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { IBaseResourceParams } from '../resourceBuilder/resourceBuilder.service';
 export declare var moduleName: string;
 export declare var factoryName: string;
 export interface IBaseDomainObject {

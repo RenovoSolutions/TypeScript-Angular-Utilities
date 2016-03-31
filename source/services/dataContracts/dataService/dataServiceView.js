@@ -4,10 +4,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var baseData_service_1 = require('./baseData.service');
-var baseParentData_service_1 = require('../baseParentDataService/baseParentData.service');
-var baseSingletonData_service_1 = require('../baseSingletonDataService/baseSingletonData.service');
-var baseParentSingletonData_service_1 = require('../baseParentSingletonDataService/baseParentSingletonData.service');
+var data_service_1 = require('./data.service');
+var parentData_service_1 = require('../parentDataService/parentData.service');
+var singletonData_service_1 = require('../singletonDataService/singletonData.service');
+var parentSingletonData_service_1 = require('../parentSingletonDataService/parentSingletonData.service');
 var DataServiceView = (function (_super) {
     __extends(DataServiceView, _super);
     function DataServiceView($http, $q, array, options) {
@@ -20,7 +20,7 @@ var DataServiceView = (function (_super) {
         var mockData = _.find(this.mockData, function (item) {
             return item.id === parentId;
         });
-        return new baseSingletonData_service_1.SingletonDataService(this.$http, this.$q, {
+        return new singletonData_service_1.SingletonDataService(this.$http, this.$q, {
             endpoint: this.endpoint,
             mockData: mockData,
             transform: this.transform,
@@ -29,7 +29,7 @@ var DataServiceView = (function (_super) {
         });
     };
     return DataServiceView;
-}(baseData_service_1.DataService));
+}(data_service_1.DataService));
 exports.DataServiceView = DataServiceView;
 var ParentDataServiceView = (function (_super) {
     __extends(ParentDataServiceView, _super);
@@ -42,7 +42,7 @@ var ParentDataServiceView = (function (_super) {
         var mockData = _.find(this.mockData, function (item) {
             return item.id === parentId;
         });
-        return new baseParentSingletonData_service_1.ParentSingletonDataService(this.$http, this.$q, {
+        return new parentSingletonData_service_1.ParentSingletonDataService(this.$http, this.$q, {
             endpoint: this.endpoint,
             mockData: mockData,
             resourceDictionaryBuilder: this.resourceDictionaryBuilder,
@@ -53,6 +53,6 @@ var ParentDataServiceView = (function (_super) {
         });
     };
     return ParentDataServiceView;
-}(baseParentData_service_1.ParentDataService));
+}(parentData_service_1.ParentDataService));
 exports.ParentDataServiceView = ParentDataServiceView;
-//# sourceMappingURL=baseDataServiceView.js.map
+//# sourceMappingURL=dataServiceView.js.map

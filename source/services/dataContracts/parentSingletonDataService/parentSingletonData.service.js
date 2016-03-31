@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var baseSingletonData_service_1 = require('../baseSingletonDataService/baseSingletonData.service');
+var singletonData_service_1 = require('../singletonDataService/singletonData.service');
 var ParentSingletonDataService = (function (_super) {
     __extends(ParentSingletonDataService, _super);
     function ParentSingletonDataService($http, $q, options) {
@@ -28,6 +28,6 @@ var ParentSingletonDataService = (function (_super) {
         });
     };
     return ParentSingletonDataService;
-}(baseSingletonData_service_1.SingletonDataService));
+}(singletonData_service_1.SingletonDataService));
 exports.ParentSingletonDataService = ParentSingletonDataService;
-//# sourceMappingURL=baseParentSingletonData.service.js.map
+//# sourceMappingURL=parentSingletonData.service.js.map
