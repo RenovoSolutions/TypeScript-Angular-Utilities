@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter } from '../baseDataServiceBehavior';
 import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
-import { helper } from '../dataContractsHelper.service';
+import { helper } from '../dataContractsHelper/dataContractsHelper.service';
 
 export var moduleName: string = 'rl.utilities.services.dataContracts.singletonDataService';
 export var factoryName: string = 'singletonDataService';
