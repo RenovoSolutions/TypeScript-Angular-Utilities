@@ -126,4 +126,33 @@ describe('Converters', () => {
 		expect(transformedItem.obj.prop2).to.equal(4);
 		sinon.assert.calledOnce(numberConverter.fromServer);
 	});
+
+	it('should provide the parent object to a property transform', (): void => {
+		let converter: any = {
+			fromServer: sinon.spy(),
+			toServer: sinon.spy(),
+		};
+
+		let map: any = {
+			prop: converter,
+		};
+
+		let item: ITestMock = {
+			prop: 'value',
+		};
+
+		converterService.applyTransform(item, map, false);
+
+		sinon.assert.calledOnce(converter.fromServer);
+		let args: any = converter.fromServer.firstCall.args;
+		expect(args[0]).to.equal('value');
+		expect(args[1]).to.equal(item);
+
+		converterService.applyTransform(item, map, true);
+
+		sinon.assert.calledOnce(converter.toServer);
+		args = converter.toServer.firstCall.args;
+		expect(args[0]).to.equal('value');
+		expect(args[1]).to.equal(item);
+	});
 });

@@ -4,8 +4,8 @@ export * from './dateConverter/dateConverter';
 export * from './enumConverter/enumConverter';
 
 export interface IConverter<TDataType> {
-	fromServer(raw: any): TDataType;
-    toServer(data: TDataType): any,
+	fromServer(raw: any, parent?: any): TDataType;
+    toServer(data: TDataType, parent?: any): any,
 }
 
 export interface ITransformMapping {
@@ -17,7 +17,7 @@ export interface IConverterService {
 }
 
 export class ConverterService {
-	applyTransform(data: any, transform: IConverter<any> | ITransformMapping, toServer: boolean): any {
+	applyTransform(data: any, transform: IConverter<any> | ITransformMapping, toServer: boolean, parent?: any): any {
 		if (transform == null) {
 			return data;
 		}
@@ -27,14 +27,14 @@ export class ConverterService {
 		}
 
 		if (this.isConverter(transform)) {
-			let transformFunc: { (data: any): any } = toServer
+			let transformFunc: { (data: any, parent?: any): any } = toServer
 				? (<IConverter<any>>transform).toServer
 				: (<IConverter<any>>transform).fromServer;
-			return transformFunc(data);
+			return transformFunc(data, parent);
 		} else {
 			return <any>_.mapValues(data, (prop: any, key: string): any => {
 				if (_.has(transform, key)) {
-					return this.applyTransform(prop, transform[key], toServer);
+					return this.applyTransform(prop, transform[key], toServer, data);
 				}
 				return prop;
 			});
