@@ -7,7 +7,7 @@ The resource builder is used to build data services from contract definitions.
 ### [Contract library](./contractLibrary/contractLibrary.md)
 A base class to provide tools for mocking functions on the data contract library.
 
-### [Data contract](./dataService.md)
+### [Data contract](./baseDataService.md)
 The base configuration options for specifying a data contract.
 
 ### [Data service](./dataService/dataService.md)
