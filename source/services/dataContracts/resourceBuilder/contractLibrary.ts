@@ -5,7 +5,7 @@
 import * as ng from 'angular';
 import * as _ from 'lodash';
 
-import { IBaseResourceBuilder, BaseResourceBuilder } from './baseResourceBuilder.service';
+import { IBaseResourceBuilder, BaseResourceBuilder } from './resourceBuilder.service';
 import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock } from './dataServiceMocks';
 
 export interface IContractLibrary {

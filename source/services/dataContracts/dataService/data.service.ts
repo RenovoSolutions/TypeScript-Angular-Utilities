@@ -5,11 +5,11 @@ import * as _ from 'lodash';
 
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter, IGetListOptions } from '../baseDataServiceBehavior';
-import { IBaseResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { IBaseResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper.service';
 
-export var moduleName: string = 'rl.utilities.services.baseDataService';
-export var factoryName: string = 'baseDataService';
+export var moduleName: string = 'rl.utilities.services.dataContracts.dataService';
+export var factoryName: string = 'dataService';
 
 export interface IBaseDomainObject {
     id?: number;

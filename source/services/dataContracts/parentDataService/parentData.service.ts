@@ -4,10 +4,10 @@ import * as _ from 'lodash';
 import { IArrayUtility } from '../../array/array.service';
 
 import { IConverter } from '../baseDataServiceBehavior';
-import { IDataService, DataService, IBaseDomainObject } from '../baseDataService/baseData.service';
-import { IDataServiceView } from '../baseDataService/baseDataServiceView';
-import { ISingletonDataService } from '../baseSingletonDataService/baseSingletonData.service';
-import { IParentResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
+import { IDataServiceView } from '../dataService/dataServiceView';
+import { ISingletonDataService } from '../singletonDataService/singletonData.service';
+import { IParentResourceParams } from '../resourceBuilder/resourceBuilder.service';
 
 export interface IParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends IDataService<TDataType, TSearchParams>{

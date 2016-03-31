@@ -29,19 +29,19 @@ See [contractLibrary](./contractLibrary.md) for details on the contract library 
 See [dataContract](../baseDataService.md) for details on options for data contracts.
 
 #### `createResource(options: IBaseResourceParams): IDataService`
-Build a standard [dataService](../baseDataService/dataService.md).
+Build a standard [dataService](../dataService/dataService.md).
 
 #### `createResourceView(options: IBaseResourceParams): IDataServiceView`
-Build a [dataServiceView](../baseDataService/dataServiceView.md).
+Build a [dataServiceView](../dataService/dataServiceView.md).
 
 #### `createParentResource(options: IParentResourceParams): IParentDataService`
-Build a [parentDataService](../baseParentDataService/parentDataService.md).
+Build a [parentDataService](../parentDataService/parentDataService.md).
 
 #### `createParentResourceView(options: IParentResourceParams): IParentDataService`
-Build a [parentDataServiceView](../baseDataService/parentDataServiceView.md).
+Build a [parentDataServiceView](../dataService/parentDataServiceView.md).
 
 #### `createSingletonResource(options: ISingletonResourceParams): IParentDataService`
-Build a [singletonDataService](../baseSingletonDataService/singletonDataService.md).
+Build a [singletonDataService](../singletonDataService/singletonDataService.md).
 
 #### `createParentSingletonResource(options: IParentSingletonResourceParams): IParentDataService`
-Build a [parentSingletonDataService](../baseParentSingletonDataService/parentSingletonDataService.md).
+Build a [parentSingletonDataService](../parentSingletonDataService/parentSingletonDataService.md).

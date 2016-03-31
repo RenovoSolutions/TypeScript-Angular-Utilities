@@ -1,7 +1,7 @@
-import { IBaseDataService } from '../baseDataService/baseData.service';
-import { IBaseDataServiceView } from '../baseDataService/baseDataServiceView';
-import { IBaseParentDataService } from './baseParentData.service';
-import { IBaseResourceBuilder, moduleName, serviceName } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { IBaseDataService } from '../dataService/data.service';
+import { IBaseDataServiceView } from '../dataService/dataServiceView';
+import { IBaseParentDataService } from './parentData.service';
+import { IBaseResourceBuilder, moduleName, serviceName } from '../resourceBuilder/resourceBuilder.service';
 
 import { angularFixture } from '../../test/angularFixture';
 
@@ -20,7 +20,7 @@ interface ITestMock {
 	prop: string;
 }
 
-describe('base parent data service', () => {
+describe('parent data service', () => {
 	let baseParentDataService: IBaseParentDataService<any, void, ITestResourceDictionaryType>;
 	let baseResourceBuilder: IBaseResourceBuilder;
 	let $rootScope: angular.IRootScopeService;

@@ -4,11 +4,11 @@ import * as angular from 'angular';
 import * as _ from 'lodash';
 
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter } from '../baseDataServiceBehavior';
-import { ISingletonResourceParams } from '../baseResourceBuilder/baseResourceBuilder.service';
+import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper.service';
 
-export var moduleName: string = 'rl.utilities.services.baseSingletonDataService';
-export var factoryName: string = 'baseSingletonDataService';
+export var moduleName: string = 'rl.utilities.services.dataContracts.singletonDataService';
+export var factoryName: string = 'singletonDataService';
 
 export interface ISingletonDataService<TDataType> {
     get(): angular.IPromise<TDataType>;

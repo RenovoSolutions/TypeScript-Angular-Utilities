@@ -1,7 +1,7 @@
 ## Parent Data service
 Specifies a data contract that points to a resource that is part of a hierarchy.
 
-Extends [dataService](../baseDataService/dataService.md).
+Extends [dataService](../dataService/dataService.md).
 
 ### Options
 
@@ -20,7 +20,7 @@ The following functions are available for consumers of the parent data service.
 
 `getList`, `getDetail`, `create`, `update`, `delete`, `version`.
 
-See [dataService](../baseDataService/dataService.md) for details on the base options.
+See [dataService](../dataService/dataService.md) for details on the base options.
 
 #### `childContracts(id?: number): TResourceDictionaryType`
 Returns the children of the data service. If an id is provided, the children are scoped to a single parent object.
@@ -83,4 +83,4 @@ dataServices.user.childContracts(11).settings.get()
 ```
 You should verify that the API supports both url forms, and if not, be careful to only use the form that is supported by the API.
 
-See [dataServiceView](../baseDataService/dataServiceView.md) for details on how to define a `view`.
+See [dataServiceView](../dataService/dataServiceView.md) for details on how to define a `view`.
