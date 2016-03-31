@@ -25,5 +25,5 @@ A data service that my also have child data services defined under it.
 ### [Parent singleton data service](./baseParentSingletonDataService/parentSingletonDataService.md)
 A parent data service for getting and updating a single entity.
 
-### [Parent data service view]()
+### [Parent data service view](./baseDataService/parentDataServiceView.md)
 A parent data service that is a `view` of another parent.
