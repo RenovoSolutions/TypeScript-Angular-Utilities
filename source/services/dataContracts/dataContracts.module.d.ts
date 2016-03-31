@@ -1,7 +1,7 @@
 import * as converters from './converters/converters';
-import * as mocks from './resourceBuilder/dataServiceMocks';
+import * as mocks from './contractLibrary/dataServiceMocks';
 export declare var moduleName: string;
-export * from './resourceBuilder/contractLibrary';
+export * from './contractLibrary/contractLibrary';
 export { IDataService, IDataServiceFactory, IBaseDomainObject, DataService, factoryName as baseDataServiceFactoryName } from './dataService/data.service';
 export { IDataServiceView, IParentDataServiceView } from './dataService/dataServiceView';
 export * from './parentDataService/parentData.service';

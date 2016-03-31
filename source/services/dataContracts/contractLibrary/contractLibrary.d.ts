@@ -1,5 +1,5 @@
 import * as ng from 'angular';
-import { IBaseResourceBuilder } from './resourceBuilder.service';
+import { IBaseResourceBuilder } from '../resourceBuilder/resourceBuilder.service';
 import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock } from './dataServiceMocks';
 export interface IContractLibrary {
     flush(): void;
