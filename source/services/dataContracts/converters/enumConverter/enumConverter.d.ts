@@ -1,4 +1,4 @@
-import { IConverter } from '../../baseDataServiceBehavior';
+import { IConverter } from '../converters';
 import { IItemList, IItem } from '../../../../types/itemList';
 export { IConverter };
 export declare class EnumConverter<TItemType extends IItem> implements IConverter<TItemType> {
