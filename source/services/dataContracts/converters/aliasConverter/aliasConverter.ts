@@ -12,6 +12,7 @@ export class AliasConverter<TDataType> implements IConverter<TDataType> {
 		}
 
 		raw = parent[this.alias];
+		parent[this.alias] = null;
 
 		if (this.composedConverter != null) {
 			return this.composedConverter.fromServer(raw, parent);
