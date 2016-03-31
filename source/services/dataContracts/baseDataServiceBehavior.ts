@@ -3,10 +3,7 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 
-export interface IConverter<TDataType> {
-	fromServer(raw: any): TDataType;
-    toServer(data: TDataType): any,
-}
+import { IConverter } from './converters/converters';
 
 export interface IRequestOptions {
     endpoint: string;

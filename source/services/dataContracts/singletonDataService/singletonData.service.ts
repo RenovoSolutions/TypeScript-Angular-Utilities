@@ -3,7 +3,7 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 
-import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter } from '../baseDataServiceBehavior';
+import { IBaseDataServiceBehavior, BaseDataServiceBehavior } from '../baseDataServiceBehavior';
 import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper/dataContractsHelper.service';
 

@@ -2,7 +2,7 @@
 
 import * as moment from 'moment';
 
-import { IConverter } from '../../baseDataServiceBehavior';
+import { IConverter } from '../converters';
 import { IItemList, IItem } from '../../../../types/itemList';
 
 export { IConverter };

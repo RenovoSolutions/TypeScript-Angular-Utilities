@@ -4,7 +4,7 @@ import * as angular from 'angular';
 import * as _ from 'lodash';
 
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
-import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IConverter, IGetListOptions } from '../baseDataServiceBehavior';
+import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IGetListOptions } from '../baseDataServiceBehavior';
 import { IBaseResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper/dataContractsHelper.service';
 

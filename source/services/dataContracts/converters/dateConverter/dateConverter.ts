@@ -2,7 +2,7 @@
 
 import * as moment from 'moment';
 
-import { IConverter } from '../../baseDataServiceBehavior';
+import { IConverter } from '../converters';
 import { dateUtility, defaultFormats } from '../../../date/date.module';
 
 export let dateConverter: IConverter<Date> = {
