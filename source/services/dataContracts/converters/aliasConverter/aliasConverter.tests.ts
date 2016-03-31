@@ -46,22 +46,28 @@ describe('aliasConverter', (): void => {
 	});
 
 	describe('integrationTest', (): void => {
-		it('should apply an alias as part of a transform mapping', (): void => {
-			let testConverter = {
+		let testConverter: any;
+		let transform: any;
+		let serverData: any;
+
+		beforeEach((): void => {
+			testConverter = {
 				fromServer(value: number): number { return value + 5; },
 				toServer(value: number): number { return value - 5; },
 			};
 
-			let transform: any = {
+			transform = {
 				value: new AliasConverter('valueFromServer'),
 				number: new AliasConverter('numberFromServer', testConverter),
 			};
 
-			let serverData: any = {
+			serverData = {
 				valueFromServer: 5,
 				numberFromServer: 5,
 			};
+		});
 
+		it('should apply an alias as part of a transform mapping', (): void => {
 			let transformedData: any = converterService.applyTransform(serverData, transform, false);
 
 			expect(transformedData.value).to.equal(5);
@@ -71,6 +77,18 @@ describe('aliasConverter', (): void => {
 
 			expect(serverData.valueFromServer).to.equal(5);
 			expect(serverData.numberFromServer).to.equal(5);
+		});
+
+		it('should cleanup the value at the original key of the alias', (): void => {
+			let transformedData: any = converterService.applyTransform(serverData, transform, false);
+
+			expect(transformedData.valueFromServer).to.not.exist;
+			expect(transformedData.numberFromServer).to.not.exist;
+
+			serverData = converterService.applyTransform(transformedData, transform, true);
+
+			expect(serverData.value).to.not.exist;
+			expect(serverData.number).to.not.exist;
 		});
 	});
 });
