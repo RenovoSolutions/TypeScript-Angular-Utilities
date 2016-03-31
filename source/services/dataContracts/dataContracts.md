@@ -22,7 +22,7 @@ A data service type representing a `view` of a parent resource. Functions as a n
 ### [Parent data service](./baseParentDataService/parentDataService.md)
 A data service that my also have child data services defined under it.
 
-### [Parent singleton data service]()
+### [Parent singleton data service](./baseParentSingletonDataService/parentSingletonDataService.md)
 A parent data service for getting and updating a single entity.
 
 ### [Parent data service view]()
