@@ -18,6 +18,11 @@ describe('aliasConverter', (): void => {
 		expect(parent.propValue).to.equal('value');
 	});
 
+	it('should return null if alias property doesnt exist on the parent', (): void => {
+		let parent: any = {};
+		expect(aliasConverter.fromServer(undefined, parent)).to.be.null;
+	});
+
 	it('should apply another converter to the aliased property', (): void => {
 		let testConverter: any = {
 			fromServer: sinon.spy(),
