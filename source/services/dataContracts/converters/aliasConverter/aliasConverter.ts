@@ -6,7 +6,7 @@ export class AliasConverter<TDataType> implements IConverter<TDataType> {
 	constructor(private alias: string
 			, private composedConverter?: IConverter<TDataType>) { }
 
-	fromServer(raw: any, parent: any): TDataType {
+	fromServer: { (raw: any, parent: any): TDataType } = (raw: any, parent: any): TDataType => {
 		if (!_.has(parent, this.alias)) {
 			return null;
 		}
@@ -20,7 +20,7 @@ export class AliasConverter<TDataType> implements IConverter<TDataType> {
 		return raw;
 	}
 
-	toServer(data: TDataType, parent: any): any {
+	toServer: {(data: TDataType, parent: any): any} = (data: TDataType, parent: any): any => {
 		if (this.composedConverter != null) {
 			data = this.composedConverter.toServer(data, parent);
 		}
