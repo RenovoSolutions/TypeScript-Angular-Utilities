@@ -10,6 +10,7 @@ var AliasConverter = (function () {
                 return null;
             }
             raw = parent[_this.alias];
+            parent[_this.alias] = null;
             if (_this.composedConverter != null) {
                 return _this.composedConverter.fromServer(raw, parent);
             }
