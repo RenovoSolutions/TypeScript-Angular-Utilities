@@ -6,17 +6,10 @@ See [dataService](./dataService.md) and [singletonDataService](../baseSingletonD
 ### Example
 Data service view:
 ```
-export let endpoint: string = '/permissions';
+export let endpoint: string = '/settings';
 
-export interface IUserPermissions {
-	financial: ICRUDPermissions;
-}
-
-export interface ICRUDPermissions {
-	create: boolean;
-	read: boolean;
-	edit: boolean;
-	delete: boolean;
+export interface IUserSettings {
+	theme: string;
 }
 ```
 Definition in the parent (see [parentDataService](../baseParentDataService/parentDataService.md) for details on how to define a parent data service):
@@ -24,19 +17,19 @@ Definition in the parent (see [parentDataService](../baseParentDataService/paren
 import { services } from 'typescript-angular-utilities';
 import __dataContracts = services.dataContracts;
 
-import * as permissions from './permissions';
+import * as settings from './settings';
 
-export { permissions };
+export { settings };
 
 export interface IChildResources {
-	permissions: __dataContracts.IDataServiceView<permissions.IUserPermissions, void>;
+	settings: __dataContracts.IDataServiceView<settings.IUserSettings, void>;
 }
 
 export function buildChildResources(baseResourceBuilder: __dataContracts.IBaseResourceBuilder): { (): IChildResources } {
 	return (): IServiceEventChildResources => {
 		return {
-			permissions: baseResourceBuilder.createResourceView<permissions.IUserPermissions, void>({
-				endpoint: permissions.endpoint,
+			settings: baseResourceBuilder.createResourceView<settings.IUserSettings, void>({
+				endpoint: settings.endpoint,
 			}),
 		};
 	};
@@ -50,17 +43,17 @@ import __dataContracts = services.dataContracts;
 import { DataServices, serviceName as dataServiceName, user } from '../data/data.service';
 
 export class MyConsumer {
-	permissionsResource: __dataContracts.IDataService<user.permissions.IUserPermissions, void>;
+	settingsResource: __dataContracts.IDataService<user.settings.IUserSettings, void>;
 
 	static $inject: string[] = [dataServiceName];
 	constructor(dataServices: DataServices) {
 		// no parent is selected
-		this.permissionsResource = dataServices.user.childContract();
+		this.settingsResource = dataServices.user.childContract();
 	}
 
 	action(): void {
-		this.permissionsResource.getList().then((permissions: user.permissions.IUserPermissions[]): void => {
-			console.log(permissions);
+		this.settingsResource.getList().then((settings: user.settings.IUserSettings[]): void => {
+			console.log(settings);
 		});
 	}
 }
@@ -73,17 +66,17 @@ import __dataContracts = services.dataContracts;
 import { DataServices, serviceName as dataServiceName, user } from '../data/data.service';
 
 export class MyConsumer {
-	permissionsResource: __dataContracts.IDataService<user.permissions.IUserPermissions, void>;
+	settingsResource: __dataContracts.IDataService<user.settings.IUserSettings, void>;
 
 	static $inject: string[] = [dataServiceName, 'userId'];
 	constructor(dataServices: DataServices, userId: number) {
 		// select a parent
-		this.permissionsResource = dataServices.user.childContract(userId);
+		this.settingsResource = dataServices.user.childContract(userId).settings;
 	}
 
 	action(): void {
-		this.permissionsResource.get().then((permissions: user.permissions.IUserPermissions): void => {
-			console.log(permissions);
+		this.settingsResource.get().then((settings: user.settings.IUserSettings): void => {
+			console.log(settings);
 		});
 	}
 }
