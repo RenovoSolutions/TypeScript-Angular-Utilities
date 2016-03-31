@@ -17,4 +17,25 @@ describe('aliasConverter', (): void => {
 		aliasConverter.toServer('value', parent);
 		expect(parent.propValue).to.equal('value');
 	});
+
+	it('should apply another converter to the aliased property', (): void => {
+		let testConverter: any = {
+			fromServer: sinon.spy(),
+			toServer: sinon.spy(),
+		};
+
+		aliasConverter = new AliasConverter<string>('propValue', testConverter);
+
+		let parent: any = { propValue: 'value' };
+
+		aliasConverter.fromServer(undefined, parent);
+
+		sinon.assert.calledOnce(testConverter.fromServer);
+		sinon.assert.calledWith(testConverter.fromServer, 'value');
+
+		aliasConverter.toServer('value', parent);
+
+		sinon.assert.calledOnce(testConverter.toServer);
+		sinon.assert.calledWith(testConverter.toServer, 'value');
+	});
 });
