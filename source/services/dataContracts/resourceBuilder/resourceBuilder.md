@@ -32,16 +32,16 @@ See [dataContract](../baseDataService.md) for details on options for data contra
 Build a standard [dataService](../dataService/dataService.md).
 
 #### `createResourceView(options: IBaseResourceParams): IDataServiceView`
-Build a [dataServiceView](../dataService/dataServiceView.md).
+Build a [dataServiceView](../dataService/view/dataServiceView.md).
 
 #### `createParentResource(options: IParentResourceParams): IParentDataService`
-Build a [parentDataService](../parentDataService/parentDataService.md).
+Build a [parentDataService](../dataService/parent/parentDataService.md).
 
 #### `createParentResourceView(options: IParentResourceParams): IParentDataService`
-Build a [parentDataServiceView](../dataService/parentDataServiceView.md).
+Build a [parentDataServiceView](../dataService/view/parentDataServiceView.md).
 
 #### `createSingletonResource(options: ISingletonResourceParams): IParentDataService`
 Build a [singletonDataService](../singletonDataService/singletonDataService.md).
 
 #### `createParentSingletonResource(options: IParentSingletonResourceParams): IParentDataService`
-Build a [parentSingletonDataService](../parentSingletonDataService/parentSingletonDataService.md).
+Build a [parentSingletonDataService](../singletonDataService/parent/parentSingletonDataService.md).

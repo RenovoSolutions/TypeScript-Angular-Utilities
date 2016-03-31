@@ -16,14 +16,14 @@ The basic data service type
 ### [Singleton data service](./singleDataService/singletonDataService.md)
 A data service for getting and updating a single entity.
 
-### [Data service view](./dataService/dataServiceView.md)
+### [Data service view](./dataService/view/dataServiceView.md)
 A data service type representing a `view` of a parent resource. Functions as a normal data service unless a specific parent is selected, at which point the `view` is treated as a singleton.
 
-### [Parent data service](./parentDataService/parentDataService.md)
+### [Parent data service](./dataService/parent/parentDataService.md)
 A data service that my also have child data services defined under it.
 
-### [Parent singleton data service](./parentSingletonDataService/parentSingletonDataService.md)
+### [Parent singleton data service](./singletonDataService/parent/parentSingletonDataService.md)
 A parent data service for getting and updating a single entity.
 
-### [Parent data service view](./dataService/parentDataServiceView.md)
+### [Parent data service view](./dataService/view/parentDataServiceView.md)
 A parent data service that is a `view` of another parent.

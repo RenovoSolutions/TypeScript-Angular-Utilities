@@ -1,9 +1,9 @@
-import { IBaseDataService } from '../dataService/data.service';
-import { IBaseDataServiceView } from '../dataService/dataServiceView';
+import { IBaseDataService } from '../data.service';
+import { IBaseDataServiceView } from '../view/dataServiceView';
 import { IBaseParentDataService } from './parentData.service';
-import { IBaseResourceBuilder, moduleName, serviceName } from '../resourceBuilder/resourceBuilder.service';
+import { IBaseResourceBuilder, moduleName, serviceName } from '../../resourceBuilder/resourceBuilder.service';
 
-import { angularFixture } from '../../test/angularFixture';
+import { angularFixture } from '../../../test/angularFixture';
 
 import * as angular from 'angular';
 import 'angular-mocks';

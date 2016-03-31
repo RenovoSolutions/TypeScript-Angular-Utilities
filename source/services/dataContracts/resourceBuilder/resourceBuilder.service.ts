@@ -7,10 +7,10 @@ import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModu
 import { IContractLibrary, ContractLibrary, ILibraryServices } from '../contractLibrary/contractLibrary';
 import { IConverter } from '../baseDataServiceBehavior';
 import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
-import { IDataServiceView, IParentDataServiceView, DataServiceView, ParentDataServiceView } from '../dataService/dataServiceView';
-import { IParentDataService, ParentDataService } from '../parentDataService/parentData.service';
+import { IDataServiceView, IParentDataServiceView, DataServiceView, ParentDataServiceView } from '../dataService/view/dataServiceView';
+import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService, SingletonDataService } from '../singletonDataService/singletonData.service';
-import { IParentSingletonDataService, ParentSingletonDataService } from '../parentSingletonDataService/parentSingletonData.service';
+import { IParentSingletonDataService, ParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
 
 export var moduleName: string = 'rl.utilities.services.dataContracts.resourceBuilder';
 export var serviceName: string = 'resourceBuilder';

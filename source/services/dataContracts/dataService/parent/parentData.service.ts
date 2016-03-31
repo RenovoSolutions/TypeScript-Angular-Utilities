@@ -1,13 +1,13 @@
 import * as ng from 'angular';
 import * as _ from 'lodash';
 
-import { IArrayUtility } from '../../array/array.service';
+import { IArrayUtility } from '../../../array/array.service';
 
-import { IConverter } from '../baseDataServiceBehavior';
-import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
-import { IDataServiceView } from '../dataService/dataServiceView';
-import { ISingletonDataService } from '../singletonDataService/singletonData.service';
-import { IParentResourceParams } from '../resourceBuilder/resourceBuilder.service';
+import { IConverter } from '../../baseDataServiceBehavior';
+import { IDataService, DataService, IBaseDomainObject } from '../data.service';
+import { IDataServiceView } from '../view/dataServiceView';
+import { ISingletonDataService } from '../../singletonDataService/singletonData.service';
+import { IParentResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 
 export interface IParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends IDataService<TDataType, TSearchParams>{

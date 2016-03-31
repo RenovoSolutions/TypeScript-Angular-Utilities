@@ -1,13 +1,13 @@
 'use strict';
 
-import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
+import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../../array/array.service';
 
-import { IConverter } from '../baseDataServiceBehavior';
-import { IDataService, DataService, IBaseDomainObject } from './data.service';
-import { IParentDataService, ParentDataService } from '../parentDataService/parentData.service';
-import { ISingletonDataService, SingletonDataService } from '../singletonDataService/singletonData.service';
-import { IParentSingletonDataService, ParentSingletonDataService } from '../parentSingletonDataService/parentSingletonData.service';
-import { IBaseResourceParams, IParentResourceParams } from '../resourceBuilder/resourceBuilder.service';
+import { IConverter } from '../../baseDataServiceBehavior';
+import { IDataService, DataService, IBaseDomainObject } from '../data.service';
+import { IParentDataService, ParentDataService } from '../parent/parentData.service';
+import { ISingletonDataService, SingletonDataService } from '../../singletonDataService/singletonData.service';
+import { IParentSingletonDataService, ParentSingletonDataService } from '../../singletonDataService/parent/parentSingletonData.service';
+import { IBaseResourceParams, IParentResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 
 export interface IDataServiceView<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {
 	AsSingleton(parentId: number): ISingletonDataService<TDataType>;

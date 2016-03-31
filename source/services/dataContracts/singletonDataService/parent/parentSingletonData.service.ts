@@ -1,10 +1,10 @@
 import * as ng from 'angular';
 
-import { IConverter } from '../baseDataServiceBehavior';
-import { ISingletonDataService, SingletonDataService } from '../singletonDataService/singletonData.service';
-import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
-import { IDataServiceView } from '../dataService/dataServiceView';
-import { IParentSingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
+import { IConverter } from '../../baseDataServiceBehavior';
+import { ISingletonDataService, SingletonDataService } from '../../singletonDataService/singletonData.service';
+import { IDataService, DataService, IBaseDomainObject } from '../../dataService/data.service';
+import { IDataServiceView } from '../../dataService/view/dataServiceView';
+import { IParentSingletonResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 
 export interface IParentSingletonDataService<TDataType, TResourceDictionaryType>
 	extends ISingletonDataService<TDataType>{

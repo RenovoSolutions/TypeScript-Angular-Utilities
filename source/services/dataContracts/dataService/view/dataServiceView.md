@@ -1,7 +1,7 @@
 ## Data service view
 This is a special use case for a child resource that is a `view` of the parent. If a specific parent is selected, the `view` is treated as a singleton. Otherwise, it is treated as a standard resource.
 
-See [dataService](./dataService.md) and [singletonDataService](../singletonDataService/singletonDataService.md) for details on each resource type.
+See [dataService](../dataService.md) and [singletonDataService](../../singletonDataService/singletonDataService.md) for details on each resource type.
 
 ### Example
 Data service view:
@@ -12,7 +12,7 @@ export interface IUserSettings {
 	theme: string;
 }
 ```
-Definition in the parent (see [parentDataService](../parentDataService/parentDataService.md) for details on how to define a parent data service):
+Definition in the parent (see [parentDataService](../parent/parentDataService.md) for details on how to define a parent data service):
 ```
 import { services } from 'typescript-angular-utilities';
 import __dataContracts = services.dataContracts;
