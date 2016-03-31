@@ -4,7 +4,7 @@ The data contracts library provides a framework for providing contracts with RES
 ### [Resource builder](./resourceBuilder/resourceBuilder.md)
 The resource builder is used to build data services from contract definitions.
 
-### [Contract library](./resourceBuilder/contractLibrary.md)
+### [Contract library](./contractLibrary/contractLibrary.md)
 A base class to provide tools for mocking functions on the data contract library.
 
 ### [Data contract](./dataService.md)

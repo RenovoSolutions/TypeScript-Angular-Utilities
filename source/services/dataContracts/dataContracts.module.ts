@@ -7,11 +7,11 @@ import { moduleName as baseDataServiceModuleName } from './dataService/data.serv
 import { moduleName as baseSingletonDataServiceModuleName } from './singletonDataService/singletonData.service';
 
 import * as converters from './converters/converters';
-import * as mocks from './resourceBuilder/dataServiceMocks';
+import * as mocks from './contractLibrary/dataServiceMocks';
 
 export var moduleName: string = 'rl.utilities.services.dataContracts';
 
-export * from './resourceBuilder/contractLibrary';
+export * from './contractLibrary/contractLibrary';
 export { IDataService, IDataServiceFactory, IBaseDomainObject, DataService, factoryName as baseDataServiceFactoryName } from './dataService/data.service';
 export { IDataServiceView, IParentDataServiceView } from './dataService/dataServiceView';
 export * from './parentDataService/parentData.service';

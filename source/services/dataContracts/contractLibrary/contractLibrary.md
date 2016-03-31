@@ -1,7 +1,7 @@
 ## Contract library
 A bass class that provides tooling for mocking data contracts for unit testing.
 
-See [resourceBuilder](./resourceBuilder.md) for example usage.
+See [resourceBuilder](../resourceBuilder/resourceBuilder.md) for example usage.
 
 ### Interface
 The following functions are available for building mocks against the contract library.

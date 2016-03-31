@@ -22,7 +22,7 @@ class DataServices extends __dataContracts.ContractLibrary {
 }
 ```
 
-See [contractLibrary](./contractLibrary.md) for details on the contract library base class.
+See [contractLibrary](../contractLibrary/contractLibrary.md) for details on the contract library base class.
 
 ### Options
 
