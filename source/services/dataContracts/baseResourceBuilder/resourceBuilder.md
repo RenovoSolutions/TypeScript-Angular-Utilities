@@ -35,7 +35,7 @@ Build a standard [dataService](../baseDataService/dataService.md).
 Build a [dataServiceView](../baseDataService/dataServiceView.md).
 
 #### `createParentResource(options: IParentResourceParams): IParentDataService`
-Build a [parentDataService]().
+Build a [parentDataService](../baseParentDataService/parentDataService.md).
 
 #### `createParentResourceView(options: IParentResourceParams): IParentDataService`
 Build a [parentDataServiceView]().

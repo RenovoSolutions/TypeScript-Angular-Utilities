@@ -19,7 +19,7 @@ A data service for getting and updating a single entity.
 ### [Data service view](./baseDataService/dataServiceView.md)
 A data service type representing a `view` of a parent resource. Functions as a normal data service unless a specific parent is selected, at which point the `view` is treated as a singleton.
 
-### [Parent data service]()
+### [Parent data service](./baseParentDataService/parentDataService.md)
 A data service that my also have child data services defined under it.
 
 ### [Parent singleton data service]()
