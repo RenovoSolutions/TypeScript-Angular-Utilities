@@ -1,7 +1,7 @@
 ## genericSearchFilter
 A service for performing generic text searching against json objects. Matches the ISerializableFilter interface.
 
-Implements [ISerializableFilter](../../filters/filters.md#ISerializableFilter).
+Implements [ISerializableFilter](../../filters/filters.md#iserializablefilter).
 
 Example usage:
 ```
