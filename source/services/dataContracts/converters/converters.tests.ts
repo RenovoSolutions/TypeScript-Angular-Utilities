@@ -129,8 +129,8 @@ describe('Converters', () => {
 
 	it('should provide the parent object to a property transform', (): void => {
 		let converter: any = {
-			fromServer: sinon.spy(),
-			toServer: sinon.spy(),
+			fromServer: sinon.spy((prop: any): any => { return prop; }),
+			toServer: sinon.spy((prop: any): any => { return prop; }),
 		};
 
 		let map: any = {
@@ -146,13 +146,13 @@ describe('Converters', () => {
 		sinon.assert.calledOnce(converter.fromServer);
 		let args: any = converter.fromServer.firstCall.args;
 		expect(args[0]).to.equal('value');
-		expect(args[1]).to.equal(item);
+		expect(args[1]).to.deep.equal(item);
 
 		converterService.applyTransform(item, map, true);
 
 		sinon.assert.calledOnce(converter.toServer);
 		args = converter.toServer.firstCall.args;
 		expect(args[0]).to.equal('value');
-		expect(args[1]).to.equal(item);
+		expect(args[1]).to.deep.equal(item);
 	});
 });

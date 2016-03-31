@@ -32,12 +32,11 @@ export class ConverterService {
 				: (<IConverter<any>>transform).fromServer;
 			return transformFunc(data, parent);
 		} else {
-			return <any>_.mapValues(data, (prop: any, key: string): any => {
-				if (_.has(transform, key)) {
-					return this.applyTransform(prop, transform[key], toServer, data);
-				}
-				return prop;
+			let mappedData: any = _.clone(data);
+			_.each(transform, (childTransform: any, key: string): any => {
+				mappedData[key] = this.applyTransform(_.get(mappedData, key), childTransform, toServer, mappedData);
 			});
+			return mappedData;
 		}
 	}
 
