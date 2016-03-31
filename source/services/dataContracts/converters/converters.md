@@ -8,11 +8,11 @@ Predefined converters:
 ### Interface
 A converter should specify a handler for converting data both to and from the server. If one of these options is left null, the application will hard fail when that type of request is made. This may be permissable for resources where we expect to make only get requests. (Note that an update request both to and from transformations, since the updated object is returned from the server)
 
-#### `fromServer(raw: TRawDataType): TDataType`
-`fromServer` is called when the data returns from the server to convert an object or property to the format desired by the client.
+#### `fromServer(raw: TRawDataType, parent?: any): TDataType`
+`fromServer` is called when the data returns from the server to convert an object or property to the format desired by the client. If the converter is part of a transform mapping, the parent data context is provided to the converter.
 
 #### `toServer(data: TDataType): TRawDataType`
-`toServer` is called before sending a create/update request to the server to convert the data back to the format used by the server.
+`toServer` is called before sending a create/update request to the server to convert the data back to the format used by the server. If the converter is part of a transform mapping, the parent data context is provided to the converter.
 
 ### Usage
 When supplying a `transform` for a data contract, the consumer can do it in one of two ways. He can specify a converter for the object as a whole. Or he can specify a transform `mapping`.
