@@ -7,8 +7,8 @@ import { dateUtility, defaultFormats } from '../../../date/date.module';
 
 export { defaultFormats };
 
-export let dateConverter: IConverter<Date> = {
-	fromServer(raw: string): Date {
+export let dateConverter: IConverter<Moment> = {
+	fromServer(raw: string): Moment {
 		return dateUtility.getDateFromISOString(raw);
 	},
 	toServer(data: Moment): string {
