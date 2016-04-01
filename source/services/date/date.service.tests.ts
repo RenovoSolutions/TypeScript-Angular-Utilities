@@ -60,11 +60,13 @@ describe('dateUtility', () => {
 	});
 
 	describe('getDate', (): void => {
-		it('should handle dates in string or date format, defaulting to MM-DD-YYYY format', (): void => {
+		it('should handle dates in string, date, or moment format, defaulting to MM-DD-YYYY format', (): void => {
 			let dateString: string = '1/1/2014';
 			let date: Date = new Date(dateString);
-			expect(dateUtility.getDate(date).getDate()).to.equal(date.getDate());
-			expect(dateUtility.getDate(dateString).getDate()).to.equal(date.getDate());
+			let momentInstance: Moment = moment('1/1/2014', defaultFormats.dateFormat)
+			expect(dateUtility.getDate(date)).to.deep.equal(momentInstance);
+			expect(dateUtility.getDate(dateString)).to.deep.equal(momentInstance);
+			expect(dateUtility.getDate(momentInstance)).to.deep.equal(momentInstance);
 		});
 
 		it('should handle dates in a user-defined format', (): void => {
