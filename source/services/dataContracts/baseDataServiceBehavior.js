@@ -1,5 +1,5 @@
 'use strict';
-var _ = require('lodash');
+var converters_1 = require('./converters/converters');
 var BaseDataServiceBehavior = (function () {
     function BaseDataServiceBehavior($http, $q, transform) {
         this.$http = $http;
@@ -19,7 +19,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            data = _this.applyTransform(data, _this.transform, false);
+            data = converters_1.converterService.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('getList', options.params, data, options.endpoint, options.useMock);
             }
@@ -41,7 +41,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (result) {
-            result.dataSet = _this.applyTransform(result.dataSet, _this.transform, false);
+            result.dataSet = converters_1.converterService.applyTransform(result.dataSet, _this.transform, false);
             if (options.logRequests) {
                 _this.log('search', options.params, result, options.endpoint, options.useMock);
             }
@@ -61,7 +61,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            data = _this.applyTransform(data, _this.transform, false);
+            data = converters_1.converterService.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('get', null, data, options.endpoint, options.useMock);
             }
@@ -71,7 +71,7 @@ var BaseDataServiceBehavior = (function () {
     BaseDataServiceBehavior.prototype.create = function (options) {
         var _this = this;
         var promise;
-        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
+        options.domainObject = converters_1.converterService.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.addMockData(options.domainObject);
             promise = this.$q.when(options.domainObject);
@@ -83,7 +83,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            data = _this.applyTransform(data, _this.transform, false);
+            data = converters_1.converterService.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('create', options.domainObject, data, options.endpoint, options.useMock);
             }
@@ -93,7 +93,7 @@ var BaseDataServiceBehavior = (function () {
     BaseDataServiceBehavior.prototype.update = function (options) {
         var _this = this;
         var promise;
-        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
+        options.domainObject = converters_1.converterService.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.updateMockData(options.domainObject);
             promise = this.$q.when(options.domainObject);
@@ -105,7 +105,7 @@ var BaseDataServiceBehavior = (function () {
             });
         }
         return promise.then(function (data) {
-            data = _this.applyTransform(data, _this.transform, false);
+            data = converters_1.converterService.applyTransform(data, _this.transform, false);
             if (options.logRequests) {
                 _this.log('update', options.domainObject, data, options.endpoint, options.useMock);
             }
@@ -140,33 +140,6 @@ var BaseDataServiceBehavior = (function () {
             console.log('data:');
             console.log(data);
         }
-    };
-    BaseDataServiceBehavior.prototype.applyTransform = function (data, transform, toServer) {
-        var _this = this;
-        if (transform == null) {
-            return data;
-        }
-        if (_.isArray(data)) {
-            return _.map(data, function (item) { return _this.applyTransform(item, transform, toServer); });
-        }
-        if (this.isConverter(transform)) {
-            var transformFunc = toServer
-                ? transform.toServer
-                : transform.fromServer;
-            return transformFunc(data);
-        }
-        else {
-            return _.mapValues(data, function (prop, key) {
-                if (_.has(transform, key)) {
-                    return _this.applyTransform(prop, transform[key], toServer);
-                }
-                return prop;
-            });
-        }
-    };
-    BaseDataServiceBehavior.prototype.isConverter = function (object) {
-        return _.isFunction(object.fromServer)
-            || _.isFunction(object.toServer);
     };
     return BaseDataServiceBehavior;
 }());

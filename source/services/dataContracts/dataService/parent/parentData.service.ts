@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 
 import { IArrayUtility } from '../../../array/array.service';
 
-import { IConverter } from '../../baseDataServiceBehavior';
 import { IDataService, DataService, IBaseDomainObject } from '../data.service';
 import { IDataServiceView } from '../view/dataServiceView';
 import { ISingletonDataService } from '../../singletonDataService/singletonData.service';

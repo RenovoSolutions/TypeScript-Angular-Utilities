@@ -3,10 +3,7 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 
-export interface IConverter<TDataType> {
-	fromServer(raw: any): TDataType;
-    toServer(data: TDataType): any,
-}
+import { IConverter, converterService } from './converters/converters';
 
 export interface IRequestOptions {
     endpoint: string;
@@ -67,7 +64,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType[]): TDataType[] => {
-			data = this.applyTransform(data, this.transform, false);
+			data = converterService.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('getList', options.params, data, options.endpoint, options.useMock);
             }
@@ -88,7 +85,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((result: TResultType): TResultType => {
-			result.dataSet = this.applyTransform(result.dataSet, this.transform, false);
+			result.dataSet = converterService.applyTransform(result.dataSet, this.transform, false);
             if (options.logRequests) {
 				this.log('search', options.params, result, options.endpoint, options.useMock);
             }
@@ -107,7 +104,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.applyTransform(data, this.transform, false);
+            data = converterService.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('get', null, data, options.endpoint, options.useMock);
             }
@@ -117,7 +114,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 
     create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType> {
         let promise: angular.IPromise<TDataType>;
-        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
+        options.domainObject = converterService.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.addMockData(options.domainObject);
             promise = this.$q.when(options.domainObject);
@@ -128,7 +125,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.applyTransform(data, this.transform, false);
+            data = converterService.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('create', options.domainObject, data, options.endpoint, options.useMock);
             }
@@ -138,7 +135,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType> {
         let promise: angular.IPromise<TDataType>;
-        options.domainObject = this.applyTransform(options.domainObject, this.transform, true);
+        options.domainObject = converterService.applyTransform(options.domainObject, this.transform, true);
         if (options.useMock) {
             options.updateMockData(options.domainObject)
             promise = this.$q.when(options.domainObject);
@@ -149,7 +146,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
             });
         }
         return promise.then((data: TDataType): TDataType => {
-            data = this.applyTransform(data, this.transform, false);
+            data = converterService.applyTransform(data, this.transform, false);
             if (options.logRequests) {
                 this.log('update', options.domainObject, data, options.endpoint, options.useMock);
             }
@@ -187,33 +184,4 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 			console.log(data);
 		}
     }
-
-    applyTransform(data: any, transform: IConverter<any> | {[index: string]: IConverter<any>}, toServer: boolean): any {
-		if (transform == null) {
-			return data;
-		}
-
-		if (_.isArray(data)) {
-			return _.map(data, (item: any): any => { return this.applyTransform(item, transform, toServer); });
-		}
-
-		if (this.isConverter(transform)) {
-			let transformFunc: { (data: any): any } = toServer
-				? (<IConverter<any>>transform).toServer
-				: (<IConverter<any>>transform).fromServer;
-			return transformFunc(data);
-		} else {
-			return <any>_.mapValues(data, (prop: any, key: string): any => {
-				if (_.has(transform, key)) {
-					return this.applyTransform(prop, transform[key], toServer);
-				}
-				return prop;
-			});
-		}
-    }
-
-	private isConverter(object: any): boolean {
-		return _.isFunction(object.fromServer)
-			|| _.isFunction(object.toServer);
-	}
 }
