@@ -63,7 +63,7 @@ describe('dateUtility', () => {
 		it('should handle dates in string, date, or moment format, defaulting to MM-DD-YYYY format', (): void => {
 			let dateString: string = '1/1/2014';
 			let date: Date = new Date(dateString);
-			let momentInstance: Moment = moment(dateString, defaultFormats.dateFormat)
+			let momentInstance: moment.Moment = moment(dateString, defaultFormats.dateFormat)
 			expect(dateUtility.getDate(date).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
 			expect(dateUtility.getDate(dateString).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
 			expect(dateUtility.getDate(momentInstance).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
@@ -71,16 +71,16 @@ describe('dateUtility', () => {
 
 		it('should handle dates in a user-defined format', (): void => {
 			let dateString: string = '2014-1-1T00:00:00-08:00';
-			let date: Moment = moment('2014-1-1T00:00:00-08:00', defaultFormats.isoFormat);
+			let date: moment.Moment = moment('2014-1-1T00:00:00-08:00', defaultFormats.isoFormat);
 			expect(dateUtility.getDate(dateString, defaultFormats.isoFormat).format(defaultFormats.isoFormat)).to.equal(date.format(defaultFormats.isoFormat));
 		});
 	});
 
 	describe('getDateFromServer', (): void => {
 		it('should get dates from string in server format, "YYYY-MM-DDTHH:MM:SSZ"', (): void => {
-			let expectedDate: Moment = moment('2015-11-24T20:12:00-07:00', defaultFormats.isoFormat);
+			let expectedDate: moment.Moment = moment('2015-11-24T20:12:00-07:00', defaultFormats.isoFormat);
 			let dateString: string = '2015-11-24T20:12:00-07:00';
-			let date: Moment = dateUtility.getDateFromISOString(dateString);
+			let date: moment.Moment = dateUtility.getDateFromISOString(dateString);
 			expect(date).to.deep.equal(expectedDate);
 		});
 	});
