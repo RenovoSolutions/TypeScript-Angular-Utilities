@@ -40,15 +40,15 @@ export interface IDateUtility {
 	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
 	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
 	subtractDatesMoment(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): moment.Duration;
-	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
-	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
+	compareDates(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, dateFormat?: string): CompareResult;
+	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment): boolean;
 	getDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment;
 	getDateFromISOString(date: string): moment.Moment;
 	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean;
 	getNow(): Date;
-	formatDate(date: string | Date, dateFormat?: string): string;
-	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
-	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
+	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string;
+	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
+	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
 }
 
 export class DateUtility {
@@ -96,12 +96,12 @@ export class DateUtility {
 		return result;
 	}
 
-	subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number {
+	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number {
 		let duration = this.subtractDatesMoment(start, end, dateFormat);
 		return duration.asDays();
 	}
 
-	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number {
+	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number {
 		let duration = this.subtractDatesMoment(start, end, dateFormat);
 		return duration.asMilliseconds();
 	}
@@ -117,13 +117,13 @@ export class DateUtility {
 		return moment.duration(endDate.diff(startDate));
 	}
 
-	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult {
+	compareDates(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, dateFormat?: string): CompareResult {
 		// subtractDateInDays subtracts the fist from the second, assuming start and end dates
 		let difference: number = this.subtractDateInMilliseconds(date2, date1, dateFormat);
 		return getCompareResult(difference);
 	}
 
-	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean {
+	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment): boolean {
 		if (this.compareDates(date, rangeStart) === CompareResult.less) {
 			return false;
 		} else if (this.compareDates(date, rangeEnd) === CompareResult.greater) {
@@ -145,7 +145,7 @@ export class DateUtility {
 		return this.moment(date, defaultFormats.isoFormat);
 	}
 
-	isDate(date: string | Date, dateFormat?: string): boolean {
+	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean {
 		if (_.isDate(date))
 		{
 			//lodash will return true if it is a valid date object, but has in invalid value.
@@ -159,7 +159,7 @@ export class DateUtility {
 		return new Date();
 	}
 
-	formatDate(date: string | Date, dateFormat?: string): string {
+	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string {
 		return this.moment(this.getDate(date, dateFormat)).format(this.getFormat(dateFormat));
 	}
 
@@ -167,7 +167,7 @@ export class DateUtility {
 		return customFormat != null ? customFormat : this.baseFormat;
 	}
 
-	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string) {
 		if (date1Format != undefined && date2Format === undefined) {
 			date2Format = date1Format;
 		}
@@ -178,7 +178,7 @@ export class DateUtility {
 		}
 	}
 
-	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
+	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string) {
 		if (date1Format != undefined && date2Format === undefined) {
 			date2Format = date1Format;
 		}
