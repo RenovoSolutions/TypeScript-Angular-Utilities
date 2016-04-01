@@ -85,14 +85,7 @@ export class DateUtility {
 	}
 
 	subtractDates(start: string | Date | Moment, end: string | Date | Moment, dateFormat?: string): IDateValue {
-		if (start == null || end == null) {
-			return null;
-		}
-
-		var startDate: Moment = this.getDate(start, dateFormat);
-		var endDate: Moment = this.getDate(end, dateFormat);
-
-		let duration = moment.duration(endDate.diff(startDate));
+		let duration = this.subtractDatesMoment(start, end, dateFormat);
 
 		var result: IDateValue = <any>{};
 		result.days = Math.floor(duration.days());
@@ -103,11 +96,16 @@ export class DateUtility {
 	}
 
 	subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number {
-		var milliseconds: number = this.subtractDateInMilliseconds(start, end, dateFormat);
-		return this.time.millisecondsToDays(milliseconds);
+		let duration = this.subtractDatesMoment(start, end, dateFormat);
+		return duration.asDays();
 	}
 
 	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number {
+		let duration = this.subtractDatesMoment(start, end, dateFormat);
+		return duration.asMilliseconds();
+	}
+
+	subtractDatesMoment(start: string | Date | Moment, end: string | Date | Moment, dateFormat?: string): Moment.Duration {
 		if (start == null || end == null) {
 			return null;
 		}
@@ -115,9 +113,7 @@ export class DateUtility {
 		var startDate: Moment = this.getDate(start, dateFormat);
 		var endDate: Moment = this.getDate(end, dateFormat);
 
-		let duration = moment.duration(endDate.diff(startDate));
-
-		return duration.asMilliseconds();
+		return moment.duration(endDate.diff(startDate));
 	}
 
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult {
