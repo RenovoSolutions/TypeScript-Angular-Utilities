@@ -77,9 +77,9 @@ describe('dateUtility', () => {
 	});
 
 	describe('getDateFromServer', (): void => {
-		it('should get dates from string in server format, "YYYY-MM-DDTHH:MM:SSZZZ"', (): void => {
-			let expectedDate: Moment = moment('2015-11-24T20:12:00+05:00', defaultFormats.isoFormat);
-			let dateString: string = '2015-11-24T20:12:00+05:00';
+		it('should get dates from string in server format, "YYYY-MM-DDTHH:MM:SSZ"', (): void => {
+			let expectedDate: Moment = moment('2015-11-24T20:12:00-07:00', defaultFormats.isoFormat);
+			let dateString: string = '2015-11-24T20:12:00-07:00';
 			let date: Moment = dateUtility.getDateFromISOString(dateString);
 			expect(date).to.deep.equal(expectedDate);
 		});
