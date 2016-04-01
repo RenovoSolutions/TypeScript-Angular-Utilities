@@ -330,40 +330,38 @@ describe('dateUtility', () => {
 	});
 
 	describe('sameDate', (): void=> {
-		it('should return true that if the dates are the same date', (): void => {
+		it('should return false if the dates are different', (): void => {
 			let date1 = new Date(1995, 11, 17, 12, 0, 0);
-			let date2 = new Date(1995, 11, 17, 3, 24, 0);
-			let date3 = new Date(1995, 11, 18, 3, 24, 0);
-			expect(dateUtility.sameDate(date1, date2)).to.be.true;
-			expect(dateUtility.sameDate(date1, date3)).to.be.false;
-			expect(dateUtility.sameDate("5/10/1986", "5/10/1986")).to.be.true;
-			expect(dateUtility.sameDate("5/10/1986", "5/10/1986")).to.be.true;
-			expect(dateUtility.sameDate("5/11/1986", "05/10/1986")).to.be.false;
-			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm", "MM/DD/YYYY HH:mm")).to.be.true;
-			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm")).to.be.false;
-			expect(dateUtility.sameDate("2011-01-06 10:42:00", "2011-01-06 10:42:00", "YYYY-MM-DD H:mm")).to.be.true;
-			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:43", "YYYY-MM-DD H:mm")).to.be.false;
-			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
+			let date2 = new Date(1995, 11, 18, 3, 24, 0);
+			expect(dateUtility.sameDate(date1, date2)).to.be.false;
+			expect(dateUtility.sameDate('2015-1-1T00:00:00-07:00', '2016-1-1T00:00:00-07:00')).to.be.false;
 			expect(dateUtility.sameDate(moment('4/1/2016'), moment('5/1/2016'))).to.be.false;
 		});
+
+		it('should return true if the dates are the same date', (): void => {
+			let date1 = new Date(1995, 11, 17, 12, 0, 0);
+			let date2 = new Date(1995, 11, 17, 3, 24, 0);
+			expect(dateUtility.sameDate(date1, date2)).to.be.true;
+			expect(dateUtility.sameDate('2015-1-1T11:11:11-07:00', '2015-1-1T15:15:15-07:00')).to.be.true;
+			expect(dateUtility.sameDate(moment('4/1/2016'), moment('4/1/2016'))).to.be.true;
+		});
 	});
+
 	describe('sameDateTime', (): void=> {
-		it('should return true if the dates are the same date and time down to hour and minute', (): void => {
+		it('should return false if the same dates have different times', (): void => {
 			let date1 = new Date(1995, 11, 17, 0, 24, 0);
 			let date2 = new Date(1995, 11, 17, 3, 24, 0);
-			let date3 = new Date(1995, 11, 17, 3, 24, 0);
 			expect(dateUtility.sameDateTime(date1, date2)).to.be.false;
-			expect(dateUtility.sameDateTime(date2, date3)).to.be.true;
-			expect(dateUtility.sameDateTime('9/10/2000 10:00 AM', '9/10/2000 8:00 AM')).to.be.false;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm", "MM/DD/YYYY H:mm")).to.be.true;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42", "YYYY-MM-DD H:mm")).to.be.false;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:43", "YYYY-MM-DD H:mm")).to.be.false;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "2011-01-06 10:42:00", "YYYY-MM-DD H:mm")).to.be.true;
-			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
-			expect(dateUtility.sameDateTime("5/10/1986T01:15:00", "5/10/1986T01:15:00")).to.be.true;
-			expect(dateUtility.sameDateTime(moment('2016-3-1T00:10:00-05:00'), moment('2016-3-1T00:10:00-05:00'))).to.be.true;
-			expect(dateUtility.sameDateTime(moment('2016-3-1T00:10:00-05:00'), moment('2016-3-1T00:10:00-05:01'))).to.be.false;
+			expect(dateUtility.sameDateTime('2015-1-1T12:00:00-07:00', '2015-1-1T12:00:01-07:00')).to.be.false;
+			expect(dateUtility.sameDateTime(moment('2016-03-01T12:10:00.000-05:00'), moment('2016-03-01T12:10:01.000-05:00'))).to.be.false;
+		});
+
+		it('should return true if the dates are the same date and time down to hour and minute', (): void => {
+			let date1 = new Date(1995, 11, 17, 3, 24, 0);
+			let date2 = new Date(1995, 11, 17, 3, 24, 0);
+			expect(dateUtility.sameDateTime(date1, date2)).to.be.true;
+			expect(dateUtility.sameDateTime('2015-1-1T12:00:00-07:00', '2015-1-1T12:00:00-07:00')).to.be.true;
+			expect(dateUtility.sameDateTime(moment('2016-03-01T12:10:00.000-05:00'), moment('2016-03-01T12:10:00.000-05:00'))).to.be.true;
 		});
 	});
 });
