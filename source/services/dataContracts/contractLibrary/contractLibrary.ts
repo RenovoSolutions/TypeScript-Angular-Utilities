@@ -76,40 +76,40 @@ export class ContractLibrary implements IContractLibrary {
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		let resource: any = this.builder.createResource(options);
-		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		resource.url = this.baseEndpoint + resource.endpoint;
 		return resource;
 	}
 
 	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams> {
 		let resource: any = this.builder.createResourceView(options);
-		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		resource.url = this.baseEndpoint + resource.endpoint;
 		return resource;
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 		let resource: any = this.builder.createParentResource(options);
-		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		resource.url = this.baseEndpoint + resource.endpoint;
 		return resource;
 	}
 
 	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
 		let resource: any = this.builder.createParentResourceView(options);
-		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		resource.url = this.baseEndpoint + resource.endpoint;
 		return resource;
 	}
 
 	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType> {
 		let resource: any = this.builder.createSingletonResource(options);
-		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		resource.url = this.baseEndpoint + resource.endpoint;
 		return resource;
 	}
 
 	createParentSingletonResource<TDataType, TResourceDictionaryType>
 		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType> {
 		let resource: any = this.builder.createParentSingletonResource(options);
-		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		resource.url = this.baseEndpoint + resource.endpoint;
 		return resource;
 	}
 

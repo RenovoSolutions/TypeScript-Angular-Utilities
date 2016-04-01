@@ -40,7 +40,7 @@ export class ParentSingletonDataService<TDataType, TResourceDictionaryType>
 				contract = dataService;
 			}
 
-			contract.endpoint = this.endpoint + contract.endpoint;
+			contract.url = this.url + contract.endpoint;
 
 			return contract;
 		});

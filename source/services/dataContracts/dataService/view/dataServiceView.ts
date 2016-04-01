@@ -42,13 +42,15 @@ export class DataServiceView<TDataType extends IBaseDomainObject, TSearchParams>
 		let mockData: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
 			return item.id === parentId;
 		});
-		return new SingletonDataService<TDataType>(this.$http, this.$q, {
+		let singleton: SingletonDataService<TDataType> = new SingletonDataService<TDataType>(this.$http, this.$q, {
 			endpoint: this.endpoint,
 			mockData: mockData,
 			transform: this.transform,
 			useMock: this.useMock,
 			logRequests: this.logRequests,
 		});
+		singleton.url = this.url;
+		return singleton;
 	}
 }
 
@@ -69,7 +71,7 @@ export class ParentDataServiceView<TDataType extends IBaseDomainObject, TSearchP
 		let mockData: TDataType = _.find(this.mockData, (item: TDataType): boolean => {
 			return item.id === parentId;
 		});
-		return new ParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, {
+		let singleton: ParentSingletonDataService<TDataType, TResourceDictionaryType> = new ParentSingletonDataService<TDataType, TResourceDictionaryType>(this.$http, this.$q, {
 			endpoint: this.endpoint,
 			mockData: mockData,
 			resourceDictionaryBuilder: this.resourceDictionaryBuilder,
@@ -78,5 +80,7 @@ export class ParentDataServiceView<TDataType extends IBaseDomainObject, TSearchP
 			logRequests: this.logRequests,
 			parentId: parentId,
 		});
+		singleton.url = this.url;
+		return singleton;
 	}
 }

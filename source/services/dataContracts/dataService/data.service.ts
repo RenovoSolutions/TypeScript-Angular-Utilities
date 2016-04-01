@@ -39,6 +39,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 	private useDeepSearch: boolean;
 	protected mockData: TDataType[];
 	endpoint: string;
+	url: string;
 	useMock: boolean;
 	logRequests: boolean;
 
@@ -50,18 +51,19 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		this.useDeepSearch = options.useDeepSearch;
 		this.mockData = options.mockData;
 		this.endpoint = options.endpoint;
+		this.url = this.endpoint;
 		this.useMock = options.useMock;
 		this.logRequests = options.logRequests;
     }
 
     private getItemEndpoint(id: number): string {
-        return this.endpoint + '/' + id.toString();
+        return this.url + '/' + id.toString();
     }
 
 	getList(params: TSearchParams): angular.IPromise<TDataType[]> {
 		let requestParams: IGetListOptions<TDataType> = {
 			params: params,
-			endpoint: this.endpoint,
+			endpoint: this.url,
 			getMockData: (): TDataType[] => { return this.mockData },
 			useMock: this.useMock,
 			logRequests: this.logRequests,
@@ -90,7 +92,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
     create(domainObject: TDataType): angular.IPromise<TDataType> {
         return this.behavior.create({
             domainObject: domainObject,
-            endpoint: this.endpoint,
+            endpoint: this.url,
             addMockData: (data: TDataType): void => {
                 let nextId: number = _.maxBy(this.mockData, 'id').id + 1;
                 domainObject.id = nextId;
@@ -130,7 +132,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 
 	version(versionNumber: number): DataService<TDataType, TSearchParams> {
 		let dataService: DataService<TDataType, TSearchParams> = _.clone(this);
-		dataService.endpoint = helper.versionEndpoint(dataService.endpoint, versionNumber);
+		dataService.url = helper.versionEndpoint(dataService.url, versionNumber);
 		return dataService;
 	}
 }
