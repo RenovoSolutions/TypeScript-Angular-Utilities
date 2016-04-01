@@ -20,7 +20,7 @@ import { defaultFormats } from './dateTimeFormatStrings';
 
 import { CompareResult, getCompareResult } from '../../types/compareResult';
 
-export var serviceName: string = 'dateUtility';
+export let serviceName: string = 'dateUtility';
 
 export interface IMonth {
 	name: string;
@@ -88,7 +88,7 @@ export class DateUtility {
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue {
 		let duration = this.subtractDatesMoment(start, end, dateFormat);
 
-		var result: IDateValue = <any>{};
+		let result: IDateValue = <any>{};
 		result.days = Math.floor(duration.days());
 		result.months = Math.floor(duration.months());
 		result.years = Math.floor(duration.years());
@@ -111,15 +111,15 @@ export class DateUtility {
 			return null;
 		}
 
-		var startDate: moment.Moment = this.getDate(start, dateFormat);
-		var endDate: moment.Moment = this.getDate(end, dateFormat);
+		let startDate: moment.Moment = this.getDate(start, dateFormat);
+		let endDate: moment.Moment = this.getDate(end, dateFormat);
 
 		return moment.duration(endDate.diff(startDate));
 	}
 
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult {
 		// subtractDateInDays subtracts the fist from the second, assuming start and end dates
-		var difference: number = this.subtractDateInMilliseconds(date2, date1, dateFormat);
+		let difference: number = this.subtractDateInMilliseconds(date2, date1, dateFormat);
 		return getCompareResult(difference);
 	}
 
