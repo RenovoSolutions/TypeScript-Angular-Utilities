@@ -39,6 +39,7 @@ export interface IDateUtility {
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue;
 	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
 	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
+	subtractDatesMoment(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): moment.Duration;
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
 	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
 	getDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment;
