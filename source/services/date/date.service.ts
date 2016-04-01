@@ -172,7 +172,7 @@ export class DateUtility {
 			date2Format = date1Format;
 		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-			return moment(<any>date1,date1Format).format("MM/DD/YYYY") === moment(<any>date2,date2Format).format("MM/DD/YYYY");
+			return moment(<any>date1,date1Format).format(defaultFormats.dateFormat) === moment(<any>date2,date2Format).format(defaultFormats.dateFormat);
 		} else {
 			return false;
 		}
@@ -183,7 +183,7 @@ export class DateUtility {
 			date2Format = date1Format;
 		}
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-			return moment(<any>date1,date1Format).format("MM/DD/YYYY +-HHmm") === moment(<any>date2,date2Format).format("MM/DD/YYYY +-HHmm");
+			return moment(<any>date1,date1Format).format(defaultFormats.isoFormat) === moment(<any>date2,date2Format).format(defaultFormats.isoFormat);
 		} else {
 			return false;
 		}
