@@ -10,7 +10,7 @@ export interface IDateFormatStrings {
 }
 
 export var defaultFormats: IDateFormatStrings = {
-	isoFormat: 'YYYY-MM-DDTHH:mm:sszzz',
+	isoFormat: 'YYYY-MM-DDTHH:mm:ssZ',
 	dateTimeFormat: 'M/D/YYYY h:mm A',
 	dateFormat: 'M/D/YYYY',
 	timeFormat: 'h:mmA',
