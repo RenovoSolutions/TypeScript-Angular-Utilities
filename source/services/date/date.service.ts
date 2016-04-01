@@ -36,13 +36,13 @@ export interface IDateValue {
 export interface IDateUtility {
 	getFullString(month: number): string;
 	getDays(month: number, year?: number): number;
-	subtractDates(start: string | Date, end: string | Date, dateFormat?: string): IDateValue;
-	subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number;
-	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number;
+	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue;
+	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
+	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
 	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
-	getDate(date: string | Date | Moment, dateFormat?: string): Moment;
-	getDateFromISOString(date: string): Date;
+	getDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment;
+	getDateFromISOString(date: string): moment.Moment;
 	isDate(date: string | Date, dateFormat?: string): boolean;
 	getNow(): Date;
 	formatDate(date: string | Date, dateFormat?: string): string;
@@ -84,7 +84,7 @@ export class DateUtility {
 		return this.month[month].days(year);
 	}
 
-	subtractDates(start: string | Date | Moment, end: string | Date | Moment, dateFormat?: string): IDateValue {
+	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue {
 		let duration = this.subtractDatesMoment(start, end, dateFormat);
 
 		var result: IDateValue = <any>{};
@@ -105,13 +105,13 @@ export class DateUtility {
 		return duration.asMilliseconds();
 	}
 
-	subtractDatesMoment(start: string | Date | Moment, end: string | Date | Moment, dateFormat?: string): Moment.Duration {
+	subtractDatesMoment(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): moment.Duration {
 		if (start == null || end == null) {
 			return null;
 		}
 
-		var startDate: Moment = this.getDate(start, dateFormat);
-		var endDate: Moment = this.getDate(end, dateFormat);
+		var startDate: moment.Moment = this.getDate(start, dateFormat);
+		var endDate: moment.Moment = this.getDate(end, dateFormat);
 
 		return moment.duration(endDate.diff(startDate));
 	}
@@ -132,15 +132,15 @@ export class DateUtility {
 		}
 	}
 
-	getDate(date: string | Date | Moment, dateFormat?: string): Moment {
+	getDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {
 		if (_.isDate(date)) {
 			return this.moment(date);
 		}
 
-		return this.moment(date, this.getFormat(dateFormat));
+		return this.moment(<string>date, this.getFormat(dateFormat));
 	}
 
-	getDateFromISOString(date: string): Moment {
+	getDateFromISOString(date: string): moment.Moment {
 		return this.moment(date, defaultFormats.isoFormat);
 	}
 
