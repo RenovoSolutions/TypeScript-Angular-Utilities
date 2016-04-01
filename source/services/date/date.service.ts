@@ -112,10 +112,12 @@ export class DateUtility {
 			return null;
 		}
 
-		var startDate: Date = this.getDate(start, dateFormat);
-		var endDate: Date = this.getDate(end, dateFormat);
+		var startDate: Moment = this.getDate(start, dateFormat);
+		var endDate: Moment = this.getDate(end, dateFormat);
 
-		return endDate.getTime() - startDate.getTime();
+		let duration = moment.duration(endDate.diff(startDate));
+
+		return duration.asMilliseconds();
 	}
 
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult {
