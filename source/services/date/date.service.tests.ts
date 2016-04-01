@@ -12,12 +12,12 @@ import * as moment from 'moment';
 
 
 describe('dateUtility', () => {
-	var dateUtility: IDateUtility;
+	let dateUtility: IDateUtility;
 
 	beforeEach(() => {
 		angular.mock.module(moduleName);
 
-		var services: any = angularFixture.inject(serviceName);
+		let services: any = angularFixture.inject(serviceName);
 		dateUtility = services[serviceName];
 	});
 
@@ -61,24 +61,24 @@ describe('dateUtility', () => {
 
 	describe('getDate', (): void => {
 		it('should handle dates in string or date format, defaulting to MM-DD-YYYY format', (): void => {
-			var dateString: string = '1/1/2014';
-			var date: Date = new Date(dateString);
+			let dateString: string = '1/1/2014';
+			let date: Date = new Date(dateString);
 			expect(dateUtility.getDate(date).getDate()).to.equal(date.getDate());
 			expect(dateUtility.getDate(dateString).getDate()).to.equal(date.getDate());
 		});
 
 		it('should handle dates in a user-defined format', (): void => {
-			var dateString: string = '2014-1-1T12:00:00';
-			var date: Date = new Date('1/1/2014');
+			let dateString: string = '2014-1-1T12:00:00';
+			let date: Date = new Date('1/1/2014');
 			expect(dateUtility.getDate(dateString, defaultFormats.isoFormat).getDate()).to.equal(date.getDate());
 		});
 	});
 
 	describe('getDateFromServer', (): void => {
 		it('should get dates from string in server format, "YYYY-MM-DDTHH:MM:SSZZZ"', (): void => {
-			var expectedDate: Moment = moment('2015-11-24T20:12:00+05:00', defaultFormats.isoFormat);
-			var dateString: string = '2015-11-24T20:12:00+05:00';
-			var date: Moment = dateUtility.getDateFromISOString(dateString);
+			let expectedDate: Moment = moment('2015-11-24T20:12:00+05:00', defaultFormats.isoFormat);
+			let dateString: string = '2015-11-24T20:12:00+05:00';
+			let date: Moment = dateUtility.getDateFromISOString(dateString);
 			expect(date).to.deep.equal(expectedDate);
 		});
 	})
@@ -101,10 +101,10 @@ describe('dateUtility', () => {
 
 	describe('subtractDates', (): void => {
 		it('should get 0 years, months , and days when subtracting ths same date from itself', (): void => {
-			var startDate: string = '9/10/2014';
-			var endDate: string = '9/10/2014';
+			let startDate: string = '9/10/2014';
+			let endDate: string = '9/10/2014';
 
-			var result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(0);
@@ -112,10 +112,10 @@ describe('dateUtility', () => {
 		});
 
 		it('should get 3/3/3 when subtracting 6/6/2006 from 9/9/2009', (): void => {
-			var startDate: string = '6/6/2006';
-			var endDate: string = '9/9/2009';
+			let startDate: string = '6/6/2006';
+			let endDate: string = '9/9/2009';
 
-			var result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
 
 			expect(result.years).to.equal(3);
 			expect(result.months).to.equal(3);
@@ -123,10 +123,10 @@ describe('dateUtility', () => {
 		});
 
 		it('should get 11/30/21 when subtracting 1/1/1999 from 12/31/2020', (): void => {
-			var startDate: string = '1/1/1999';
-			var endDate: string = '12/31/2020';
+			let startDate: string = '1/1/1999';
+			let endDate: string = '12/31/2020';
 
-			var result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
 
 			expect(result.years).to.equal(21);
 			expect(result.months).to.equal(11);
@@ -135,10 +135,10 @@ describe('dateUtility', () => {
 
 		it('should take leap year into account and return 28 days when subtracting 2/3/2016 from 3/2/2016', (): void => {
 			// 2016 is a leap year
-			var startDate: string = '2/3/2016';
-			var endDate: string = '3/2/2016';
+			let startDate: string = '2/3/2016';
+			let endDate: string = '3/2/2016';
 
-			var result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(0);
@@ -146,10 +146,10 @@ describe('dateUtility', () => {
 		});
 
 		it('should properly handle when day and month of start date are higher than day and month of end date', (): void => {
-			var startDate: string = '12/31/2000';
-			var endDate: string = '1/1/2001';
+			let startDate: string = '12/31/2000';
+			let endDate: string = '1/1/2001';
 
-			var result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(0);
@@ -157,10 +157,10 @@ describe('dateUtility', () => {
 		});
 
 		it('should recognize when days are just under a year apart', (): void => {
-			var startDate: string = '9/12/2000';
-			var endDate: string = '9/10/2001';
+			let startDate: string = '9/12/2000';
+			let endDate: string = '9/10/2001';
 
-			var result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(11);
@@ -170,15 +170,15 @@ describe('dateUtility', () => {
 
 	describe('subtractDatesInDays', (): void => {
 		it('should get 0 days when subtracting the same date from itself', (): void => {
-			var startDate: string = '9/10/2014';
-			var endDate: string = '9/10/2014';
+			let startDate: string = '9/10/2014';
+			let endDate: string = '9/10/2014';
 
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(0);
 		});
 
 		it('should get 92 when subtracting 6/9/2009 from 9/9/2009', (): void => {
-			var startDate: string = '6/9/2009';
-			var endDate: string = '9/9/2009';
+			let startDate: string = '6/9/2009';
+			let endDate: string = '9/9/2009';
 
 			// 30 + (2 x 31) = 92
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(92);
@@ -186,29 +186,29 @@ describe('dateUtility', () => {
 
 		it('should take leap yer into account and return 28 days when subtracting 2/3/2016 from 3/2/2016', (): void => {
 			// 2016 is a leap year
-			var startDate: string = '2/3/2016';
-			var endDate: string = '3/2/2016';
+			let startDate: string = '2/3/2016';
+			let endDate: string = '3/2/2016';
 
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(28);
 		});
 
 		it('should properly handle when day and month of start date are higher than day and month of end date', (): void => {
-			var startDate: string = '12/31/2000';
-			var endDate: string = '1/1/2001';
+			let startDate: string = '12/31/2000';
+			let endDate: string = '1/1/2001';
 
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(1);
 		});
 
 		it('should handle dates that are just under a year apart', (): void => {
-			var startDate: string = '9/12/2000';
-			var endDate: string = '9/10/2001';
+			let startDate: string = '9/12/2000';
+			let endDate: string = '9/10/2001';
 
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(363);
 		});
 
 		it('should return a negative value if the first date is after the second', (): void => {
-			var startDate: string = '9/10/2015';
-			var endDate: string = '9/10/2014';
+			let startDate: string = '9/10/2015';
+			let endDate: string = '9/10/2014';
 
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(-365);
 		});
@@ -216,36 +216,36 @@ describe('dateUtility', () => {
 
 	describe('compareDates', (): void => {
 		it('should return less if the first date is before the second', (): void => {
-			var date: string = '9/10/2000';
-			var laterDate: string = '9/10/2001';
+			let date: string = '9/10/2000';
+			let laterDate: string = '9/10/2001';
 
 			expect(dateUtility.compareDates(date, laterDate)).to.equal(CompareResult.less);
 		});
 
 		it('should return equal if the dates are the same', (): void => {
-			var date: string = '9/10/2000';
-			var equalDate: string = '9/10/2000';
+			let date: string = '9/10/2000';
+			let equalDate: string = '9/10/2000';
 
 			expect(dateUtility.compareDates(date, equalDate)).to.equal(CompareResult.equal);
 		});
 
 		it('should return greater if the first date if after the second', (): void => {
-			var date: string = '9/10/2000';
-			var earlierDate: string = '9/10/1999';
+			let date: string = '9/10/2000';
+			let earlierDate: string = '9/10/1999';
 
 			expect(dateUtility.compareDates(date, earlierDate)).to.equal(CompareResult.greater);
 		});
 
 		it('should handle date-times where the date is the same', (): void => {
-			var date: string = '9/10/2000 10:00 AM';
-			var earlierDate: string = '9/10/2000 8:00 AM';
+			let date: string = '9/10/2000 10:00 AM';
+			let earlierDate: string = '9/10/2000 8:00 AM';
 
 			expect(dateUtility.compareDates(date, earlierDate, defaultFormats.dateTimeFormat)).to.equal(CompareResult.greater);
 		});
 
 		it('should handle dates where the hour is the same', (): void => {
-			var date: string = '9/10/2000 10:30 AM';
-			var earlierDate: string = '9/10/2000 10:15 AM';
+			let date: string = '9/10/2000 10:30 AM';
+			let earlierDate: string = '9/10/2000 10:15 AM';
 
 			expect(dateUtility.compareDates(date, earlierDate, defaultFormats.dateTimeFormat)).to.equal(CompareResult.greater);
 		});
