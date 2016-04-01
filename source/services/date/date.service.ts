@@ -45,32 +45,12 @@ export interface IDateUtility {
 
 export class DateUtility {
 	static $inject: string[] = [momentServiceName];
-	constructor(private moment: moment.MomentStatic) {
-		this.month = [
-			{ name: 'January', days: (): number => { return 31; } },
-			{ name: 'February', days: (year: number): number => { return this.isLeapYear(year) ? 29 : 28; } },
-			{ name: 'March', days: (): number => { return 31; } },
-			{ name: 'April', days: (): number => { return 30; } },
-			{ name: 'May', days: (): number => { return 31; } },
-			{ name: 'June', days: (): number => { return 30; } },
-			{ name: 'July', days: (): number => { return 31; } },
-			{ name: 'August', days: (): number => { return 31; } },
-			{ name: 'September', days: (): number => { return 30; } },
-			{ name: 'October', days: (): number => { return 31; } },
-			{ name: 'November', days: (): number => { return 30; } },
-			{ name: 'December', days: (): number => { return 31; } },
-		];
-	}
+	constructor(private moment: moment.MomentStatic) {}
 
-	month: IMonth[];
 	private baseFormat: string = defaultFormats.isoFormat;
 
-	private isLeapYear(year?: number): boolean {
-		return new Date(year, 1, 29).getMonth() === 1;
-	}
-
 	getFullString(month: number): string {
-		return this.month[month].name;
+		return moment().month(month).format('MMMM');
 	}
 
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue {
