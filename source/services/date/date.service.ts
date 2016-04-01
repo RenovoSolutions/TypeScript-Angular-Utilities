@@ -5,13 +5,6 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 
 import {
-	moduleName as timeModuleName,
-	serviceName as timeServiceName,
-	ITimeUtility,
-	timeUtility,
-} from '../time/time.service';
-
-import {
 	moduleName as momentModuleName,
 	serviceName as momentServiceName,
 } from '../moment/moment.module';
@@ -52,8 +45,8 @@ export interface IDateUtility {
 }
 
 export class DateUtility {
-	static $inject: string[] = [momentServiceName, timeServiceName];
-	constructor(private moment: moment.MomentStatic, private time: ITimeUtility) {
+	static $inject: string[] = [momentServiceName];
+	constructor(private moment: moment.MomentStatic) {
 		this.month = [
 			{ name: 'January', days: (): number => { return 31; } },
 			{ name: 'February', days: (year: number): number => { return this.isLeapYear(year) ? 29 : 28; } },
@@ -186,4 +179,4 @@ export class DateUtility {
 	}
 }
 
-export let dateUtility: IDateUtility = new DateUtility(moment, timeUtility);
+export let dateUtility: IDateUtility = new DateUtility(moment);
