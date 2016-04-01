@@ -169,6 +169,28 @@ describe('dateUtility', () => {
 			expect(result.months).to.equal(11);
 			expect(result.days).to.equal(28);
 		});
+
+		it('should also accept dates', (): void => {
+			let startDate: Date = new Date(2016, 4, 1);
+			let endDate: Date = new Date(2016, 4, 1);
+
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+
+			expect(result.years).to.equal(0);
+			expect(result.months).to.equal(0);
+			expect(result.days).to.equal(0);
+		});
+
+		it('should also accept moments', (): void => {
+			let startDate: moment.Moment = moment('2016-4-1T00:00:00-05:00', defaultFormats.isoFormat);
+			let endDate: moment.Moment = moment('2016-4-1T00:00:00-05:00', defaultFormats.isoFormat);
+
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+
+			expect(result.years).to.equal(0);
+			expect(result.months).to.equal(0);
+			expect(result.days).to.equal(0);
+		});
 	});
 
 	describe('subtractDatesInDays', (): void => {
@@ -215,6 +237,20 @@ describe('dateUtility', () => {
 
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(-365);
 		});
+
+		it('should also accept dates', (): void => {
+			let startDate: Date = new Date(2016, 4, 1);
+			let endDate: Date = new Date(2016, 4, 1);
+
+			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(0);
+		});
+
+		it('should also accept moments', (): void => {
+			let startDate: moment.Moment = moment('2016-4-1T00:00:00-05:00', defaultFormats.isoFormat);
+			let endDate: moment.Moment = moment('2016-4-1T00:00:00-05:00', defaultFormats.isoFormat);
+
+			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(0);
+		});
 	});
 
 	describe('compareDates', (): void => {
@@ -252,6 +288,20 @@ describe('dateUtility', () => {
 
 			expect(dateUtility.compareDates(date, earlierDate, defaultFormats.dateTimeFormat)).to.equal(CompareResult.greater);
 		});
+
+		it('should also accept dates', (): void => {
+			let date: Date = new Date(2016, 4, 1);
+			let earlierDate: Date = new Date(2016, 3, 1);
+
+			expect(dateUtility.compareDates(date, earlierDate)).to.equal(CompareResult.greater);
+		});
+
+		it('should also accept moments', (): void => {
+			let date: moment.Moment = moment('2016-4-1T00:00:00-05:00', defaultFormats.isoFormat);
+			let earlierDate: moment.Moment = moment('2016-3-1T00:00:00-05:00', defaultFormats.isoFormat);
+
+			expect(dateUtility.compareDates(date, earlierDate)).to.equal(CompareResult.greater);
+		});
 	});
 
 	describe('dateInRange', (): void => {
@@ -271,6 +321,12 @@ describe('dateUtility', () => {
 			expect(dateUtility.dateInRange('1/1/2017', '1/1/2015', '1/1/2018')).to.be.true;
 			expect(dateUtility.dateInRange('1/1/2018', '1/1/2015', '1/1/2018')).to.be.true;
 		});
+		it('should return true if the date is within the range for dates', (): void => {
+			expect(dateUtility.dateInRange(new Date(2016, 4, 1), new Date(2016, 3, 1), new Date(2016, 5, 1))).to.be.true;
+		});
+		it('should return true if the date is within the range for moments', (): void => {
+			expect(dateUtility.dateInRange(moment('4/1/2016'), moment('3/1/2016'), moment('5/1/2016'))).to.be.true;
+		});
 	});
 
 	describe('sameDate', (): void=> {
@@ -288,6 +344,7 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDate("2011-01-06 10:42:00", "2011-01-06 10:42:00", "YYYY-MM-DD H:mm")).to.be.true;
 			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:43", "YYYY-MM-DD H:mm")).to.be.false;
 			expect(dateUtility.sameDate("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
+			expect(dateUtility.sameDate(moment('4/1/2016'), moment('5/1/2016'))).to.be.false;
 		});
 	});
 	describe('sameDateTime', (): void=> {
@@ -305,6 +362,8 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "2011-01-06 10:42:00", "YYYY-MM-DD H:mm")).to.be.true;
 			expect(dateUtility.sameDateTime("2011-01-06 10:42:00", "1/6/2011 10:42")).to.be.false;
 			expect(dateUtility.sameDateTime("5/10/1986T01:15:00", "5/10/1986T01:15:00")).to.be.true;
+			expect(dateUtility.sameDateTime(moment('2016-3-1T00:10:00-05:00'), moment('2016-3-1T00:10:00-05:00'))).to.be.true;
+			expect(dateUtility.sameDateTime(moment('2016-3-1T00:10:00-05:00'), moment('2016-3-1T00:10:00-05:01'))).to.be.false;
 		});
 	});
 });
