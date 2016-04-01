@@ -150,8 +150,8 @@ export class DateUtility {
 		}
 	}
 
-	getDateFromISOString(date: string): Date {
-		return this.moment(date).toDate();
+	getDateFromISOString(date: string): Moment {
+		return this.moment(date, defaultFormats.isoFormat);
 	}
 
 	isDate(date: string | Date, dateFormat?: string): boolean {
