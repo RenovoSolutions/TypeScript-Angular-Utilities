@@ -167,30 +167,22 @@ export class DateUtility {
 		return customFormat != null ? customFormat : this.baseFormat;
 	}
 
-	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string) {
+	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, formatAs?: string): boolean {
 		date2Format = date2Format || date1Format;
+		formatAs = formatAs || defaultFormats.dateFormat;
 
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			let moment1: moment.Moment = this.getDate(date1, date1Format);
 			let moment2: moment.Moment = this.getDate(date2, date2Format);
 
-			return moment1.format(defaultFormats.dateFormat) === moment2.format(defaultFormats.dateFormat);
+			return moment1.format(formatAs) === moment2.format(formatAs);
 		} else {
 			return false;
 		}
 	}
 
-	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string) {
-		date2Format = date2Format || date1Format;
-
-		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-			let moment1: moment.Moment = this.getDate(date1, date1Format);
-			let moment2: moment.Moment = this.getDate(date2, date2Format);
-
-			return moment1.format(defaultFormats.isoFormat) === moment2.format(defaultFormats.isoFormat);
-		} else {
-			return false;
-		}
+	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean {
+		return this.sameDate(date1, date2, date1Format, date2Format, defaultFormats.isoFormat);
 	}
 }
 
