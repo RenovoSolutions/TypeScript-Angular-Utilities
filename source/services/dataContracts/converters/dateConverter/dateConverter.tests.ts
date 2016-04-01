@@ -12,4 +12,8 @@ describe('dateConverter', (): void => {
 		let date: Moment = moment('2015-11-24T20:12:00-05:00', defaultFormats.isoFormat);
 		expect(dateConverter.toServer(date)).to.equal('2015-11-24T20:12:00');
 	});
+
+	it('should handle nulls', (): void => {
+		expect(dateConverter.toServer(null)).to.be.null;
+	});
 });
