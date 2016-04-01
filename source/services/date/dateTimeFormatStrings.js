@@ -1,9 +1,9 @@
 'use strict';
 exports.dateTimeFormatServiceName = 'dateTimeFormatStrings';
 exports.defaultFormats = {
-    isoFormat: 'YYYY-MM-DDTHH:mm:ss',
+    isoFormat: 'YYYY-MM-DDTHH:mm:ssZ',
     dateTimeFormat: 'M/D/YYYY h:mm A',
-    dateFormat: 'M/D/YYYY',
+    dateFormat: 'MM/DD/YYYY',
     timeFormat: 'h:mmA',
 };
 //# sourceMappingURL=dateTimeFormatStrings.js.map

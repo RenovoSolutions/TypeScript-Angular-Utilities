@@ -24,18 +24,6 @@ var TimeUtility = (function () {
             return compareResult_1.CompareResult.less;
         }
     };
-    TimeUtility.prototype.millisecondsToSeconds = function (milliseconds) {
-        return Math.floor(milliseconds / 1000);
-    };
-    TimeUtility.prototype.millisecondsToMinutes = function (milliseconds) {
-        return Math.floor(this.millisecondsToSeconds(milliseconds) / 60);
-    };
-    TimeUtility.prototype.millisecondsToHours = function (milliseconds) {
-        return Math.floor(this.millisecondsToMinutes(milliseconds) / 60);
-    };
-    TimeUtility.prototype.millisecondsToDays = function (milliseconds) {
-        return Math.floor(this.millisecondsToHours(milliseconds) / 24);
-    };
     return TimeUtility;
 }());
 exports.TimeUtility = TimeUtility;

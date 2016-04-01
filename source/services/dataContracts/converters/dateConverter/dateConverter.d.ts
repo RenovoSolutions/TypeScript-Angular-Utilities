@@ -1,2 +1,4 @@
 import { IConverter } from '../converters';
-export declare let dateConverter: IConverter<Date>;
+import { defaultFormats } from '../../../date/date.module';
+export { defaultFormats };
+export declare let dateConverter: IConverter<moment.Moment>;
