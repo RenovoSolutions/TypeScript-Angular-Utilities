@@ -6,8 +6,18 @@ export interface IDataContractsHelper {
 
 class DataContractsHelper implements IDataContractsHelper {
 	versionEndpoint(endpoint: string, versionNumber: number): string {
-		let endpointFragments: string[] = endpoint.split('api');
-		return endpointFragments.join('api/v' + versionNumber);
+		let versionExpression: RegEx = /v[0-9]+/;
+		let endpointFragments: string[];
+
+		let searchResult = endpoint.search(versionExpression);
+		if (searchResult !== -1) {
+			endpointFragments = endpoint.split(versionExpression);
+		} else {
+			endpointFragments = endpoint.split('api');
+			endpointFragments[0] += 'api/';
+		}
+
+		return endpointFragments.join('v' + versionNumber);
 	}
 }
 
