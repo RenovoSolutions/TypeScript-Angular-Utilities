@@ -142,11 +142,11 @@ export class DateUtility {
 		}
 	}
 
-	getDate(date: string | Date, dateFormat?: string): Date {
+	getDate(date: string | Date, dateFormat?: string): Moment {
 		if (_.isDate(date)) {
 			return <Date>date;
 		} else {
-			return this.moment(<string>date, this.getFormat(dateFormat)).toDate();
+			return this.moment(<string>date, this.getFormat(dateFormat));
 		}
 	}
 
