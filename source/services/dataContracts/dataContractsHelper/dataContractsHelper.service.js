@@ -3,8 +3,17 @@ var DataContractsHelper = (function () {
     function DataContractsHelper() {
     }
     DataContractsHelper.prototype.versionEndpoint = function (endpoint, versionNumber) {
-        var endpointFragments = endpoint.split('api');
-        return endpointFragments.join('api/v' + versionNumber);
+        var versionExpression = /v[0-9]+/;
+        var endpointFragments;
+        var searchResult = endpoint.search(versionExpression);
+        if (searchResult !== -1) {
+            endpointFragments = endpoint.split(versionExpression);
+        }
+        else {
+            endpointFragments = endpoint.split('api');
+            endpointFragments[0] += 'api/';
+        }
+        return endpointFragments.join('v' + versionNumber);
     };
     return DataContractsHelper;
 }());
