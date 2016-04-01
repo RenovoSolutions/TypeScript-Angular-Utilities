@@ -1,6 +1,6 @@
 import * as ng from 'angular';
 
-import { IConverter } from '../../baseDataServiceBehavior';
+import { IConverter } from '../../converters/converters';
 import { ISingletonDataService, SingletonDataService } from '../../singletonDataService/singletonData.service';
 import { IDataService, DataService, IBaseDomainObject } from '../../dataService/data.service';
 import { IDataServiceView } from '../../dataService/view/dataServiceView';

@@ -1,7 +1,7 @@
 import * as angular from 'angular';
 import { IArrayUtility } from '../../array/array.service';
 import { ILibraryServices } from '../contractLibrary/contractLibrary';
-import { IConverter } from '../baseDataServiceBehavior';
+import { IConverter } from '../converters/converters';
 import { IDataService, IBaseDomainObject } from '../dataService/data.service';
 import { IDataServiceView, IParentDataServiceView } from '../dataService/view/dataServiceView';
 import { IParentDataService } from '../dataService/parent/parentData.service';

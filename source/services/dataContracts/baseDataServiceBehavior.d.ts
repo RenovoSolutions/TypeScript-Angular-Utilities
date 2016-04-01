@@ -1,8 +1,5 @@
 import * as angular from 'angular';
-export interface IConverter<TDataType> {
-    fromServer(raw: any): TDataType;
-    toServer(data: TDataType): any;
-}
+import { IConverter } from './converters/converters';
 export interface IRequestOptions {
     endpoint: string;
     useMock: boolean;
@@ -52,8 +49,4 @@ export declare class BaseDataServiceBehavior<TDataType> implements IBaseDataServ
     update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType>;
     delete(options: IDeleteOptions<TDataType>): angular.IPromise<void>;
     private log(requestName, params, data, endpoint, useMock);
-    applyTransform(data: any, transform: IConverter<any> | {
-        [index: string]: IConverter<any>;
-    }, toServer: boolean): any;
-    private isConverter(object);
 }
