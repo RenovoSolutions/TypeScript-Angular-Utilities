@@ -60,19 +60,25 @@ describe('dateUtility', () => {
 	});
 
 	describe('getDate', (): void => {
-		it('should handle dates in string, date, or moment format, defaulting to MM-DD-YYYY format', (): void => {
-			let dateString: string = '1/1/2014';
-			let date: Date = new Date(dateString);
-			let momentInstance: moment.Moment = moment(dateString, defaultFormats.dateFormat)
-			expect(dateUtility.getDate(date).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
+		it('should handle dates in string, date, or moment format, defaulting to ISO string format', (): void => {
+			let date: Date = new Date(2014, 1, 1);
+
+			let dateString: string = '2014-1-1T00:00:00-80:00';
+			let momentInstance: moment.Moment = moment(dateString, defaultFormats.isoFormat)
+
+			expect(dateUtility.getDate(date).format(defaultFormats.isoFormat)).to.equal(moment(date).format(defaultFormats.isoFormat));
+
 			expect(dateUtility.getDate(dateString).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
 			expect(dateUtility.getDate(momentInstance).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
 		});
 
 		it('should handle dates in a user-defined format', (): void => {
-			let dateString: string = '2014-1-1T00:00:00-08:00';
-			let date: moment.Moment = moment('2014-1-1T00:00:00-08:00', defaultFormats.isoFormat);
-			expect(dateUtility.getDate(dateString, defaultFormats.isoFormat).format(defaultFormats.isoFormat)).to.equal(date.format(defaultFormats.isoFormat));
+			let dateString: string = '1/1/2014';
+			let date: Date = new Date(dateString);
+			let momentInstance: moment.Moment = moment(dateString, defaultFormats.dateFormat)
+			expect(dateUtility.getDate(date, defaultFormats.dateFormat).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
+			expect(dateUtility.getDate(dateString, defaultFormats.dateFormat).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
+			expect(dateUtility.getDate(momentInstance, defaultFormats.dateFormat).format(defaultFormats.isoFormat)).to.equal(momentInstance.format(defaultFormats.isoFormat));
 		});
 	});
 
@@ -107,7 +113,7 @@ describe('dateUtility', () => {
 			let startDate: string = '9/10/2014';
 			let endDate: string = '9/10/2014';
 
-			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate, defaultFormats.dateFormat);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(0);
@@ -118,7 +124,7 @@ describe('dateUtility', () => {
 			let startDate: string = '6/6/2006';
 			let endDate: string = '9/9/2009';
 
-			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate, defaultFormats.dateFormat);
 
 			expect(result.years).to.equal(3);
 			expect(result.months).to.equal(3);
@@ -129,7 +135,7 @@ describe('dateUtility', () => {
 			let startDate: string = '1/1/1999';
 			let endDate: string = '12/31/2020';
 
-			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate, defaultFormats.dateFormat);
 
 			expect(result.years).to.equal(21);
 			expect(result.months).to.equal(11);
@@ -141,7 +147,7 @@ describe('dateUtility', () => {
 			let startDate: string = '2/3/2016';
 			let endDate: string = '3/2/2016';
 
-			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate, defaultFormats.dateFormat);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(0);
@@ -152,7 +158,7 @@ describe('dateUtility', () => {
 			let startDate: string = '12/31/2000';
 			let endDate: string = '1/1/2001';
 
-			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate, defaultFormats.dateFormat);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(0);
@@ -163,7 +169,7 @@ describe('dateUtility', () => {
 			let startDate: string = '9/12/2000';
 			let endDate: string = '9/10/2001';
 
-			let result: IDateValue = dateUtility.subtractDates(startDate, endDate);
+			let result: IDateValue = dateUtility.subtractDates(startDate, endDate, defaultFormats.dateFormat);
 
 			expect(result.years).to.equal(0);
 			expect(result.months).to.equal(11);
@@ -198,7 +204,7 @@ describe('dateUtility', () => {
 			let startDate: string = '9/10/2014';
 			let endDate: string = '9/10/2014';
 
-			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(0);
+			expect(dateUtility.subtractDateInDays(startDate, endDate, defaultFormats.dateFormat)).to.equal(0);
 		});
 
 		it('should get 92 when subtracting 6/9/2009 from 9/9/2009', (): void => {
@@ -206,7 +212,7 @@ describe('dateUtility', () => {
 			let endDate: string = '9/9/2009';
 
 			// 30 + (2 x 31) = 92
-			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(92);
+			expect(dateUtility.subtractDateInDays(startDate, endDate, defaultFormats.dateFormat)).to.equal(92);
 		});
 
 		it('should take leap yer into account and return 28 days when subtracting 2/3/2016 from 3/2/2016', (): void => {
@@ -214,28 +220,28 @@ describe('dateUtility', () => {
 			let startDate: string = '2/3/2016';
 			let endDate: string = '3/2/2016';
 
-			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(28);
+			expect(dateUtility.subtractDateInDays(startDate, endDate, defaultFormats.dateFormat)).to.equal(28);
 		});
 
 		it('should properly handle when day and month of start date are higher than day and month of end date', (): void => {
 			let startDate: string = '12/31/2000';
 			let endDate: string = '1/1/2001';
 
-			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(1);
+			expect(dateUtility.subtractDateInDays(startDate, endDate, defaultFormats.dateFormat)).to.equal(1);
 		});
 
 		it('should handle dates that are just under a year apart', (): void => {
 			let startDate: string = '9/12/2000';
 			let endDate: string = '9/10/2001';
 
-			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(363);
+			expect(dateUtility.subtractDateInDays(startDate, endDate, defaultFormats.dateFormat)).to.equal(363);
 		});
 
 		it('should return a negative value if the first date is after the second', (): void => {
 			let startDate: string = '9/10/2015';
 			let endDate: string = '9/10/2014';
 
-			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(-365);
+			expect(dateUtility.subtractDateInDays(startDate, endDate, defaultFormats.dateFormat)).to.equal(-365);
 		});
 
 		it('should also accept dates', (): void => {
@@ -258,21 +264,21 @@ describe('dateUtility', () => {
 			let date: string = '9/10/2000';
 			let laterDate: string = '9/10/2001';
 
-			expect(dateUtility.compareDates(date, laterDate)).to.equal(CompareResult.less);
+			expect(dateUtility.compareDates(date, laterDate, defaultFormats.dateFormat)).to.equal(CompareResult.less);
 		});
 
 		it('should return equal if the dates are the same', (): void => {
 			let date: string = '9/10/2000';
 			let equalDate: string = '9/10/2000';
 
-			expect(dateUtility.compareDates(date, equalDate)).to.equal(CompareResult.equal);
+			expect(dateUtility.compareDates(date, equalDate, defaultFormats.dateFormat)).to.equal(CompareResult.equal);
 		});
 
 		it('should return greater if the first date if after the second', (): void => {
 			let date: string = '9/10/2000';
 			let earlierDate: string = '9/10/1999';
 
-			expect(dateUtility.compareDates(date, earlierDate)).to.equal(CompareResult.greater);
+			expect(dateUtility.compareDates(date, earlierDate, defaultFormats.dateFormat)).to.equal(CompareResult.greater);
 		});
 
 		it('should handle date-times where the date is the same', (): void => {
@@ -306,20 +312,20 @@ describe('dateUtility', () => {
 
 	describe('dateInRange', (): void => {
 		it('should return false if the date is before the beginning of the range', (): void => {
-			expect(dateUtility.dateInRange('1/1/2014', '1/1/2015', '1/1/2018')).to.be.false;
-			expect(dateUtility.dateInRange('12/31/2014', '1/1/2015', '1/1/2018')).to.be.false;
+			expect(dateUtility.dateInRange('2014-1-1T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.false;
+			expect(dateUtility.dateInRange('2014-12-31T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.false;
 		});
 
 		it('should return false if the date is after the end of the range', (): void => {
-			expect(dateUtility.dateInRange('1/1/2019', '1/1/2015', '1/1/2018')).to.be.false;
-			expect(dateUtility.dateInRange('1/2/2018', '1/1/2015', '1/1/2018')).to.be.false;
+			expect(dateUtility.dateInRange('2019-1-1T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.false;
+			expect(dateUtility.dateInRange('2018-1-2T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.false;
 		});
 
 		it('should return true if the date is within the range', (): void => {
-			expect(dateUtility.dateInRange('1/1/2015', '1/1/2015', '1/1/2018')).to.be.true;
-			expect(dateUtility.dateInRange('1/1/2016', '1/1/2015', '1/1/2018')).to.be.true;
-			expect(dateUtility.dateInRange('1/1/2017', '1/1/2015', '1/1/2018')).to.be.true;
-			expect(dateUtility.dateInRange('1/1/2018', '1/1/2015', '1/1/2018')).to.be.true;
+			expect(dateUtility.dateInRange('2015-1-1T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.true;
+			expect(dateUtility.dateInRange('2016-1-1T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.true;
+			expect(dateUtility.dateInRange('2017-1-1T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.true;
+			expect(dateUtility.dateInRange('2018-1-1T00:00:00-07:00', '2015-1-1T00:00:00-07:00', '2018-1-1T00:00:00-07:00')).to.be.true;
 		});
 		it('should return true if the date is within the range for dates', (): void => {
 			expect(dateUtility.dateInRange(new Date(2016, 4, 1), new Date(2016, 3, 1), new Date(2016, 5, 1))).to.be.true;

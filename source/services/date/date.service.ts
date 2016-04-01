@@ -71,7 +71,7 @@ export class DateUtility {
 	}
 
 	month: IMonth[];
-	private baseFormat: string = 'MM-DD-YYYY';
+	private baseFormat: string = defaultFormats.isoFormat;
 
 	private isLeapYear(year?: number): boolean {
 		return new Date(year, 1, 29).getMonth() === 1;
