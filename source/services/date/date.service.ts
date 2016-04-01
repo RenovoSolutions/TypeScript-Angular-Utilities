@@ -41,7 +41,7 @@ export interface IDateUtility {
 	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number;
 	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
 	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
-	getDate(date: string | Date, dateFormat?: string): Date;
+	getDate(date: string | Date | Moment, dateFormat?: string): Moment;
 	getDateFromISOString(date: string): Date;
 	isDate(date: string | Date, dateFormat?: string): boolean;
 	getNow(): Date;
@@ -142,12 +142,12 @@ export class DateUtility {
 		}
 	}
 
-	getDate(date: string | Date, dateFormat?: string): Moment {
+	getDate(date: string | Date | Moment, dateFormat?: string): Moment {
 		if (_.isDate(date)) {
-			return <Date>date;
-		} else {
-			return this.moment(<string>date, this.getFormat(dateFormat));
+			return this.moment(date);
 		}
+
+		return this.moment(date, this.getFormat(dateFormat));
 	}
 
 	getDateFromISOString(date: string): Moment {
