@@ -2,7 +2,7 @@
 
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../../array/array.service';
 
-import { IConverter } from '../../baseDataServiceBehavior';
+import { IConverter } from '../../converters/converters';
 import { IDataService, DataService, IBaseDomainObject } from '../data.service';
 import { IParentDataService, ParentDataService } from '../parent/parentData.service';
 import { ISingletonDataService, SingletonDataService } from '../../singletonDataService/singletonData.service';

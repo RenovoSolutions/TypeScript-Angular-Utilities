@@ -5,7 +5,7 @@ import * as angular from 'angular';
 import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
 
 import { IContractLibrary, ContractLibrary, ILibraryServices } from '../contractLibrary/contractLibrary';
-import { IConverter } from '../baseDataServiceBehavior';
+import { IConverter } from '../converters/converters';
 import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
 import { IDataServiceView, IParentDataServiceView, DataServiceView, ParentDataServiceView } from '../dataService/view/dataServiceView';
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
