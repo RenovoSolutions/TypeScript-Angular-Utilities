@@ -83,7 +83,7 @@ describe('dateUtility', () => {
 			let date: Moment = dateUtility.getDateFromISOString(dateString);
 			expect(date).to.deep.equal(expectedDate);
 		});
-	})
+	});
 
 	describe('isDate', (): void => {
 		it('should be true if item is a date or a string in date format', (): void => {
