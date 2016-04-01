@@ -5,10 +5,45 @@
 import * as ng from 'angular';
 import * as _ from 'lodash';
 
-import { IBaseResourceBuilder, BaseResourceBuilder } from '../resourceBuilder/resourceBuilder.service';
+import {
+	IBaseResourceBuilder,
+	BaseResourceBuilder,
+	IBaseResourceParams,
+	IParentResourceParams,
+	ISingletonResourceParams,
+	IParentSingletonResourceParams,
+} from '../resourceBuilder/resourceBuilder.service';
 import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock } from './dataServiceMocks';
+import { IDataService, IBaseDomainObject } from '../dataService/data.service';
+import { IDataServiceView, IParentDataServiceView } from '../dataService/view/dataServiceView';
+import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
+import { ISingletonDataService } from '../singletonDataService/singletonData.service';
+import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
 
 export interface IContractLibrary {
+	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
+	createResource<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, void>;
+
+	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams>;
+	createResourceView<TDataType extends IBaseDomainObject>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, void>;
+
+	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
+	createParentResource<TDataType extends IBaseDomainObject, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, void, TResourceDictionaryType>;
+
+	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType>;
+	createParentResourceView<TDataType extends IBaseDomainObject, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, void, TResourceDictionaryType>;
+
+	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
+
+	createParentSingletonResource<TDataType, TResourceDictionaryType>
+		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType>;
+
+	// For testing
+
 	// extend with custom interface specifying child resources
 
 	flush(): void;
@@ -32,10 +67,50 @@ export class ContractLibrary implements IContractLibrary {
 	private $q: ng.IQService;
 	private $rootScope: ng.IRootScopeService;
 
-	constructor(private builder: IBaseResourceBuilder) {
+	constructor(private builder: IBaseResourceBuilder
+			, public baseEndpoint?: string) {
 		let services: ILibraryServices = (<BaseResourceBuilder>builder).getLibraryServices();
 		this.$q = services.$q;
 		this.$rootScope = services.$rootScope;
+	}
+
+	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
+		let resource: any = this.builder.createResource(options);
+		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		return resource;
+	}
+
+	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams> {
+		let resource: any = this.builder.createResourceView(options);
+		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		return resource;
+	}
+
+	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
+		let resource: any = this.builder.createParentResource(options);
+		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		return resource;
+	}
+
+	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
+		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
+		let resource: any = this.builder.createParentResourceView(options);
+		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		return resource;
+	}
+
+	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType> {
+		let resource: any = this.builder.createSingletonResource(options);
+		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		return resource;
+	}
+
+	createParentSingletonResource<TDataType, TResourceDictionaryType>
+		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType> {
+		let resource: any = this.builder.createParentSingletonResource(options);
+		resource.endpoint = this.baseEndpoint + resource.endpoint;
+		return resource;
 	}
 
 	flush(): void {
