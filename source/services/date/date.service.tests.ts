@@ -38,27 +38,6 @@ describe('dateUtility', () => {
 		});
 	});
 
-	describe('getDays', (): void => {
-		it('should get the number of days in the month', (): void => {
-			expect(dateUtility.getDays(0)).to.equal(31);
-			expect(dateUtility.getDays(2)).to.equal(31);
-			expect(dateUtility.getDays(3)).to.equal(30);
-			expect(dateUtility.getDays(4)).to.equal(31);
-			expect(dateUtility.getDays(5)).to.equal(30);
-			expect(dateUtility.getDays(6)).to.equal(31);
-			expect(dateUtility.getDays(7)).to.equal(31);
-			expect(dateUtility.getDays(8)).to.equal(30);
-			expect(dateUtility.getDays(9)).to.equal(31);
-			expect(dateUtility.getDays(10)).to.equal(30);
-			expect(dateUtility.getDays(11)).to.equal(31);
-		});
-
-		it('should account for leap years', (): void => {
-			expect(dateUtility.getDays(1, 2015)).to.equal(28);
-			expect(dateUtility.getDays(1, 2016)).to.equal(29);
-		});
-	});
-
 	describe('getDate', (): void => {
 		it('should handle dates in string, date, or moment format, defaulting to ISO string format', (): void => {
 			let date: Date = new Date(2014, 1, 1);

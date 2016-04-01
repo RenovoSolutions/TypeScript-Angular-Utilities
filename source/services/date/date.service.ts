@@ -28,7 +28,6 @@ export interface IDateValue {
 
 export interface IDateUtility {
 	getFullString(month: number): string;
-	getDays(month: number, year?: number): number;
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue;
 	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
 	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
@@ -72,10 +71,6 @@ export class DateUtility {
 
 	getFullString(month: number): string {
 		return this.month[month].name;
-	}
-
-	getDays(month: number, year?: number): number {
-		return this.month[month].days(year);
 	}
 
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue {
