@@ -70,8 +70,8 @@ describe('dateUtility', () => {
 		});
 
 		it('should handle dates in a user-defined format', (): void => {
-			let dateString: string = '2014-1-1T00:00:00-00:00';
-			let date: Moment = moment('1/1/2014');
+			let dateString: string = '2014-1-1T00:00:00-08:00';
+			let date: Moment = moment('2014-1-1T00:00:00-08:00', defaultFormats.isoFormat);
 			expect(dateUtility.getDate(dateString, defaultFormats.isoFormat).format(defaultFormats.isoFormat)).to.equal(date.format(defaultFormats.isoFormat));
 		});
 	});
