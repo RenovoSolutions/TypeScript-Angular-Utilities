@@ -10,13 +10,14 @@ var SingletonDataService = (function () {
         this.behavior = new baseDataServiceBehavior_1.BaseDataServiceBehavior($http, $q, options.transform);
         this.mockData = options.mockData;
         this.endpoint = options.endpoint;
+        this.url = this.endpoint;
         this.useMock = options.useMock;
         this.logRequests = options.logRequests;
     }
     SingletonDataService.prototype.get = function () {
         var _this = this;
         return this.behavior.getItem({
-            endpoint: this.endpoint,
+            endpoint: this.url,
             getMockData: function () { return _this.mockData; },
             useMock: this.useMock,
             logRequests: this.logRequests,
@@ -26,7 +27,7 @@ var SingletonDataService = (function () {
         var _this = this;
         return this.behavior.update({
             domainObject: domainObject,
-            endpoint: this.endpoint,
+            endpoint: this.url,
             updateMockData: function (data) {
                 _this.mockData = _.assign(_this.mockData, domainObject);
             },
@@ -36,7 +37,7 @@ var SingletonDataService = (function () {
     };
     SingletonDataService.prototype.version = function (versionNumber) {
         var dataService = _.clone(this);
-        dataService.endpoint = dataContractsHelper_service_1.helper.versionEndpoint(dataService.endpoint, versionNumber);
+        dataService.url = dataContractsHelper_service_1.helper.versionEndpoint(dataService.url, versionNumber);
         return dataService;
     };
     return SingletonDataService;

@@ -20,13 +20,15 @@ var DataServiceView = (function (_super) {
         var mockData = _.find(this.mockData, function (item) {
             return item.id === parentId;
         });
-        return new singletonData_service_1.SingletonDataService(this.$http, this.$q, {
+        var singleton = new singletonData_service_1.SingletonDataService(this.$http, this.$q, {
             endpoint: this.endpoint,
             mockData: mockData,
             transform: this.transform,
             useMock: this.useMock,
             logRequests: this.logRequests,
         });
+        singleton.url = this.url;
+        return singleton;
     };
     return DataServiceView;
 }(data_service_1.DataService));
@@ -42,7 +44,7 @@ var ParentDataServiceView = (function (_super) {
         var mockData = _.find(this.mockData, function (item) {
             return item.id === parentId;
         });
-        return new parentSingletonData_service_1.ParentSingletonDataService(this.$http, this.$q, {
+        var singleton = new parentSingletonData_service_1.ParentSingletonDataService(this.$http, this.$q, {
             endpoint: this.endpoint,
             mockData: mockData,
             resourceDictionaryBuilder: this.resourceDictionaryBuilder,
@@ -51,6 +53,8 @@ var ParentDataServiceView = (function (_super) {
             logRequests: this.logRequests,
             parentId: parentId,
         });
+        singleton.url = this.url;
+        return singleton;
     };
     return ParentDataServiceView;
 }(parentData_service_1.ParentDataService));

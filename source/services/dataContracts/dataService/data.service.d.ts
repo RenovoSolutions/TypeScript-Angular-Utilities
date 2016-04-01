@@ -27,6 +27,7 @@ export declare class DataService<TDataType extends IBaseDomainObject, TSearchPar
     private useDeepSearch;
     protected mockData: TDataType[];
     endpoint: string;
+    url: string;
     useMock: boolean;
     logRequests: boolean;
     constructor($http: angular.IHttpService, $q: angular.IQService, array: IArrayUtility, options: IBaseResourceParams<TDataType>);

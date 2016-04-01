@@ -17,7 +17,7 @@ var ParentDataService = (function (_super) {
         if (_.isUndefined(id)) {
             var dictionary = this.resourceDictionaryBuilder();
             _.each(dictionary, function (dataService) {
-                dataService.endpoint = _this.endpoint + dataService.endpoint;
+                dataService.url = _this.url + dataService.endpoint;
             });
             return dictionary;
         }
@@ -31,7 +31,7 @@ var ParentDataService = (function (_super) {
                 else {
                     contract = dataService;
                 }
-                contract.endpoint = _this.endpoint + '/' + id + contract.endpoint;
+                contract.url = _this.url + '/' + id + contract.endpoint;
                 return contract;
             });
         }

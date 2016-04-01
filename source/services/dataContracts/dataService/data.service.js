@@ -13,17 +13,18 @@ var DataService = (function () {
         this.useDeepSearch = options.useDeepSearch;
         this.mockData = options.mockData;
         this.endpoint = options.endpoint;
+        this.url = this.endpoint;
         this.useMock = options.useMock;
         this.logRequests = options.logRequests;
     }
     DataService.prototype.getItemEndpoint = function (id) {
-        return this.endpoint + '/' + id.toString();
+        return this.url + '/' + id.toString();
     };
     DataService.prototype.getList = function (params) {
         var _this = this;
         var requestParams = {
             params: params,
-            endpoint: this.endpoint,
+            endpoint: this.url,
             getMockData: function () { return _this.mockData; },
             useMock: this.useMock,
             logRequests: this.logRequests,
@@ -52,7 +53,7 @@ var DataService = (function () {
         var _this = this;
         return this.behavior.create({
             domainObject: domainObject,
-            endpoint: this.endpoint,
+            endpoint: this.url,
             addMockData: function (data) {
                 var nextId = _.maxBy(_this.mockData, 'id').id + 1;
                 domainObject.id = nextId;
@@ -91,7 +92,7 @@ var DataService = (function () {
     };
     DataService.prototype.version = function (versionNumber) {
         var dataService = _.clone(this);
-        dataService.endpoint = dataContractsHelper_service_1.helper.versionEndpoint(dataService.endpoint, versionNumber);
+        dataService.url = dataContractsHelper_service_1.helper.versionEndpoint(dataService.url, versionNumber);
         return dataService;
     };
     return DataService;
