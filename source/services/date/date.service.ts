@@ -43,7 +43,7 @@ export interface IDateUtility {
 	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
 	getDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment;
 	getDateFromISOString(date: string): moment.Moment;
-	isDate(date: string | Date, dateFormat?: string): boolean;
+	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean;
 	getNow(): Date;
 	formatDate(date: string | Date, dateFormat?: string): string;
 	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;

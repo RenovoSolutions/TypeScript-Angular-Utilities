@@ -86,9 +86,10 @@ describe('dateUtility', () => {
 	});
 
 	describe('isDate', (): void => {
-		it('should be true if item is a date or a string in date format', (): void => {
+		it('should be true if item is a date or a string, date, or moment format', (): void => {
 			expect(dateUtility.isDate('1/1/2014')).to.be.true;
 			expect(dateUtility.isDate(new Date('1/1/2014'))).to.be.true;
+			expect(dateUtility.isDate(moment('1/1/2014'))).to.be.true;
 		});
 
 		it('should return false if object is not a date', (): void => {
