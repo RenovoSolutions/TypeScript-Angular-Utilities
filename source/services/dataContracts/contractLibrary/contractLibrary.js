@@ -2,12 +2,43 @@
 'use strict';
 var _ = require('lodash');
 var ContractLibrary = (function () {
-    function ContractLibrary(builder) {
+    function ContractLibrary(builder, baseEndpoint) {
         this.builder = builder;
+        this.baseEndpoint = baseEndpoint;
         var services = builder.getLibraryServices();
         this.$q = services.$q;
         this.$rootScope = services.$rootScope;
     }
+    ContractLibrary.prototype.createResource = function (options) {
+        var resource = this.builder.createResource(options);
+        resource.url = this.baseEndpoint + resource.endpoint;
+        return resource;
+    };
+    ContractLibrary.prototype.createResourceView = function (options) {
+        var resource = this.builder.createResourceView(options);
+        resource.url = this.baseEndpoint + resource.endpoint;
+        return resource;
+    };
+    ContractLibrary.prototype.createParentResource = function (options) {
+        var resource = this.builder.createParentResource(options);
+        resource.url = this.baseEndpoint + resource.endpoint;
+        return resource;
+    };
+    ContractLibrary.prototype.createParentResourceView = function (options) {
+        var resource = this.builder.createParentResourceView(options);
+        resource.url = this.baseEndpoint + resource.endpoint;
+        return resource;
+    };
+    ContractLibrary.prototype.createSingletonResource = function (options) {
+        var resource = this.builder.createSingletonResource(options);
+        resource.url = this.baseEndpoint + resource.endpoint;
+        return resource;
+    };
+    ContractLibrary.prototype.createParentSingletonResource = function (options) {
+        var resource = this.builder.createParentSingletonResource(options);
+        resource.url = this.baseEndpoint + resource.endpoint;
+        return resource;
+    };
     ContractLibrary.prototype.flush = function () {
         this.$rootScope.$digest();
     };

@@ -33,7 +33,7 @@ export class ParentDataService<TDataType extends IBaseDomainObject, TSearchParam
 		if (_.isUndefined(id)) {
 			let dictionary: TResourceDictionaryType = this.resourceDictionaryBuilder();
 			_.each(dictionary, (dataService: any): void => {
-				dataService.endpoint = this.endpoint + dataService.endpoint;
+				dataService.url = this.url + dataService.endpoint;
 			});
 			return dictionary;
 		} else {
@@ -46,7 +46,7 @@ export class ParentDataService<TDataType extends IBaseDomainObject, TSearchParam
 					contract = dataService;
 				}
 
-				contract.endpoint = this.endpoint + '/' + id + contract.endpoint;
+				contract.url = this.url + '/' + id + contract.endpoint;
 
 				return contract;
 			});

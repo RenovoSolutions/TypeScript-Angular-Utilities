@@ -26,6 +26,7 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
     private behavior: IBaseDataServiceBehavior<TDataType>;
 	private mockData: TDataType;
 	endpoint: string;
+	url: string;
 	useMock: boolean;
 	logRequests: boolean;
 
@@ -36,13 +37,14 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 		this.behavior = new BaseDataServiceBehavior($http, $q, options.transform);
 		this.mockData = options.mockData;
 		this.endpoint = options.endpoint;
+		this.url = this.endpoint;
 		this.useMock = options.useMock;
 		this.logRequests = options.logRequests;
     }
 
     get(): angular.IPromise<TDataType> {
         return this.behavior.getItem({
-            endpoint: this.endpoint,
+            endpoint: this.url,
             getMockData: (): TDataType => { return this.mockData; },
             useMock: this.useMock,
             logRequests: this.logRequests,
@@ -52,7 +54,7 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
     update(domainObject: TDataType): angular.IPromise<TDataType> {
         return this.behavior.update({
             domainObject: domainObject,
-            endpoint: this.endpoint,
+            endpoint: this.url,
             updateMockData: (data: TDataType): void => {
                 this.mockData = <TDataType>_.assign(this.mockData, domainObject);
             },
@@ -63,7 +65,7 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 
 	version(versionNumber: number): SingletonDataService<TDataType> {
 		let dataService: SingletonDataService<TDataType> = _.clone(this);
-		dataService.endpoint = helper.versionEndpoint(dataService.endpoint, versionNumber);
+		dataService.url = helper.versionEndpoint(dataService.url, versionNumber);
 		return dataService;
 	}
 }

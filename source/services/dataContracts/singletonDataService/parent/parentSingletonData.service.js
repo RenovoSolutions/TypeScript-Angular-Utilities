@@ -23,7 +23,7 @@ var ParentSingletonDataService = (function (_super) {
             else {
                 contract = dataService;
             }
-            contract.endpoint = _this.endpoint + contract.endpoint;
+            contract.url = _this.url + contract.endpoint;
             return contract;
         });
     };
