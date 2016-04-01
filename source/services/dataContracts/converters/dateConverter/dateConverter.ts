@@ -11,7 +11,9 @@ export let dateConverter: IConverter<Date> = {
 	fromServer(raw: string): Date {
 		return dateUtility.getDateFromISOString(raw);
 	},
-	toServer(data: Date): string {
-		return moment(data).format(defaultFormats.isoFormat);
+	toServer(data: Moment): string {
+		return data != null
+			? moment(data).format(defaultFormats.isoFormat)
+			: null;
 	},
 };
