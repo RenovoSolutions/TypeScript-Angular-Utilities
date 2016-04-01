@@ -84,28 +84,20 @@ export class DateUtility {
 		return this.month[month].days(year);
 	}
 
-	subtractDates(start: string | Date, end: string | Date, dateFormat?: string): IDateValue {
+	subtractDates(start: string | Date | Moment, end: string | Date | Moment, dateFormat?: string): IDateValue {
 		if (start == null || end == null) {
 			return null;
 		}
 
-		var startDate: Date = this.getDate(start, dateFormat);
-		var endDate: Date = this.getDate(end, dateFormat);
+		var startDate: Moment = this.getDate(start, dateFormat);
+		var endDate: Moment = this.getDate(end, dateFormat);
+
+		let duration = moment.duration(endDate.diff(startDate));
 
 		var result: IDateValue = <any>{};
-		result.days = endDate.getDate() - startDate.getDate();
-		result.years = endDate.getFullYear() - startDate.getFullYear();
-		result.months = endDate.getMonth() - startDate.getMonth();
-
-		if (result.days < 0) {
-			result.months -= 1;
-			result.days += this.getDays(startDate.getMonth(), startDate.getFullYear());
-		}
-
-		if (result.months < 0) {
-			result.years -= 1;
-			result.months += 12;
-		}
+		result.days = Math.floor(duration.days());
+		result.months = Math.floor(duration.months());
+		result.years = Math.floor(duration.years());
 
 		return result;
 	}
