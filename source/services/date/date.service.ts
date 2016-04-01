@@ -45,7 +45,7 @@ export interface IDateUtility {
 	getDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment;
 	getDateFromISOString(date: string): moment.Moment;
 	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean;
-	getNow(): Date;
+	getNow(): moment.Moment;
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string;
 	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
 	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
@@ -155,8 +155,8 @@ export class DateUtility {
 		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}
 
-	getNow(): Date {
-		return new Date();
+	getNow(): moment.Moment {
+		return moment();
 	}
 
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string {
