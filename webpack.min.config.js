@@ -1,4 +1,9 @@
 var webpack = require('gulp-utilities').webpack;
 var library = require('./webpack.library.json');
 
-module.exports = webpack.libraryMin(library);
+var webpackJsonLoader = require('./webpack.json-loader');
+
+var webpackConfig = webpack.libraryMin(library);
+webpackJsonLoader(webpackConfig);
+
+module.exports = webpackConfig;
