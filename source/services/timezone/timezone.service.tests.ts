@@ -18,5 +18,22 @@ describe('timezone', (): void => {
 		expect(timezoneService.getTimezone(dateWithoutDaylightSavings)).to.equal('-08:00');
 		expect(timezoneService.getTimezone(dateWithDaylightSavings)).to.equal('-07:00');
 	});
+
+	it('should return the appropriate timezone enum', (): void => {
+		let ast_timezone: moment.Moment = moment('2016-1-2T12:00:00-04:00', defaultFormats.isoFormat).tz(timezones.AST.momentName);
+		let est_timezone: moment.Moment = moment('2016-1-2T12:00:00-04:00', defaultFormats.isoFormat).tz(timezones.EST.momentName);
+		let cst_timezone: moment.Moment = moment('2016-1-2T12:00:00-04:00', defaultFormats.isoFormat).tz(timezones.CST.momentName);
+		let mst_timezone: moment.Moment = moment('2016-1-2T12:00:00-04:00', defaultFormats.isoFormat).tz(timezones.MST.momentName);
+		let pst_timezone: moment.Moment = moment('2016-1-2T12:00:00-04:00', defaultFormats.isoFormat).tz(timezones.PST.momentName);
+		let akst_timezone: moment.Moment = moment('2016-1-2T12:00:00-04:00', defaultFormats.isoFormat).tz(timezones.AKST.momentName);
+		let hast_timezone: moment.Moment = moment('2016-1-2T12:00:00-04:00', defaultFormats.isoFormat).tz(timezones.HAST.momentName);
+
+		expect(timezoneService.getTimezone(ast_timezone)).to.equal('-04:00');
+		expect(timezoneService.getTimezone(est_timezone)).to.equal('-05:00');
+		expect(timezoneService.getTimezone(cst_timezone)).to.equal('-06:00');
+		expect(timezoneService.getTimezone(mst_timezone)).to.equal('-07:00');
+		expect(timezoneService.getTimezone(pst_timezone)).to.equal('-08:00');
+		expect(timezoneService.getTimezone(akst_timezone)).to.equal('-09:00');
+		expect(timezoneService.getTimezone(hast_timezone)).to.equal('-10:00');
 	});
 });
