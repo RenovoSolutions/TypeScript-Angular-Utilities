@@ -51,7 +51,7 @@ describe('dateUtility', () => {
 		});
 
 		it('should return null if the server sends a null date', (): void => {
-			expect(dateUtility.getDateFromISOString(null)).to.be.null;
+			expect(dateUtility.getDateFromISOString(null)).to.not.exist;
 		});
 	});
 
