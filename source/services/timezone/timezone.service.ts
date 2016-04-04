@@ -29,12 +29,19 @@ export class TimezoneService {
 	}
 
 	getTimezone(isoString: string): ITimezone {
+		if (isoString == null) {
+			return null;
+		}
+
 		let offsetText: string = '-' + _.last(isoString.split('-'));
 		return timezones.get(offsetText);
 	}
 
 	getMomentTimezone(isoString: string): string {
-		return this.getTimezone(isoString).momentName;
+		let timezone: ITimezone = this.getTimezone(isoString);
+		return timezone != null
+			? timezone.momentName
+			: null;
 	}
 }
 
