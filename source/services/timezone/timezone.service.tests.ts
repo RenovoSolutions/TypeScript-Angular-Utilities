@@ -4,12 +4,13 @@ import { defaultFormats } from '../date/date.module';
 import * as moment from 'moment';
 import 'moment-timezone';
 
-import { timezones } from './timezone.enum';
+import { timezones, ITimezone } from './timezone.enum';
 
 describe('timezone', (): void => {
-	it('should return the timezone', (): void => {
-		let date: moment.Moment = moment('2001-4-1T12:00:00-07:00', defaultFormats.isoFormat).tz(timezones.PST.momentName);
-		expect(timezoneService.getTimezone(date)).to.equal('PST');
+	it('should get the timezone', (): void => {
+		let date: string = '2016-2-1T12:00:00-07:00';
+		let timezone: ITimezone = timezoneService.getTimezone(date);
+		expect(timezone).to.equal(timezones.MST);
 	});
 
 	it('should handle daylight savings time', (): void => {
