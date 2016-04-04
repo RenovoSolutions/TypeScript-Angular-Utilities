@@ -1,6 +1,7 @@
 import { moduleName } from './date.module';
 import { IDateUtility, IDateValue, serviceName } from './date.service';
 import { defaultFormats } from './dateTimeFormatStrings';
+import { timezones } from '../timezone/timezone.enum';
 
 import { CompareResult } from '../../types/compareResult';
 
@@ -9,6 +10,7 @@ import { angularFixture } from '../test/angularFixture';
 import * as angular from 'angular';
 import 'angular-mocks';
 import * as moment from 'moment';
+import 'moment-timezone';
 
 
 describe('dateUtility', () => {
@@ -63,10 +65,11 @@ describe('dateUtility', () => {
 
 	describe('getDateFromServer', (): void => {
 		it('should get dates from string in server format, "YYYY-MM-DDTHH:MM:SSZ"', (): void => {
-			let expectedDate: moment.Moment = moment('2015-11-24T20:12:00-07:00', defaultFormats.isoFormat);
+			let expectedDate: moment.Moment = moment('2015-11-24T20:12:00-07:00', defaultFormats.isoFormat).tz(timezones.MST.momentName);
 			let dateString: string = '2015-11-24T20:12:00-07:00';
 			let date: moment.Moment = dateUtility.getDateFromISOString(dateString);
-			expect(date).to.deep.equal(expectedDate);
+			expect(date.tz()).to.equal(expectedDate.tz());
+			expect(date.format(defaultFormats.isoFormat)).to.equal(expectedDate.format(defaultFormats.isoFormat));
 		});
 	});
 
