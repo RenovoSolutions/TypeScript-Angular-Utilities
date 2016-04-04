@@ -38,6 +38,9 @@ describe('timezone', (): void => {
 		expect(hast_timezone.format('Z')).to.equal('-10:00');
 	});
 
+	it('should get a timezone from a moment timezone', (): void => {
+		expect(timezones.get(timezones.MST.momentName)).to.equal(timezones.MST)
+	});
 
 	it('should return moment formatted time zone name from an iso string based on the offset', (): void => {
 		let pacificOffset: string = '2016-2-1T12:00:00-07:00';

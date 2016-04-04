@@ -74,9 +74,9 @@ class Timezones implements ITimezones {
 		];
 	}
 
-	get(offset: string): ITimezone {
+	get(offsetOrMomentName: string): ITimezone {
 		return _.find(this.items, (item: ITimezone): boolean => {
-			return (item.offset === offset);
+			return (item.offset === offsetOrMomentName || item.momentName === offsetOrMomentName);
 		});
 	}
 
