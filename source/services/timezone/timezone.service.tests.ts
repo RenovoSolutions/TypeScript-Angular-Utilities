@@ -9,7 +9,7 @@ import { timezones } from './timezone.enum';
 describe('timezone', (): void => {
 	it('should return the timezone', (): void => {
 		let date: moment.Moment = moment('2001-4-1T12:00:00-07:00', defaultFormats.isoFormat).tz(timezones.PST.momentName);
-		expect(timezoneService.getTimezone(date)).to.equal('-07:00');
+		expect(timezoneService.getTimezone(date)).to.equal('PST');
 	});
 
 	it('should handle daylight savings time', (): void => {
