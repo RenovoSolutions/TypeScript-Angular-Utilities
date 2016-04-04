@@ -18,6 +18,9 @@ export interface ITimezones {
 	PST: ITimezone;
 	AKST: ITimezone;
 	HAST: ITimezone;
+
+	get(offset: string): ITimezone;
+	all(): ITimezone[];
 }
 
 class Timezones implements ITimezones {
