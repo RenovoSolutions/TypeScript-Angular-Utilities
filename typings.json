@@ -13,6 +13,7 @@
     "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
     "moment": "github:DefinitelyTyped/DefinitelyTyped/moment/moment.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
     "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "moment-timezone": "github:DefinitelyTyped/DefinitelyTyped/moment-timezone/moment-timezone.d.ts#1ec036686e70ad0d837ed2443684d54bca13af01",
     "sinon": "github:DefinitelyTyped/DefinitelyTyped/sinon/sinon.d.ts#54f064352a3615443f7bff4198078db15e28247b"
   }
 }
