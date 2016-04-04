@@ -2,6 +2,7 @@ import { moduleName } from './date.module';
 import { IDateUtility, IDateValue, serviceName } from './date.service';
 import { defaultFormats } from './dateTimeFormatStrings';
 import { timezones } from '../timezone/timezone.enum';
+import { timezoneService } from '../timezone/timezone.service';
 
 import { CompareResult } from '../../types/compareResult';
 
@@ -87,6 +88,13 @@ describe('dateUtility', () => {
 		});
 		it('should return false if object is a Valid date object with an invalid value.', (): void => {
 			expect(dateUtility.isDate(new Date("Null"))).to.be.false;
+		});
+	});
+
+	describe('getNow', (): void => {
+		it('should set the timezone on the new date if a timezone is configured', (): void => {
+			timezoneService.setCurrentTimezone(timezones.MST.offset);
+			expect(dateUtility.getNow().tz()).to.equal(timezones.MST.momentName);
 		});
 	});
 
