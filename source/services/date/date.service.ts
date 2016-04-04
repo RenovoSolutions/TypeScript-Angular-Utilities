@@ -128,6 +128,10 @@ export class DateUtility {
 	}
 
 	getNow(): moment.Moment {
+		if (timezoneService.currentTimezone != null)
+		{
+			return moment().tz(timezoneService.currentTimezone.momentName);
+		}
 		return moment();
 	}
 
