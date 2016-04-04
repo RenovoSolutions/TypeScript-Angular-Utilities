@@ -44,7 +44,7 @@ describe('dateUtility', () => {
 		it('should handle dates in string, date, or moment format, defaulting to ISO string format', (): void => {
 			let date: Date = new Date(2014, 1, 1);
 
-			let dateString: string = '2014-1-1T00:00:00-80:00';
+			let dateString: string = '2014-1-1T00:00:00-07:00';
 			let momentInstance: moment.Moment = moment(dateString, defaultFormats.isoFormat)
 
 			expect(dateUtility.getDate(date).format(defaultFormats.isoFormat)).to.equal(moment(date).format(defaultFormats.isoFormat));
