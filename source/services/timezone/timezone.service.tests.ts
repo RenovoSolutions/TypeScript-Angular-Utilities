@@ -43,4 +43,9 @@ describe('timezone', (): void => {
 
 		expect(timezoneService.getMomentTimezone(pacificOffset)).to.equal(timezones.MST.momentName);
 	});
+
+	it('should set the current timezone from an offset', (): void => {
+		timezoneService.setCurrentTimezone('-07:00');
+		expect(timezoneService.currentTimezone.display).to.equal('MST');
+	});
 });
