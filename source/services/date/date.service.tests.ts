@@ -49,6 +49,10 @@ describe('dateUtility', () => {
 			expect(date.tz()).to.equal(expectedDate.tz());
 			expect(date.format(defaultFormats.isoFormat)).to.equal(expectedDate.format(defaultFormats.isoFormat));
 		});
+
+		it('should return null if the server sends a null date', (): void => {
+			expect(dateUtility.getDateFromISOString(null)).to.be.null;
+		});
 	});
 
 	describe('isDate', (): void => {
