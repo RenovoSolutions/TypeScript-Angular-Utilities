@@ -23,4 +23,4 @@ export class TimezoneService {
 	}
 }
 
-export let timezone: ITimezoneService = new TimezoneService();
+export let timezoneService: ITimezoneService = new TimezoneService();

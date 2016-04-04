@@ -1,4 +1,4 @@
-import { timezone as timezoneService } from './timezone.service';
+import { timezoneService } from './timezone.service';
 import { defaultFormats } from '../date/date.module';
 
 import * as moment from 'moment';
