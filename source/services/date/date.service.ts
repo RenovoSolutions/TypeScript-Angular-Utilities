@@ -3,11 +3,14 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import 'moment-timezone';
 
 import {
 	moduleName as momentModuleName,
 	serviceName as momentServiceName,
 } from '../moment/moment.module';
+
+import { timezoneService } from '../timezone/timezone.service';
 
 import { defaultFormats } from './dateTimeFormatStrings';
 
@@ -109,8 +112,9 @@ export class DateUtility {
 		return this.moment(<string>date, this.getFormat(dateFormat));
 	}
 
-	getDateFromISOString(date: string): moment.Moment {
-		return this.moment(date, defaultFormats.isoFormat);
+	getDateFromISOString(isoDateTime: string): moment.Moment {
+		let momentOffset: string = timezoneService.getMomentTimezone(isoDateTime);
+		return this.moment(isoDateTime, defaultFormats.isoFormat).tz(momentOffset);
 	}
 
 	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean {
