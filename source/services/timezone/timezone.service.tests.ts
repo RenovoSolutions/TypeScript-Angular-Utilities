@@ -41,6 +41,6 @@ describe('timezone', (): void => {
 	it('should return moment formatted time zone name from an iso string based on the offset', (): void => {
 		let pacificOffset: string = '2016-2-1T12:00:00-07:00';
 
-		expect(timezoneService.getMomentTimezone(pacificOffset)).to.equal(timezones.PST.momentName);
+		expect(timezoneService.getMomentTimezone(pacificOffset)).to.equal(timezones.MST.momentName);
 	});
 });
