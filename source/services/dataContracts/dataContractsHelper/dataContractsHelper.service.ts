@@ -6,8 +6,17 @@ export interface IDataContractsHelper {
 
 class DataContractsHelper implements IDataContractsHelper {
 	versionEndpoint(endpoint: string, versionNumber: number): string {
-		let endpointFragments: string[] = endpoint.split('api');
-		return endpointFragments.join('api/v' + versionNumber);
+		let versionExpression: RegExp = /\/v\d+\//;
+		let apiExpression: RegExp = /\/api\//;
+
+		let versionString: string = 'v' + versionNumber;
+
+		let searchResult = endpoint.search(versionExpression);
+		if (searchResult !== -1) {
+			return endpoint.replace(versionExpression, '/' + versionString + '/');
+		} else {
+			return endpoint.replace(apiExpression, '/api/' + versionString + '/');
+		}
 	}
 }
 

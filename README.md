@@ -64,8 +64,16 @@ angular.module('moduleName', [objectNamespace.moduleName])
 ## Types
 Contains common type definitions or objects.
 
-### compareResult
+### CompareResult
 Contains a simple enumeration describing less than, equal, greater than along with a primitive number comparison function.
+
+```
+export enum CompareResult {
+	greater = 1,
+	equal = 0,
+	less = -1,
+}
+```
 
 ### itemList
 Can be used to build more descriptive enumerations were each entry contains a value, a machine name (or abbreviation), and a display / pretty name. Extend to build enumeration lists. IItem can also be extended to provide additional meta information on items in the list.

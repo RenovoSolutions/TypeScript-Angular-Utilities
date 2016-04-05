@@ -1,9 +1,18 @@
 ## Contract library
-A bass class that provides tooling for mocking data contracts for unit testing.
+A base class that aids in building up resources into a library of data services. A base class that provides tooling for mocking data contracts for unit testing.
 
 See [resourceBuilder](../resourceBuilder/resourceBuilder.md) for example usage.
 
 ### Interface
+
+#### `baseEndpoint`
+Configures the base url of the contract library. If a base endpoint is set, the library will handle setting the full url of its resources by default.
+
+`createResource`, `createResourceView`, `createParentResource`, `createParentResourceView`, `createSingletonResource`, `createParentSingletonResource`.
+
+See [resourceBuilder](../resourceBuilder/resourceBuilder.md) for details on the options. If the resources are build up through the contract library, the library will automatically handle building the url of the resource based on the base url that is provided for the contract library.
+
+### Testing
 The following functions are available for building mocks against the contract library.
 
 #### `mockGet`

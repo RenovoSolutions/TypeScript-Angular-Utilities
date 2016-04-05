@@ -15,6 +15,7 @@ export declare class SingletonDataService<TDataType> implements ISingletonDataSe
     private behavior;
     private mockData;
     endpoint: string;
+    url: string;
     useMock: boolean;
     logRequests: boolean;
     constructor($http: angular.IHttpService, $q: angular.IQService, options: ISingletonResourceParams<TDataType>);

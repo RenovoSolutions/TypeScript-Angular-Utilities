@@ -70,7 +70,7 @@ export class DataServices extends __dataContracts.ContractLibrary {
 		// as yet we don't have a way to plug in the base endpoint
 		let baseEndpoint: string = 'www.example.com/api';
 
-		this.user = baseResourceBuilder.createResource<user.IUser, user.ISearchParams>({
+		this.user = this.createResource<user.IUser, user.ISearchParams>({
 			endpoint: baseEndpoint + user.endpoint,
 			mockData: user.mockData,
 			transform: user.transform,
