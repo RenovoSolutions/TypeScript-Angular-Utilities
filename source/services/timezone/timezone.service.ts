@@ -47,18 +47,24 @@ export class TimezoneService {
 
 	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone): moment.Moment {
 		let previousTimezone: ITimezone;
+		let previousOffset: number;
 
 		if (_.isString(dateValue)) {
 			previousTimezone = this.getTimezone(dateValue);
 		}
 
-		let previousOffset: number = previousTimezone != null
-			? previousTimezone.offsetMinutes
-			: moment(dateValue).utcOffset();
+		if (previousTimezone != null) {
+			previousOffset = previousTimezone.offsetMinutes;
+		} else {
+			previousOffset = moment(dateValue).utcOffset();
+		}
 
-		let newMoment: moment.Moment = moment(dateValue).tz(timezone.momentName);
-		newMoment.subtract(newMoment.utcOffset() - previousOffset, 'minutes');
-		return newMoment;
+		let dateWithNewTimezone: moment.Moment = moment(dateValue).tz(timezone.momentName);
+
+		let offsetDifferenceBetweenOriginalAndNewTimezones: number = previousOffset - dateWithNewTimezone.utcOffset();
+
+		dateWithNewTimezone.add(offsetDifferenceBetweenOriginalAndNewTimezones, 'minutes');
+		return dateWithNewTimezone;
 	}
 }
 
