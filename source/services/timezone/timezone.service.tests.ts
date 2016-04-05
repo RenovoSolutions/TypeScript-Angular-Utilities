@@ -46,4 +46,11 @@ describe('timezone service', (): void => {
 		expect(convertedMomentTime.tz()).to.equal(timezones.MST.momentName);
 		expect(convertedMomentTime.format(defaultFormats.isoFormat)).to.not.equal("2016-02-01T12:00:00-07:00");
 	});
+
+	it('should also handle times', (): void => {
+		let timeString: string = '12:00PM';
+		let convertedTimeString: moment.Moment = timezoneService.buildMomentWithTimezone(timeString, timezones.MST, defaultFormats.timeFormat);
+		expect(convertedTimeString.tz()).to.equal(timezones.MST.momentName);
+		expect(convertedTimeString.format(defaultFormats.timeFormat)).to.equal("12:00PM");
+	});
 });

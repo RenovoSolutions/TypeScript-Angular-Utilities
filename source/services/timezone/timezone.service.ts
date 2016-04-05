@@ -14,7 +14,7 @@ export interface ITimezoneService {
 	getMomentTimezone(isoString: string): string;
 	setCurrentTimezone(offset: string): void;
 	currentTimezone: ITimezone;
-	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone): moment.Moment;
+	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone, format?: string): moment.Moment;
 }
 
 export class TimezoneService {
@@ -45,7 +45,7 @@ export class TimezoneService {
 			: null;
 	}
 
-	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone): moment.Moment {
+	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone, format?: string): moment.Moment {
 		let previousTimezone: ITimezone;
 		let previousOffset: number;
 
@@ -56,10 +56,10 @@ export class TimezoneService {
 		if (previousTimezone != null) {
 			previousOffset = previousTimezone.offsetMinutes;
 		} else {
-			previousOffset = moment(dateValue).utcOffset();
+			previousOffset = moment(<string>dateValue, format).utcOffset();
 		}
 
-		let dateWithNewTimezone: moment.Moment = moment(dateValue).tz(timezone.momentName);
+		let dateWithNewTimezone: moment.Moment = moment(<string>dateValue, format).tz(timezone.momentName);
 
 		let offsetDifferenceBetweenOriginalAndNewTimezones: number = previousOffset - dateWithNewTimezone.utcOffset();
 
