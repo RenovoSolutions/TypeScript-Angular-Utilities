@@ -41,5 +41,7 @@ class NumberUtility implements INumberUtility {
 	}
 }
 
+export let numberUtility: INumberUtility = new NumberUtility();
+
 angular.module(moduleName, [])
 	.service(serviceName, NumberUtility);
