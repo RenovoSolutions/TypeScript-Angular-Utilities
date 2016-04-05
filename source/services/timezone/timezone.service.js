@@ -33,7 +33,7 @@ var TimezoneService = (function () {
             ? timezone.momentName
             : null;
     };
-    TimezoneService.prototype.buildMomentWithTimezone = function (dateValue, timezone) {
+    TimezoneService.prototype.buildMomentWithTimezone = function (dateValue, timezone, format) {
         var previousTimezone;
         var previousOffset;
         if (_.isString(dateValue)) {
@@ -43,9 +43,9 @@ var TimezoneService = (function () {
             previousOffset = previousTimezone.offsetMinutes;
         }
         else {
-            previousOffset = moment(dateValue).utcOffset();
+            previousOffset = moment(dateValue, format).utcOffset();
         }
-        var dateWithNewTimezone = moment(dateValue).tz(timezone.momentName);
+        var dateWithNewTimezone = moment(dateValue, format).tz(timezone.momentName);
         var offsetDifferenceBetweenOriginalAndNewTimezones = previousOffset - dateWithNewTimezone.utcOffset();
         dateWithNewTimezone.add(offsetDifferenceBetweenOriginalAndNewTimezones, 'minutes');
         return dateWithNewTimezone;

@@ -5,7 +5,7 @@ export interface ITimezoneService {
     getMomentTimezone(isoString: string): string;
     setCurrentTimezone(offset: string): void;
     currentTimezone: ITimezone;
-    buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone): moment.Moment;
+    buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone, format?: string): moment.Moment;
 }
 export declare class TimezoneService {
     private _currentTimezone;
@@ -13,6 +13,6 @@ export declare class TimezoneService {
     setCurrentTimezone(offset: string): void;
     getTimezone(isoString: string): ITimezone;
     getMomentTimezone(isoString: string): string;
-    buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone): moment.Moment;
+    buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone, format?: string): moment.Moment;
 }
 export declare let timezoneService: ITimezoneService;
