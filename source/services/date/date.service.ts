@@ -3,24 +3,20 @@
 import * as angular from 'angular';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-
-import {
-	moduleName as timeModuleName,
-	serviceName as timeServiceName,
-	ITimeUtility,
-	timeUtility,
-} from '../time/time.service';
+import 'moment-timezone';
 
 import {
 	moduleName as momentModuleName,
 	serviceName as momentServiceName,
 } from '../moment/moment.module';
 
+import { timezoneService } from '../timezone/timezone.service';
+
 import { defaultFormats } from './dateTimeFormatStrings';
 
 import { CompareResult, getCompareResult } from '../../types/compareResult';
 
-export var serviceName: string = 'dateUtility';
+export let serviceName: string = 'dateUtility';
 
 export interface IMonth {
 	name: string;
@@ -35,104 +31,69 @@ export interface IDateValue {
 
 export interface IDateUtility {
 	getFullString(month: number): string;
-	getDays(month: number, year?: number): number;
-	subtractDates(start: string | Date, end: string | Date, dateFormat?: string): IDateValue;
-	subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number;
-	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number;
-	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult;
-	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean;
-	getDate(date: string | Date, dateFormat?: string): Date;
-	getDateFromISOString(date: string): Date;
-	isDate(date: string | Date, dateFormat?: string): boolean;
-	getNow(): Date;
-	formatDate(date: string | Date, dateFormat?: string): string;
-	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
-	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string): boolean;
+	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue;
+	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
+	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
+	subtractDatesMoment(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): moment.Duration;
+	compareDates(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, dateFormat?: string): CompareResult;
+	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment): boolean;
+	getDateFromISOString(date: string): moment.Moment;
+	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean;
+	getNow(): moment.Moment;
+	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string;
+	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
+	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
 }
 
 export class DateUtility {
-	static $inject: string[] = [momentServiceName, timeServiceName];
-	constructor(private moment: moment.MomentStatic, private time: ITimeUtility) {
-		this.month = [
-			{ name: 'January', days: (): number => { return 31; } },
-			{ name: 'February', days: (year: number): number => { return this.isLeapYear(year) ? 29 : 28; } },
-			{ name: 'March', days: (): number => { return 31; } },
-			{ name: 'April', days: (): number => { return 30; } },
-			{ name: 'May', days: (): number => { return 31; } },
-			{ name: 'June', days: (): number => { return 30; } },
-			{ name: 'July', days: (): number => { return 31; } },
-			{ name: 'August', days: (): number => { return 31; } },
-			{ name: 'September', days: (): number => { return 30; } },
-			{ name: 'October', days: (): number => { return 31; } },
-			{ name: 'November', days: (): number => { return 30; } },
-			{ name: 'December', days: (): number => { return 31; } },
-		];
-	}
+	static $inject: string[] = [momentServiceName];
+	constructor(private moment: moment.MomentStatic) {}
 
-	month: IMonth[];
-	private baseFormat: string = 'MM-DD-YYYY';
-
-	private isLeapYear(year?: number): boolean {
-		return new Date(year, 1, 29).getMonth() === 1;
-	}
+	private baseFormat: string = defaultFormats.isoFormat;
 
 	getFullString(month: number): string {
-		return this.month[month].name;
+		return moment().month(month).format('MMMM');
 	}
 
-	getDays(month: number, year?: number): number {
-		return this.month[month].days(year);
-	}
+	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue {
+		let duration = this.subtractDatesMoment(start, end, dateFormat);
 
-	subtractDates(start: string | Date, end: string | Date, dateFormat?: string): IDateValue {
-		if (start == null || end == null) {
-			return null;
-		}
-
-		var startDate: Date = this.getDate(start, dateFormat);
-		var endDate: Date = this.getDate(end, dateFormat);
-
-		var result: IDateValue = <any>{};
-		result.days = endDate.getDate() - startDate.getDate();
-		result.years = endDate.getFullYear() - startDate.getFullYear();
-		result.months = endDate.getMonth() - startDate.getMonth();
-
-		if (result.days < 0) {
-			result.months -= 1;
-			result.days += this.getDays(startDate.getMonth(), startDate.getFullYear());
-		}
-
-		if (result.months < 0) {
-			result.years -= 1;
-			result.months += 12;
-		}
+		let result: IDateValue = <any>{};
+		result.days = Math.floor(duration.days());
+		result.months = Math.floor(duration.months());
+		result.years = Math.floor(duration.years());
 
 		return result;
 	}
 
-	subtractDateInDays(start: string | Date, end: string | Date, dateFormat?: string): number {
-		var milliseconds: number = this.subtractDateInMilliseconds(start, end, dateFormat);
-		return this.time.millisecondsToDays(milliseconds);
+	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number {
+		let duration = this.subtractDatesMoment(start, end, dateFormat);
+		return duration.asDays();
 	}
 
-	subtractDateInMilliseconds(start: string | Date, end: string | Date, dateFormat?: string): number {
+	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number {
+		let duration = this.subtractDatesMoment(start, end, dateFormat);
+		return duration.asMilliseconds();
+	}
+
+	subtractDatesMoment(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): moment.Duration {
 		if (start == null || end == null) {
 			return null;
 		}
 
-		var startDate: Date = this.getDate(start, dateFormat);
-		var endDate: Date = this.getDate(end, dateFormat);
+		let startDate: moment.Moment = this.parseDate(start, dateFormat);
+		let endDate: moment.Moment = this.parseDate(end, dateFormat);
 
-		return endDate.getTime() - startDate.getTime();
+		return moment.duration(endDate.diff(startDate));
 	}
 
-	compareDates(date1: string | Date, date2: string | Date, dateFormat?: string): CompareResult {
+	compareDates(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, dateFormat?: string): CompareResult {
 		// subtractDateInDays subtracts the fist from the second, assuming start and end dates
-		var difference: number = this.subtractDateInMilliseconds(date2, date1, dateFormat);
+		let difference: number = this.subtractDateInMilliseconds(date2, date1, dateFormat);
 		return getCompareResult(difference);
 	}
 
-	dateInRange(date: string | Date, rangeStart: string | Date, rangeEnd: string | Date): boolean {
+	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment): boolean {
 		if (this.compareDates(date, rangeStart) === CompareResult.less) {
 			return false;
 		} else if (this.compareDates(date, rangeEnd) === CompareResult.greater) {
@@ -142,19 +103,12 @@ export class DateUtility {
 		}
 	}
 
-	getDate(date: string | Date, dateFormat?: string): Date {
-		if (_.isDate(date)) {
-			return <Date>date;
-		} else {
-			return this.moment(<string>date, this.getFormat(dateFormat)).toDate();
-		}
+	getDateFromISOString(isoDateTime: string): moment.Moment {
+		let momentOffset: string = timezoneService.getMomentTimezone(isoDateTime);
+		return this.moment(isoDateTime, defaultFormats.isoFormat).tz(momentOffset);
 	}
 
-	getDateFromISOString(date: string): Date {
-		return this.moment(date).toDate();
-	}
-
-	isDate(date: string | Date, dateFormat?: string): boolean {
+	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean {
 		if (_.isDate(date))
 		{
 			//lodash will return true if it is a valid date object, but has in invalid value.
@@ -164,39 +118,47 @@ export class DateUtility {
 		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}
 
-	getNow(): Date {
-		return new Date();
+	getNow(): moment.Moment {
+		if (timezoneService.currentTimezone != null)
+		{
+			return moment().tz(timezoneService.currentTimezone.momentName);
+		}
+		return moment();
 	}
 
-	formatDate(date: string | Date, dateFormat?: string): string {
-		return this.moment(this.getDate(date, dateFormat)).format(this.getFormat(dateFormat));
+	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string {
+		return this.moment(this.parseDate(date, dateFormat)).format(this.getFormat(dateFormat));
+	}
+
+	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, formatAs?: string): boolean {
+		date2Format = date2Format || date1Format;
+		formatAs = formatAs || defaultFormats.dateFormat;
+
+		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
+			let moment1: moment.Moment = this.parseDate(date1, date1Format);
+			let moment2: moment.Moment = this.parseDate(date2, date2Format);
+
+			return moment1.format(formatAs) === moment2.format(formatAs);
+		} else {
+			return false;
+		}
+	}
+
+	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean {
+		return this.sameDate(date1, date2, date1Format, date2Format, defaultFormats.isoFormat);
+	}
+
+	private parseDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {
+		if (_.isDate(date)) {
+			return this.moment(date);
+		}
+
+		return this.moment(<string>date, this.getFormat(dateFormat));
 	}
 
 	private getFormat(customFormat: string): string {
 		return customFormat != null ? customFormat : this.baseFormat;
 	}
-
-	sameDate(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
-		if (date1Format != undefined && date2Format === undefined) {
-			date2Format = date1Format;
-		}
-		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-			return moment(<any>date1,date1Format).format("MM/DD/YYYY") === moment(<any>date2,date2Format).format("MM/DD/YYYY");
-		} else {
-			return false;
-		}
-	}
-
-	sameDateTime(date1: string | Date, date2: string | Date, date1Format?: string, date2Format?: string) {
-		if (date1Format != undefined && date2Format === undefined) {
-			date2Format = date1Format;
-		}
-		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-			return moment(<any>date1,date1Format).format("MM/DD/YYYY +-HHmm") === moment(<any>date2,date2Format).format("MM/DD/YYYY +-HHmm");
-		} else {
-			return false;
-		}
-	}
 }
 
-export let dateUtility: IDateUtility = new DateUtility(moment, timeUtility);
+export let dateUtility: IDateUtility = new DateUtility(moment);

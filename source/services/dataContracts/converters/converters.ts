@@ -3,6 +3,7 @@
 export * from './aliasConverter/aliasConverter';
 export * from './dateConverter/dateConverter';
 export * from './enumConverter/enumConverter';
+export * from './timeConverter/timeConverter';
 
 export interface IConverter<TDataType> {
 	fromServer(raw: any, parent?: any): TDataType;

@@ -5,6 +5,7 @@ function __export(m) {
 __export(require('./aliasConverter/aliasConverter'));
 __export(require('./dateConverter/dateConverter'));
 __export(require('./enumConverter/enumConverter'));
+__export(require('./timeConverter/timeConverter'));
 var ConverterService = (function () {
     function ConverterService() {
     }

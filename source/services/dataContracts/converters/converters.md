@@ -147,3 +147,13 @@ expect(new EnumConverter(testEnum).toServer(testEnum.type1)).to.equal(0);
 expect(new EnumConverter(testEnum).toServer(testEnum.type2)).to.equal(1);
 expect(new EnumConverter(testEnum).toServer(null)).to.not.exist;
 ```
+
+### timeConverter
+The time converter is a primitive converter for translating times to and from the server. This converter expects the string in 'h:mmA' format from the server and translates it to a moment object.
+
+Behavior:
+```
+// assertions assume EST timezone. Supports all US timezones.
+expect(timeConverter.fromServer('8:00AM').parse('YYYY-MM-DDTHH:mm:ssZ').to.equal('2016-01-02T20:00:00-05:00');
+expect(timeConverter.toServer(moment('2016-01-02T20:00:00-05:00')).to.equal('8:00AM');
+```

@@ -11,10 +11,6 @@ export var serviceName: string = 'timeUtility';
 
 export interface ITimeUtility {
 	compareTimes(time1: string, time2: string): CompareResult;
-	millisecondsToSeconds(milliseconds: number): number;
-	millisecondsToMinutes(milliseconds: number): number;
-	millisecondsToHours(milliseconds: number): number;
-	millisecondsToDays(milliseconds: number): number;
 }
 
 export class TimeUtility {
@@ -33,22 +29,6 @@ export class TimeUtility {
 		} else {
 			return CompareResult.less;
 		}
-	}
-
-	millisecondsToSeconds(milliseconds: number): number {
-		return Math.floor(milliseconds / 1000);
-	}
-
-	millisecondsToMinutes(milliseconds: number): number {
-		return Math.floor(this.millisecondsToSeconds(milliseconds) / 60);
-	}
-
-	millisecondsToHours(milliseconds: number): number {
-		return Math.floor(this.millisecondsToMinutes(milliseconds) / 60);
-	}
-
-	millisecondsToDays(milliseconds: number): number {
-		return Math.floor(this.millisecondsToHours(milliseconds) / 24);
 	}
 }
 

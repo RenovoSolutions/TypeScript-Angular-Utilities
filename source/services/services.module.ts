@@ -21,6 +21,7 @@ import * as stringService from './string/string.service';
 import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
 import * as test from './test/test.module';
 import * as time from './time/time.service';
+import * as timezone from './timezone/timezone.service';
 import * as transform from './transform/transform.service';
 import * as validation from './validation/validation.service';
 
@@ -44,6 +45,7 @@ export {
 	synchronizedRequests,
 	test,
 	time,
+	timezone,
 	transform,
 	validation,
 };

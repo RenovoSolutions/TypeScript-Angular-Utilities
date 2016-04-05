@@ -1,6 +1,6 @@
 {
   "name": "typescript-angular-utilities",
-  "version": "2.9.5",
+  "version": "2.10.0",
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
   "main": "source/utilities.js",
@@ -65,8 +65,10 @@
   },
   "dependencies": {
     "angular": "~1.5.0",
+    "json-loader": "~0.5.4",
     "lodash": "~4.5.1",
     "moment": "~2.11.2",
+    "moment-timezone": "~0.5.3",
     "rx": "~4.0.8",
     "uuid": "~2.0.1"
   },

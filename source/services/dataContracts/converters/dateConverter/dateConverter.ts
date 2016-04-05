@@ -5,11 +5,15 @@ import * as moment from 'moment';
 import { IConverter } from '../converters';
 import { dateUtility, defaultFormats } from '../../../date/date.module';
 
-export let dateConverter: IConverter<Date> = {
-	fromServer(raw: string): Date {
+export { defaultFormats };
+
+export let dateConverter: IConverter<moment.Moment> = {
+	fromServer(raw: string): moment.Moment {
 		return dateUtility.getDateFromISOString(raw);
 	},
-	toServer(data: Date): string {
-		return moment(data).format(defaultFormats.isoFormat);
+	toServer(data: moment.Moment): string {
+		return data != null
+			? moment(data).format(defaultFormats.isoFormat)
+			: null;
 	},
 };
