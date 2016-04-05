@@ -38,6 +38,7 @@ export class StringUtilityService implements IStringUtilityService {
 	}
 }
 
+export let stringUtility: IStringUtilityService = new StringUtilityService();
 
 angular.module(moduleName, [])
 	.service(serviceName, StringUtilityService);
