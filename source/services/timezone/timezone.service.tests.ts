@@ -20,8 +20,8 @@ describe('timezone service', (): void => {
 	});
 
 	it('should set the current timezone from an offset', (): void => {
-		timezoneService.setCurrentTimezone('-07:00');
-		expect(timezoneService.currentTimezone.display).to.equal('MST');
+		timezoneService.setCurrentTimezone(timezones.MST.offset);
+		expect(timezoneService.currentTimezone).to.equal(timezones.MST);
 	});
 
 	it('should build a moment with the correct time and timezone', (): void => {
