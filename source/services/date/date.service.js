@@ -1,7 +1,9 @@
 'use strict';
 var _ = require('lodash');
 var moment = require('moment');
+require('moment-timezone');
 var moment_module_1 = require('../moment/moment.module');
+var timezone_service_1 = require('../timezone/timezone.service');
 var dateTimeFormatStrings_1 = require('./dateTimeFormatStrings');
 var compareResult_1 = require('../../types/compareResult');
 exports.serviceName = 'dateUtility';
@@ -33,8 +35,8 @@ var DateUtility = (function () {
         if (start == null || end == null) {
             return null;
         }
-        var startDate = this.getDate(start, dateFormat);
-        var endDate = this.getDate(end, dateFormat);
+        var startDate = this.parseDate(start, dateFormat);
+        var endDate = this.parseDate(end, dateFormat);
         return moment.duration(endDate.diff(startDate));
     };
     DateUtility.prototype.compareDates = function (date1, date2, dateFormat) {
@@ -53,14 +55,9 @@ var DateUtility = (function () {
             return true;
         }
     };
-    DateUtility.prototype.getDate = function (date, dateFormat) {
-        if (_.isDate(date)) {
-            return this.moment(date);
-        }
-        return this.moment(date, this.getFormat(dateFormat));
-    };
-    DateUtility.prototype.getDateFromISOString = function (date) {
-        return this.moment(date, dateTimeFormatStrings_1.defaultFormats.isoFormat);
+    DateUtility.prototype.getDateFromISOString = function (isoDateTime) {
+        var momentOffset = timezone_service_1.timezoneService.getMomentTimezone(isoDateTime);
+        return this.moment(isoDateTime, dateTimeFormatStrings_1.defaultFormats.isoFormat).tz(momentOffset);
     };
     DateUtility.prototype.isDate = function (date, dateFormat) {
         if (_.isDate(date)) {
@@ -71,20 +68,20 @@ var DateUtility = (function () {
         return this.moment(date, this.getFormat(dateFormat)).isValid();
     };
     DateUtility.prototype.getNow = function () {
+        if (timezone_service_1.timezoneService.currentTimezone != null) {
+            return moment().tz(timezone_service_1.timezoneService.currentTimezone.momentName);
+        }
         return moment();
     };
     DateUtility.prototype.formatDate = function (date, dateFormat) {
-        return this.moment(this.getDate(date, dateFormat)).format(this.getFormat(dateFormat));
-    };
-    DateUtility.prototype.getFormat = function (customFormat) {
-        return customFormat != null ? customFormat : this.baseFormat;
+        return this.moment(this.parseDate(date, dateFormat)).format(this.getFormat(dateFormat));
     };
     DateUtility.prototype.sameDate = function (date1, date2, date1Format, date2Format, formatAs) {
         date2Format = date2Format || date1Format;
         formatAs = formatAs || dateTimeFormatStrings_1.defaultFormats.dateFormat;
         if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
-            var moment1 = this.getDate(date1, date1Format);
-            var moment2 = this.getDate(date2, date2Format);
+            var moment1 = this.parseDate(date1, date1Format);
+            var moment2 = this.parseDate(date2, date2Format);
             return moment1.format(formatAs) === moment2.format(formatAs);
         }
         else {
@@ -93,6 +90,15 @@ var DateUtility = (function () {
     };
     DateUtility.prototype.sameDateTime = function (date1, date2, date1Format, date2Format) {
         return this.sameDate(date1, date2, date1Format, date2Format, dateTimeFormatStrings_1.defaultFormats.isoFormat);
+    };
+    DateUtility.prototype.parseDate = function (date, dateFormat) {
+        if (_.isDate(date)) {
+            return this.moment(date);
+        }
+        return this.moment(date, this.getFormat(dateFormat));
+    };
+    DateUtility.prototype.getFormat = function (customFormat) {
+        return customFormat != null ? customFormat : this.baseFormat;
     };
     DateUtility.$inject = [moment_module_1.serviceName];
     return DateUtility;
