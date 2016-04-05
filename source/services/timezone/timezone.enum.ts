@@ -8,6 +8,7 @@ export interface ITimezone {
 	offset: string;
 	display: string;
 	momentName: string;
+	offsetMinutes?: number;
 }
 
 export interface ITimezones {
@@ -28,36 +29,43 @@ class Timezones implements ITimezones {
 		offset: '-04:00',
 		display: 'AST',
 		momentName: 'Canada/Atlantic',
+		offsetMinutes: -240,
 	});
 	EST: ITimezone = new Timezone ({
 		offset: '-05:00',
 		display: 'EST',
 		momentName: 'US/Eastern',
+		offsetMinutes: -300,
 	});
 	CST: ITimezone = new Timezone ({
 		offset: '-06:00',
 		display: 'CST',
 		momentName: 'US/Central',
+		offsetMinutes: -360,
 	});
 	MST: ITimezone = new Timezone ({
 		offset: '-07:00',
 		display: 'MST',
 		momentName: 'US/Mountain',
+		offsetMinutes: -420,
 	});
 	PST: ITimezone = new Timezone ({
 		offset: '-08:00',
 		display: 'PST',
 		momentName: 'US/Pacific',
+		offsetMinutes: -480,
 	});
 	AKST: ITimezone = new Timezone ({
 		offset: '-09:00',
 		display: 'AKST',
 		momentName: 'US/Alaska',
+		offsetMinutes: -540,
 	});
 	HAST: ITimezone = new Timezone ({
 		offset: '-10:00',
 		display: 'HAST',
 		momentName: 'US/Hawaii',
+		offsetMinutes: -600,
 	});
 
 	items: ITimezone[];
@@ -89,11 +97,13 @@ class Timezone implements ITimezone {
 	offset: string;
     display: string;
 	momentName: string;
+	offsetMinutes: number;
 
 	constructor(data: ITimezone) {
 		this.offset = data.offset;
 		this.display = data.display;
 		this.momentName = data.momentName;
+		this.offsetMinutes = data.offsetMinutes;
 	}
 }
 

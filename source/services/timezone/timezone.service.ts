@@ -14,6 +14,7 @@ export interface ITimezoneService {
 	getMomentTimezone(isoString: string): string;
 	setCurrentTimezone(offset: string): void;
 	currentTimezone: ITimezone;
+	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone): moment.Moment;
 }
 
 export class TimezoneService {
@@ -42,6 +43,22 @@ export class TimezoneService {
 		return timezone != null
 			? timezone.momentName
 			: null;
+	}
+
+	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone): moment.Moment {
+		let previousTimezone: ITimezone;
+
+		if (_.isString(dateValue)) {
+			previousTimezone = this.getTimezone(dateValue);
+		}
+
+		let previousOffset: number = previousTimezone != null
+			? previousTimezone.offsetMinutes
+			: moment(dateValue).utcOffset();
+
+		let newMoment: moment.Moment = moment(dateValue).tz(timezone.momentName);
+		newMoment.subtract(newMoment.utcOffset() - previousOffset, 'minutes');
+		return newMoment;
 	}
 }
 
