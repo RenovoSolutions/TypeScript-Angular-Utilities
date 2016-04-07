@@ -17,6 +17,9 @@ var DateUtility = (function () {
     };
     DateUtility.prototype.subtractDates = function (start, end, dateFormat) {
         var duration = this.subtractDatesMoment(start, end, dateFormat);
+        if (duration == null) {
+            return null;
+        }
         var result = {};
         result.days = Math.floor(duration.days());
         result.months = Math.floor(duration.months());
@@ -25,11 +28,15 @@ var DateUtility = (function () {
     };
     DateUtility.prototype.subtractDateInDays = function (start, end, dateFormat) {
         var duration = this.subtractDatesMoment(start, end, dateFormat);
-        return duration.asDays();
+        return duration != null
+            ? duration.asDays()
+            : null;
     };
     DateUtility.prototype.subtractDateInMilliseconds = function (start, end, dateFormat) {
         var duration = this.subtractDatesMoment(start, end, dateFormat);
-        return duration.asMilliseconds();
+        return duration != null
+            ? duration.asMilliseconds()
+            : null;
     };
     DateUtility.prototype.subtractDatesMoment = function (start, end, dateFormat) {
         if (start == null || end == null) {
@@ -45,10 +52,11 @@ var DateUtility = (function () {
         return compareResult_1.getCompareResult(difference);
     };
     DateUtility.prototype.dateInRange = function (date, rangeStart, rangeEnd) {
-        if (this.compareDates(date, rangeStart) === compareResult_1.CompareResult.less) {
-            return false;
+        if (date == null || rangeStart == null || rangeEnd == null) {
+            return null;
         }
-        else if (this.compareDates(date, rangeEnd) === compareResult_1.CompareResult.greater) {
+        if (this.compareDates(date, rangeStart) === compareResult_1.CompareResult.less
+            || this.compareDates(date, rangeEnd) === compareResult_1.CompareResult.greater) {
             return false;
         }
         else {
@@ -77,6 +85,9 @@ var DateUtility = (function () {
         return this.moment(this.parseDate(date, dateFormat)).format(this.getFormat(dateFormat));
     };
     DateUtility.prototype.sameDate = function (date1, date2, date1Format, date2Format, granularity) {
+        if (date1 == null || date2 == null) {
+            return null;
+        }
         date2Format = date2Format || date1Format;
         granularity = granularity || 'day';
         if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
