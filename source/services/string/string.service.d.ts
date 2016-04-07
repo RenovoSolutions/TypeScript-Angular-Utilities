@@ -12,3 +12,4 @@ export declare class StringUtilityService implements IStringUtilityService {
     substitute(formatString: string, ...params: string[]): string;
     replaceAll(str: string, patternToFind: string, replacementString: string): string;
 }
+export declare let stringUtility: IStringUtilityService;

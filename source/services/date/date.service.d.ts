@@ -41,7 +41,7 @@ export declare class DateUtility {
     isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean;
     getNow(): moment.Moment;
     formatDate(date: string | Date | moment.Moment, dateFormat?: string): string;
-    sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, formatAs?: string): boolean;
+    sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, granularity?: string): boolean;
     sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
     private parseDate(date, dateFormat?);
     private getFormat(customFormat);

@@ -31,6 +31,7 @@ var NumberUtility = (function () {
     };
     return NumberUtility;
 }());
+exports.numberUtility = new NumberUtility();
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, NumberUtility);
 //# sourceMappingURL=number.service.js.map
