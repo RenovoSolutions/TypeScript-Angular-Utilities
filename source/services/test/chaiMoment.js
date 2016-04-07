@@ -1,6 +1,7 @@
 "use strict";
 var moment = require('moment');
 var dateTimeFormatStrings_1 = require('../date/dateTimeFormatStrings');
+var chai = window.chai;
 if (chai) {
     chai.Assertion.addMethod('sameMoment', equalMoment);
     chai.Assertion.addMethod('equalMoment', equalMoment);
