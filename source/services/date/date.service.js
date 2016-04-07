@@ -76,20 +76,20 @@ var DateUtility = (function () {
     DateUtility.prototype.formatDate = function (date, dateFormat) {
         return this.moment(this.parseDate(date, dateFormat)).format(this.getFormat(dateFormat));
     };
-    DateUtility.prototype.sameDate = function (date1, date2, date1Format, date2Format, formatAs) {
+    DateUtility.prototype.sameDate = function (date1, date2, date1Format, date2Format, granularity) {
         date2Format = date2Format || date1Format;
-        formatAs = formatAs || dateTimeFormatStrings_1.defaultFormats.dateFormat;
+        granularity = granularity || 'day';
         if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
             var moment1 = this.parseDate(date1, date1Format);
             var moment2 = this.parseDate(date2, date2Format);
-            return moment1.format(formatAs) === moment2.format(formatAs);
+            return moment1.isSame(moment2, granularity);
         }
         else {
             return false;
         }
     };
     DateUtility.prototype.sameDateTime = function (date1, date2, date1Format, date2Format) {
-        return this.sameDate(date1, date2, date1Format, date2Format, dateTimeFormatStrings_1.defaultFormats.isoFormat);
+        return this.sameDate(date1, date2, date1Format, date2Format, 'milliseconds');
     };
     DateUtility.prototype.parseDate = function (date, dateFormat) {
         if (_.isDate(date)) {

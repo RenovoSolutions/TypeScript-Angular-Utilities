@@ -130,22 +130,22 @@ export class DateUtility {
 		return this.moment(this.parseDate(date, dateFormat)).format(this.getFormat(dateFormat));
 	}
 
-	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, formatAs?: string): boolean {
+	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, granularity?: string): boolean {
 		date2Format = date2Format || date1Format;
-		formatAs = formatAs || defaultFormats.dateFormat;
+		granularity = granularity || 'day';
 
 		if (this.isDate(date1, date1Format) && this.isDate(date2, date2Format)) {
 			let moment1: moment.Moment = this.parseDate(date1, date1Format);
 			let moment2: moment.Moment = this.parseDate(date2, date2Format);
 
-			return moment1.format(formatAs) === moment2.format(formatAs);
+			return moment1.isSame(moment2, granularity);
 		} else {
 			return false;
 		}
 	}
 
 	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean {
-		return this.sameDate(date1, date2, date1Format, date2Format, defaultFormats.isoFormat);
+		return this.sameDate(date1, date2, date1Format, date2Format, 'milliseconds');
 	}
 
 	private parseDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {

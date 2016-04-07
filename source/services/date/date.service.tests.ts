@@ -13,7 +13,6 @@ import 'angular-mocks';
 import * as moment from 'moment';
 import 'moment-timezone';
 
-
 describe('dateUtility', () => {
 	let dateUtility: IDateUtility;
 
@@ -46,8 +45,7 @@ describe('dateUtility', () => {
 			let expectedDate: moment.Moment = moment('2015-11-24T20:12:00-07:00', defaultFormats.isoFormat).tz(timezones.MST.momentName);
 			let dateString: string = '2015-11-24T20:12:00-07:00';
 			let date: moment.Moment = dateUtility.getDateFromISOString(dateString);
-			expect(date.tz()).to.equal(expectedDate.tz());
-			expect(date.format(defaultFormats.isoFormat)).to.equal(expectedDate.format(defaultFormats.isoFormat));
+			expect(date).to.equalMoment(expectedDate);
 		});
 
 		it('should return null if the server sends a null date', (): void => {

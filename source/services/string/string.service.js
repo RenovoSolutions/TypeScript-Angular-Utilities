@@ -32,6 +32,7 @@ var StringUtilityService = (function () {
     return StringUtilityService;
 }());
 exports.StringUtilityService = StringUtilityService;
+exports.stringUtility = new StringUtilityService();
 angular.module(exports.moduleName, [])
     .service(exports.serviceName, StringUtilityService);
 //# sourceMappingURL=string.service.js.map

@@ -6,6 +6,7 @@ var angular = require('angular');
 var mock = require('./mock');
 exports.mock = mock;
 __export(require('./angularFixture'));
+require('./chaiMoment');
 exports.moduleName = 'rl.utilities.services.test';
 angular.module(exports.moduleName, [
     mock.moduleName,

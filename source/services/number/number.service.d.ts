@@ -5,3 +5,4 @@ export interface INumberUtility {
     integerDivide(dividend: number, divisor: number): number;
     roundToStep(num: number, step: number): number;
 }
+export declare let numberUtility: INumberUtility;

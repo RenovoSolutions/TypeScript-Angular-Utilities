@@ -67,7 +67,7 @@ describe('contractLibrary', (): void => {
 		});
 
 		it('should default to the endpoint if the builder is used directly', (): void => {
-			testLibrary.resource1 = resourceBuilder.createResource<number, void>({
+			testLibrary.resource1 = <any>resourceBuilder.createResource<number, void>({
 				endpoint: '/test',
 			});
 			expect(testLibrary.resource1.url).to.equal('/test');
