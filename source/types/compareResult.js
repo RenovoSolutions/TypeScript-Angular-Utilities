@@ -3,10 +3,14 @@
     CompareResult[CompareResult["greater"] = 1] = "greater";
     CompareResult[CompareResult["equal"] = 0] = "equal";
     CompareResult[CompareResult["less"] = -1] = "less";
+    CompareResult[CompareResult["invalid"] = null] = "invalid";
 })(exports.CompareResult || (exports.CompareResult = {}));
 var CompareResult = exports.CompareResult;
 function getCompareResult(num) {
     'use strict';
+    if (num == null) {
+        return CompareResult.invalid;
+    }
     if (num === 0) {
         return CompareResult.equal;
     }

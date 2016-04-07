@@ -58,6 +58,10 @@ export class DateUtility {
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue {
 		let duration = this.subtractDatesMoment(start, end, dateFormat);
 
+		if (duration == null) {
+			return null;
+		}
+
 		let result: IDateValue = <any>{};
 		result.days = Math.floor(duration.days());
 		result.months = Math.floor(duration.months());
@@ -68,12 +72,16 @@ export class DateUtility {
 
 	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number {
 		let duration = this.subtractDatesMoment(start, end, dateFormat);
-		return duration.asDays();
+		return duration != null
+			? duration.asDays()
+			: null;
 	}
 
 	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number {
 		let duration = this.subtractDatesMoment(start, end, dateFormat);
-		return duration.asMilliseconds();
+		return duration != null
+			? duration.asMilliseconds()
+			: null;
 	}
 
 	subtractDatesMoment(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): moment.Duration {
@@ -94,9 +102,12 @@ export class DateUtility {
 	}
 
 	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment): boolean {
-		if (this.compareDates(date, rangeStart) === CompareResult.less) {
-			return false;
-		} else if (this.compareDates(date, rangeEnd) === CompareResult.greater) {
+		if (date == null || rangeStart == null || rangeEnd == null) {
+			return null;
+		}
+
+		if (this.compareDates(date, rangeStart) === CompareResult.less
+			|| this.compareDates(date, rangeEnd) === CompareResult.greater) {
 			return false;
 		} else {
 			return true;
@@ -131,6 +142,10 @@ export class DateUtility {
 	}
 
 	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, granularity?: string): boolean {
+		if (date1 == null || date2 == null) {
+			return null;
+		}
+
 		date2Format = date2Format || date1Format;
 		granularity = granularity || 'day';
 
