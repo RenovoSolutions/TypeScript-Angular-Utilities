@@ -45,7 +45,7 @@
     "concurrently": "~2.0.0",
     "del": "~2.2.0",
     "gulp": "~3.9.1",
-    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/1.0.7.tar.gz",
+    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/1.0.9.tar.gz",
     "karma": "~0.13.21",
     "karma-chai": "~0.1.0",
     "karma-chrome-launcher": "~0.2.2",
