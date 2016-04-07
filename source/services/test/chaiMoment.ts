@@ -1,6 +1,9 @@
 import * as moment from 'moment';
+import * as Chai from 'chai';
 
 import { defaultFormats } from '../date/dateTimeFormatStrings';
+
+let chai: Chai.ChaiStatic = (<any>window).chai;
 
 if (chai) {
 	chai.Assertion.addMethod('sameMoment', equalMoment);
