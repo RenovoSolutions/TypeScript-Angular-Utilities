@@ -166,6 +166,12 @@ describe('dateUtility', () => {
 			expect(result.months).to.equal(0);
 			expect(result.days).to.equal(0);
 		});
+
+		it('should handle nulls', (): void => {
+			expect(dateUtility.subtractDates(null, '1/1/2016', defaultFormats.dateFormat)).to.be.null;
+			expect(dateUtility.subtractDates('1/1/2016', null, defaultFormats.dateFormat)).to.be.null;
+			expect(dateUtility.subtractDates(null, null, defaultFormats.dateFormat)).to.be.null;
+		});
 	});
 
 	describe('subtractDatesInDays', (): void => {
@@ -226,6 +232,20 @@ describe('dateUtility', () => {
 
 			expect(dateUtility.subtractDateInDays(startDate, endDate)).to.equal(0);
 		});
+
+		it('should handle nulls', (): void => {
+			expect(dateUtility.subtractDateInDays(null, '1/1/2016', defaultFormats.dateFormat)).to.be.null;
+			expect(dateUtility.subtractDateInDays('1/1/2016', null, defaultFormats.dateFormat)).to.be.null;
+			expect(dateUtility.subtractDateInDays(null, null, defaultFormats.dateFormat)).to.be.null;
+		});
+	});
+
+	describe('subtractDateInMilliseconds', (): void => {
+		it('should handle nulls', (): void => {
+			expect(dateUtility.subtractDateInMilliseconds(null, '1/1/2016', defaultFormats.dateFormat)).to.be.null;
+			expect(dateUtility.subtractDateInMilliseconds('1/1/2016', null, defaultFormats.dateFormat)).to.be.null;
+			expect(dateUtility.subtractDateInMilliseconds(null, null, defaultFormats.dateFormat)).to.be.null;
+		});
 	});
 
 	describe('compareDates', (): void => {
@@ -277,6 +297,12 @@ describe('dateUtility', () => {
 
 			expect(dateUtility.compareDates(date, earlierDate)).to.equal(CompareResult.greater);
 		});
+
+		it('should handle nulls', (): void => {
+			expect(dateUtility.compareDates(null, '1/1/2016', defaultFormats.dateFormat)).to.equal(CompareResult.invalid);
+			expect(dateUtility.compareDates('1/1/2016', null, defaultFormats.dateFormat)).to.equal(CompareResult.invalid);
+			expect(dateUtility.compareDates(null, null, defaultFormats.dateFormat)).to.equal(CompareResult.invalid);
+		});
 	});
 
 	describe('dateInRange', (): void => {
@@ -302,6 +328,13 @@ describe('dateUtility', () => {
 		it('should return true if the date is within the range for moments', (): void => {
 			expect(dateUtility.dateInRange(moment('4/1/2016'), moment('3/1/2016'), moment('5/1/2016'))).to.be.true;
 		});
+
+		it('should handle nulls', (): void => {
+			expect(dateUtility.dateInRange(null, '2016-01-01T12:00:00-07:00', '2016-01-01T12:00:00-07:00')).to.be.null;
+			expect(dateUtility.dateInRange('2016-01-01T12:00:00-07:00', null, '2016-01-01T12:00:00-07:00')).to.be.null;
+			expect(dateUtility.dateInRange('2016-01-01T12:00:00-07:00', '2016-01-01T12:00:00-07:00', null)).to.be.null;
+			expect(dateUtility.dateInRange(null, null, null)).to.be.null;
+		});
 	});
 
 	describe('sameDate', (): void=> {
@@ -320,6 +353,12 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDate('2015-1-1T11:11:11-07:00', '2015-1-1T15:15:15-07:00')).to.be.true;
 			expect(dateUtility.sameDate(moment('4/1/2016'), moment('4/1/2016'))).to.be.true;
 		});
+
+		it('should handle nulls', (): void => {
+			expect(dateUtility.sameDate(null, '2016-01-01T12:00:00-07:00')).to.be.null;
+			expect(dateUtility.sameDate('2016-01-01T12:00:00-07:00', null)).to.be.null;
+			expect(dateUtility.sameDate(null, null)).to.be.null;
+		});
 	});
 
 	describe('sameDateTime', (): void=> {
@@ -337,6 +376,12 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDateTime(date1, date2)).to.be.true;
 			expect(dateUtility.sameDateTime('2015-1-1T12:00:00-07:00', '2015-1-1T12:00:00-07:00')).to.be.true;
 			expect(dateUtility.sameDateTime(moment('2016-03-01T12:10:00.000-05:00'), moment('2016-03-01T12:10:00.000-05:00'))).to.be.true;
+		});
+
+		it('should handle nulls', (): void => {
+			expect(dateUtility.sameDateTime(null, '2016-01-01T12:00:00-07:00')).to.be.null;
+			expect(dateUtility.sameDateTime('2016-01-01T12:00:00-07:00', null)).to.be.null;
+			expect(dateUtility.sameDateTime(null, null)).to.be.null;
 		});
 	});
 });
