@@ -5,6 +5,8 @@ export { mock };
 
 export * from './angularFixture';
 
+import './chaiMoment';
+
 export var moduleName: string = 'rl.utilities.services.test';
 
 angular.module(moduleName, [
