@@ -6,12 +6,13 @@ __export(require('./aliasConverter/aliasConverter'));
 __export(require('./dateConverter/dateConverter'));
 __export(require('./enumConverter/enumConverter'));
 __export(require('./timeConverter/timeConverter'));
+var object_service_1 = require('../../object/object.service');
 var ConverterService = (function () {
     function ConverterService() {
     }
     ConverterService.prototype.applyTransform = function (data, transform, toServer, parent) {
         var _this = this;
-        if (transform == null) {
+        if (transform == null || object_service_1.objectUtility.isNullOrEmpty(data)) {
             return data;
         }
         if (_.isArray(data)) {
