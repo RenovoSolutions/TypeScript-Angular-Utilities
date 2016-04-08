@@ -51,6 +51,12 @@ describe('dateUtility', () => {
 		it('should return null if the server sends a null date', (): void => {
 			expect(dateUtility.getDateFromISOString(null)).to.not.exist;
 		});
+
+		it('should use the default timezone if the offset is missing or not supported', (): void => {
+			timezoneService.setCurrentTimezone(timezones.CST.offset);
+			expect(dateUtility.getDateFromISOString('2016-01-02T12:00:00+00:00').tz()).to.equal(timezones.CST.momentName);
+			expect(dateUtility.getDateFromISOString('2016-01-02T12:00:00').tz()).to.equal(timezones.CST.momentName);
+		});
 	});
 
 	describe('isDate', (): void => {
