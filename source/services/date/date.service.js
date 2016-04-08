@@ -64,8 +64,14 @@ var DateUtility = (function () {
         }
     };
     DateUtility.prototype.getDateFromISOString = function (isoDateTime) {
+        if (isoDateTime == null) {
+            return null;
+        }
         var momentOffset = timezone_service_1.timezoneService.getMomentTimezone(isoDateTime);
-        return this.moment(isoDateTime, dateTimeFormatStrings_1.defaultFormats.isoFormat).tz(momentOffset);
+        var momentDate = this.moment(isoDateTime, dateTimeFormatStrings_1.defaultFormats.isoFormat);
+        return momentOffset != null
+            ? momentDate.tz(momentOffset)
+            : momentDate.tz(timezone_service_1.timezoneService.currentTimezone.momentName);
     };
     DateUtility.prototype.isDate = function (date, dateFormat) {
         if (_.isDate(date)) {
