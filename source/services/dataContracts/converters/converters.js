@@ -12,7 +12,7 @@ var ConverterService = (function () {
     }
     ConverterService.prototype.applyTransform = function (data, transform, toServer, parent) {
         var _this = this;
-        if (transform == null || object_service_1.objectUtility.isNullOrEmpty(data)) {
+        if (transform == null || (parent == null && object_service_1.objectUtility.isNullOrEmpty(data))) {
             return data;
         }
         if (_.isArray(data)) {
