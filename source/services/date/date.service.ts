@@ -116,7 +116,12 @@ export class DateUtility {
 
 	getDateFromISOString(isoDateTime: string): moment.Moment {
 		let momentOffset: string = timezoneService.getMomentTimezone(isoDateTime);
-		return this.moment(isoDateTime, defaultFormats.isoFormat).tz(momentOffset);
+
+		let momentDate: moment.Moment = this.moment(isoDateTime, defaultFormats.isoFormat);
+
+		return momentOffset != null
+			? momentDate.tz(momentOffset)
+			: momentDate.tz(timezoneService.currentTimezone.momentName);
 	}
 
 	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean {
