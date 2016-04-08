@@ -22,7 +22,7 @@ export interface IConverterService {
 
 export class ConverterService {
 	applyTransform(data: any, transform: IConverter<any> | ITransformMapping, toServer: boolean, parent?: any): any {
-		if (transform == null || objectUtility.isNullOrEmpty(data)) {
+		if (transform == null || (parent == null && objectUtility.isNullOrEmpty(data))) {
 			return data;
 		}
 
