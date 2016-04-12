@@ -64,7 +64,7 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 		}
 
 		if (this.tokenized) {
-			// return this.tokenizedObjectSearch()
+			return searchUtility.tokenizedSearch(item, this.searchText, this.caseSensitive);
 		}
 
 		return searchUtility.search(item, this.searchText, this.caseSensitive);
