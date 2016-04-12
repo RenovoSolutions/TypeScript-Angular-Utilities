@@ -14,16 +14,16 @@ export interface IGenericSearchFilter extends ISerializableFilter<string> {
 export declare class GenericSearchFilter extends SerializableFilter<string> implements IGenericSearchFilter {
     protected object: IObjectUtility;
     private string;
+    private tokenized;
     type: string;
     minSearchLength: number;
     caseSensitive: boolean;
     private _searchText;
-    constructor(object: IObjectUtility, string: IStringUtilityService);
+    constructor(object: IObjectUtility, string: IStringUtilityService, tokenized: boolean);
     searchText: string;
     serialize(): string;
     filter<TItemType>(item: TItemType): boolean;
-    private searchObject<TItemType>(item, search, caseSensitive);
 }
 export interface IGenericSearchFilterFactory {
-    getInstance(): IGenericSearchFilter;
+    getInstance(tokenized?: boolean): IGenericSearchFilter;
 }
