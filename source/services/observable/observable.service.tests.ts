@@ -95,20 +95,14 @@ describe('observable', () => {
 	});
 
 	it('should return with an error if the event is not allowed', (): void => {
-		let originalLog: (message?: string) => void = console.error;
-		let logSpy: Sinon.SinonSpy = sinon.spy();
-		console.error = logSpy;
-
 		observable.allowableEvents = ['event1', 'event2'];
 
 		let cancel: () => void = observable.register((): void => { return; }, 'event3');
 
-		sinon.assert.calledTwice(logSpy);
-		sinon.assert.calledWith(logSpy, 'Error: This event is not allowed.');
-		sinon.assert.calledWith(logSpy, 'Events: event1, event2');
+		sinon.assert.calledOnce($exceptionHandler);
+		sinon.assert.calledWith($exceptionHandler, new Error('Error: This event is not allowed. Events: event1, event2'));
 
 		expect(cancel).to.be.null;
 
-		console.error = originalLog;
 	});
 });
