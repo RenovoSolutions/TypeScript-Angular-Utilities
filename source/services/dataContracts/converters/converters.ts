@@ -5,6 +5,8 @@ export * from './dateConverter/dateConverter';
 export * from './enumConverter/enumConverter';
 export * from './timeConverter/timeConverter';
 
+import { objectUtility } from '../../object/object.service';
+
 export interface IConverter<TDataType> {
 	fromServer(raw: any, parent?: any): TDataType;
     toServer(data: TDataType, parent?: any): any,
@@ -20,7 +22,7 @@ export interface IConverterService {
 
 export class ConverterService {
 	applyTransform(data: any, transform: IConverter<any> | ITransformMapping, toServer: boolean, parent?: any): any {
-		if (transform == null) {
+		if (transform == null || (parent == null && objectUtility.isNullOrEmpty(data))) {
 			return data;
 		}
 
