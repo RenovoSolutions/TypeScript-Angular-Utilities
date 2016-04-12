@@ -17,6 +17,7 @@ import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
 import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
 import * as promise from './promise/promise.service';
+import * as search from './search/search.service';
 import * as stringService from './string/string.service';
 import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
 import * as test from './test/test.module';
@@ -41,6 +42,7 @@ export {
 	observable,
 	parentChildBehavior,
 	promise,
+	search,
 	stringService as string,
 	synchronizedRequests,
 	test,
