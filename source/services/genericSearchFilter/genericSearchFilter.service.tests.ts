@@ -19,23 +19,23 @@ interface INestedTestObject {
 }
 
 describe('genericSearchFilter', () => {
-	var genericSearchFilter: IGenericSearchFilter;
+	let genericSearchFilter: IGenericSearchFilter;
 
 	beforeEach(() => {
 		angular.mock.module(moduleName);
-		var services: any = angularFixture.inject(factoryName);
-		var genericSearchFilterFactory: IGenericSearchFilterFactory = services[factoryName];
+		let services: any = angularFixture.inject(factoryName);
+		let genericSearchFilterFactory: IGenericSearchFilterFactory = services[factoryName];
 		genericSearchFilter = genericSearchFilterFactory.getInstance();
 	});
 
 	it('should include all items if query is null or empty', (): void => {
 		genericSearchFilter.searchText = null;
 
-		var object1: ITestObject = {
+		let object1: ITestObject = {
 			prop: 'some string',
 		};
 
-		var object2: ITestObject = {
+		let object2: ITestObject = {
 			prop: 'another value',
 		};
 
@@ -51,11 +51,11 @@ describe('genericSearchFilter', () => {
 		genericSearchFilter.searchText = 'som';
 		genericSearchFilter.minSearchLength = 4;
 
-		var object1: ITestObject = {
+		let object1: ITestObject = {
 			prop: 'some string',
 		};
 
-		var object2: ITestObject = {
+		let object2: ITestObject = {
 			prop: 'another value',
 		};
 
@@ -76,20 +76,20 @@ describe('genericSearchFilter', () => {
 	it('should include items that contain the search string', (): void => {
 		genericSearchFilter.searchText = 'my';
 		genericSearchFilter.caseSensitive = true;
-		var matchingObject1: ITestObject2 = {
+		let matchingObject1: ITestObject2 = {
 			prop2: 'my string',
 		};
 
-		var matchingObject2: ITestObject2 = {
+		let matchingObject2: ITestObject2 = {
 			prop1: 5,
 			prop2: 'some string with my',
 		};
 
-		var objectWithoutSearchString: ITestObject2 = {
+		let objectWithoutSearchString: ITestObject2 = {
 			prop1: 2,
 		};
 
-		var objectWithDifferentCase: ITestObject2 = {
+		let objectWithDifferentCase: ITestObject2 = {
 			prop1: 5,
 			prop2: 'MY string',
 		};
@@ -103,11 +103,11 @@ describe('genericSearchFilter', () => {
 	it('should include items that contain the search string, case insensitive', (): void => {
 		genericSearchFilter.searchText = 'my';
 		genericSearchFilter.caseSensitive = false;
-		var lowercaseMatch: ITestObject2 = {
+		let lowercaseMatch: ITestObject2 = {
 			prop2: 'my string',
 		};
 
-		var uppercaseMatch: ITestObject2 = {
+		let uppercaseMatch: ITestObject2 = {
 			prop1: 2.2,
 			prop2: 'MY string',
 		};
@@ -119,7 +119,7 @@ describe('genericSearchFilter', () => {
 	it('should recursively search the properties of an object', (): void => {
 		genericSearchFilter.searchText = 'my';
 		genericSearchFilter.caseSensitive = false;
-		var objectWithNestedObject: INestedTestObject = {
+		let objectWithNestedObject: INestedTestObject = {
 			nestedObject: {
 				prop2: 'my string',
 			},
@@ -164,6 +164,42 @@ describe('genericSearchFilter', () => {
 
 			sinon.assert.calledTwice(valueChangeSpy);
 			sinon.assert.calledWith(valueChangeSpy, null);
+		});
+	});
+
+	describe('tokenized', (): void => {
+		let genericSearchFilterFactory: IGenericSearchFilterFactory;
+
+		beforeEach((): void => {
+			let services: any = angularFixture.inject(factoryName);
+			genericSearchFilterFactory = services[factoryName];
+			genericSearchFilter = genericSearchFilterFactory.getInstance(true);
+		});
+
+		it('should support tokenized search', (): void => {
+			genericSearchFilter.searchText = 'some text';
+
+			let object1: ITestObject = {
+				prop: 'some values ended up with text',
+			};
+
+			let object2: ITestObject = {
+				prop: 'some other something',
+			};
+
+			expect(genericSearchFilter.filter(object1)).to.be.true;
+			expect(genericSearchFilter.filter(object2)).to.be.false;
+		});
+
+		it('should not use tokenized search by default', (): void => {
+			genericSearchFilter = genericSearchFilterFactory.getInstance();
+			genericSearchFilter.searchText = 'some text';
+
+			let object1: ITestObject = {
+				prop: 'some values ended up with text',
+			};
+
+			expect(genericSearchFilter.filter(object1)).to.be.false;
 		});
 	});
 });

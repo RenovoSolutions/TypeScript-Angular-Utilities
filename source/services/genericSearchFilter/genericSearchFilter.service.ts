@@ -36,7 +36,9 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 	caseSensitive: boolean = false;
 	private _searchText: string;
 
-	constructor(protected object: IObjectUtility, private string: IStringUtilityService) {
+	constructor(protected object: IObjectUtility
+			, private string: IStringUtilityService
+			, private tokenized: boolean) {
 		super();
 	}
 
@@ -81,7 +83,7 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 }
 
 export interface IGenericSearchFilterFactory {
-	getInstance(): IGenericSearchFilter;
+	getInstance(tokenized?: boolean): IGenericSearchFilter;
 }
 
 genericSearchFilterFactory.$inject = [objectServiceName, stringServiceName];
@@ -91,8 +93,8 @@ function genericSearchFilterFactory(object: IObjectUtility,
 	'use strict';
 
 	return {
-		getInstance(): IGenericSearchFilter {
-			return new GenericSearchFilter(object, stringUtility);
+		getInstance(tokenized?: boolean): IGenericSearchFilter {
+			return new GenericSearchFilter(object, stringUtility, tokenized);
 		}
 	};
 }
