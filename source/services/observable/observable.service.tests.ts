@@ -100,7 +100,7 @@ describe('observable', () => {
 		let cancel: () => void = observable.register((): void => { return; }, 'event3');
 
 		sinon.assert.calledOnce($exceptionHandler);
-		sinon.assert.calledWith($exceptionHandler, new Error('Error: This event is not allowed. Events: event1, event2'));
+		sinon.assert.calledWith($exceptionHandler, new Error('This event is not allowed. Events: event1, event2'));
 
 		expect(cancel).to.be.null;
 
