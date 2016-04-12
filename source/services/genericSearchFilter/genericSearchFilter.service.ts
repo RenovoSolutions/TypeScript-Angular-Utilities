@@ -15,6 +15,7 @@ import {
 	serviceName as stringServiceName,
 	IStringUtilityService,
 } from '../string/string.service';
+import { searchUtility } from '../search/search.service';
 
 import { ISerializableFilter, SerializableFilter, IValueChangeCallback } from '../../filters/filter';
 
@@ -62,23 +63,11 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 			return true;
 		}
 
-		return this.searchObject(item, this.searchText, this.caseSensitive);
-	}
-
-	private searchObject<TItemType>(item: TItemType, search: string, caseSensitive: boolean): boolean {
-		if (_.isObject(item)) {
-			var values: any = _.values(item);
-			return _.some(values, (value: any): boolean => { return this.searchObject(value, search, caseSensitive); });
-		} else {
-			var dataString: string = this.object.toString(item);
-
-			if (!caseSensitive) {
-				search = search.toLowerCase();
-				dataString = dataString.toLowerCase();
-			}
-
-			return this.string.contains(dataString, search);
+		if (this.tokenized) {
+			// return this.tokenizedObjectSearch()
 		}
+
+		return searchUtility.search(item, this.searchText, this.caseSensitive);
 	}
 }
 
