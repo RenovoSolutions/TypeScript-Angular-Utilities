@@ -7,9 +7,14 @@ import 'angular-mocks';
 
 describe('observable', () => {
 	let observable: IObservableService;
+	let $exceptionHandler: Sinon.SinonSpy;
 
 	beforeEach(() => {
 		angular.mock.module(moduleName);
+
+		$exceptionHandler = sinon.spy();
+
+		angularFixture.mock({ $exceptionHandler: $exceptionHandler });
 
 		let services: any = angularFixture.inject(factoryName);
 		let observableFactory: IObservableServiceFactory = services[factoryName];
@@ -81,18 +86,12 @@ describe('observable', () => {
 	});
 
 	it('should return with an error if no function is provided', (): void => {
-		let originalLog: (message?: string) => void = console.error;
-		let logSpy: Sinon.SinonSpy = sinon.spy();
-		console.error = logSpy;
-
 		let cancel: () => void = observable.register(null);
 
-		sinon.assert.calledOnce(logSpy);
-		sinon.assert.calledWith(logSpy, 'Error: watcher must be a function');
+		sinon.assert.calledOnce($exceptionHandler);
+		sinon.assert.calledWith($exceptionHandler, new Error('Watcher must be a function'));
 
 		expect(cancel).to.be.null;
-
-		console.error = originalLog;
 	});
 
 	it('should return with an error if the event is not allowed', (): void => {

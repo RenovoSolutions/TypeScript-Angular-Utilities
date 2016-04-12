@@ -40,6 +40,7 @@ export interface IErrorMessages {
 
 export class ErrorHandlerService implements IErrorHandlerService {
 	constructor(private $window: ng.IWindowService
+			, private $exceptionHandler: ng.IExceptionHandlerService
             , private notification: INotificationService
             , private loginUrl: string
             , private errorMessages: IErrorMessages
@@ -66,9 +67,9 @@ export class ErrorHandlerService implements IErrorHandlerService {
 				this.systemError();
 				break;
 			default:
-				console.error(this.errorMessages.defaultError);
-				console.error('Status: ' + rejection.status);
-				console.error('Response: ' + rejection);
+				this.$exceptionHandler(new Error(this.errorMessages.defaultError));
+				this.$exceptionHandler(new Error('Status: ' + rejection.status));
+				this.$exceptionHandler(new Error('Response: ' + rejection));
 				break;
 		}
 	}
@@ -110,6 +111,7 @@ export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
     errorMessages: IErrorMessages;
 	returnUrlParam: string;
     $get($window: ng.IWindowService
+		, $exceptionHandler: ng.IExceptionHandlerService
         , notification: INotificationService): IErrorHandlerService;
 }
 
@@ -130,12 +132,13 @@ class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
             defaultError: 'Http status code not handled',
         };
 		this.returnUrlParam = 'returnUrl';
-        this.$get.$inject = ['$window', notificationServiceName];
+        this.$get.$inject = ['$window', '$exceptionHandler', notificationServiceName];
     }
 
     $get: any = ($window: ng.IWindowService
+			, $exceptionHandler: ng.IExceptionHandlerService
             , notification: INotificationService): IErrorHandlerService => {
-        return new ErrorHandlerService($window, notification, this.loginUrl, this.errorMessages, this.returnUrlParam);
+        return new ErrorHandlerService($window, $exceptionHandler, notification, this.loginUrl, this.errorMessages, this.returnUrlParam);
     }
 }
 
