@@ -12,8 +12,9 @@ exports.serviceName = 'errorHandler';
 })(exports.HttpStatusCode || (exports.HttpStatusCode = {}));
 var HttpStatusCode = exports.HttpStatusCode;
 var ErrorHandlerService = (function () {
-    function ErrorHandlerService($window, notification, loginUrl, errorMessages, returnUrlParam) {
+    function ErrorHandlerService($window, $exceptionHandler, notification, loginUrl, errorMessages, returnUrlParam) {
         this.$window = $window;
+        this.$exceptionHandler = $exceptionHandler;
         this.notification = notification;
         this.loginUrl = loginUrl;
         this.errorMessages = errorMessages;
@@ -40,9 +41,9 @@ var ErrorHandlerService = (function () {
                 this.systemError();
                 break;
             default:
-                console.error(this.errorMessages.defaultError);
-                console.error('Status: ' + rejection.status);
-                console.error('Response: ' + rejection);
+                this.$exceptionHandler(new Error(this.errorMessages.defaultError));
+                this.$exceptionHandler(new Error('Status: ' + rejection.status));
+                this.$exceptionHandler(new Error('Response: ' + rejection));
                 break;
         }
     };
@@ -77,8 +78,8 @@ exports.ErrorHandlerService = ErrorHandlerService;
 var ErrorHandlerServiceProvider = (function () {
     function ErrorHandlerServiceProvider() {
         var _this = this;
-        this.$get = function ($window, notification) {
-            return new ErrorHandlerService($window, notification, _this.loginUrl, _this.errorMessages, _this.returnUrlParam);
+        this.$get = function ($window, $exceptionHandler, notification) {
+            return new ErrorHandlerService($window, $exceptionHandler, notification, _this.loginUrl, _this.errorMessages, _this.returnUrlParam);
         };
         this.loginUrl = '/login';
         this.errorMessages = {
@@ -91,7 +92,7 @@ var ErrorHandlerServiceProvider = (function () {
             defaultError: 'Http status code not handled',
         };
         this.returnUrlParam = 'returnUrl';
-        this.$get.$inject = ['$window', notification_service_1.serviceName];
+        this.$get.$inject = ['$window', '$exceptionHandler', notification_service_1.serviceName];
     }
     return ErrorHandlerServiceProvider;
 }());
