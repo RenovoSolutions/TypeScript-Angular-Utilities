@@ -3,12 +3,14 @@
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"declaration": true,
-		"sourceMap": true,
+		"inlineSourceMap": true,
 		"target": "ES5"
 	},
-	"files": [
-		"./typings/browser.d.ts",
-		"./typings/custom.d.ts",
-		"./source/utilities.ts"
+	"exclude": [
+		"typings/main.d.ts",
+		"typings/main",
+		"node_modules",
+		".vscode",
+		"output"
 	]
 }

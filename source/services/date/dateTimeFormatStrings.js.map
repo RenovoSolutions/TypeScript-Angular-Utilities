@@ -1,1 +1,0 @@
-{"version":3,"file":"dateTimeFormatStrings.js","sourceRoot":"","sources":["dateTimeFormatStrings.ts"],"names":[],"mappings":"AAAA,YAAY,CAAC;AAEF,iCAAyB,GAAW,uBAAuB,CAAC;AAS5D,sBAAc,GAAuB;IAC/C,SAAS,EAAE,sBAAsB;IACjC,cAAc,EAAE,mBAAmB;IACnC,UAAU,EAAE,YAAY;IACxB,UAAU,EAAE,OAAO;CACnB,CAAC"}
