@@ -32,15 +32,16 @@ export class ObservableService implements IObservableService {
 	private nextKey: number = 0;
 	allowableEvents: string[];
 
+	constructor(private $exceptionHandler: angular.IExceptionHandlerService) {}
+
 	register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction {
 		if (!_.isFunction(action)) {
-			console.error('Error: watcher must be a function');
+			this.$exceptionHandler(new Error('Watcher must be a function'));
 			return null;
 		}
 
 		if (this.allowableEvents != null && !_.find(this.allowableEvents, (e: string): boolean => { return e === event; })) {
-			console.error('Error: This event is not allowed.');
-			console.error('Events: ' + this.allowableEvents.join(', '));
+			this.$exceptionHandler(new Error('This event is not allowed. Events: ' + this.allowableEvents.join(', ')));
 			return null;
 		}
 
@@ -74,12 +75,13 @@ export interface IObservableServiceFactory {
 	getInstance(): IObservableService;
 }
 
-export function observableServiceFactory(): IObservableServiceFactory {
+observableServiceFactory.$inject = ['$exceptionHandler'];
+export function observableServiceFactory($exceptionHandler: angular.IExceptionHandlerService): IObservableServiceFactory {
 	'use strict';
 
 	return {
 		getInstance(): IObservableService {
-			return new ObservableService();
+			return new ObservableService($exceptionHandler);
 		}
 	};
 }

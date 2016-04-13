@@ -15,6 +15,7 @@ import {
 	serviceName as stringServiceName,
 	IStringUtilityService,
 } from '../string/string.service';
+import { searchUtility } from '../search/search.service';
 
 import { ISerializableFilter, SerializableFilter, IValueChangeCallback } from '../../filters/filter';
 
@@ -36,7 +37,9 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 	caseSensitive: boolean = false;
 	private _searchText: string;
 
-	constructor(protected object: IObjectUtility, private string: IStringUtilityService) {
+	constructor(protected object: IObjectUtility
+			, private string: IStringUtilityService
+			, private tokenized: boolean) {
 		super();
 	}
 
@@ -60,28 +63,16 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 			return true;
 		}
 
-		return this.searchObject(item, this.searchText, this.caseSensitive);
-	}
-
-	private searchObject<TItemType>(item: TItemType, search: string, caseSensitive: boolean): boolean {
-		if (_.isObject(item)) {
-			var values: any = _.values(item);
-			return _.some(values, (value: any): boolean => { return this.searchObject(value, search, caseSensitive); });
-		} else {
-			var dataString: string = this.object.toString(item);
-
-			if (!caseSensitive) {
-				search = search.toLowerCase();
-				dataString = dataString.toLowerCase();
-			}
-
-			return this.string.contains(dataString, search);
+		if (this.tokenized) {
+			return searchUtility.tokenizedSearch(item, this.searchText, this.caseSensitive);
 		}
+
+		return searchUtility.search(item, this.searchText, this.caseSensitive);
 	}
 }
 
 export interface IGenericSearchFilterFactory {
-	getInstance(): IGenericSearchFilter;
+	getInstance(tokenized?: boolean): IGenericSearchFilter;
 }
 
 genericSearchFilterFactory.$inject = [objectServiceName, stringServiceName];
@@ -91,8 +82,8 @@ function genericSearchFilterFactory(object: IObjectUtility,
 	'use strict';
 
 	return {
-		getInstance(): IGenericSearchFilter {
-			return new GenericSearchFilter(object, stringUtility);
+		getInstance(tokenized?: boolean): IGenericSearchFilter {
+			return new GenericSearchFilter(object, stringUtility, tokenized);
 		}
 	};
 }

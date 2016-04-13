@@ -4,19 +4,19 @@ var _ = require('lodash');
 exports.moduleName = 'rl.utilities.services.observable';
 exports.factoryName = 'observableFactory';
 var ObservableService = (function () {
-    function ObservableService() {
+    function ObservableService($exceptionHandler) {
+        this.$exceptionHandler = $exceptionHandler;
         this.watchers = [];
         this.nextKey = 0;
     }
     ObservableService.prototype.register = function (action, event) {
         var _this = this;
         if (!_.isFunction(action)) {
-            console.error('Error: watcher must be a function');
+            this.$exceptionHandler(new Error('Watcher must be a function'));
             return null;
         }
         if (this.allowableEvents != null && !_.find(this.allowableEvents, function (e) { return e === event; })) {
-            console.error('Error: This event is not allowed.');
-            console.error('Events: ' + this.allowableEvents.join(', '));
+            this.$exceptionHandler(new Error('This event is not allowed. Events: ' + this.allowableEvents.join(', ')));
             return null;
         }
         var currentKey = this.nextKey;
@@ -48,11 +48,12 @@ var ObservableService = (function () {
     return ObservableService;
 }());
 exports.ObservableService = ObservableService;
-function observableServiceFactory() {
+observableServiceFactory.$inject = ['$exceptionHandler'];
+function observableServiceFactory($exceptionHandler) {
     'use strict';
     return {
         getInstance: function () {
-            return new ObservableService();
+            return new ObservableService($exceptionHandler);
         }
     };
 }

@@ -5,19 +5,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var angular = require('angular');
-var _ = require('lodash');
 var object_service_1 = require('../object/object.service');
 var string_service_1 = require('../string/string.service');
+var search_service_1 = require('../search/search.service');
 var filter_1 = require('../../filters/filter');
 exports.moduleName = 'rl.utilities.services.genericSearchFilter';
 exports.factoryName = 'genericSearchFilterFactory';
 exports.filterName = 'search';
 var GenericSearchFilter = (function (_super) {
     __extends(GenericSearchFilter, _super);
-    function GenericSearchFilter(object, string) {
+    function GenericSearchFilter(object, string, tokenized) {
         _super.call(this);
         this.object = object;
         this.string = string;
+        this.tokenized = tokenized;
         this.type = exports.filterName;
         this.minSearchLength = 1;
         this.caseSensitive = false;
@@ -42,22 +43,10 @@ var GenericSearchFilter = (function (_super) {
         if (this.object.isNullOrEmpty(this.searchText) || this.searchText.length < this.minSearchLength) {
             return true;
         }
-        return this.searchObject(item, this.searchText, this.caseSensitive);
-    };
-    GenericSearchFilter.prototype.searchObject = function (item, search, caseSensitive) {
-        var _this = this;
-        if (_.isObject(item)) {
-            var values = _.values(item);
-            return _.some(values, function (value) { return _this.searchObject(value, search, caseSensitive); });
+        if (this.tokenized) {
+            return search_service_1.searchUtility.tokenizedSearch(item, this.searchText, this.caseSensitive);
         }
-        else {
-            var dataString = this.object.toString(item);
-            if (!caseSensitive) {
-                search = search.toLowerCase();
-                dataString = dataString.toLowerCase();
-            }
-            return this.string.contains(dataString, search);
-        }
+        return search_service_1.searchUtility.search(item, this.searchText, this.caseSensitive);
     };
     return GenericSearchFilter;
 }(filter_1.SerializableFilter));
@@ -66,8 +55,8 @@ genericSearchFilterFactory.$inject = [object_service_1.serviceName, string_servi
 function genericSearchFilterFactory(object, stringUtility) {
     'use strict';
     return {
-        getInstance: function () {
-            return new GenericSearchFilter(object, stringUtility);
+        getInstance: function (tokenized) {
+            return new GenericSearchFilter(object, stringUtility, tokenized);
         }
     };
 }
