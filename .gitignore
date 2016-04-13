@@ -12,6 +12,10 @@
 # Don't need type definitions with bundles right now
 /output/**/*.d.ts
 
+# Don't built test files
+/source/**/*.tests.js
+/source/**/*.tests.d.ts
+
 # Node deps
 npm-debug.log
 /node_modules/
