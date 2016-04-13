@@ -18,7 +18,7 @@
 
     "clean": "gulp clean",
     "build": "gulp clean && tsc && echo Build complete",
-    "build.watch": "gulp clean && tsc -w",
+    "build.watch": "tsc -w",
 
     "test": "karma start",
     "test.debug": "karma start karma.debug.conf.js",
