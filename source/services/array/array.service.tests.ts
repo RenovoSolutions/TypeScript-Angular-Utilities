@@ -177,15 +177,15 @@ describe('arrayUtility', () => {
 
 	describe('arrayify', (): void => {
 		it('should leave an array untouched', (): void => {
-			expect(arrayUtility.arrayify([1, 2, 3])).to.equal([1, 2, 3]);
+			expect(arrayUtility.arrayify([1, 2, 3])).to.deep.equal([1, 2, 3]);
 		});
 
 		it('should return an array with the specified value', (): void => {
-			expect(arrayUtility.arrayify(4)).to.equal([4]);
+			expect(arrayUtility.arrayify(4)).to.deep.equal([4]);
 		});
 
 		it('should return an empty array for null values', (): void => {
-			expect(arrayUtility.arrayify(null)).to.equal([]);
+			expect(arrayUtility.arrayify(null)).to.deep.equal([]);
 		});
 	});
 });
