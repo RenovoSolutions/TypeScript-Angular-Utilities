@@ -16,6 +16,7 @@ export interface IArrayUtility {
 	last<TDataType>(array: TDataType[]): TDataType;
 	toDictionary<TDataType>(array: TDataType[], keySelector: { (item: TDataType): string }): { [index: string]: TDataType };
 	has<TDataType>(array: TDataType[], index: number): boolean;
+	arrayify<TDataType>(maybeArray: TDataType[] | TDataType): TDataType[];
 }
 
 class ArrayUtility implements IArrayUtility {
@@ -92,6 +93,10 @@ class ArrayUtility implements IArrayUtility {
 		}
 
 		return array[index] != null;
+	}
+
+	arrayify<TDataType>(maybeArray: TDataType[] | TDataType): TDataType[] {
+		return null;
 	}
 }
 
