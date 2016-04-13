@@ -1,11 +1,12 @@
 {
-	"entry": "./source/utilities.ts",
+	"entry": "./source/utilities.js",
 	"path": "output",
 	"filename": "utilities.js",
 	"library": "rl_utilities",
 	"externals": {
 		"angular": "angular",
 		"moment": "moment",
+		"moment-timezone": "moment",
 		"lodash": "_",
 		"angular-mocks": "angular"
 	}
