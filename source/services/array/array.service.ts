@@ -96,7 +96,13 @@ class ArrayUtility implements IArrayUtility {
 	}
 
 	arrayify<TDataType>(maybeArray: TDataType[] | TDataType): TDataType[] {
-		return null;
+		if (_.isArray(maybeArray)) {
+			return maybeArray;
+		} else if (maybeArray) {
+			return [maybeArray];
+		} else {
+			return [];
+		}
 	}
 }
 
