@@ -78,7 +78,7 @@ class ObjectUtility implements IObjectUtility {
 					return false;
 				}
 			}
-		} else if (_.isDate(obj1) && _.isDate(obj2)) {
+		} else if (this.areDates(obj1, obj2)) {
 			return this.dateUtility.sameDateTime(obj1, obj2);
 		} else if (type1 === 'object') {
 			//init an object with the keys from obj2
@@ -105,6 +105,15 @@ class ObjectUtility implements IObjectUtility {
 		}
 
 		return true;
+	}
+
+	private areDates(obj1: any, obj2: any): boolean {
+		if ((_.isDate(obj1) && _.isDate(obj2))
+			|| (moment.isMoment(obj1) && moment.isMoment(obj2))) {
+			return true;
+		}
+
+		return false;
 	}
 
 	toString(object: any): string {
