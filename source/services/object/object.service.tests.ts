@@ -4,6 +4,8 @@ import { angularFixture } from '../../services/test/angularFixture';
 
 import * as angular from 'angular';
 import 'angular-mocks';
+import * as moment from 'moment';
+import 'moment-timezone';
 
 describe('objectUtility', () => {
 	var objectUtility: IObjectUtility;
@@ -184,6 +186,14 @@ describe('objectUtility', () => {
 			expect(objectUtility.areEqual(object, similarObject)).to.be.true;
 			expect(objectUtility.areEqual(object, differentObject1)).to.be.false;
 			expect(objectUtility.areEqual(object, differentObject2)).to.be.false;
+		});
+
+		it('should compare moments by their time', (): void => {
+			let firstMoment: moment.Moment = moment('2016-01-02T10:00:00-07:00').tz('US/Central');
+			let secondMoment: moment.Moment = moment('2016-01-02T12:00:00-05:00').tz('US/Eastern');
+			let differentMoment: moment.Moment = moment('2016-01-02T12:00:00-08:00').tz('US/Pacific');
+			expect(objectUtility.areEqual(firstMoment, secondMoment)).to.be.true;
+			expect(objectUtility.areEqual(firstMoment, differentMoment)).to.be.false;
 		});
 	});
 
