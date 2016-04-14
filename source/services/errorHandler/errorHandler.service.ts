@@ -12,6 +12,7 @@ export var moduleName: string = 'rl21.services.errorHandler';
 export var serviceName: string = 'errorHandler';
 
 export enum HttpStatusCode {
+	cancelledRequest = -1,
 	badRequest = 400,
 	unauthorized = 401,
 	forbidden = 403,
@@ -65,6 +66,9 @@ export class ErrorHandlerService implements IErrorHandlerService {
 				break;
 			case HttpStatusCode.internalServerError:
 				this.systemError();
+				break;
+			case HttpStatusCode.cancelledRequest:
+				// cancelled request
 				break;
 			default:
 				this.$exceptionHandler(new Error(this.errorMessages.defaultError));
