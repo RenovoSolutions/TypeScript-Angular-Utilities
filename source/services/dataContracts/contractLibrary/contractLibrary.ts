@@ -13,7 +13,7 @@ import {
 	ISingletonResourceParams,
 	IParentSingletonResourceParams,
 } from '../resourceBuilder/resourceBuilder.service';
-import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock } from './dataServiceMocks';
+import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock, IDataTransform } from './dataServiceMocks';
 import { IDataService, IBaseDomainObject } from '../dataService/data.service';
 import { IDataServiceView, IParentDataServiceView } from '../dataService/view/dataServiceView';
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
@@ -141,8 +141,8 @@ export class ContractLibrary implements IContractLibrary {
 		let dataService: IDataServiceMock<any, any> = <any>this.builder.createResource<any, any>({});
 		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
 		dataService.mockGetDetail = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
-		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
-		dataService.mockCreate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create'); };
+		dataService.mockUpdate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update', dataTransform); };
+		dataService.mockCreate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create', dataTransform); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -155,8 +155,8 @@ export class ContractLibrary implements IContractLibrary {
 		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
 		dataService.mockGetDetail = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
 		dataService.mockChild = (mockCallback: { (children: any): void }): void => { return this.mockChild(dataService, mockCallback); };
-		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
-		dataService.mockCreate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create'); };
+		dataService.mockUpdate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update', dataTransform); };
+		dataService.mockCreate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create', dataTransform); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -164,7 +164,7 @@ export class ContractLibrary implements IContractLibrary {
 	createMockSingleton(resource?: any): ISingletonDataServiceMock<any> {
 		let dataService: ISingletonDataServiceMock<any> = <any>this.builder.createSingletonResource({});
 		dataService.mockGet = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
-		dataService.mockUpdate = (): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update'); };
+		dataService.mockUpdate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update', dataTransform); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -184,8 +184,11 @@ export class ContractLibrary implements IContractLibrary {
 		return func;
 	}
 
-	private baseMockSave(resource: any, actionName: string): Sinon.SinonSpy {
+	private baseMockSave(resource: any, actionName: string, dataTransform: IDataTransform): Sinon.SinonSpy {
 		let func: Sinon.SinonSpy = this.sinon.spy((data: any): any => {
+			if (dataTransform) {
+				data = dataTransform(data);
+			}
 			return this.$q.when(data);
 		});
 		resource[actionName] = func;
