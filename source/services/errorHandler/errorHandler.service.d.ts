@@ -3,6 +3,7 @@ import { INotificationService } from '../notification/notification.service';
 export declare var moduleName: string;
 export declare var serviceName: string;
 export declare enum HttpStatusCode {
+    cancelledRequest = -1,
     badRequest = 400,
     unauthorized = 401,
     forbidden = 403,

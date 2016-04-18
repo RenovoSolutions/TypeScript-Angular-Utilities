@@ -56,6 +56,6 @@ export declare class ContractLibrary implements IContractLibrary {
     createMockSingleton(resource?: any): ISingletonDataServiceMock<any>;
     private updateResource(dataService, resource?);
     private baseMockGet(resource, actionName, data);
-    private baseMockSave(resource, actionName);
+    private baseMockSave(resource, actionName, dataTransform);
     private sinon;
 }
