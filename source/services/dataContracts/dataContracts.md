@@ -13,7 +13,7 @@ The base configuration options for specifying a data contract.
 ### [Data service](./dataService/dataService.md)
 The basic data service type
 
-### [Singleton data service](./singleDataService/singletonDataService.md)
+### [Singleton data service](./singletonDataService/singletonDataService.md)
 A data service for getting and updating a single entity.
 
 ### [Data service view](./dataService/view/dataServiceView.md)
@@ -37,7 +37,7 @@ Due to the variety of use cases, it can be difficult to determine which resource
 	* Y
 		* Use [parentSingletonDataService](./singletonDataService/parent/parentSingletonDataService.md)
 	* N
-		* Use [singletonDataService](./singleDataService/singletonDataService.md)
+		* Use [singletonDataService](./singletonDataService/singletonDataService.md)
 * N
 	* Is the resource a child of another resource?
 	* Y
@@ -53,7 +53,7 @@ Due to the variety of use cases, it can be difficult to determine which resource
 			* N
 				* Is the parent resource a singleton?
 				* Y
-					* Use [singletonDataService](./singleDataService/singletonDataService.md)
+					* Use [singletonDataService](./singletonDataService/singletonDataService.md)
 				* N
 					* Use [dataServiceView](./dataService/view/dataServiceView.md)
 		* N
