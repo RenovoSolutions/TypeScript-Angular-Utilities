@@ -6,7 +6,7 @@ export interface IMockPromiseService {
 	rejectedPromise<TData>(...params: any[]): IMockedPromise<TData>;
 }
 
-export interface IMockedPromise<TData> {
+export interface IMockedPromise<TData> extends Sinon.SinonSpy {
 	(...args: any[]): Promise<TData>;
 	reject(...params: any[]): void;
 	rejected: boolean;
@@ -41,7 +41,7 @@ class MockPromiseService implements IMockPromiseService {
 		let request: any;
 		let promise: Promise<TData>;
 
-		let mocked: IMockedPromiseInternal<TData> = <IMockedPromiseInternal<TData>>((...args: any[]): Promise<TData> => {
+		let promiseBuilder: any = ((...args: any[]): Promise<TData> => {
 			if (request) {
 				return promise;
 			}
@@ -56,6 +56,9 @@ class MockPromiseService implements IMockPromiseService {
 
 			return promise;
 		});
+
+		let spiedBuilder: any = sinon.spy(promiseBuilder);
+		let mocked: IMockedPromiseInternal<TData> = <IMockedPromiseInternal<TData>> spiedBuilder;
 
 		mocked.reject = (...params: any[]) => {
 			mocked.rejected = true;

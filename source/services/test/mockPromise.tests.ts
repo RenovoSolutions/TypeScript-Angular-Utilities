@@ -83,4 +83,11 @@ describe('mockPromise', () => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
 		expect(mockedPromise()).to.equal(mockedPromise());
 	});
+
+	it('should spy on the promise function', (): void => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+		mockedPromise(6);
+		sinon.assert.calledOnce(mockedPromise);
+		sinon.assert.calledWith(mockedPromise, 6);
+	});
 });
