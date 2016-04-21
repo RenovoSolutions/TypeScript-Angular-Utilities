@@ -15,5 +15,8 @@
     "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#1ec036686e70ad0d837ed2443684d54bca13af01",
     "moment-timezone": "github:DefinitelyTyped/DefinitelyTyped/moment-timezone/moment-timezone.d.ts#1ec036686e70ad0d837ed2443684d54bca13af01",
     "sinon": "github:DefinitelyTyped/DefinitelyTyped/sinon/sinon.d.ts#54f064352a3615443f7bff4198078db15e28247b"
+  },
+  "devDependencies": {
+    "bluebird": "github:typed-typings/npm-bluebird#cfd8d3ac544649768a437b5f707fedbe4a60cd18"
   }
 }
