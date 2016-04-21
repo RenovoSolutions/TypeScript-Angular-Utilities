@@ -73,7 +73,6 @@ angular.module(moduleName, [
 	stringService.moduleName,
 	synchronizedRequests.moduleName,
 	time.moduleName,
-	test.moduleName,
 	transform.moduleName,
 	validation.moduleName,
 ]);
