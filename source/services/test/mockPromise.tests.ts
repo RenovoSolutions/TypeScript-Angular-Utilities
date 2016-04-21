@@ -1,7 +1,13 @@
 import { mock, IMockedPromise } from './mockPromise';
+import * as Promise from 'bluebird';
 
 interface ITestType {
 	value: number;
+}
+
+interface ITestDataService {
+	promise1: IMockedPromise<ITestType>;
+	promise2: IMockedPromise<ITestType>;
 }
 
 describe('mockPromise', () => {
@@ -89,5 +95,21 @@ describe('mockPromise', () => {
 		mockedPromise(6);
 		sinon.assert.calledOnce(mockedPromise);
 		sinon.assert.calledWith(mockedPromise, 6);
+	});
+
+	it('should flush all promises on an object', (done: MochaDone): void => {
+		let service: ITestDataService = {
+			promise1: mock.promise({ value: 3 }),
+			promise2: mock.promise({ value: 4 }),
+		};
+		Promise.all([
+			service.promise1(),
+			service.promise2(),
+		]).then(([result1, result2]: ITestType[]): void => {
+			expect(result1.value).to.equal(3);
+			expect(result2.value).to.equal(4);
+			done();
+		});
+		mock.flushAll(service);
 	});
 });
