@@ -1,9 +1,11 @@
 import * as ng from 'angular';
 import * as Promise from 'bluebird';
+import * as _ from 'lodash';
 
 export interface IMockPromiseService {
 	promise<TData>(result: TData | { (...args: any[]): TData }): IMockedPromise<TData>;
 	rejectedPromise<TData>(...params: any[]): IMockedPromise<TData>;
+	flushAll(service: any): void;
 }
 
 export interface IMockedPromise<TData> extends Sinon.SinonSpy {
@@ -20,9 +22,9 @@ interface IMockedPromiseInternal<TData> extends IMockedPromise<TData> {
 class MockPromiseService implements IMockPromiseService {
 	promise<TData>(result: TData | { (...args: any[]): TData }): IMockedPromise<TData> {
 		if (ng.isFunction(result)) {
-			return this.makeDynamicMockPromise(<{ (...args: any[]): TData }> result);
+			return this.makeDynamicMockPromise(<{ (...args: any[]): TData }>result);
 		} else {
-			return this.makeMockPromise(<TData> result);
+			return this.makeMockPromise(<TData>result);
 		}
 	}
 
@@ -31,6 +33,14 @@ class MockPromiseService implements IMockPromiseService {
 		mocked.rejected = true;
 		mocked.rejectParams = params;
 		return mocked;
+	}
+
+	flushAll(service: any): void {
+		_.each(service, (promise: IMockedPromise<any>): void => {
+			if (promise && _.isFunction(promise.flush)) {
+				promise.flush();
+			}
+		});
 	}
 
 	private makeMockPromise<TData>(result: TData): IMockedPromiseInternal<TData> {
