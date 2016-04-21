@@ -14,7 +14,6 @@ describe('timeConverter', (): void => {
 
 	it('should convert the moment back to a time string', (): void => {
 		let timeMoment: moment.Moment = moment('2016-01-02T20:00:00-07:00', defaultFormats.isoFormat).tz(timezones.MST.momentName);
-		console.log(timeMoment.format(defaultFormats.isoFormat));
 		expect(timeConverter.toServer(timeMoment)).to.equal('8:00PM');
 	});
 
