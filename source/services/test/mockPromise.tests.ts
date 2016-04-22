@@ -1,6 +1,10 @@
 import { mock, IMockedPromise } from './mockPromise';
 import * as Promise from 'bluebird';
 
+import * as angular from 'angular';
+import 'angular-mocks';
+import { moduleName, angularFixture } from './test.module';
+
 interface ITestType {
 	value: number;
 }
@@ -66,7 +70,7 @@ describe('mockPromise', () => {
 	});
 
 	it('should be able to reuse mocked promises', (done: MochaDone) => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 }, true);
 		mockedPromise.reject(new Error('error message'));
 
 		mockedPromise()
@@ -85,13 +89,57 @@ describe('mockPromise', () => {
 		mockedPromise.flush();
 	});
 
-	it('should reuse a pending promise', (): void => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+	it('should allow unique parameters with successive calls', (done: MochaDone) => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise((value1: number, value2: number) => {
+			return { value: value1 + value2 };
+		}, true);
+
+		mockedPromise(5, 3)
+			.then((result: ITestType) => {
+				expect(result.value).to.equal(8);
+
+				mockedPromise(8, 2)
+					.then((result: ITestType) => {
+						expect(result.value).to.equal(10);
+
+						done();
+					});
+
+				mockedPromise.flush();
+			});
+
+		mockedPromise.flush();
+	});
+
+	it('should reuse a pending promise when sharing', (): void => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 }, true);
 		expect(mockedPromise()).to.equal(mockedPromise());
 	});
 
+	it('should not reuse a pending promise by default or not sharing', (): void => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 });
+		expect(mockedPromise()).to.not.equal(mockedPromise());
+
+		mockedPromise = mock.promise({ value: 3 }, false);
+		expect(mockedPromise()).to.not.equal(mockedPromise());
+	});
+
+	it('should flush all requests on an unshared promise', (done: MochaDone): void => {
+		let mockedPromise: IMockedPromise<number> = mock.promise(result => result);
+		Promise.all([
+			mockedPromise(5),
+			mockedPromise(10),
+		]).then(([result1, result2]: number[]): void => {
+			expect(result1).to.equal(5);
+			expect(result2).to.equal(10);
+			done();
+		});
+
+		mockedPromise.flush();
+	});
+
 	it('should spy on the promise function', (): void => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 });
 		mockedPromise(6);
 		sinon.assert.calledOnce(mockedPromise);
 		sinon.assert.calledWith(mockedPromise, 6);
@@ -111,5 +159,25 @@ describe('mockPromise', () => {
 			done();
 		});
 		mock.flushAll(service);
+	});
+
+	it('should work with $q.when and $q.all', (done: MochaDone): void => {
+		angular.mock.module(moduleName);
+		const $q: angular.IQService = angularFixture.inject('$q').$q;
+
+		const mockedPromises: IMockedPromise<number>[] = [
+			mock.promise(5),
+			mock.promise(10),
+		];
+
+		const whens: angular.IPromise<number>[] = mockedPromises.map((mocked: IMockedPromise<number>) => $q.when(mocked()));
+
+		$q.all(whens).then(([result1, result2]: number[]): void => {
+			expect(result1).to.equal(5);
+			expect(result2).to.equal(10);
+			done();
+		});
+
+		mock.flushAll(mockedPromises);
 	});
 });

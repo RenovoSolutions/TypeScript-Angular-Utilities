@@ -37,9 +37,11 @@
 
     "full-build": "npm run update && npm run build && npm run bundle",
 
-    "all": "npm run update && npm run build && npm run test.full && npm run bundle"
+    "all": "npm run update && npm run build && npm run test.full && npm run bundle",
+    "build-test-bundle": "npm run build && npm run test.full && npm run bundle"
   },
   "devDependencies": {
+    "angular-bluebird-promises": "^1.0.1",
     "angular-mocks": "~1.5.0",
     "bluebird": "^3.3.5",
     "chai": "~3.5.0",

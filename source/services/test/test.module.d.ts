@@ -1,3 +1,4 @@
+import './chaiMoment';
 export * from './mockPromise';
 export * from './angularFixture';
-import './chaiMoment';
+export declare var moduleName: string;
