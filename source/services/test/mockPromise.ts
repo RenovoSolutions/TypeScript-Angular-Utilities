@@ -52,26 +52,38 @@ class MockPromiseService implements IMockPromiseService {
 		return this.makeDynamicMockPromise(() => result, share);
 	}
 
-	private makeDynamicMockPromise<TData>(result: { (...args: any[]): TData }, share: boolean): IMockedPromiseInternal<TData> {
-		let request: any;
-		let promise: Promise<TData>;
+	private makeDynamicMockPromise<TData>(result: { (...args: any[]): TData }, shareParam: boolean): IMockedPromiseInternal<TData> {
+		let share: boolean = shareParam;
+		interface IRequestType {
+			resolve: Function;
+			reject: Function;
+			params: any[];
+			promise: Promise<TData>;
+		};
+
+		let requests: IRequestType[] = [];
 
 		// Return a function that will build a pending promise when called
 		let promiseBuilder: any = ((...args: any[]): Promise<TData> => {
-			if (request && request.share) {
-				return promise;
+			if (share && _.some(requests)) {
+				return _.first(requests).promise;
 			}
 
-			promise = new Promise<TData>(function (resolve, reject) {
-				request = {
-					resolve,
-					reject,
-					params: args,
-					share: share,
-				};
+			let newRequest: IRequestType = {
+				resolve: null,
+				reject: null,
+				params: args,
+				promise: null,
+			};
+
+			newRequest.promise = new Promise<TData>(function (resolve, reject) {
+				newRequest.resolve = resolve;
+				newRequest.reject = reject;
 			});
 
-			return promise;
+			requests.push(newRequest);
+
+			return newRequest.promise;
 		});
 
 		let spiedBuilder: any = sinon.spy(promiseBuilder);
@@ -84,25 +96,24 @@ class MockPromiseService implements IMockPromiseService {
 		};
 
 		// Mark promise to be shared in builder
-		mocked.share = (share?: boolean) => {
-			if (ng.isUndefined(share)) {
+		mocked.share = (shareParam?: boolean) => {
+			if (ng.isUndefined(shareParam)) {
 				share = true;
 			}
 
-			request.share = share;
+			share = shareParam;
 		};
 
 		// If current request, resolve and clear
 		mocked.flush = () => {
-			if (request) {
+			_.each(requests, (request: IRequestType): void => {
 				if (mocked.rejected) {
 					request.reject(...mocked.rejectParams);
 				} else {
 					request.resolve(result(...request.params));
 				}
-
-				request = null;
-			}
+			});
+			requests = [];
 		};
 
 		return mocked;
