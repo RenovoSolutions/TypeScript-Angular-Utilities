@@ -3,9 +3,9 @@
 import * as ng from 'angular';
 
 import {
-    INotificationService,
-    serviceName as notificationServiceName,
-    moduleName as notificationModuleName,
+	INotificationService,
+	serviceName as notificationServiceName,
+	moduleName as notificationModuleName,
 } from '../notification/notification.service';
 
 export var moduleName: string = 'rl21.services.errorHandler';
@@ -19,6 +19,7 @@ export enum HttpStatusCode {
 	invalidUrl = 404,
 	timeout = 408,
 	internalServerError = 500,
+	gone = 410,
 }
 
 export interface IRejection {
@@ -32,20 +33,21 @@ export interface IErrorHandlerService {
 
 export interface IErrorMessages {
 	badRequestError: string;
-    forbiddenError: string;
-    invalidUrlError: string;
-    timeoutError: string;
-    internalServerError: string;
-    defaultError: string;
+	forbiddenError: string;
+	invalidUrlError: string;
+	timeoutError: string;
+	internalServerError: string;
+	defaultError: string;
+	goneError: string;
 }
 
 export class ErrorHandlerService implements IErrorHandlerService {
 	constructor(private $window: ng.IWindowService
-			, private $exceptionHandler: ng.IExceptionHandlerService
-            , private notification: INotificationService
-            , private loginUrl: string
-            , private errorMessages: IErrorMessages
-			, private returnUrlParam: string) { }
+		, private $exceptionHandler: ng.IExceptionHandlerService
+		, private notification: INotificationService
+		, private loginUrl: string
+		, private errorMessages: IErrorMessages
+		, private returnUrlParam: string) { }
 
 	httpResponseError(rejection: IRejection): void {
 		switch (rejection.status) {
@@ -67,6 +69,9 @@ export class ErrorHandlerService implements IErrorHandlerService {
 			case HttpStatusCode.internalServerError:
 				this.systemError();
 				break;
+			case HttpStatusCode.gone:
+				this.goneError();
+				break;
 			case HttpStatusCode.cancelledRequest:
 				// cancelled request
 				break;
@@ -78,7 +83,7 @@ export class ErrorHandlerService implements IErrorHandlerService {
 		}
 	}
 
-	private badRequestError (rejection: IRejection) {
+	private badRequestError(rejection: IRejection) {
 		if (rejection.data) {
 			return this.notification.error(rejection.data);
 		}
@@ -108,42 +113,46 @@ export class ErrorHandlerService implements IErrorHandlerService {
 	private systemError(): void {
 		this.notification.error(this.errorMessages.internalServerError);
 	}
+	private goneError(): void {
+		this.notification.error(this.errorMessages.goneError);
+	}
 }
 
 export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
-    loginUrl: string;
-    errorMessages: IErrorMessages;
+	loginUrl: string;
+	errorMessages: IErrorMessages;
 	returnUrlParam: string;
-    $get($window: ng.IWindowService
+	$get($window: ng.IWindowService
 		, $exceptionHandler: ng.IExceptionHandlerService
-        , notification: INotificationService): IErrorHandlerService;
+		, notification: INotificationService): IErrorHandlerService;
 }
 
 class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
-    loginUrl: string;
-    errorMessages: IErrorMessages;
+	loginUrl: string;
+	errorMessages: IErrorMessages;
 	returnUrlParam: string;
 
-    constructor() {
-        this.loginUrl = '/login';
-        this.errorMessages = {
-			badRequestError: 'Your reqest failed one or more validation checks.',
-            forbiddenError: 'You have insufficient permissions to perform this action',
-            invalidUrlError: 'Resource not found. This issue has been logged',
-            timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
-            internalServerError: 'The system has encountered an error. This issue has been logged.' +
-            ' Please contact support if you are unable to complete critical tasks',
-            defaultError: 'Http status code not handled',
-        };
+	constructor() {
+		this.loginUrl = '/login';
+		this.errorMessages = {
+			badRequestError: 'Your request failed one or more validation checks.',
+			forbiddenError: 'You have insufficient permissions to perform this action',
+			invalidUrlError: 'Resource not found. This issue has been logged',
+			timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
+			internalServerError: 'The system has encountered an error. This issue has been logged.' +
+			' Please contact support if you are unable to complete critical tasks',
+			defaultError: 'Http status code not handled',
+			goneError: 'The requested resource is no longer available.'
+		};
 		this.returnUrlParam = 'returnUrl';
-        this.$get.$inject = ['$window', '$exceptionHandler', notificationServiceName];
-    }
+		this.$get.$inject = ['$window', '$exceptionHandler', notificationServiceName];
+	}
 
-    $get: any = ($window: ng.IWindowService
-			, $exceptionHandler: ng.IExceptionHandlerService
-            , notification: INotificationService): IErrorHandlerService => {
-        return new ErrorHandlerService($window, $exceptionHandler, notification, this.loginUrl, this.errorMessages, this.returnUrlParam);
-    }
+	$get: any = ($window: ng.IWindowService
+		, $exceptionHandler: ng.IExceptionHandlerService
+		, notification: INotificationService): IErrorHandlerService => {
+		return new ErrorHandlerService($window, $exceptionHandler, notification, this.loginUrl, this.errorMessages, this.returnUrlParam);
+	}
 }
 
 angular.module(moduleName, [notificationModuleName])
