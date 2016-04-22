@@ -59,9 +59,12 @@ class MockPromiseService implements IMockPromiseService {
 			reject: Function;
 			params: any[];
 			promise: Promise<TData>;
+			rejected: boolean;
+			rejectParams: any[];
 		};
 
 		let requests: IRequestType[] = [];
+		let mocked: IMockedPromiseInternal<TData>;
 
 		// Return a function that will build a pending promise when called
 		let promiseBuilder: any = ((...args: any[]): Promise<TData> => {
@@ -74,6 +77,8 @@ class MockPromiseService implements IMockPromiseService {
 				reject: null,
 				params: args,
 				promise: null,
+				rejected: mocked.rejected,
+				rejectParams: mocked.rejectParams,
 			};
 
 			newRequest.promise = new Promise<TData>(function (resolve, reject) {
@@ -87,7 +92,7 @@ class MockPromiseService implements IMockPromiseService {
 		});
 
 		let spiedBuilder: any = sinon.spy(promiseBuilder);
-		let mocked: IMockedPromiseInternal<TData> = <IMockedPromiseInternal<TData>> spiedBuilder;
+		mocked = <IMockedPromiseInternal<TData>> spiedBuilder;
 
 		// Mark promise to be rejected
 		mocked.reject = (...params: any[]) => {
@@ -107,8 +112,8 @@ class MockPromiseService implements IMockPromiseService {
 		// If current request, resolve and clear
 		mocked.flush = () => {
 			_.each(requests, (request: IRequestType): void => {
-				if (mocked.rejected) {
-					request.reject(...mocked.rejectParams);
+				if (request.rejected) {
+					request.reject(...request.rejectParams);
 				} else {
 					request.resolve(result(...request.params));
 				}
