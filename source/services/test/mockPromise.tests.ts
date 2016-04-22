@@ -112,20 +112,34 @@ describe('mockPromise', () => {
 	});
 
 	it('should reuse a pending promise when sharing', (): void => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 }, true);
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 }, true);
 		expect(mockedPromise()).to.equal(mockedPromise());
 	});
 
 	it('should not reuse a pending promise by default or not sharing', (): void => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 });
 		expect(mockedPromise()).to.not.equal(mockedPromise());
 
-		mockedPromise = mock.promise<ITestType>({ value: 3 }, false);
+		mockedPromise = mock.promise({ value: 3 }, false);
 		expect(mockedPromise()).to.not.equal(mockedPromise());
 	});
 
+	it('should flush all requests on an unshared promise', (done: MochaDone): void => {
+		let mockedPromise: IMockedPromise<number> = mock.promise(result => result);
+		Promise.all([
+			mockedPromise(5),
+			mockedPromise(10),
+		]).then(([result1, result2]: number[]): void => {
+			expect(result1).to.equal(5);
+			expect(result2).to.equal(10);
+			done();
+		});
+
+		mockedPromise.flush();
+	});
+
 	it('should spy on the promise function', (): void => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 });
 		mockedPromise(6);
 		sinon.assert.calledOnce(mockedPromise);
 		sinon.assert.calledWith(mockedPromise, 6);
