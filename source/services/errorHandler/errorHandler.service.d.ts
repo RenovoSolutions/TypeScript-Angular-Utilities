@@ -10,6 +10,7 @@ export declare enum HttpStatusCode {
     invalidUrl = 404,
     timeout = 408,
     internalServerError = 500,
+    gone = 410,
 }
 export interface IRejection {
     status: HttpStatusCode;
@@ -25,6 +26,7 @@ export interface IErrorMessages {
     timeoutError: string;
     internalServerError: string;
     defaultError: string;
+    goneError: string;
 }
 export declare class ErrorHandlerService implements IErrorHandlerService {
     private $window;
@@ -41,6 +43,7 @@ export declare class ErrorHandlerService implements IErrorHandlerService {
     private invalidUrlError();
     private timeoutError();
     private systemError();
+    private goneError();
 }
 export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
     loginUrl: string;
