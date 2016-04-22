@@ -1,6 +1,10 @@
 import { mock, IMockedPromise } from './mockPromise';
 import * as Promise from 'bluebird';
 
+import * as angular from 'angular';
+import 'angular-mocks';
+import { moduleName, angularFixture } from './test.module';
+
 interface ITestType {
 	value: number;
 }
@@ -141,5 +145,25 @@ describe('mockPromise', () => {
 			done();
 		});
 		mock.flushAll(service);
+	});
+
+	it('should work with $q.when and $q.all', (done: MochaDone): void => {
+		angular.mock.module(moduleName);
+		const $q: angular.IQService = angularFixture.inject('$q').$q;
+
+		const mockedPromises: IMockedPromise<number>[] = [
+			mock.promise(5),
+			mock.promise(10),
+		];
+
+		const whens: angular.IPromise<number>[] = mockedPromises.map((mocked: IMockedPromise<number>) => $q.when(mocked()));
+
+		$q.all(whens).then(([result1, result2]: number[]): void => {
+			expect(result1).to.equal(5);
+			expect(result2).to.equal(10);
+			done();
+		});
+
+		mock.flushAll(mockedPromises);
 	});
 });
