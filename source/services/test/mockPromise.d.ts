@@ -1,8 +1,8 @@
 import * as Promise from 'bluebird';
 export interface IMockPromiseService {
-    promise<TData>(result: TData | {
+    promise<TData>(result?: TData | {
         (...args: any[]): TData;
-    }): IMockedPromise<TData>;
+    }, share?: boolean): IMockedPromise<TData>;
     rejectedPromise<TData>(...params: any[]): IMockedPromise<TData>;
     flushAll(service: any): void;
 }
@@ -11,5 +11,6 @@ export interface IMockedPromise<TData> extends Sinon.SinonSpy {
     reject(...params: any[]): void;
     rejected: boolean;
     flush(): void;
+    share(share?: boolean): void;
 }
 export declare const mock: IMockPromiseService;
