@@ -32,6 +32,10 @@ class SearchUtility implements ISearchUtility {
 	}
 
 	tokenizedSearch(object: any, search: string, caseSensitive?: boolean): boolean {
+		if (search == null) {
+			return true;
+		}
+
 		return _.every(search.split(' '), (subsearch: string): boolean => {
 			return this.search(object, subsearch, caseSensitive);
 		});
