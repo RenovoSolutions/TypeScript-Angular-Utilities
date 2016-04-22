@@ -79,6 +79,17 @@ describe('errorHandler', () => {
 		sinon.assert.calledWith(notification.error, 'Resource not found. This issue has been logged');
 	});
 
+	it('should show an error for gone resource', (): void => {
+		var rejection: IRejection = {
+			status: HttpStatusCode.gone
+		};
+
+		errorHandler.httpResponseError(rejection);
+
+		sinon.assert.calledOnce(notification.error);
+		sinon.assert.calledWith(notification.error, 'The requested resource is no longer available.');
+	});
+
 	it('should show an error for timeout', (): void => {
 		var rejection: IRejection = {
 			status: HttpStatusCode.timeout
@@ -101,10 +112,10 @@ describe('errorHandler', () => {
 		sinon.assert.calledWith(notification.error, 'The system has encountered an error. This issue has been logged.' +
 												' Please contact support if you are unable to complete critical tasks');
 	});
-	
+
 	it('should show a custom error for bad request error', (): void => {
 		var errorMessage = "An error occurred"
-		
+
 		var rejection: IRejection = {
 			status: HttpStatusCode.badRequest,
 			data: errorMessage
