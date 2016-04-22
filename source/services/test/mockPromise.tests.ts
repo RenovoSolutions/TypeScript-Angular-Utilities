@@ -66,7 +66,7 @@ describe('mockPromise', () => {
 	});
 
 	it('should be able to reuse mocked promises', (done: MochaDone) => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 }, true);
 		mockedPromise.reject(new Error('error message'));
 
 		mockedPromise()
@@ -85,9 +85,39 @@ describe('mockPromise', () => {
 		mockedPromise.flush();
 	});
 
-	it('should reuse a pending promise', (): void => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+	it('should allow unique parameters with successive calls', (done: MochaDone) => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise((value1: number, value2: number) => {
+			return { value: value1 + value2 };
+		}, true);
+
+		mockedPromise(5, 3)
+			.then((result: ITestType) => {
+				expect(result.value).to.equal(8);
+
+				mockedPromise(8, 2)
+					.then((result: ITestType) => {
+						expect(result.value).to.equal(10);
+
+						done();
+					});
+
+				mockedPromise.flush();
+			});
+
+		mockedPromise.flush();
+	});
+
+	it('should reuse a pending promise when sharing', (): void => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 }, true);
 		expect(mockedPromise()).to.equal(mockedPromise());
+	});
+
+	it('should not reuse a pending promise by default or not sharing', (): void => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
+		expect(mockedPromise()).to.not.equal(mockedPromise());
+
+		mockedPromise = mock.promise<ITestType>({ value: 3 }, false);
+		expect(mockedPromise()).to.not.equal(mockedPromise());
 	});
 
 	it('should spy on the promise function', (): void => {
