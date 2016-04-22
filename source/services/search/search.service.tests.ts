@@ -117,5 +117,12 @@ describe('search utility', () => {
 			expect(searchUtility.tokenizedSearch(objectWithNesting, searchText)).to.be.true;
 			expect(searchUtility.tokenizedSearch(object2, searchText)).to.be.false;
 		});
+
+		it('should handle a null search', (): void => {
+			let object: ITestObject = {
+				prop: 'some values ended up with text',
+			};
+			expect(searchUtility.tokenizedSearch(object, null)).to.be.true;
+		});
 	});
 });
