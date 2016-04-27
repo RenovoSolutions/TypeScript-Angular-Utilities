@@ -1,8 +1,6 @@
-import * as ng from 'angular';
-
-import { IConverter } from '../../converters/converters';
+import { IHttpUtility } from '../../../http/http.service';
 import { ISingletonDataService, SingletonDataService } from '../../singletonDataService/singletonData.service';
-import { IDataService, DataService, IBaseDomainObject } from '../../dataService/data.service';
+import { IDataService } from '../../dataService/data.service';
 import { IDataServiceView } from '../../dataService/view/dataServiceView';
 import { IParentSingletonResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 
@@ -15,17 +13,14 @@ export interface IParentSingletonFromViewResourceParams<TDataType, TResourceDict
 	parentId?: number;
 }
 
-// deprecated - use IParentSingletonDataService
-export interface IBaseParentSingletonDataService<TDataType, TResourceDictionaryType> extends IParentSingletonDataService<TDataType, TResourceDictionaryType> { }
-
 export class ParentSingletonDataService<TDataType, TResourceDictionaryType>
 	extends SingletonDataService<TDataType> implements IParentSingletonDataService<TDataType, TResourceDictionaryType> {
 
 	private resourceDictionaryBuilder: { (): TResourceDictionaryType };
 	private parentId: number;
 
-	constructor($http: ng.IHttpService, $q: ng.IQService, options: IParentSingletonFromViewResourceParams<TDataType, TResourceDictionaryType>) {
-		super($http, $q, options);
+	constructor(http: IHttpUtility, options: IParentSingletonFromViewResourceParams<TDataType, TResourceDictionaryType>) {
+		super(http, options);
 		this.resourceDictionaryBuilder = options.resourceDictionaryBuilder;
 		this.parentId = options.parentId;
 	}
