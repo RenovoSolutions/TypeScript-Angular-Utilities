@@ -1,7 +1,5 @@
 'use strict';
 
-import * as angular from 'angular';
-
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
 import * as dataContracts from './dataContracts/dataContracts.module';
@@ -51,28 +49,3 @@ export {
 	transform,
 	validation,
 };
-
-export var moduleName: string = 'rl.utilities.services';
-
-angular.module(moduleName, [
-	array.moduleName,
-	boolean.moduleName,
-	dataContracts.moduleName,
-    date.moduleName,
-    errorHandler.moduleName,
-	fileSize.moduleName,
-	genericSearchFilter.moduleName,
-	guid.moduleName,
-	moment.moduleName,
-	notification.moduleName,
-	numberService.moduleName,
-	objectService.moduleName,
-	observable.moduleName,
-	parentChildBehavior.moduleName,
-	promise.moduleName,
-	stringService.moduleName,
-	synchronizedRequests.moduleName,
-	time.moduleName,
-	transform.moduleName,
-	validation.moduleName,
-]);
