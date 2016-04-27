@@ -1,18 +1,14 @@
-import { IBaseDataService } from '../data.service';
-import { IBaseDataServiceView } from '../view/dataServiceView';
-import { IBaseParentDataService } from './parentData.service';
-import { IBaseResourceBuilder, moduleName, serviceName } from '../../resourceBuilder/resourceBuilder.service';
-
-import { angularFixture } from '../../../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
-
+import { Injector } from 'angular2/core';
 import * as _ from 'lodash';
 
+import { IDataService } from '../data.service';
+import { IDataServiceView } from '../view/dataServiceView';
+import { IParentDataService } from './parentData.service';
+import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../../resourceBuilder/resourceBuilder.service';
+
 interface ITestResourceDictionaryType {
-	testView: IBaseDataServiceView<ITestMock, void>;
-	test: IBaseDataService<ITestMock, void>;
+	testView: IDataServiceView<ITestMock, void>;
+	test: IDataService<ITestMock, void>;
 }
 
 interface ITestMock {
@@ -21,36 +17,33 @@ interface ITestMock {
 }
 
 describe('parent data service', () => {
-	let baseParentDataService: IBaseParentDataService<any, void, ITestResourceDictionaryType>;
-	let baseResourceBuilder: IBaseResourceBuilder;
-	let $rootScope: angular.IRootScopeService;
+	let parentDataService: IParentDataService<any, void, ITestResourceDictionaryType>;
+	let resourceBuilder: IResourceBuilder;
 	let dataSet: ITestMock[];
-	let dataService: IBaseDataService<ITestMock, void>;
-	let dataServiceView: IBaseDataServiceView<ITestMock, void>;
+	let dataService: IDataService<ITestMock, void>;
+	let dataServiceView: IDataServiceView<ITestMock, void>;
 
 	beforeEach((): void => {
-		angular.mock.module(moduleName);
-
 		dataSet = [
 			{ id: 1, prop: 'item1' },
 			{ id: 2, prop: 'item2' },
 			{ id: 3, prop: 'item3' },
 		];
 
-		let services: any = angularFixture.inject(serviceName, '$rootScope');
-		baseResourceBuilder = services[serviceName];
-		$rootScope = services.$rootScope;
+		const injector: Injector = (<any>Injector).resolveAndCreate([RESOURCE_BUILDER_PROVIDER]);
 
-		dataService = baseResourceBuilder.createResource<ITestMock, void>({
+		resourceBuilder = injector.get(resourceBuilderToken);
+
+		dataService = resourceBuilder.createResource<ITestMock, void>({
 			mockData: dataSet,
 			useMock: true,
 		});
-		dataServiceView = baseResourceBuilder.createResourceView<ITestMock, void>({
+		dataServiceView = resourceBuilder.createResourceView<ITestMock, void>({
 			mockData: dataSet,
 			useMock: true,
 		});
 
-		baseParentDataService = baseResourceBuilder.createParentResource<any, void, ITestResourceDictionaryType>({
+		parentDataService = resourceBuilder.createParentResource<any, void, ITestResourceDictionaryType>({
 			resourceDictionaryBuilder(): ITestResourceDictionaryType {
 				return {
 					testView: dataServiceView,
@@ -64,7 +57,7 @@ describe('parent data service', () => {
 		let children: ITestResourceDictionaryType;
 
 		beforeEach((): void => {
-			children = baseParentDataService.childContracts(1);
+			children = parentDataService.childContracts(1);
 		});
 
 		it('should expose a get function', (done: MochaDone): void => {
@@ -72,7 +65,6 @@ describe('parent data service', () => {
 				expect(item).to.equal(dataSet[0]);
 				done();
 			});
-			$rootScope.$digest();
 		});
 
 		it('should expose an update function and return the result of the update', (done: MochaDone): void => {
@@ -80,7 +72,6 @@ describe('parent data service', () => {
 				expect(item).to.equal(dataSet[0]);
 				done();
 			});
-			$rootScope.$digest();
 		});
 
 		it('should disable getList, getDetail, and create', (): void => {
