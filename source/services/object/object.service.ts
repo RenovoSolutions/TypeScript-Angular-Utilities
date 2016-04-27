@@ -1,19 +1,18 @@
-﻿'use strict';
+﻿import { Inject, Injectable, OpaqueToken, Provider } from 'angular2/core';
 
-import * as angular from 'angular';
 import * as _ from 'lodash';
 
 import {
-	serviceName as arrayServiceName,
-	moduleName as arrayModuleName,
 	IArrayUtility,
+	arrayToken,
 	arrayUtility,
 } from '../array/array.service';
 
-import * as __dateUtility from '../date/date.module';
-
-export var moduleName: string = 'rl.utilities.services.object';
-export var serviceName: string = 'objectUtility';
+import {
+	IDateUtility,
+	dateToken,
+	dateUtility,
+} from '../date/date.module';
 
 export interface IObjectUtility {
 	isNullOrEmpty(object: any[]): boolean;
@@ -31,9 +30,14 @@ export interface IObjectUtility {
 
 }
 
-class ObjectUtility implements IObjectUtility {
-	static $inject: string[] = [arrayServiceName, __dateUtility.serviceName];
-	constructor(private array: IArrayUtility, private dateUtility: __dateUtility.IDateUtility) {
+@Injectable()
+export class ObjectUtility implements IObjectUtility {
+	private array: IArrayUtility;
+	private dateUtility: IDateUtility;
+
+	constructor(@Inject(arrayToken) array: IArrayUtility, @Inject(dateToken) dateUtility: IDateUtility) {
+		this.array = array;
+		this.dateUtility = dateUtility;
 	}
 
 	isNullOrEmpty(object: any): boolean {
@@ -136,7 +140,10 @@ class ObjectUtility implements IObjectUtility {
 	}
 }
 
-export let objectUtility: IObjectUtility = new ObjectUtility(arrayUtility, __dateUtility.dateUtility);
+export let objectUtility: IObjectUtility = new ObjectUtility(arrayUtility, dateUtility);
 
-angular.module(moduleName, [arrayModuleName,__dateUtility.moduleName])
-	.service(serviceName, ObjectUtility);
+export const objectToken: OpaqueToken = new OpaqueToken('A utility for working with objects');
+
+export const OBJECT_PROVIDER: Provider = new Provider(objectToken, {
+	useClass: ObjectUtility,
+});
