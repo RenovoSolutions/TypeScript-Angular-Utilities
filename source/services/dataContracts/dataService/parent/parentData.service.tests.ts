@@ -1,10 +1,13 @@
-import { Injector } from 'angular2/core';
+import { Injector, ReflectiveInjector, provide } from 'angular2/core';
 import * as _ from 'lodash';
 
 import { IDataService } from '../data.service';
 import { IDataServiceView } from '../view/dataServiceView';
 import { IParentDataService } from './parentData.service';
 import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../../resourceBuilder/resourceBuilder.service';
+
+import { httpToken } from '../../../http/http.service';
+import { arrayToken } from '../../../array/array.service';
 
 interface ITestResourceDictionaryType {
 	testView: IDataServiceView<ITestMock, void>;
@@ -30,7 +33,11 @@ describe('parent data service', () => {
 			{ id: 3, prop: 'item3' },
 		];
 
-		const injector: Injector = (<any>Injector).resolveAndCreate([RESOURCE_BUILDER_PROVIDER]);
+		const injector: Injector = ReflectiveInjector.resolveAndCreate([
+			RESOURCE_BUILDER_PROVIDER,
+			provide(httpToken, { useValue: {} }),
+			provide(arrayToken, { useValue: {} }),
+		]);
 
 		resourceBuilder = injector.get(resourceBuilderToken);
 

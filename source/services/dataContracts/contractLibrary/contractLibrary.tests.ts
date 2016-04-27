@@ -1,9 +1,12 @@
-import { Injector } from 'angular2/core';
+import { Injector, ReflectiveInjector, provide } from 'angular2/core';
 
 import { ContractLibrary } from './contractLibrary';
 import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../resourceBuilder/resourceBuilder.service';
 import { DataServiceView } from '../dataService/view/dataServiceView';
 import { DataService, ParentDataService, ParentSingletonDataService } from '../dataContracts.module';
+
+import { httpToken } from '../../http/http.service';
+import { arrayToken } from '../../array/array.service';
 
 interface ITestChildResources {
 	childResource: DataService<number, void>;
@@ -50,8 +53,13 @@ describe('contractLibrary', (): void => {
 	let resourceBuilder: IResourceBuilder;
 
 	beforeEach((): void => {
-		const injector: Injector = (<any>Injector).resolveAndCreate([RESOURCE_BUILDER_PROVIDER]);
-		testLibrary = new TestLibrary(injector.get(resourceBuilderToken));
+		const injector: Injector = ReflectiveInjector.resolveAndCreate([
+			RESOURCE_BUILDER_PROVIDER,
+			provide(httpToken, { useValue: {} }),
+			provide(arrayToken, { useValue: {} }),
+		]);
+		resourceBuilder = injector.get(resourceBuilderToken);
+		testLibrary = new TestLibrary(resourceBuilder);
 	});
 
 	describe('urls', (): void => {

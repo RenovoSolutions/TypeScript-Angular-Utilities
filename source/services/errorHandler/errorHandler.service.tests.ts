@@ -1,4 +1,4 @@
-import { Injector } from 'angular2/core';
+import { Injector, ReflectiveInjector } from 'angular2/core';
 
 import {
 	defaultErrorsToken,
@@ -39,7 +39,7 @@ describe('errorHandler', () => {
 			call: sinon.spy(),
 		};
 
-		const injector: Injector = (<any> Injector).resolveAndCreate([DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS]);
+		const injector: Injector = ReflectiveInjector.resolveAndCreate([DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS]);
 		errorHandler = new ErrorHandlerService(
 			redirect,
 			exceptionHandler,
