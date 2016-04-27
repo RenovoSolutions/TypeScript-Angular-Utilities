@@ -12,7 +12,6 @@ import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
-import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
 import * as promise from './promise/promise.service';
 import * as search from './search/search.service';
 import * as stringService from './string/string.service';
@@ -36,7 +35,6 @@ export {
 	numberService as number,
 	objectService as object,
 	observable,
-	parentChildBehavior,
 	promise,
 	search,
 	stringService as string,
