@@ -1,10 +1,4 @@
-	'use strict';
-
-import * as angular from 'angular';
 import * as _ from 'lodash';
-
-export var moduleName: string = 'rl.utilities.services.array';
-export var serviceName: string = 'arrayUtility';
 
 export interface IArrayUtility {
 	findIndexOf<TDataType>(array: TDataType[], predicate: { (item: TDataType): boolean }): number;
@@ -19,7 +13,7 @@ export interface IArrayUtility {
 	arrayify<TDataType>(maybeArray: TDataType[] | TDataType): TDataType[];
 }
 
-class ArrayUtility implements IArrayUtility {
+export class ArrayUtility implements IArrayUtility {
 	findIndexOf<TDataType>(array: TDataType[], predicate: { (item: TDataType): boolean }): number {
 		var targetIndex: number;
 
@@ -107,6 +101,3 @@ class ArrayUtility implements IArrayUtility {
 }
 
 export let arrayUtility: IArrayUtility = new ArrayUtility();
-
-angular.module(moduleName, [])
-	.service(serviceName, ArrayUtility);

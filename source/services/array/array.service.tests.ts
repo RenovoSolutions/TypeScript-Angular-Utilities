@@ -1,9 +1,5 @@
-import { IArrayUtility, moduleName, serviceName } from './array.service';
+import { ArrayUtility, IArrayUtility } from './array.service';
 
-import { angularFixture } from '../../services/test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
 import * as _ from 'lodash';
 
 interface ITestObj {
@@ -18,10 +14,7 @@ describe('arrayUtility', () => {
 	var arrayUtility: IArrayUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		var services: any = angularFixture.inject(serviceName);
-		arrayUtility = services[serviceName];
+		arrayUtility = new ArrayUtility();
 	});
 
 	describe('findIndexOf', (): void => {
