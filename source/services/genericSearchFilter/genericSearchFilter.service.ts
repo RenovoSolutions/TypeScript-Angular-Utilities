@@ -9,7 +9,7 @@ import {
 } from '../object/object.service';
 
 import {
-	IStringUtilityService,
+	IStringUtility,
 	stringToken,
 } from '../string/string.service';
 import { searchUtility } from '../search/search.service';
@@ -33,7 +33,7 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 	private _searchText: string;
 
 	constructor(protected object: IObjectUtility
-			, private string: IStringUtilityService
+			, private string: IStringUtility
 			, private tokenized: boolean) {
 		super();
 	}
@@ -72,10 +72,10 @@ export interface IGenericSearchFilterFactory {
 
 export class GenericSearchFilterFactory implements IGenericSearchFilterFactory {
 	private objectUtility: IObjectUtility;
-	private stringUtility: IStringUtilityService;
+	private stringUtility: IStringUtility;
 
 	constructor( @Inject(objectToken) objectUtility: IObjectUtility,
-		@Inject(stringToken) stringUtility: IStringUtilityService) {
+		@Inject(stringToken) stringUtility: IStringUtility) {
 		this.objectUtility = objectUtility;
 		this.stringUtility = stringUtility;
 	}

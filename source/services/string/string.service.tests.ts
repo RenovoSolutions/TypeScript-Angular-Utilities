@@ -1,11 +1,11 @@
-import { IStringUtilityService, StringUtilityService } from './string.service';
+import { IStringUtility, StringUtility } from './string.service';
 
 
 describe('stringUtility', () => {
-	let stringUtility: IStringUtilityService;
+	let stringUtility: IStringUtility;
 
 	beforeEach(() => {
-		stringUtility = new StringUtilityService();
+		stringUtility = new StringUtility();
 	});
 
 	describe('toNumber', (): void => {
