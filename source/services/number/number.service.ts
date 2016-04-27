@@ -1,4 +1,6 @@
-﻿enum Sign {
+﻿import { Provider, OpaqueToken } from 'angular2/core';
+
+enum Sign {
 	positive = 1,
 	negative = -1,
 }
@@ -33,3 +35,9 @@ export class NumberUtility implements INumberUtility {
 		}
 	}
 }
+
+export const numberUtilityToken: OpaqueToken = new OpaqueToken('number utility service');
+
+export const NUMBER_UTILITY_PROVIDER: Provider = new Provider(numberServiceToken, {
+	useClass: NumberUtility
+});
