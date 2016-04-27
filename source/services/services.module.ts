@@ -32,7 +32,6 @@ export {
 	fileSize,
 	genericSearchFilter,
 	guid,
-	moment,
 	notification,
 	numberService as number,
 	objectService as object,
