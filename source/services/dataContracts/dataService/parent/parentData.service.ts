@@ -1,7 +1,7 @@
-import * as ng from 'angular';
 import * as _ from 'lodash';
 
 import { IArrayUtility } from '../../../array/array.service';
+import { IHttpUtility } from '../../../http/http.service';
 
 import { IDataService, DataService, IBaseDomainObject } from '../data.service';
 import { IDataServiceView } from '../view/dataServiceView';
@@ -13,19 +13,15 @@ export interface IParentDataService<TDataType extends IBaseDomainObject, TSearch
 	childContracts(id?: number): TResourceDictionaryType;
 }
 
-// deprecated - use IParentDataService
-export interface IBaseParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> { }
-
 export class ParentDataService<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 	extends DataService<TDataType, TSearchParams> implements IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 
 	resourceDictionaryBuilder: { (): TResourceDictionaryType };
 
-	constructor($http: ng.IHttpService
-			, $q: ng.IQService
+	constructor(http: IHttpUtility
 			, array: IArrayUtility
 			, options: IParentResourceParams<TDataType, TResourceDictionaryType>) {
-		super($http, $q, array, options);
+		super(http, array, options);
 		this.resourceDictionaryBuilder = options.resourceDictionaryBuilder;
 	}
 
