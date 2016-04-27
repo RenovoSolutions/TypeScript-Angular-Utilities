@@ -1,5 +1,3 @@
-import * as ng from 'angular';
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
 export interface IMockPromiseService {
