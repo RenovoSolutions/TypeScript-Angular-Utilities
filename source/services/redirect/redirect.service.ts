@@ -1,15 +1,11 @@
 import { Injectable, Inject, Provider, OpaqueToken } from 'angular2/core';
+import {windowToken} from '../window/window.provider';
 
 export interface IRedirectService {
 	getCurrentLocationAsParam(): string;
 	to(target: string, newTab?: boolean): void;
 }
 
-export const windowToken: OpaqueToken = new OpaqueToken('The browser window');
-
-export const WINDOW_PROVIDER: Provider = new Provider(windowToken, {
-	useValue: window,
-});
 
 // This sevice implementation is browser specific and will NOT work for server side rendering!!!!
 
