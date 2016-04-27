@@ -1,19 +1,16 @@
+import { Injector } from 'angular2/core';
+
 import { ContractLibrary } from './contractLibrary';
-import { IBaseResourceBuilder, serviceName as resourceBuilderService } from '../resourceBuilder/resourceBuilder.service';
+import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../resourceBuilder/resourceBuilder.service';
 import { DataServiceView } from '../dataService/view/dataServiceView';
-import { DataService, ParentDataService, ParentSingletonDataService, moduleName } from '../dataContracts.module';
-
-import { angularFixture } from '../../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { DataService, ParentDataService, ParentSingletonDataService } from '../dataContracts.module';
 
 interface ITestChildResources {
 	childResource: DataService<number, void>;
 	resourceView: DataServiceView<number, void>;
 }
 
-function testChildBuilder(resourceBuilder: IBaseResourceBuilder): { (): ITestChildResources } {
+function testChildBuilder(resourceBuilder: IResourceBuilder): { (): ITestChildResources } {
 	return (): ITestChildResources => {
 		return <any>{
 			childResource: resourceBuilder.createResource<number, void>({
@@ -31,7 +28,7 @@ class TestLibrary extends ContractLibrary {
 	parent1: ParentDataService<number, void, ITestChildResources>;
 	parentSingleton: ParentSingletonDataService<number, ITestChildResources>;
 
-	constructor(resourceBuilder: IBaseResourceBuilder) {
+	constructor(resourceBuilder: IResourceBuilder) {
 		super(resourceBuilder, 'www.example.com/api');
 
 		this.resource1 = <any>this.createResource<number, void>({
@@ -50,14 +47,11 @@ class TestLibrary extends ContractLibrary {
 
 describe('contractLibrary', (): void => {
 	let testLibrary: TestLibrary;
-	let resourceBuilder: IBaseResourceBuilder;
+	let resourceBuilder: IResourceBuilder;
 
 	beforeEach((): void => {
-		angular.mock.module(moduleName);
-
-		let services: any = angularFixture.inject(resourceBuilderService);
-		resourceBuilder = services[resourceBuilderService];
-		testLibrary = new TestLibrary(resourceBuilder);
+		const injector: Injector = (<any>Injector).resolveAndCreate([RESOURCE_BUILDER_PROVIDER]);
+		testLibrary = new TestLibrary(injector.get(resourceBuilderToken));
 	});
 
 	describe('urls', (): void => {
