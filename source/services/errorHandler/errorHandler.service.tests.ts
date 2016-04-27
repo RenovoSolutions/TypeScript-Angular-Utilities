@@ -58,7 +58,7 @@ describe('errorHandler', () => {
 		errorHandler.httpResponseError(rejection);
 
 		sinon.assert.calledOnce(<Sinon.SinonSpy>redirect.to);
-		sinon.assert.calledWith(<Sinon.SinonSpy>redirect.to, 'login?returnUrl=myReturnUrl');
+		sinon.assert.calledWith(<Sinon.SinonSpy>redirect.to, '/login?returnUrl=myReturnUrl');
 	});
 
 	it('should show an error for insufficient permissions', (): void => {
