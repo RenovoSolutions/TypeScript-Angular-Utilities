@@ -5,13 +5,13 @@ interface IMockWindow {
 		pathname: string;
 		search: string;
 	};
-	open: Function;
-	focus: Function;
+	open: Sinon.SinonSpy;
+	focus:  Sinon.SinonSpy;
 }
 
 describe('RedirectService', () => {
 	let redirectService: IRedirectService;
-	let mockWindow: any;
+	let mockWindow: IMockWindow;
 
 	beforeEach(() => {
 		mockWindow = {
@@ -20,7 +20,7 @@ describe('RedirectService', () => {
 			focus: sinon.spy(),
 		};
 
-		redirectService = new RedirectService(mockWindow);
+		redirectService = new RedirectService(<any>mockWindow);
 	});
 
 	describe('getCurrentLocationAsParam', () => {
