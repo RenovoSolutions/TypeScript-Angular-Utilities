@@ -84,7 +84,7 @@ export const SINGLETON_DATA_SERVICE_PROVIDER: Provider = new Provider(singletonD
 	useClass: SingletonDataServiceFactory,
 });
 
-export const SingletonDataServiceProvider: { (options: ISingletonResourceParams<any>): Provider } = (options: ISingletonResourceParams<any>): Provider => {
+export function SingletonDataServiceProvider(options: ISingletonResourceParams<any>): Provider {
 	return provide(singletonDataServiceToken, {
 		deps: [httpToken],
 		useFactory: (http: IHttpUtility) => new SingletonDataService(http, options),

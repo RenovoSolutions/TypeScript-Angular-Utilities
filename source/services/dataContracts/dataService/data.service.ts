@@ -156,7 +156,7 @@ export const DATA_SERVICE_PROVIDER: Provider = new Provider(dataServiceToken, {
 	useClass: DataServiceFactory,
 });
 
-export const DataServiceProvider: { (options: IBaseResourceParams<any>): Provider } = (options: IBaseResourceParams<any>): Provider => {
+export function DataServiceProvider(options: IBaseResourceParams<any>): Provider {
 	return provide(dataServiceToken, {
 		deps: [httpToken, arrayToken],
 		useFactory: (http: IHttpUtility, array: IArrayUtility) => new DataService(http, array, options),
