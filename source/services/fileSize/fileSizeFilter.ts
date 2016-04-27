@@ -1,21 +1,21 @@
-'use strict';
+import { Inject, Pipe, PipeTransform } from 'angular2/core';
 
-import { factoryName, IFileSizeFactory, IFileSize } from './fileSize.service';
+import { INumberUtility, numberUtilityToken } from '../number/number.service';
+
+import { FileSize } from './fileSize.service';
 
 // Formats and optionally truncates and ellipsimogrifies a string for display in a card header
 
-export var simpleFilterName: string = 'fileSize';
-export var filterName: string = simpleFilterName + 'Filter';
+@Pipe({ name: 'fileSize'})
+class FileSizePipe implements PipeTransform {
+	private numberUtility: INumberUtility;
 
-export interface IFileSizeFilter {
-	(bytes?: number): string;
-}
+	constructor(@Inject(numberUtilityToken) numberUtility: INumberUtility) {
+		this.numberUtility = numberUtility;
+	}
 
-fileSizeFilter.$inject = [factoryName];
-export function fileSizeFilter(fileSizeFactory: IFileSizeFactory): IFileSizeFilter {
-	'use strict';
-	return (bytes?: number): string => {
-		var fileSize: IFileSize = fileSizeFactory.getInstance(bytes);
+	transform(bytes: number): string {
+		var fileSize: FileSize = new FileSize(this.numberUtility, bytes);
 		return fileSize.display();
-	};
+	}
 }

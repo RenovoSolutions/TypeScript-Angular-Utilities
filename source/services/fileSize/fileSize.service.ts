@@ -1,14 +1,6 @@
-'use strict';
+import { INumberUtility } from '../number/number.service';
 
-import { INumberUtility, serviceName as numberServiceName } from '../number/number.service';
-
-export var factoryName: string = 'fileSizeFactory';
-
-export interface IFileSize {
-	display(): string;
-}
-
-class FileSizeService implements IFileSize {
+export class FileSize {
 	BYTES_PER_GB: number = 1073741824;
 	BYTES_PER_MB: number = 1048576;
 	BYTES_PER_KB: number = 1024;
@@ -65,18 +57,4 @@ class FileSizeService implements IFileSize {
 			return this.bytes + ' bytes';
 		}
 	}
-}
-
-export interface IFileSizeFactory {
-	getInstance(bytes: number): IFileSize;
-}
-
-fileSizeFactory.$inject = [numberServiceName];
-export function fileSizeFactory(numberUtility: INumberUtility): IFileSizeFactory {
-	'use strict';
-	return {
-		getInstance(bytes: number): IFileSize {
-			return new FileSizeService(numberUtility, bytes);
-		},
-	};
 }
