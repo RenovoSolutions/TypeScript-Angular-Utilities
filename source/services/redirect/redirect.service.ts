@@ -7,7 +7,7 @@ export interface IRedirectService {
 
 export const windowToken: OpaqueToken = new OpaqueToken('The browser window');
 
-export const WINDOW_PROVIDER = new Provider(windowToken, {
+export const WINDOW_PROVIDER: Provider = new Provider(windowToken, {
 	useValue: window,
 });
 
@@ -36,3 +36,9 @@ export class RedirectService implements IRedirectService {
 		}
 	}
 }
+
+export const redirectToken: OpaqueToken = new OpaqueToken('A service for redirecting to a new page');
+
+export const REDIRECT_PROVIDER: Provider = new Provider(redirectToken, {
+	useClass: RedirectService,
+});

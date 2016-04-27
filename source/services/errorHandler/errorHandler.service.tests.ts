@@ -1,19 +1,20 @@
-import * as angular from 'angular';
-import 'angular-mocks';
-
-import { angularFixture } from '../test/angularFixture';
+import { Injector } from 'angular2/core';
+import { inject, beforeEachProviders } from 'angular2/testing';
 
 import {
-	moduleName,
-	serviceName,
+	defaultErrorsToken,
+	DEFAULT_ERROR_PROVIDERS,
+	defaultLoginUrlSettingsToken,
+	DEFAULT_LOGIN_URL_PROVIDERS,
+	ErrorHandlerService,
 	IErrorHandlerService,
 	IRejection,
 	HttpStatusCode,
+	IErrorMessages,
+	ILoginUrlSettings,
 } from './errorHandler.service';
 
-interface IWindowMock {
-	location: any;
-}
+import { IRedirectService } from '../redirect/redirect.service';
 
 interface INotificationMock {
 	error: Sinon.SinonSpy;
@@ -21,40 +22,51 @@ interface INotificationMock {
 
 describe('errorHandler', () => {
 	var errorHandler: IErrorHandlerService;
-	var $window: IWindowMock;
+	var redirect: IRedirectService;
 	var notification: INotificationMock;
+	var returnUrl: string;
+
+	// specifies providers for angular to provide for the tests
+	beforeEachProviders(() => [DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS]);
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		$window = {
-			location: {
-				pathname: '/path',
-				search: '?x=123',
+		redirect = {
+			getCurrentLocationAsParam: () => {
+				return returnUrl;
 			},
+			to: sinon.spy(),
 		};
 
 		notification = {
 			error: sinon.spy(),
 		};
 
-		angularFixture.mock({
-			$window: $window,
-			notification: notification,
-		});
+		const exceptionHandler: any = {
+			call: sinon.spy(),
+		};
 
-		var services: any = angularFixture.inject(serviceName);
-		errorHandler = services[serviceName];
+		// inject the specified providers and use them to new up an error handler
+		inject([defaultErrorsToken, defaultLoginUrlSettingsToken], (errorMessages: IErrorMessages, loginSettings: ILoginUrlSettings): void => {
+			errorHandler = new ErrorHandlerService(
+				redirect,
+				exceptionHandler,
+				<any>notification,
+				errorMessages,
+				loginSettings
+			);
+		});
 	});
 
 	it('should redirect the user to the login page with a redirect url on an unauthorized error', (): void => {
 		var rejection: IRejection = {
 			status: HttpStatusCode.unauthorized
 		};
+		returnUrl = 'myReturnUrl';
 
 		errorHandler.httpResponseError(rejection);
 
-		expect($window.location).to.equal('/login?returnUrl=%2Fpath%3Fx%3D123');
+		sinon.assert.calledOnce(<Sinon.SinonSpy>redirect.to);
+		sinon.assert.calledWith(<Sinon.SinonSpy>redirect.to, 'login?returnUrl=myReturnUrl');
 	});
 
 	it('should show an error for insufficient permissions', (): void => {

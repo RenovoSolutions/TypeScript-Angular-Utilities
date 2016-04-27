@@ -1,15 +1,8 @@
-﻿'use strict';
+﻿import { Injectable, Provider, Inject, ExceptionHandler, OpaqueToken } from 'angular2/core';
 
-import * as ng from 'angular';
+import { INotificationService } from '../notification/notification.service';
 
-import {
-	INotificationService,
-	serviceName as notificationServiceName,
-	moduleName as notificationModuleName,
-} from '../notification/notification.service';
-
-export var moduleName: string = 'rl21.services.errorHandler';
-export var serviceName: string = 'errorHandler';
+import { IRedirectService, redirectToken } from '../redirect/redirect.service';
 
 export enum HttpStatusCode {
 	cancelledRequest = -1,
@@ -41,13 +34,55 @@ export interface IErrorMessages {
 	goneError: string;
 }
 
+export interface ILoginUrlSettings {
+	loginUrl: string;
+	returnUrlParam: string;
+}
+
+
+export const defaultErrorsToken: OpaqueToken = new OpaqueToken('List of default errors for the error handler');
+
+export const DEFAULT_ERROR_PROVIDERS: Provider = new Provider(defaultErrorsToken, {
+	useValue: {
+		badRequestError: 'Your request failed one or more validation checks.',
+		forbiddenError: 'You have insufficient permissions to perform this action',
+		invalidUrlError: 'Resource not found. This issue has been logged',
+		timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
+		internalServerError: 'The system has encountered an error. This issue has been logged.' +
+		' Please contact support if you are unable to complete critical tasks',
+		defaultError: 'Http status code not handled',
+		goneError: 'The requested resource is no longer available.',
+	},
+});
+
+export const defaultLoginUrlSettingsToken: OpaqueToken = new OpaqueToken('Default login url information');
+
+export const DEFAULT_LOGIN_URL_PROVIDERS: Provider = new Provider(defaultLoginUrlSettingsToken, {
+	useValue: {
+		loginUrl: '/login',
+		returnUrlParam: 'returnUrl',
+	},
+});
+
+@Injectable()
 export class ErrorHandlerService implements IErrorHandlerService {
-	constructor(private $window: ng.IWindowService
-		, private $exceptionHandler: ng.IExceptionHandlerService
-		, private notification: INotificationService
-		, private loginUrl: string
-		, private errorMessages: IErrorMessages
-		, private returnUrlParam: string) { }
+	private redirect: IRedirectService;
+	private exceptionHandler: ExceptionHandler;
+	private notification: INotificationService;
+	private loginSettings: ILoginUrlSettings;
+	private errorMessages: IErrorMessages;
+
+	constructor(@Inject(redirectToken) redirect: IRedirectService
+		, exceptionHandler: ExceptionHandler
+		, notification: INotificationService
+		, @Inject(defaultErrorsToken) errorMessages: IErrorMessages
+		, @Inject(defaultLoginUrlSettingsToken) loginSettings: ILoginUrlSettings) {
+		this.redirect = redirect;
+		this.exceptionHandler = exceptionHandler;
+		this.notification = notification;
+		this.errorMessages = errorMessages;
+		this.loginSettings = loginSettings;
+	}
 
 	httpResponseError(rejection: IRejection): void {
 		switch (rejection.status) {
@@ -76,25 +111,25 @@ export class ErrorHandlerService implements IErrorHandlerService {
 				// cancelled request
 				break;
 			default:
-				this.$exceptionHandler(new Error(this.errorMessages.defaultError));
-				this.$exceptionHandler(new Error('Status: ' + rejection.status));
-				this.$exceptionHandler(new Error('Response: ' + rejection));
+				this.exceptionHandler.call(new Error(this.errorMessages.defaultError));
+				this.exceptionHandler.call(new Error('Status: ' + rejection.status));
+				this.exceptionHandler.call(new Error('Response: ' + rejection));
 				break;
 		}
 	}
 
-	private badRequestError(rejection: IRejection) {
+	private badRequestError(rejection: IRejection): void {
 		if (rejection.data) {
-			return this.notification.error(rejection.data);
+			this.notification.error(rejection.data);
+		} else {
+			this.notification.error(this.errorMessages.badRequestError);
 		}
-		return this.notification.error(this.errorMessages.badRequestError);
 	}
 
 	private loggedOutError(): void {
-		let baseUrl: string = this.$window.location.pathname;
-		let queryString: string = this.$window.location.search || '';
-		let returnUrl: string = encodeURIComponent(baseUrl + queryString);
-		this.$window.location = <any>(this.loginUrl + '?' + this.returnUrlParam + '=' + returnUrl);
+		const returnUrl: string = this.redirect.getCurrentLocationAsParam();
+		const target: string = this.loginSettings.loginUrl + '?' + this.loginSettings.returnUrlParam + '=' + returnUrl;
+		this.redirect.to(target);
 	}
 
 	private insufficientPermissionsError(): void {
@@ -117,43 +152,3 @@ export class ErrorHandlerService implements IErrorHandlerService {
 		this.notification.error(this.errorMessages.goneError);
 	}
 }
-
-export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
-	loginUrl: string;
-	errorMessages: IErrorMessages;
-	returnUrlParam: string;
-	$get($window: ng.IWindowService
-		, $exceptionHandler: ng.IExceptionHandlerService
-		, notification: INotificationService): IErrorHandlerService;
-}
-
-class ErrorHandlerServiceProvider implements IErrorHandlerServiceProvider {
-	loginUrl: string;
-	errorMessages: IErrorMessages;
-	returnUrlParam: string;
-
-	constructor() {
-		this.loginUrl = '/login';
-		this.errorMessages = {
-			badRequestError: 'Your request failed one or more validation checks.',
-			forbiddenError: 'You have insufficient permissions to perform this action',
-			invalidUrlError: 'Resource not found. This issue has been logged',
-			timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
-			internalServerError: 'The system has encountered an error. This issue has been logged.' +
-			' Please contact support if you are unable to complete critical tasks',
-			defaultError: 'Http status code not handled',
-			goneError: 'The requested resource is no longer available.'
-		};
-		this.returnUrlParam = 'returnUrl';
-		this.$get.$inject = ['$window', '$exceptionHandler', notificationServiceName];
-	}
-
-	$get: any = ($window: ng.IWindowService
-		, $exceptionHandler: ng.IExceptionHandlerService
-		, notification: INotificationService): IErrorHandlerService => {
-		return new ErrorHandlerService($window, $exceptionHandler, notification, this.loginUrl, this.errorMessages, this.returnUrlParam);
-	}
-}
-
-angular.module(moduleName, [notificationModuleName])
-	.provider(serviceName, new ErrorHandlerServiceProvider());
