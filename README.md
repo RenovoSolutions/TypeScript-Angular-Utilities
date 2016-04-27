@@ -11,9 +11,9 @@ Contains Angular filters, which can be applied to bindings using the Angular pip
 
 Contains interfaces for several types of filters. Also an abstract base class for defining serializable filters.
 
-* [isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/documentation.md)
+* [isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/isEmpty.md)
 
-* [truncate](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/truncate/documentation.md)
+* [truncate](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/truncate/truncate.md)
 
 ## Services
 Contains miscellaneous tools and utilities for working with objects and other useful tasks.
