@@ -78,14 +78,14 @@ export class SingletonDataServiceFactory {
 	}
 }
 
-export const dataServiceToken: OpaqueToken = new OpaqueToken('A service for making http requests against a singleton REST endpoint');
+export const singletonDataServiceToken: OpaqueToken = new OpaqueToken('A service for making http requests against a singleton REST endpoint');
 
-export const DATA_SERVICE_PROVIDER: Provider = new Provider(dataServiceToken, {
+export const SINGLETON_DATA_SERVICE_PROVIDER: Provider = new Provider(singletonDataServiceToken, {
 	useClass: SingletonDataServiceFactory,
 });
 
 export const SingletonDataServiceProvider: { (options: ISingletonResourceParams<any>): Provider } = (options: ISingletonResourceParams<any>): Provider => {
-	return provide(dataServiceToken, {
+	return provide(singletonDataServiceToken, {
 		deps: [httpToken],
 		useFactory: (http: IHttpUtility) => new SingletonDataService(http, options),
 	});
