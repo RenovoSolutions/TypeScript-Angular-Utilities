@@ -2,14 +2,14 @@ import { OpaqueToken, Provider } from 'angular2/core';
 
 import * as _ from 'lodash';
 
-export interface IStringUtilityService {
+export interface IStringUtility {
 	toNumber(string: string): number;
 	contains(str: string, substring?: string): boolean;
 	substitute(formatString: string, ...params: string[]): string;
 	replaceAll(str: string, patternToFind: string, replacementString: string): string;
 }
 
-export class StringUtilityService implements IStringUtilityService {
+export class StringUtility implements IStringUtility {
 	toNumber(string: string): number {
 		return +string;
 	}
@@ -34,10 +34,10 @@ export class StringUtilityService implements IStringUtilityService {
 	}
 }
 
-export let stringUtility: IStringUtilityService = new StringUtilityService();
+export let stringUtility: IStringUtility = new StringUtility();
 
 export const stringToken: OpaqueToken = new OpaqueToken('A service for working with strings');
 
 export const STRING_PROVIDER: Provider = new Provider(stringToken, {
-	useClass: StringUtilityService,
+	useClass: StringUtility,
 });
