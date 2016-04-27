@@ -8,7 +8,6 @@ import * as errorHandler from './errorHandler/errorHandler.service';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 import * as guid from './guid/guid.service';
-import * as moment from './moment/moment.module';
 import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
