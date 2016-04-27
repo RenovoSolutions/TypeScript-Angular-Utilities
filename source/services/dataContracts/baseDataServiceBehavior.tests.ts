@@ -1,12 +1,9 @@
-import { IBaseDataServiceBehavior, BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavior';
-import { moduleName } from './dataContracts.module';
+import { BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavior';
 
-import { IArrayUtility, serviceName as arrayService, moduleName as arrayModule } from '../array/array.service';
+import { arrayUtility } from '../array/array.service';
+import { IHttpUtility } from '../http/http.service';
 
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { IMockedPromise, mock } from '../test/test.module';
 
 interface ITestMock {
 	id?: number;
@@ -26,27 +23,24 @@ interface IComplexTestMock {
 
 describe('base data service behavior', () => {
 	let dataServiceBehavior: BaseDataServiceBehavior<ITestMock>;
+	let mockHttp: IHttpUtility;
 
 	beforeEach(() => {
-		angular.mock.module(arrayModule);
-		angular.mock.module(moduleName);
+		mockHttp = <any>{
+			get: null,
+			put: null,
+			post: null,
+			delete: null,
+		};
 	});
 
 	describe('use http', (): void => {
-		let $httpBackend: angular.IHttpBackendService;
 		let testUrl: string;
 
 		beforeEach((): void => {
-			let services: any = angularFixture.inject('$httpBackend', '$q', '$http');
-			$httpBackend = services.$httpBackend;
-
 			testUrl = '/api/test';
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
-		});
 
-		afterEach((): void => {
-			$httpBackend.verifyNoOutstandingExpectation();
-			$httpBackend.verifyNoOutstandingRequest();
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(mockHttp, null);
 		});
 
 		it('should make an http request to get a list of data', (done: MochaDone): void => {
@@ -58,7 +52,8 @@ describe('base data service behavior', () => {
 				{ id: 5 },
 			];
 
-			$httpBackend.expectGET(testUrl).respond(200, mockList);
+			const mockGet: IMockedPromise<ITestMock[]> = mock.promise(mockList);
+			mockHttp.get = mockGet;
 
 			dataServiceBehavior.getList({
 				endpoint: testUrl,
@@ -76,7 +71,10 @@ describe('base data service behavior', () => {
 				done();
 			});
 
-			$httpBackend.flush();
+			sinon.assert.calledOnce(mockGet);
+			sinon.assert.calledWith(mockGet, testUrl, null);
+
+			mockGet.flush();
 		});
 
 		it('should make a POST request to search the data', (done: MochaDone): void => {
@@ -92,14 +90,15 @@ describe('base data service behavior', () => {
 				dataSet: mockList,
 			};
 
-			$httpBackend.expectPOST(testUrl, 'search').respond(200, searchObject);
+			const mockPost: IMockedPromise<ITestMock[]> = mock.promise(mockList);
+			mockHttp.post = mockPost;
 
 			dataServiceBehavior.search<ISearchResult<ITestMock>>({
 				endpoint: testUrl,
 				useMock: false,
 				logRequests: false,
 				getMockData: null,
-				params: 'search',
+				params: searchObject,
 			}).then((result: ISearchResult<ITestMock>): void => {
 				let data: ITestMock[] = result.dataSet;
 				expect(data).to.have.length(5);
@@ -111,14 +110,18 @@ describe('base data service behavior', () => {
 				done();
 			});
 
-			$httpBackend.flush();
+			sinon.assert.calledOnce(mockPost);
+			sinon.assert.calledWith(mockPost, searchObject);
+
+			mockPost.flush();
 		});
 
 		it('should make an http request to get a domain object', (done: MochaDone): void => {
 			let id: number = 1;
 			let mockItem: ITestMock = { id: id };
 
-			$httpBackend.expectGET(testUrl).respond(200, mockItem);
+			const mockGet: IMockedPromise<ITestMock> = mock.promise(mockItem);
+			mockHttp.get = mockGet;
 
 			dataServiceBehavior.getItem({
 				endpoint: testUrl,
@@ -130,13 +133,17 @@ describe('base data service behavior', () => {
 				done();
 			});
 
-			$httpBackend.flush();
+			sinon.assert.calledOnce(mockGet);
+			sinon.assert.calledWith(mockGet, testUrl);
+
+			mockGet.flush();
 		});
 
 		it('should make an http request to create a domain object', (done: MochaDone): void => {
 			let mockItem: ITestMock = { id: 1 };
 
-			$httpBackend.expectPOST(testUrl, mockItem).respond(200, mockItem);
+			const mockPost: IMockedPromise<ITestMock> = mock.promise(mockItem);
+			mockHttp.post = mockPost;
 
 			dataServiceBehavior.create({
 				domainObject: mockItem,
@@ -149,13 +156,17 @@ describe('base data service behavior', () => {
 				done();
 			});
 
-			$httpBackend.flush();
+			sinon.assert.calledOnce(mockPost);
+			sinon.assert.calledWith(mockPost, testUrl, mockItem);
+
+			mockPost.flush();
 		});
 
 		it('should make an http request to save an existing domain object', (done: MochaDone): void => {
 			let mockItem: ITestMock = { id: 1 };
 
-			$httpBackend.expectPUT(testUrl, mockItem).respond(200, mockItem);
+			const mockPut: IMockedPromise<ITestMock> = mock.promise(mockItem);
+			mockHttp.put = mockPut;
 
 			dataServiceBehavior.update({
 				domainObject: mockItem,
@@ -168,13 +179,17 @@ describe('base data service behavior', () => {
 				done();
 			});
 
-			$httpBackend.flush();
+			sinon.assert.calledOnce(mockPut);
+			sinon.assert.calledWith(mockPut, testUrl, mockItem);
+
+			mockPut.flush();
 		});
 
 		it('should make an http request to delete an existing domain object', (done: MochaDone): void => {
 			let mockItem: ITestMock = { id: 1 };
 
-			$httpBackend.expectDELETE(testUrl).respond(200);
+			const mockDelete: IMockedPromise<void> = mock.promise();
+			mockHttp.delete = mockDelete;
 
 			dataServiceBehavior.delete({
 				domainObject: mockItem,
@@ -186,14 +201,15 @@ describe('base data service behavior', () => {
 				done();
 			});
 
-			$httpBackend.flush();
+			sinon.assert.calledOnce(mockDelete);
+			sinon.assert.calledWith(mockDelete, testUrl);
+
+			mockDelete.flush();
 		});
 	});
 
 	describe('use mock', (): void => {
-		let $rootScope: angular.IRootScopeService;
 		let dataSet: ITestMock[];
-		let array: IArrayUtility;
 
 		beforeEach((): void => {
 			dataSet = [
@@ -202,11 +218,7 @@ describe('base data service behavior', () => {
 				{ id: 3, prop: 'item3' },
 			];
 
-			let services: any = angularFixture.inject('$rootScope', '$q', '$http', arrayService);
-			$rootScope = services.$rootScope;
-			array = services[arrayService];
-
-			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(services.$http, services.$q, null);
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(mockHttp, null);
 		});
 
 		it('should get the mocked data set', (done: MochaDone): void => {
@@ -223,8 +235,6 @@ describe('base data service behavior', () => {
 				expect(data[2]).to.equal(dataSet[2]);
 				done();
 			});
-
-			$rootScope.$digest();
 		});
 
 		it('should get the mocked data set wrapped in a dataSet property', (done: MochaDone): void => {
@@ -242,8 +252,6 @@ describe('base data service behavior', () => {
 				expect(data[2]).to.equal(dataSet[2]);
 				done();
 			});
-
-			$rootScope.$digest();
 		});
 
 		it('should get an item from the mocked data set', (done: MochaDone): void => {
@@ -256,8 +264,6 @@ describe('base data service behavior', () => {
 				expect(data).to.equal(dataSet[1]);
 				done();
 			});
-
-			$rootScope.$digest();
 		});
 
 		it('should create an item and call the add callback to add it to the mock data set', (done: MochaDone): void => {
@@ -276,8 +282,6 @@ describe('base data service behavior', () => {
 				expect(data).to.equal(newItem);
 				done();
 			});
-
-			$rootScope.$digest();
 
 			sinon.assert.calledOnce(addSpy);
 			sinon.assert.calledWith(addSpy, newItem);
@@ -301,8 +305,6 @@ describe('base data service behavior', () => {
 				done();
 			});
 
-			$rootScope.$digest();
-
 			sinon.assert.calledOnce(updateSpy);
 			sinon.assert.calledWith(updateSpy, updatedItem);
 			expect(dataSet[1]).to.equal(updatedItem);
@@ -311,7 +313,7 @@ describe('base data service behavior', () => {
 		it('should delete an item', (): void => {
 			let removedItem: ITestMock = dataSet[1];
 			let removeSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
-				array.remove(dataSet, item);
+				arrayUtility.remove(dataSet, item);
 			});
 
 			dataServiceBehavior.delete({
@@ -321,8 +323,6 @@ describe('base data service behavior', () => {
 				endpoint: null,
 				logRequests: false,
 			});
-
-			$rootScope.$digest();
 
 			sinon.assert.calledOnce(removeSpy);
 			sinon.assert.calledWith(removeSpy, removedItem);
