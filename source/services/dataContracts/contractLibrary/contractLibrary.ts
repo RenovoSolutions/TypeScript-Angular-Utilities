@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 
 import {
-	IBaseResourceBuilder,
-	BaseResourceBuilder,
+	IResourceBuilder,
+	ResourceBuilder,
 	IBaseResourceParams,
 	IParentResourceParams,
 	ISingletonResourceParams,
@@ -55,10 +55,10 @@ export interface IContractLibrary {
 }
 
 export class ContractLibrary implements IContractLibrary {
-	private builder: IBaseResourceBuilder;
+	private builder: IResourceBuilder;
 	baseEndpoint: string;
 
-	constructor(builder: IBaseResourceBuilder, baseEndpoint?: string) {}
+	constructor(builder: IResourceBuilder, baseEndpoint?: string) {}
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		let resource: any = this.builder.createResource(options);

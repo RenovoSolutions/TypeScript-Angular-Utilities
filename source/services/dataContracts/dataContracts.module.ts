@@ -17,7 +17,7 @@ export { IDataServiceView, IParentDataServiceView } from './dataService/view/dat
 export * from './dataService/parent/parentData.service';
 export { ISingletonDataService, ISingletonDataServiceFactory, SingletonDataService, factoryName as baseSingletonDataServiceFactoryName } from './singletonDataService/singletonData.service';
 export * from './singletonDataService/parent/parentSingletonData.service';
-export { IBaseResourceBuilder, serviceName as builderServiceName } from './resourceBuilder/resourceBuilder.service';
+export { IResourceBuilder, serviceName as builderServiceName } from './resourceBuilder/resourceBuilder.service';
 export { converters, mocks };
 
 angular.module(moduleName, [
