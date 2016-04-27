@@ -1,5 +1,3 @@
-'use strict';
-
 export var dateTimeFormatServiceName: string = 'dateTimeFormatStrings';
 
 export interface IDateFormatStrings {

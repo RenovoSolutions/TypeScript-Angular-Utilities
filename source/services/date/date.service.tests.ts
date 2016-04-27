@@ -1,15 +1,10 @@
-import { moduleName } from './date.module';
-import { IDateUtility, IDateValue, serviceName } from './date.service';
+import { IDateUtility, IDateValue, DateUtility } from './date.service';
 import { defaultFormats } from './dateTimeFormatStrings';
 import { timezones } from '../timezone/timezone.enum';
 import { timezoneService } from '../timezone/timezone.service';
 
 import { CompareResult } from '../../types/compareResult';
 
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
 import * as moment from 'moment';
 import 'moment-timezone';
 
@@ -17,10 +12,7 @@ describe('dateUtility', () => {
 	let dateUtility: IDateUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		let services: any = angularFixture.inject(serviceName);
-		dateUtility = services[serviceName];
+		dateUtility = new DateUtility();
 	});
 
 	describe('getFullString', (): void => {
