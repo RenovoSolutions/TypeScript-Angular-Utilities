@@ -1,4 +1,5 @@
-import { Injectable, Provider, OpaqueToken } from 'angular2/core';
+import { Injectable, Provider, OpaqueToken, Inject } from 'angular2/core';
+import {windowToken} from '../window/window.provider';
 
 export interface INotificationService {
 	info(message: string): void;
@@ -9,6 +10,11 @@ export interface INotificationService {
 
 @Injectable()
 export class NotificationService implements INotificationService {
+	private window: Window;
+
+	constructor( @Inject(windowToken) window: Window) {
+		this.window = window;
+	}
 
 	info(message: string): void {
 		this.notify(message);
@@ -27,7 +33,7 @@ export class NotificationService implements INotificationService {
 	}
 
 	private notify(message: string): void {
-		window.alert(message);
+		this.window.alert(message);
 		console.log(message);
 	}
 }
