@@ -1,5 +1,4 @@
 import { Injector } from 'angular2/core';
-import { inject, beforeEachProviders } from 'angular2/testing';
 
 import {
 	defaultErrorsToken,
@@ -10,8 +9,6 @@ import {
 	IErrorHandlerService,
 	IRejection,
 	HttpStatusCode,
-	IErrorMessages,
-	ILoginUrlSettings,
 } from './errorHandler.service';
 
 import { IRedirectService } from '../redirect/redirect.service';
@@ -25,9 +22,6 @@ describe('errorHandler', () => {
 	var redirect: IRedirectService;
 	var notification: INotificationMock;
 	var returnUrl: string;
-
-	// specifies providers for angular to provide for the tests
-	beforeEachProviders(() => [DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS]);
 
 	beforeEach(() => {
 		redirect = {
@@ -45,16 +39,14 @@ describe('errorHandler', () => {
 			call: sinon.spy(),
 		};
 
-		// inject the specified providers and use them to new up an error handler
-		inject([defaultErrorsToken, defaultLoginUrlSettingsToken], (errorMessages: IErrorMessages, loginSettings: ILoginUrlSettings): void => {
-			errorHandler = new ErrorHandlerService(
-				redirect,
-				exceptionHandler,
-				<any>notification,
-				errorMessages,
-				loginSettings
-			);
-		});
+		const injector: Injector = (<any> Injector).resolveAndCreate([DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS]);
+		errorHandler = new ErrorHandlerService(
+			redirect,
+			exceptionHandler,
+			<any>notification,
+			injector.get(defaultErrorsToken),
+			injector.get(defaultLoginUrlSettingsToken)
+		);
 	});
 
 	it('should redirect the user to the login page with a redirect url on an unauthorized error', (): void => {
@@ -126,7 +118,7 @@ describe('errorHandler', () => {
 	});
 
 	it('should show a custom error for bad request error', (): void => {
-		var errorMessage = "An error occurred"
+		var errorMessage: string = 'An error occurred';
 
 		var rejection: IRejection = {
 			status: HttpStatusCode.badRequest,
