@@ -55,7 +55,7 @@ describe('dateUtility', () => {
 		it('should be true if item is a date or a string, date, or moment format', (): void => {
 			expect(dateUtility.isDate('1/1/2014')).to.be.true;
 			expect(dateUtility.isDate(new Date('1/1/2014'))).to.be.true;
-			expect(dateUtility.isDate(moment('1/1/2014'))).to.be.true;
+			expect(dateUtility.isDate(moment('2014-01-01'))).to.be.true;
 		});
 
 		it('should return false if object is not a date', (): void => {
@@ -324,7 +324,7 @@ describe('dateUtility', () => {
 			expect(dateUtility.dateInRange(new Date(2016, 4, 1), new Date(2016, 3, 1), new Date(2016, 5, 1))).to.be.true;
 		});
 		it('should return true if the date is within the range for moments', (): void => {
-			expect(dateUtility.dateInRange(moment('4/1/2016'), moment('3/1/2016'), moment('5/1/2016'))).to.be.true;
+			expect(dateUtility.dateInRange(moment('2016-04-01'), moment('2016-03-01'), moment('2016-05-01'))).to.be.true;
 		});
 
 		it('should handle nulls', (): void => {
@@ -341,7 +341,7 @@ describe('dateUtility', () => {
 			let date2 = new Date(1995, 11, 18, 3, 24, 0);
 			expect(dateUtility.sameDate(date1, date2)).to.be.false;
 			expect(dateUtility.sameDate('2015-1-1T00:00:00-07:00', '2016-1-1T00:00:00-07:00')).to.be.false;
-			expect(dateUtility.sameDate(moment('4/1/2016'), moment('5/1/2016'))).to.be.false;
+			expect(dateUtility.sameDate(moment('2016-04-01'), moment('2016-05-01'))).to.be.false;
 		});
 
 		it('should return true if the dates are the same date', (): void => {
@@ -349,7 +349,7 @@ describe('dateUtility', () => {
 			let date2 = new Date(1995, 11, 17, 3, 24, 0);
 			expect(dateUtility.sameDate(date1, date2)).to.be.true;
 			expect(dateUtility.sameDate('2015-1-1T11:11:11-07:00', '2015-1-1T15:15:15-07:00')).to.be.true;
-			expect(dateUtility.sameDate(moment('4/1/2016'), moment('4/1/2016'))).to.be.true;
+			expect(dateUtility.sameDate(moment('2016-04-01'), moment('2016-04-01'))).to.be.true;
 		});
 
 		it('should handle nulls', (): void => {

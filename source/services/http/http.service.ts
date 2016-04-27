@@ -14,7 +14,7 @@ export interface IHttpUtility {
 
 @Injectable()
 export class HttpUtility implements IHttpUtility {
-	private http;
+	private http: Http;
 
 	constructor(http: Http) {
 		this.http = http;

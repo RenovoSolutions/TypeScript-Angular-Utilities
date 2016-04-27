@@ -25,7 +25,7 @@ describe('timezone service', (): void => {
 	});
 
 	it('should build a moment with the correct time and timezone', (): void => {
-		let dateTimeString: string = '2/1/2016 12:00 PM';
+		let dateTimeString: string = '2016-02-01T12:00';
 		let convertedDateTimeString: moment.Moment = timezoneService.buildMomentWithTimezone(dateTimeString, timezones.MST);
 		expect(convertedDateTimeString.tz()).to.equal(timezones.MST.momentName);
 		expect(convertedDateTimeString).to.equalMoment('2016-02-01T12:00:00-07:00');
