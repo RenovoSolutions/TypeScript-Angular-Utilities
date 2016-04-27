@@ -1,5 +1,3 @@
-'use strict';
-
 import * as _ from 'lodash';
 
 import { ISimpleValidator, IErrorHandler, IUnregisterFunction, IValidationHandler } from './validationTypes';

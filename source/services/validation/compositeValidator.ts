@@ -1,8 +1,6 @@
-'use strict';
-
 import * as _ from 'lodash';
 
-import { ICompositeValidator, ISimpleValidator, IErrorHandler, IUnregisterFunction, IValidationHandler } from './validationTypes';
+import { ICompositeValidator, ISimpleValidator, IErrorHandler } from './validationTypes';
 import { Validator } from './validator';
 
 interface IRegisteredValidator extends ISimpleValidator {

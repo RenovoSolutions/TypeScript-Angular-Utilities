@@ -1,16 +1,10 @@
 import {
 	IUnregisterFunction,
+	ValidationService,
 	IValidationService,
-	moduleName,
-	serviceName,
 	ISimpleValidator,
 	ICompositeValidator,
 } from './validation.service';
-
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
 
 interface IMockValidationHandler {
 	validate: Sinon.SinonSpy;
@@ -30,21 +24,14 @@ describe('validation', () => {
 	let showErrorSpy: Sinon.SinonSpy;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
 		showErrorSpy = sinon.spy();
 
-		notification = {
+		notification = <any> {
 			error: sinon.spy(),
 			warning: sinon.spy(),
 		};
 
-		angularFixture.mock({
-			notification: notification,
-		});
-
-		let services: any = angularFixture.inject(serviceName);
-		validationService = services[serviceName];
+		validationService = new ValidationService(<any> notification);
 		validator = validationService.buildCustomValidator(showErrorSpy);
 	});
 
