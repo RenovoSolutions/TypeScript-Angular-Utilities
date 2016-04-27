@@ -1,26 +1,21 @@
-'use strict';
+import { Inject, Provider, OpaqueToken } from 'angular2/core';
 
-import * as angular from 'angular';
 import * as _ from 'lodash';
 import * as Rx from 'rx';
 
 import {
-	moduleName as objectModuleName,
-	serviceName as objectServiceName,
 	IObjectUtility,
+	objectToken,
 } from '../object/object.service';
 
 import {
-	moduleName as stringModuleName,
-	serviceName as stringServiceName,
 	IStringUtilityService,
+	stringToken,
 } from '../string/string.service';
 import { searchUtility } from '../search/search.service';
 
-import { ISerializableFilter, SerializableFilter, IValueChangeCallback } from '../../filters/filter';
+import { ISerializableFilter, SerializableFilter } from '../../filters/filter';
 
-export var moduleName: string = 'rl.utilities.services.genericSearchFilter';
-export var factoryName: string = 'genericSearchFilterFactory';
 export var filterName: string = 'search';
 
 export interface IGenericSearchFilter extends ISerializableFilter<string> {
@@ -75,11 +70,8 @@ export interface IGenericSearchFilterFactory {
 	getInstance(tokenized?: boolean): IGenericSearchFilter;
 }
 
-genericSearchFilterFactory.$inject = [objectServiceName, stringServiceName];
-function genericSearchFilterFactory(object: IObjectUtility,
-	stringUtility: IStringUtilityService): IGenericSearchFilterFactory {
-
-	'use strict';
+export function genericSearchFilterFactory(@Inject(objectToken) object: IObjectUtility,
+	@Inject(stringToken) stringUtility: IStringUtilityService): IGenericSearchFilterFactory {
 
 	return {
 		getInstance(tokenized?: boolean): IGenericSearchFilter {
@@ -88,5 +80,8 @@ function genericSearchFilterFactory(object: IObjectUtility,
 	};
 }
 
-angular.module(moduleName, [objectModuleName, stringModuleName])
-	.factory(factoryName, genericSearchFilterFactory);
+export const genericSearchFilterToken: OpaqueToken = new OpaqueToken('A factory for getting generic search filters');
+
+export const GENERIC_SEARCH_FILTER_PROVIDER: Provider = new Provider(genericSearchFilterToken, {
+	useFactory: genericSearchFilterFactory
+});
