@@ -39,8 +39,9 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 	logRequests: boolean;
 
 	constructor(@Inject(httpToken) http: IHttpUtility
-			, @Inject(arrayToken) array: IArrayUtility
-			, options: IBaseResourceParams<TDataType>) {
+				, @Inject(arrayToken) array: IArrayUtility
+				, options: IBaseResourceParams<TDataType>) {
+		this.array = array;
 		this.behavior = new BaseDataServiceBehavior(http, options.transform);
 		this.useDeepSearch = options.useDeepSearch;
 		this.mockData = options.mockData;

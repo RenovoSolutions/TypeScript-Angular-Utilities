@@ -58,7 +58,10 @@ export class ContractLibrary implements IContractLibrary {
 	private builder: IResourceBuilder;
 	baseEndpoint: string;
 
-	constructor(builder: IResourceBuilder, baseEndpoint?: string) {}
+	constructor(builder: IResourceBuilder, baseEndpoint?: string) {
+		this.builder = builder;
+		this.baseEndpoint = baseEndpoint;
+	}
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		let resource: any = this.builder.createResource(options);
