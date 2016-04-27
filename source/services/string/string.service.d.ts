@@ -1,5 +1,4 @@
-export declare var moduleName: string;
-export declare var serviceName: string;
+import { OpaqueToken, Provider } from 'angular2/core';
 export interface IStringUtilityService {
     toNumber(string: string): number;
     contains(str: string, substring?: string): boolean;
@@ -13,3 +12,5 @@ export declare class StringUtilityService implements IStringUtilityService {
     replaceAll(str: string, patternToFind: string, replacementString: string): string;
 }
 export declare let stringUtility: IStringUtilityService;
+export declare const stringToken: OpaqueToken;
+export declare const STRING_PROVIDER: Provider;

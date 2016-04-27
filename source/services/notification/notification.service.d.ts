@@ -1,8 +1,4 @@
-import * as angular from 'angular';
-import { INotifier } from './notificationTypes';
-export * from './notificationTypes';
-export declare var moduleName: string;
-export declare var serviceName: string;
+import { Provider, OpaqueToken } from 'angular2/core';
 export interface INotificationService {
     info(message: string): void;
     warning(message: string): void;
@@ -10,15 +6,13 @@ export interface INotificationService {
     success(message: string): void;
 }
 export declare class NotificationService implements INotificationService {
-    private notifier;
-    constructor(notifier: INotifier);
+    private window;
+    constructor(window: Window);
     info(message: string): void;
     warning(message: string): void;
     error(message: string): void;
     success(message: string): void;
+    private notify(message);
 }
-export interface INotificationServiceProvider extends angular.IServiceProvider {
-    setNotifier(notifier: INotifier): void;
-    $get(): INotificationService;
-}
-export declare function notificationServiceProvider(): INotificationServiceProvider;
+export declare const notificationServiceToken: OpaqueToken;
+export declare const NOTIFICATION_SERVICE_PROVIDER: Provider;

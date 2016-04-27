@@ -1,14 +1,12 @@
-import * as angular from 'angular';
+import { OpaqueToken, Provider } from 'angular2/core';
 import { IArrayUtility } from '../../array/array.service';
-import { ILibraryServices } from '../contractLibrary/contractLibrary';
+import { IHttpUtility } from '../../http/http.service';
 import { IConverter } from '../converters/converters';
 import { IDataService, IBaseDomainObject } from '../dataService/data.service';
 import { IDataServiceView, IParentDataServiceView } from '../dataService/view/dataServiceView';
 import { IParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
-export declare var moduleName: string;
-export declare var serviceName: string;
 export interface IBaseOptions<TDataType> {
     /**
      * Url to hit with getList and create
@@ -63,11 +61,7 @@ export interface IParentSingletonResourceParams<TDataType, TResourceDictionaryTy
         (): TResourceDictionaryType;
     };
 }
-export interface IBaseResourceBuilder {
-    /**
-     * A helper to pass into the constructor when building a new contracts library
-     */
-    getLibraryServices(): ILibraryServices;
+export interface IResourceBuilder {
     /**
      * Create a standard resource with getList, getDetail, create, update, delete
      */
@@ -113,14 +107,10 @@ export interface IBaseResourceBuilder {
      */
     createParentSingletonResource<TDataType, TResourceDictionaryType>(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
-export declare class BaseResourceBuilder implements IBaseResourceBuilder {
-    private $http;
-    private $q;
-    private $rootScope;
+export declare class ResourceBuilder implements IResourceBuilder {
+    private http;
     private array;
-    static $inject: string[];
-    constructor($http: angular.IHttpService, $q: angular.IQService, $rootScope: angular.IRootScopeService, array: IArrayUtility);
-    getLibraryServices(): ILibraryServices;
+    constructor(http: IHttpUtility, array: IArrayUtility);
     createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
     createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams>;
     createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
@@ -129,3 +119,5 @@ export declare class BaseResourceBuilder implements IBaseResourceBuilder {
     createParentSingletonResource<TDataType, TResourceDictionaryType>(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType>;
     private useMockIfNoEndpoint<TDataType>(options);
 }
+export declare const resourceBuilderToken: OpaqueToken;
+export declare const RESOURCE_BUILDER_PROVIDER: Provider;

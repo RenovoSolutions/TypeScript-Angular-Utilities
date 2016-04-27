@@ -1,5 +1,4 @@
-import * as ng from 'angular';
-import { IBaseResourceBuilder, IBaseResourceParams, IParentResourceParams, ISingletonResourceParams, IParentSingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
+import { IResourceBuilder, IBaseResourceParams, IParentResourceParams, ISingletonResourceParams, IParentSingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { IDataServiceMock, IParentDataServiceMock, ISingletonDataServiceMock } from './dataServiceMocks';
 import { IDataService, IBaseDomainObject } from '../dataService/data.service';
 import { IDataServiceView, IParentDataServiceView } from '../dataService/view/dataServiceView';
@@ -28,16 +27,10 @@ export interface IContractLibrary {
     createMockParent(resource?: any): IParentDataServiceMock<any, any, any>;
     createMockSingleton(resource?: any): ISingletonDataServiceMock<any>;
 }
-export interface ILibraryServices {
-    $q: ng.IQService;
-    $rootScope: ng.IRootScopeService;
-}
 export declare class ContractLibrary implements IContractLibrary {
     private builder;
     baseEndpoint: string;
-    private $q;
-    private $rootScope;
-    constructor(builder: IBaseResourceBuilder, baseEndpoint?: string);
+    constructor(builder: IResourceBuilder, baseEndpoint?: string);
     createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
     createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams>;
     createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType>;
