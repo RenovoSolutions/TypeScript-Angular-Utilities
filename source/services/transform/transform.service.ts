@@ -1,10 +1,5 @@
-'use strict';
-
-import * as angular from 'angular';
+import { Provider, OpaqueToken } from 'angular2/core';
 import * as _ from 'lodash';
-
-export var moduleName: string = 'rl.utilities.services.transform';
-export var serviceName: string = 'transformService';
 
 export interface ITransformService {
 	getValue<TItemType, TReturnType>(item: TItemType, transform: { (item: TItemType): TReturnType } | string);
@@ -26,7 +21,9 @@ export class TransformService implements ITransformService {
 	}
 }
 
-export let transform: ITransformService = new TransformService();
 
-angular.module(moduleName, [])
-	.service(serviceName, TransformService);
+export const transformServiceToken: OpaqueToken = new OpaqueToken('transform service token');
+
+export const TRANSFORM_SERVICE_PROVIDER: Provider = new Provider(transformServiceToken, {
+	useClass: TransformService
+});

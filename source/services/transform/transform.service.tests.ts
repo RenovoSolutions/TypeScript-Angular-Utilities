@@ -1,9 +1,11 @@
-import { transform } from './transform.service';
+import { TransformService, ITransformService } from './transform.service';
 
 describe('transform', (): void => {
 	let valueTransform: Sinon.SinonSpy;
+	let transform: ITransformService;
 
 	beforeEach((): void => {
+		transform = new TransformService();
 		valueTransform = sinon.spy((item: any): number => { return item.value; });
 	});
 
