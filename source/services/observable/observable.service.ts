@@ -1,10 +1,7 @@
-﻿'use strict';
-
-import * as ng from 'angular';
+﻿import { Injectable, OpaqueToken, Provider, ExceptionHandler } from 'angular2/core';
 import * as _ from 'lodash';
 
-export let moduleName: string = 'rl.utilities.services.observable';
-export let factoryName: string = 'observableFactory';
+// deprecated - use rxjs instead
 
 export interface IWatcher<TReturnType> {
 	action: IAction<TReturnType>;
@@ -27,21 +24,23 @@ export interface IObservableService {
 	fire(event?: string, ...params: any[]): void;
 }
 
+@Injectable()
 export class ObservableService implements IObservableService {
+	private exceptionHandler: ExceptionHandler;
 	private watchers: IWatcher<any>[] = [];
 	private nextKey: number = 0;
 	allowableEvents: string[];
 
-	constructor(private $exceptionHandler: angular.IExceptionHandlerService) {}
+	constructor(exceptionHandler: ExceptionHandler) {}
 
 	register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction {
 		if (!_.isFunction(action)) {
-			this.$exceptionHandler(new Error('Watcher must be a function'));
+			this.exceptionHandler.call(new Error('Watcher must be a function'));
 			return null;
 		}
 
 		if (this.allowableEvents != null && !_.find(this.allowableEvents, (e: string): boolean => { return e === event; })) {
-			this.$exceptionHandler(new Error('This event is not allowed. Events: ' + this.allowableEvents.join(', ')));
+			this.exceptionHandler.call(new Error('This event is not allowed. Events: ' + this.allowableEvents.join(', ')));
 			return null;
 		}
 
@@ -71,21 +70,8 @@ export class ObservableService implements IObservableService {
 	}
 }
 
-export interface IObservableServiceFactory {
-	getInstance(): IObservableService;
-}
+export const observableToken: OpaqueToken = new OpaqueToken('Deprecated - a service for observables');
 
-observableServiceFactory.$inject = ['$exceptionHandler'];
-export function observableServiceFactory($exceptionHandler: angular.IExceptionHandlerService): IObservableServiceFactory {
-	'use strict';
-
-	return {
-		getInstance(): IObservableService {
-			return new ObservableService($exceptionHandler);
-		}
-	};
-}
-
-
-ng.module(moduleName, [])
-	.factory(factoryName, observableServiceFactory);
+export const OBSERVABLE_PROVIDER: Provider = new Provider(observableToken, {
+	useClass: ObservableService,
+});
