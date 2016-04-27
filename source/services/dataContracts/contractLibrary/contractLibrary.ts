@@ -1,8 +1,3 @@
-// /// <reference path='../../../../typings/sinon/sinon.d.ts' />
-
-'use strict';
-
-import * as ng from 'angular';
 import * as _ from 'lodash';
 
 import {
@@ -19,6 +14,7 @@ import { IDataServiceView, IParentDataServiceView } from '../dataService/view/da
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
+import { mock } from '../../test/mockPromise';
 
 export interface IContractLibrary {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
@@ -58,21 +54,11 @@ export interface IContractLibrary {
 	createMockSingleton(resource?: any): ISingletonDataServiceMock<any>;
 }
 
-export interface ILibraryServices {
-	$q: ng.IQService;
-	$rootScope: ng.IRootScopeService;
-}
-
 export class ContractLibrary implements IContractLibrary {
-	private $q: ng.IQService;
-	private $rootScope: ng.IRootScopeService;
+	private builder: IBaseResourceBuilder;
+	baseEndpoint: string;
 
-	constructor(private builder: IBaseResourceBuilder
-			, public baseEndpoint?: string) {
-		let services: ILibraryServices = (<BaseResourceBuilder>builder).getLibraryServices();
-		this.$q = services.$q;
-		this.$rootScope = services.$rootScope;
-	}
+	constructor(builder: IBaseResourceBuilder, baseEndpoint?: string) {}
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		let resource: any = this.builder.createResource(options);
@@ -114,8 +100,9 @@ export class ContractLibrary implements IContractLibrary {
 	}
 
 	flush(): void {
-		this.$rootScope.$digest();
+		// flush es6 promises
 	}
+
 	mockGet(resource: any, data: any): Sinon.SinonSpy {
 		return this.baseMockGet(resource, 'get', data);
 	}
@@ -178,7 +165,7 @@ export class ContractLibrary implements IContractLibrary {
 
 	private baseMockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
 		let func: Sinon.SinonSpy = this.sinon.spy((): any => {
-			return this.$q.when(data);
+			return Promise.resolve(data);
 		});
 		resource[actionName] = func;
 		return func;
@@ -189,7 +176,7 @@ export class ContractLibrary implements IContractLibrary {
 			if (dataTransform) {
 				data = dataTransform(data);
 			}
-			return this.$q.when(data);
+			return Promise.resolve(data);
 		});
 		resource[actionName] = func;
 		return func;
