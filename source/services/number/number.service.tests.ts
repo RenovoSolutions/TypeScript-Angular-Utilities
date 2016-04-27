@@ -1,18 +1,10 @@
-import { INumberUtility, moduleName, serviceName } from './number.service';
-
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { INumberUtility, NumberUtility } from './number.service';
 
 describe('numberUtility', () => {
 	var numberUtility: INumberUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		var services: any = angularFixture.inject(serviceName);
-		numberUtility = services[serviceName];
+		numberUtility = new NumberUtility();
 	});
 
 	describe('preciseRound', (): void => {
