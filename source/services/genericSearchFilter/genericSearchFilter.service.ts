@@ -70,18 +70,23 @@ export interface IGenericSearchFilterFactory {
 	getInstance(tokenized?: boolean): IGenericSearchFilter;
 }
 
-export function genericSearchFilterFactory(@Inject(objectToken) object: IObjectUtility,
-	@Inject(stringToken) stringUtility: IStringUtilityService): IGenericSearchFilterFactory {
+export class GenericSearchFilterFactory implements IGenericSearchFilterFactory {
+	private objectUtility: IObjectUtility;
+	private stringUtility: IStringUtilityService;
 
-	return {
-		getInstance(tokenized?: boolean): IGenericSearchFilter {
-			return new GenericSearchFilter(object, stringUtility, tokenized);
-		}
-	};
+	constructor( @Inject(objectToken) objectUtility: IObjectUtility,
+		@Inject(stringToken) stringUtility: IStringUtilityService) {
+		this.objectUtility = objectUtility;
+		this.stringUtility = stringUtility;
+	}
+
+	getInstance(tokenized?: boolean): IGenericSearchFilter {
+		return new GenericSearchFilter(this.objectUtility, this.stringUtility, tokenized);
+	}
 }
 
 export const genericSearchFilterToken: OpaqueToken = new OpaqueToken('A factory for getting generic search filters');
 
 export const GENERIC_SEARCH_FILTER_PROVIDER: Provider = new Provider(genericSearchFilterToken, {
-	useFactory: genericSearchFilterFactory
+	useClass: GenericSearchFilterFactory,
 });

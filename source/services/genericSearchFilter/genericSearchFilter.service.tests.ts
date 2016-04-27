@@ -1,4 +1,4 @@
-import { IGenericSearchFilter, IGenericSearchFilterFactory, genericSearchFilterFactory } from './genericSearchFilter.service';
+import { IGenericSearchFilter, IGenericSearchFilterFactory, GenericSearchFilterFactory } from './genericSearchFilter.service';
 
 import { objectUtility } from '../object/object.service';
 import { stringUtility } from '../string/string.service';
@@ -20,7 +20,7 @@ describe('genericSearchFilter', () => {
 	let genericSearchFilter: IGenericSearchFilter;
 
 	beforeEach(() => {
-		const factory: IGenericSearchFilterFactory = genericSearchFilterFactory(objectUtility, stringUtility);
+		const factory: IGenericSearchFilterFactory = new GenericSearchFilterFactory(objectUtility, stringUtility);
 		genericSearchFilter = factory.getInstance();
 	});
 
@@ -167,7 +167,7 @@ describe('genericSearchFilter', () => {
 		let factory: IGenericSearchFilterFactory;
 
 		beforeEach((): void => {
-			factory = genericSearchFilterFactory(objectUtility, stringUtility);
+			factory = new GenericSearchFilterFactory(objectUtility, stringUtility);
 			genericSearchFilter = factory.getInstance(true);
 		});
 
