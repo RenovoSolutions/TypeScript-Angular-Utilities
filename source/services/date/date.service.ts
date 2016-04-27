@@ -1,4 +1,6 @@
-﻿import * as _ from 'lodash';
+﻿import { OpaqueToken, Provider } from 'angular2/core';
+
+import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment-timezone';
 
@@ -176,3 +178,9 @@ export class DateUtility {
 }
 
 export let dateUtility: IDateUtility = new DateUtility();
+
+export const dateToken: OpaqueToken = new OpaqueToken('A utility for working with dates');
+
+export const DATE_PROVIDER: Provider = new Provider(dateToken, {
+	useClass: DateUtility,
+});
