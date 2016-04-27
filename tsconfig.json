@@ -4,6 +4,7 @@
 		"moduleResolution": "node",
 		"declaration": true,
 		"inlineSourceMap": true,
+		"experimentalDecorators": true,
 		"target": "ES5"
 	},
 	"exclude": [
