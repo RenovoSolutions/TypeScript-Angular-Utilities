@@ -1,14 +1,4 @@
-'use strict';
-
-import * as angular from 'angular';
-
-import { INotifier } from './notificationTypes';
-import { BaseNotifier } from './baseNotifier';
-
-export * from './notificationTypes';
-
-export var moduleName: string = 'rl.utilities.services.notification';
-export var serviceName: string = 'notification';
+import { Injectable, Provider, OpaqueToken } from 'angular2/core';
 
 export interface INotificationService {
 	info(message: string): void;
@@ -17,50 +7,33 @@ export interface INotificationService {
 	success(message: string): void;
 }
 
+@Injectable()
 export class NotificationService implements INotificationService {
-	constructor(private notifier: INotifier) {}
 
 	info(message: string): void {
-		this.notifier.info(message);
+		this.notify(message);
 	}
 
 	warning(message: string): void {
-		this.notifier.warning(message);
+		this.notify(message);
 	}
 
 	error(message: string): void {
-		this.notifier.error(message);
+		this.notify(message);
 	}
 
 	success(message: string): void {
-		this.notifier.success(message);
+		this.notify(message);
+	}
+
+	private notify(message: string): void {
+		window.alert(message);
+		console.log(message);
 	}
 }
 
-export interface INotificationServiceProvider extends angular.IServiceProvider {
-	setNotifier(notifier: INotifier): void;
-	$get(): INotificationService;
-}
+export const notificationServiceToken: OpaqueToken = new OpaqueToken('Notification Service');
 
-interface INotificationServiceProviderInternal extends INotificationServiceProvider {
-	notifier: INotifier;
-}
-
-export function notificationServiceProvider(): INotificationServiceProvider {
-	'use strict';
-
-	let provider: INotificationServiceProviderInternal = {
-		notifier: new BaseNotifier(),
-		setNotifier: (notifier: INotifier): void => {
-			this.notifier = notifier;
-		},
-		$get: (): INotificationService => {
-			return new NotificationService(this.notifier);
-		},
-	};
-
-	return provider;
-}
-
-angular.module(moduleName, [])
-	.provider(serviceName, notificationServiceProvider);
+export const NOTIFICATION_SERVICE_PROVIDER: Provider = new Provider(notificationServiceToken, {
+	useClass: NotificationService
+});
