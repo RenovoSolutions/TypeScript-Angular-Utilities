@@ -20,11 +20,11 @@ interface IMockedPromiseInternal<TData> extends IMockedPromise<TData> {
 
 class MockPromiseService implements IMockPromiseService {
 	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData> {
-		if (ng.isUndefined(share)) {
+		if (_.isUndefined(share)) {
 			share = false;
 		}
 
-		if (ng.isFunction(result)) {
+		if (_.isFunction(result)) {
 			return this.makeDynamicMockPromise(<{ (...args: any[]): TData }>result, share);
 		} else {
 			return this.makeMockPromise(<TData>result, share);
@@ -100,7 +100,7 @@ class MockPromiseService implements IMockPromiseService {
 
 		// Mark promise to be shared in builder
 		mocked.share = (shareParam?: boolean) => {
-			if (ng.isUndefined(shareParam)) {
+			if (_.isUndefined(shareParam)) {
 				share = true;
 			}
 
