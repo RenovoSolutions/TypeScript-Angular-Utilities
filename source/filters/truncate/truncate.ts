@@ -1,31 +1,24 @@
-﻿'use strict';
+﻿// Formats and optionally truncates and ellipsimogrifies a string for display in a card header
 
-import * as angular from 'angular';
-
-// Formats and optionally truncates and ellipsimogrifies a string for display in a card header
+import { Inject, Pipe, PipeTransform } from 'angular2/core';
 
 import {
-	serviceName as objectServiceName,
-	moduleName as objectModuleName,
 	IObjectUtility,
+	objectToken,
 } from '../../services/object/object.service';
 
-export var moduleName: string = 'rl.utilities.filters.truncate';
-export var serviceName: string = 'truncate';
-export var filterName: string = serviceName + 'Filter';
+@Pipe({ name: 'truncate' })
+export class TruncatePipe implements PipeTransform {
+	private objectUtility: IObjectUtility;
 
-export interface ITruncateFilter {
-	(input?: string, truncateTo?: number, includeEllipses?: boolean): string;
-	(input?: number, truncateTo?: number, includeEllipses?: boolean): string;
-}
+	constructor( @Inject(objectToken) objectUtility: IObjectUtility) {
+		this.objectUtility = objectUtility;
+	}
 
-truncate.$inject = [objectServiceName];
-function truncate(objectUtility: IObjectUtility): ITruncateFilter {
-	'use strict';
-	return (input?: any, truncateTo?: number, includeEllipses?: boolean): string => {
+	transform(input?: string | number, truncateTo?: number, includeEllipses?: boolean): string {
 		includeEllipses = includeEllipses == null ? false : includeEllipses;
 
-		var out: string = objectUtility.isNullOrWhitespace(input) ? '' : input.toString();
+		var out: string = this.objectUtility.isNullOrWhitespace(input) ? '' : input.toString();
 		if (out.length) {
 			if (truncateTo != null && out.length > truncateTo) {
 				out = out.substring(0, truncateTo);
@@ -35,8 +28,5 @@ function truncate(objectUtility: IObjectUtility): ITruncateFilter {
 			}
 		}
 		return out;
-	};
+	}
 }
-
-angular.module(moduleName, [objectModuleName])
-	.filter(serviceName, truncate);
