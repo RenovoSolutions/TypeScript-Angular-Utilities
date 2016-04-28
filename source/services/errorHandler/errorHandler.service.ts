@@ -1,6 +1,6 @@
 ﻿import { Injectable, Provider, Inject, ExceptionHandler, OpaqueToken } from 'angular2/core';
 
-import { INotificationService } from '../notification/notification.service';
+import { INotificationService, notificationServiceToken } from '../notification/notification.service';
 
 import { IRedirectService, redirectToken } from '../redirect/redirect.service';
 
@@ -73,10 +73,10 @@ export class ErrorHandlerService implements IErrorHandlerService {
 	private errorMessages: IErrorMessages;
 
 	constructor(@Inject(redirectToken) redirect: IRedirectService
-		, exceptionHandler: ExceptionHandler
-		, notification: INotificationService
-		, @Inject(defaultErrorsToken) errorMessages: IErrorMessages
-		, @Inject(defaultLoginUrlSettingsToken) loginSettings: ILoginUrlSettings) {
+			, @Inject(ExceptionHandler) exceptionHandler: ExceptionHandler
+			, @Inject(notificationServiceToken) notification: INotificationService
+			, @Inject(defaultErrorsToken) errorMessages: IErrorMessages
+			, @Inject(defaultLoginUrlSettingsToken) loginSettings: ILoginUrlSettings) {
 		this.redirect = redirect;
 		this.exceptionHandler = exceptionHandler;
 		this.notification = notification;
@@ -152,3 +152,9 @@ export class ErrorHandlerService implements IErrorHandlerService {
 		this.notification.error(this.errorMessages.goneError);
 	}
 }
+
+export const errorHandlerToken: OpaqueToken = new OpaqueToken('A service for handling http errors');
+
+export const ERROR_HANDLER_PROVIDER: Provider = new Provider(errorHandlerToken, {
+	useClass: ErrorHandlerService,
+});
