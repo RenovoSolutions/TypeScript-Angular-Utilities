@@ -1,9 +1,4 @@
-'use strict';
-
-import * as angular from 'angular';
-
-export var moduleName: string = 'rl.utilities.services.synchronizedRequests';
-export var factoryName: string = 'synchronizedRequests';
+import { OpaqueToken, Provider, provide } from 'angular2/core';
 
 export interface ISynchronizedRequestsService {
 	dataProvider: IRequestGetter;
@@ -14,15 +9,20 @@ export interface ISynchronizedRequestsService {
 
 export class SynchronizedRequestsService {
 	private requestId: number = 0;
-	constructor(public dataProvider: IRequestGetter
-			, public handleRequest: IRequestCallback
-			, private $q: angular.IQService) { }
+	dataProvider: IRequestGetter;
+	handleRequest: IRequestCallback;
+
+	constructor(dataProvider: IRequestGetter
+			, handleRequest: IRequestCallback) {
+		this.dataProvider = dataProvider;
+		this.handleRequest = handleRequest;
+	}
 
 	getData(...params: any[]): void {
 		// increment the id first - should match current request id
 		this.requestId++;
 		let currentRequestId: number = this.requestId;
-		this.$q.when(this.dataProvider(...params)).then((...data: any[]): void => {
+		Promise.resolve(this.dataProvider(...params)).then((...data: any[]): void => {
 			if (currentRequestId == this.requestId) {
 				this.handleRequest(...data);
 			}
@@ -42,14 +42,20 @@ export interface ISynchronizedRequestsFactory {
 	getInstance(dataProvider: IRequestGetter, handleRequest: IRequestCallback): ISynchronizedRequestsService;
 }
 
-synchronizedRequestsFactory.$inject = ['$q'];
-export function synchronizedRequestsFactory($q: angular.IQService): ISynchronizedRequestsFactory {
-	return {
-		getInstance(dataProvider: IRequestGetter, handleRequest: IRequestCallback): ISynchronizedRequestsService {
-			return new SynchronizedRequestsService(dataProvider, handleRequest, $q);
-		},
-	};
+export class SynchronizedRequestsFactory {
+	getInstance(dataProvider: IRequestGetter, handleRequest: IRequestCallback): ISynchronizedRequestsService {
+		return new SynchronizedRequestsService(dataProvider, handleRequest);
+	}
 }
 
-angular.module(moduleName, [])
-	.factory(factoryName, synchronizedRequestsFactory);
+export const synchronizedRequestsToken: OpaqueToken = new OpaqueToken('A service for handling multiple requests and returning only the latest');
+
+export function SynchronizedRequestsProvider(dataProvider: IRequestGetter, handleRequest: IRequestCallback): Provider {
+	return provide(synchronizedRequestsToken, {
+		useFactory: () => new SynchronizedRequestsService(dataProvider, handleRequest),
+	});
+}
+
+export const SYNCHRONIZED_REQUESTS_PROVIDER: Provider = new Provider(synchronizedRequestsToken, {
+	useClass: SynchronizedRequestsFactory,
+});
