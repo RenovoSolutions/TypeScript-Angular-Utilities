@@ -17,4 +17,4 @@ export declare class NotificationService implements INotificationService {
     private notify(message);
 }
 export declare const notificationServiceToken: OpaqueToken;
-export declare const NOTIFICATION_SERVICE_PROVIDER: Provider;
+export declare const NOTIFICATION_PROVIDER: Provider;
