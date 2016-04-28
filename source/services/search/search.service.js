@@ -1,13 +1,25 @@
-'use strict';
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var core_1 = require('angular2/core');
 var _ = require('lodash');
 var object_service_1 = require('../object/object.service');
 var string_service_1 = require('../string/string.service');
 var SearchUtility = (function () {
-    function SearchUtility() {
+    function SearchUtility(objectUtility, stringUtility) {
+        this.objectUtility = objectUtility;
+        this.stringUtility = stringUtility;
     }
     SearchUtility.prototype.search = function (object, search, caseSensitive) {
         var _this = this;
-        if (object_service_1.objectUtility.isNullOrEmpty(search)) {
+        if (this.objectUtility.isNullOrEmpty(search)) {
             return true;
         }
         if (_.isObject(object)) {
@@ -15,12 +27,12 @@ var SearchUtility = (function () {
             return _.some(values, function (value) { return _this.search(value, search, caseSensitive); });
         }
         else {
-            var dataString = object_service_1.objectUtility.toString(object);
+            var dataString = this.objectUtility.toString(object);
             if (!caseSensitive) {
                 search = search.toLowerCase();
                 dataString = dataString.toLowerCase();
             }
-            return string_service_1.stringUtility.contains(dataString, search);
+            return this.stringUtility.contains(dataString, search);
         }
     };
     SearchUtility.prototype.tokenizedSearch = function (object, search, caseSensitive) {
@@ -32,7 +44,15 @@ var SearchUtility = (function () {
             return _this.search(object, subsearch, caseSensitive);
         });
     };
+    SearchUtility = __decorate([
+        __param(0, core_1.Inject(object_service_1.objectToken)),
+        __param(1, core_1.Inject(string_service_1.stringToken))
+    ], SearchUtility);
     return SearchUtility;
 }());
-exports.searchUtility = new SearchUtility();
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2VhcmNoLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJzZWFyY2guc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxZQUFZLENBQUM7QUFFYixJQUFZLENBQUMsV0FBTSxRQUFRLENBQUMsQ0FBQTtBQUU1QiwrQkFBOEIsMEJBQTBCLENBQUMsQ0FBQTtBQUN6RCwrQkFBOEIsMEJBQTBCLENBQUMsQ0FBQTtBQU96RDtJQUFBO0lBOEJBLENBQUM7SUE3QkEsOEJBQU0sR0FBTixVQUFPLE1BQVcsRUFBRSxNQUFjLEVBQUUsYUFBdUI7UUFBM0QsaUJBa0JDO1FBakJBLEVBQUUsQ0FBQyxDQUFDLDhCQUFhLENBQUMsYUFBYSxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUMsQ0FBQztZQUN6QyxNQUFNLENBQUMsSUFBSSxDQUFDO1FBQ2IsQ0FBQztRQUVELEVBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBQyxRQUFRLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQyxDQUFDO1lBQ3hCLElBQUksTUFBTSxHQUFRLENBQUMsQ0FBQyxNQUFNLENBQUMsTUFBTSxDQUFDLENBQUM7WUFDbkMsTUFBTSxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsTUFBTSxFQUFFLFVBQUMsS0FBVSxJQUFnQixNQUFNLENBQUMsS0FBSSxDQUFDLE1BQU0sQ0FBQyxLQUFLLEVBQUUsTUFBTSxFQUFFLGFBQWEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUM7UUFDdkcsQ0FBQztRQUFDLElBQUksQ0FBQyxDQUFDO1lBQ1AsSUFBSSxVQUFVLEdBQVcsOEJBQWEsQ0FBQyxRQUFRLENBQUMsTUFBTSxDQUFDLENBQUM7WUFFeEQsRUFBRSxDQUFDLENBQUMsQ0FBQyxhQUFhLENBQUMsQ0FBQyxDQUFDO2dCQUNwQixNQUFNLEdBQUcsTUFBTSxDQUFDLFdBQVcsRUFBRSxDQUFDO2dCQUM5QixVQUFVLEdBQUcsVUFBVSxDQUFDLFdBQVcsRUFBRSxDQUFDO1lBQ3ZDLENBQUM7WUFFRCxNQUFNLENBQUMsOEJBQWEsQ0FBQyxRQUFRLENBQUMsVUFBVSxFQUFFLE1BQU0sQ0FBQyxDQUFDO1FBQ25ELENBQUM7SUFDRixDQUFDO0lBRUQsdUNBQWUsR0FBZixVQUFnQixNQUFXLEVBQUUsTUFBYyxFQUFFLGFBQXVCO1FBQXBFLGlCQVFDO1FBUEEsRUFBRSxDQUFDLENBQUMsTUFBTSxJQUFJLElBQUksQ0FBQyxDQUFDLENBQUM7WUFDcEIsTUFBTSxDQUFDLElBQUksQ0FBQztRQUNiLENBQUM7UUFFRCxNQUFNLENBQUMsQ0FBQyxDQUFDLEtBQUssQ0FBQyxNQUFNLENBQUMsS0FBSyxDQUFDLEdBQUcsQ0FBQyxFQUFFLFVBQUMsU0FBaUI7WUFDbkQsTUFBTSxDQUFDLEtBQUksQ0FBQyxNQUFNLENBQUMsTUFBTSxFQUFFLFNBQVMsRUFBRSxhQUFhLENBQUMsQ0FBQztRQUN0RCxDQUFDLENBQUMsQ0FBQztJQUNKLENBQUM7SUFDRixvQkFBQztBQUFELENBQUMsQUE5QkQsSUE4QkM7QUFFVSxxQkFBYSxHQUFtQixJQUFJLGFBQWEsRUFBRSxDQUFDIn0=
+exports.searchUtility = new SearchUtility(object_service_1.objectUtility, string_service_1.stringUtility);
+exports.searchToken = new core_1.OpaqueToken('A service for performing text search against an object');
+exports.SEARCH_PROVIDER = new core_1.Provider(exports.searchToken, {
+    useClass: SearchUtility,
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2VhcmNoLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJzZWFyY2guc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7O0FBQUEscUJBQTBELGVBQWUsQ0FBQyxDQUFBO0FBQzFFLElBQVksQ0FBQyxXQUFNLFFBQVEsQ0FBQyxDQUFBO0FBRTVCLCtCQUEyRCwwQkFBMEIsQ0FBQyxDQUFBO0FBQ3RGLCtCQUEyRCwwQkFBMEIsQ0FBQyxDQUFBO0FBT3RGO0lBSUMsdUJBQWtDLGFBQTZCLEVBQ3JDLGFBQTZCO1FBQ3RELElBQUksQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO1FBQ25DLElBQUksQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0lBQ3BDLENBQUM7SUFFRCw4QkFBTSxHQUFOLFVBQU8sTUFBVyxFQUFFLE1BQWMsRUFBRSxhQUF1QjtRQUEzRCxpQkFrQkM7UUFqQkEsRUFBRSxDQUFDLENBQUMsSUFBSSxDQUFDLGFBQWEsQ0FBQyxhQUFhLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQyxDQUFDO1lBQzlDLE1BQU0sQ0FBQyxJQUFJLENBQUM7UUFDYixDQUFDO1FBRUQsRUFBRSxDQUFDLENBQUMsQ0FBQyxDQUFDLFFBQVEsQ0FBQyxNQUFNLENBQUMsQ0FBQyxDQUFDLENBQUM7WUFDeEIsSUFBSSxNQUFNLEdBQVEsQ0FBQyxDQUFDLE1BQU0sQ0FBQyxNQUFNLENBQUMsQ0FBQztZQUNuQyxNQUFNLENBQUMsQ0FBQyxDQUFDLElBQUksQ0FBQyxNQUFNLEVBQUUsVUFBQyxLQUFVLElBQWdCLE1BQU0sQ0FBQyxLQUFJLENBQUMsTUFBTSxDQUFDLEtBQUssRUFBRSxNQUFNLEVBQUUsYUFBYSxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQztRQUN2RyxDQUFDO1FBQUMsSUFBSSxDQUFDLENBQUM7WUFDUCxJQUFJLFVBQVUsR0FBVyxJQUFJLENBQUMsYUFBYSxDQUFDLFFBQVEsQ0FBQyxNQUFNLENBQUMsQ0FBQztZQUU3RCxFQUFFLENBQUMsQ0FBQyxDQUFDLGFBQWEsQ0FBQyxDQUFDLENBQUM7Z0JBQ3BCLE1BQU0sR0FBRyxNQUFNLENBQUMsV0FBVyxFQUFFLENBQUM7Z0JBQzlCLFVBQVUsR0FBRyxVQUFVLENBQUMsV0FBVyxFQUFFLENBQUM7WUFDdkMsQ0FBQztZQUVELE1BQU0sQ0FBQyxJQUFJLENBQUMsYUFBYSxDQUFDLFFBQVEsQ0FBQyxVQUFVLEVBQUUsTUFBTSxDQUFDLENBQUM7UUFDeEQsQ0FBQztJQUNGLENBQUM7SUFFRCx1Q0FBZSxHQUFmLFVBQWdCLE1BQVcsRUFBRSxNQUFjLEVBQUUsYUFBdUI7UUFBcEUsaUJBUUM7UUFQQSxFQUFFLENBQUMsQ0FBQyxNQUFNLElBQUksSUFBSSxDQUFDLENBQUMsQ0FBQztZQUNwQixNQUFNLENBQUMsSUFBSSxDQUFDO1FBQ2IsQ0FBQztRQUVELE1BQU0sQ0FBQyxDQUFDLENBQUMsS0FBSyxDQUFDLE1BQU0sQ0FBQyxLQUFLLENBQUMsR0FBRyxDQUFDLEVBQUUsVUFBQyxTQUFpQjtZQUNuRCxNQUFNLENBQUMsS0FBSSxDQUFDLE1BQU0sQ0FBQyxNQUFNLEVBQUUsU0FBUyxFQUFFLGFBQWEsQ0FBQyxDQUFDO1FBQ3RELENBQUMsQ0FBQyxDQUFDO0lBQ0osQ0FBQztJQWxDWTttQkFBQyxhQUFNLENBQUMsNEJBQVcsQ0FBQzttQkFDM0IsYUFBTSxDQUFDLDRCQUFXLENBQUM7cUJBRFE7SUFtQ2xDLG9CQUFDO0FBQUQsQ0FBQyxBQXZDRCxJQXVDQztBQUVVLHFCQUFhLEdBQW1CLElBQUksYUFBYSxDQUFDLDhCQUFhLEVBQUUsOEJBQWEsQ0FBQyxDQUFDO0FBRTlFLG1CQUFXLEdBQWdCLElBQUksa0JBQVcsQ0FBQyx3REFBd0QsQ0FBQyxDQUFDO0FBRXJHLHVCQUFlLEdBQWEsSUFBSSxlQUFRLENBQUMsbUJBQVcsRUFBRTtJQUNsRSxRQUFRLEVBQUUsYUFBYTtDQUN2QixDQUFDLENBQUMifQ==

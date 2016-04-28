@@ -47,6 +47,4 @@ export declare class DataServiceFactory {
 }
 export declare const dataServiceToken: OpaqueToken;
 export declare const DATA_SERVICE_PROVIDER: Provider;
-export declare const DataServiceProvider: {
-    (options: IBaseResourceParams<any>): Provider;
-};
+export declare function DataServiceProvider(options: IBaseResourceParams<any>): Provider;

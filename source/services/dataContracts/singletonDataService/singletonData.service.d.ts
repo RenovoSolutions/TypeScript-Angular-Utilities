@@ -30,6 +30,4 @@ export declare class SingletonDataServiceFactory {
 }
 export declare const singletonDataServiceToken: OpaqueToken;
 export declare const SINGLETON_DATA_SERVICE_PROVIDER: Provider;
-export declare const SingletonDataServiceProvider: {
-    (options: ISingletonResourceParams<any>): Provider;
-};
+export declare function SingletonDataServiceProvider(options: ISingletonResourceParams<any>): Provider;

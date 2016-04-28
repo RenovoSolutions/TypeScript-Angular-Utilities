@@ -1,4 +1,5 @@
 import { Provider, OpaqueToken } from 'angular2/core';
+import { ILogger } from '../logger/logger.service';
 export interface INotificationService {
     info(message: string): void;
     warning(message: string): void;
@@ -7,7 +8,8 @@ export interface INotificationService {
 }
 export declare class NotificationService implements INotificationService {
     private window;
-    constructor(window: Window);
+    private logger;
+    constructor(window: Window, logger: ILogger);
     info(message: string): void;
     warning(message: string): void;
     error(message: string): void;

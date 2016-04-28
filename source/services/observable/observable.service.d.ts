@@ -1,5 +1,4 @@
-export declare let moduleName: string;
-export declare let factoryName: string;
+import { OpaqueToken, Provider, ExceptionHandler } from 'angular2/core';
 export interface IWatcher<TReturnType> {
     action: IAction<TReturnType>;
     event?: string;
@@ -18,16 +17,14 @@ export interface IObservableService {
     fire(event?: string, ...params: any[]): void;
 }
 export declare class ObservableService implements IObservableService {
-    private $exceptionHandler;
+    private exceptionHandler;
     private watchers;
     private nextKey;
     allowableEvents: string[];
-    constructor($exceptionHandler: angular.IExceptionHandlerService);
+    constructor(exceptionHandler: ExceptionHandler);
     register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction;
     fire<TReturnType>(event?: string, ...params: any[]): TReturnType[];
     private unregister(key);
 }
-export interface IObservableServiceFactory {
-    getInstance(): IObservableService;
-}
-export declare function observableServiceFactory($exceptionHandler: angular.IExceptionHandlerService): IObservableServiceFactory;
+export declare const observableToken: OpaqueToken;
+export declare const OBSERVABLE_PROVIDER: Provider;
