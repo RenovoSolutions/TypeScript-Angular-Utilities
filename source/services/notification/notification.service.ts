@@ -1,5 +1,6 @@
 import { Injectable, Provider, OpaqueToken, Inject } from 'angular2/core';
-import {windowToken} from '../window/window.provider';
+import { windowToken } from '../window/window.provider';
+import { loggerToken, ILogger } from '../logger/logger.service';
 
 export interface INotificationService {
 	info(message: string): void;
@@ -11,9 +12,12 @@ export interface INotificationService {
 @Injectable()
 export class NotificationService implements INotificationService {
 	private window: Window;
+	private logger: ILogger;
 
-	constructor( @Inject(windowToken) window: Window) {
+	constructor( @Inject(windowToken) window: Window
+			, @Inject(loggerToken) logger: ILogger) {
 		this.window = window;
+		this.logger = logger;
 	}
 
 	info(message: string): void {
@@ -34,7 +38,7 @@ export class NotificationService implements INotificationService {
 
 	private notify(message: string): void {
 		this.window.alert(message);
-		console.log(message);
+		this.logger.log(message);
 	}
 }
 
