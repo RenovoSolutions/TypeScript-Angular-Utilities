@@ -1,3 +1,6 @@
-import * as stopEventPropogation from './stopEventPropagation/stopEventPropagation';
-export { stopEventPropogation };
-export declare var name: string;
+import * as stopEventPropagation from './stopEventPropagation/stopEventPropagation';
+export { stopEventPropagation };
+declare var _default: {
+    directives: typeof stopEventPropagation.StopEventPropagation[];
+};
+export default _default;

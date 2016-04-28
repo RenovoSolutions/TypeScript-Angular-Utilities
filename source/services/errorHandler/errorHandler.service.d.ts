@@ -51,3 +51,5 @@ export declare class ErrorHandlerService implements IErrorHandlerService {
     private systemError();
     private goneError();
 }
+export declare const errorHandlerToken: OpaqueToken;
+export declare const ERROR_HANDLER_PROVIDER: Provider;

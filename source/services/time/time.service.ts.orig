@@ -1,0 +1,44 @@
+import { OpaqueToken, Provider } from 'angular2/core';
+<<<<<<< f702014de1005490ab4e698b1089ef76f1d0cb04
+=======
+
+>>>>>>> Migrate time utility to angular 2.
+import * as moment from 'moment';
+
+import { CompareResult } from '../../types/compareResult';
+import { defaultFormats } from '../date/date.module';
+
+export interface ITimeUtility {
+	compareTimes(time1: string, time2: string): CompareResult;
+}
+
+export class TimeUtility {
+	compareTimes(time1: string, time2: string): CompareResult {
+		let format: string = defaultFormats.timeFormat;
+
+		let start: moment.Moment = moment(time1, format);
+		let end: moment.Moment = moment(time2, format);
+
+		if (start.hours() === end.hours()
+			&& start.minutes() === end.minutes()) {
+			return CompareResult.equal;
+		} else if (start.hours() >= end.hours()
+				&& start.minutes() >= end.minutes()) {
+			return CompareResult.greater;
+		} else {
+			return CompareResult.less;
+		}
+	}
+}
+
+export let timeUtility: ITimeUtility = new TimeUtility();
+
+<<<<<<< f702014de1005490ab4e698b1089ef76f1d0cb04
+export const timeToken: OpaqueToken = new OpaqueToken('A service for comparing times');
+=======
+export const timeToken: OpaqueToken = new OpaqueToken('A utility for working with time');
+>>>>>>> Migrate time utility to angular 2.
+
+export const TIME_PROVIDER: Provider = new Provider(timeToken, {
+	useClass: TimeUtility,
+});

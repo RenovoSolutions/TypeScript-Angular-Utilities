@@ -1,3 +1,4 @@
+import { Provider } from 'angular2/core';
 import * as converters from './converters/converters';
 import * as mocks from './contractLibrary/dataServiceMocks';
 export * from './contractLibrary/contractLibrary';
@@ -8,3 +9,4 @@ export * from './singletonDataService/singletonData.service';
 export * from './singletonDataService/parent/parentSingletonData.service';
 export * from './resourceBuilder/resourceBuilder.service';
 export { converters, mocks };
+export declare const DATA_CONTRACT_PROVIDERS: Provider[];

@@ -1,6 +1,7 @@
-import * as angular from 'angular';
-export declare var moduleName: string;
-export declare var directiveName: string;
-export interface IStopEventPropagationAttrs extends angular.IAttributes {
-    rlStopEventPropagation: string;
+import { ElementRef, AfterContentInit } from 'angular2/core';
+export declare class StopEventPropagation implements AfterContentInit {
+    private element;
+    private event;
+    constructor(element: ElementRef);
+    ngAfterContentInit(): void;
 }
