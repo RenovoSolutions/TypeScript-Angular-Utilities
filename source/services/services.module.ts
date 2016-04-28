@@ -1,6 +1,5 @@
 import { Provider } from 'angular2/core';
 import { HTTP_PROVIDERS } from 'angular2/http';
-import * as _ from 'lodash';
 
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
@@ -17,6 +16,7 @@ import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
 import * as promise from './promise/promise.service';
+import * as redirect from './redirect/redirect.service';
 import * as search from './search/search.service';
 import * as stringService from './string/string.service';
 import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
@@ -44,6 +44,7 @@ export {
 	objectService as object,
 	observable,
 	promise,
+	redirect,
 	search,
 	stringService as string,
 	synchronizedRequests,
@@ -57,12 +58,14 @@ export {
 /**
  * Providers for utility services.
  */
-export const UTILITY_PROVIDERS: Provider[] = [
+export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
 	HTTP_PROVIDERS,
 
 	array.ARRAY_PROVIDER,
 	boolean.BOOLEAN_PROVIDER,
+	dataContracts.DATA_CONTRACT_PROVIDERS,
 	date.DATE_PROVIDER,
+	errorHandler.ERROR_HANDLER_PROVIDER,
 	genericSearchFilter.GENERIC_SEARCH_FILTER_PROVIDER,
 	guid.GUID_PROVIDER,
 	http.HTTP_PROVIDER,
@@ -77,11 +80,12 @@ export const UTILITY_PROVIDERS: Provider[] = [
 	transform.TRANSFORM_SERVICE_PROVIDER,
 	validation.VALIDATION_PROVIDER,
 
-];
+	logger.LOGGER_PROVIDER,
 
-/**
- * Providers that are often overridden by child applications.
- */
-export const DEFAULT_UTILITY_PROVIDERS: Provider[] = [
-WINDOW_PROVIDER,
+	errorHandler.DEFAULT_ERROR_PROVIDERS,
+	errorHandler.DEFAULT_LOGIN_URL_PROVIDERS,
+
+	notification.NOTIFICATION_SERVICE_PROVIDER,
+	redirect.REDIRECT_PROVIDER,
+	WINDOW_PROVIDER,
 ];
