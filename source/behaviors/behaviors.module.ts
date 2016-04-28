@@ -1,13 +1,7 @@
-'use strict';
+import * as stopEventPropagation from './stopEventPropagation/stopEventPropagation';
 
-import * as angular from 'angular';
+export { stopEventPropagation };
 
-import * as stopEventPropogation from './stopEventPropagation/stopEventPropagation';
-
-export { stopEventPropogation };
-
-export var name: string = 'rl.utilities.behaviors';
-
-angular.module(name, [
-	stopEventPropogation.moduleName,
-]);
+export default {
+	directives: [stopEventPropagation.StopEventPropagation],
+}
