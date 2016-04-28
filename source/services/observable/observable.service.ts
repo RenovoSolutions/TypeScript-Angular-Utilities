@@ -31,7 +31,9 @@ export class ObservableService implements IObservableService {
 	private nextKey: number = 0;
 	allowableEvents: string[];
 
-	constructor(exceptionHandler: ExceptionHandler) {}
+	constructor(exceptionHandler: ExceptionHandler) {
+		this.exceptionHandler = exceptionHandler;
+	}
 
 	register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction {
 		if (!_.isFunction(action)) {

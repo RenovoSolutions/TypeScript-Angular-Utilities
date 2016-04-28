@@ -81,7 +81,7 @@ describe('observable', () => {
 	});
 
 	it('should return with an error if no function is provided', (): void => {
-		let cancel: () => void = observable.register(null);
+		let cancel: Function = observable.register(null);
 
 		sinon.assert.calledOnce(exceptionHandler.call);
 		sinon.assert.calledWith(exceptionHandler.call, new Error('Watcher must be a function'));
@@ -92,7 +92,7 @@ describe('observable', () => {
 	it('should return with an error if the event is not allowed', (): void => {
 		observable.allowableEvents = ['event1', 'event2'];
 
-		let cancel: () => void = observable.register((): void => { return; }, 'event3');
+		let cancel: Function = observable.register((): void => { return; }, 'event3');
 
 		sinon.assert.calledOnce(exceptionHandler.call);
 		sinon.assert.calledWith(exceptionHandler.call, new Error('This event is not allowed. Events: event1, event2'));
