@@ -1,3 +1,4 @@
+import { Provider, provide, ExceptionHandler, PipeTransform } from 'angular2/core';
 import { UpgradeAdapter } from 'angular2/upgrade';
 
 import * as angular from 'angular';
@@ -13,7 +14,7 @@ import { LOGGER_PROVIDER } from './services/logger/logger.service';
 import { NOTIFICATION_PROVIDER } from './services/notification/notification.service';
 import { NUMBER_PROVIDER } from './services/number/number.service';
 import { OBJECT_PROVIDER } from './services/object/object.service';
-import { OBSERVABLE_PROVIDER } from './services/observable/observable.service';
+import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
 import { PROMISE_PROVIDER } from './services/promise/promise.service';
 import { REDIRECT_PROVIDER } from './services/redirect/redirect.service';
 import { STRING_PROVIDER } from './services/string/string.service';
@@ -46,7 +47,19 @@ export const moduleName: string = 'rl.utilities';
 
 const utilitiesModule = angular.module(moduleName, []);
 
+export interface IObservableFactory {
+	getInstance(): IObservableService;
+}
+
 export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
+	const observableFactoryProvider: Provider = new Provider(observableToken, {
+		useValue: {
+			deps: [ExceptionHandler],
+			getInstance: (exceptionHandler: ExceptionHandler): IObservableService => new ObservableService(exceptionHandler),
+		},
+	})
+
+	upgradeAdapter.addProvider(ExceptionHandler);
 	upgradeAdapter.addProvider(ARRAY_PROVIDER);
 	upgradeAdapter.addProvider(BOOLEAN_PROVIDER);
 	upgradeAdapter.addProvider(RESOURCE_BUILDER_PROVIDER);
@@ -60,7 +73,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	upgradeAdapter.addProvider(NOTIFICATION_PROVIDER);
 	upgradeAdapter.addProvider(NUMBER_PROVIDER);
 	upgradeAdapter.addProvider(OBJECT_PROVIDER);
-	upgradeAdapter.addProvider(OBSERVABLE_PROVIDER);
+	upgradeAdapter.addProvider(observableFactoryProvider);
 	upgradeAdapter.addProvider(PROMISE_PROVIDER);
 	upgradeAdapter.addProvider(REDIRECT_PROVIDER);
 	upgradeAdapter.addProvider(STRING_PROVIDER);
@@ -80,7 +93,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.service(notificationServiceName, upgradeAdapter.downgradeNg2Provider(NOTIFICATION_PROVIDER));
 	utilitiesModule.service(numberServiceName, upgradeAdapter.downgradeNg2Provider(NUMBER_PROVIDER));
 	utilitiesModule.service(objectServiceName, upgradeAdapter.downgradeNg2Provider(OBJECT_PROVIDER));
-	utilitiesModule.service(observableServiceName, upgradeAdapter.downgradeNg2Provider(OBSERVABLE_PROVIDER));
+	utilitiesModule.service(observableServiceName, upgradeAdapter.downgradeNg2Provider(observableFactoryProvider));
 	utilitiesModule.service(promiseServiceName, upgradeAdapter.downgradeNg2Provider(PROMISE_PROVIDER));
 	utilitiesModule.service(stringServiceName, upgradeAdapter.downgradeNg2Provider(STRING_PROVIDER));
 	utilitiesModule.service(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(SYNCHRONIZED_REQUESTS_PROVIDER));
