@@ -3,6 +3,9 @@ import { UpgradeAdapter } from 'angular2/upgrade';
 
 import * as angular from 'angular';
 
+import { IsEmptyPipe } from './filters/isEmpty/isEmpty';
+import { TruncatePipe } from './filters/truncate/truncate';
+
 import { ARRAY_PROVIDER } from './services/array/array.service';
 import { BOOLEAN_PROVIDER } from './services/boolean/boolean.service';
 import { RESOURCE_BUILDER_PROVIDER } from './services/dataContracts/resourceBuilder/resourcebuilder.service';
@@ -13,7 +16,7 @@ import { GUID_PROVIDER } from './services/guid/guid.service';
 import { LOGGER_PROVIDER } from './services/logger/logger.service';
 import { NOTIFICATION_PROVIDER } from './services/notification/notification.service';
 import { NUMBER_PROVIDER } from './services/number/number.service';
-import { OBJECT_PROVIDER } from './services/object/object.service';
+import { OBJECT_PROVIDER, objectUtility } from './services/object/object.service';
 import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
 import { PROMISE_PROVIDER } from './services/promise/promise.service';
 import { REDIRECT_PROVIDER } from './services/redirect/redirect.service';
@@ -23,6 +26,9 @@ import { TIME_PROVIDER } from './services/time/time.service';
 import { TIMEZONE_PROVIDER } from './services/timezone/timezone.service';
 import { VALIDATION_PROVIDER } from './services/validation/validation.service';
 import { WINDOW_PROVIDER } from './services/window/window.provider';
+
+export const isEmptyFilterName: string = 'isEmpty';
+export const truncateFilterName: string = 'truncate';
 
 export const arrayServiceName: string = 'rlArrayService';
 export const booleanServiceName: string = 'rlBooleanService';
@@ -49,6 +55,12 @@ const utilitiesModule = angular.module(moduleName, []);
 
 export interface IObservableFactory {
 	getInstance(): IObservableService;
+}
+
+export function PipeDowngrader(pipe: PipeTransform) {
+	return (value: any, ...args: any[]): any => {
+		return pipe.transform(value, ...args);
+	};
 }
 
 export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
@@ -82,6 +94,9 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	upgradeAdapter.addProvider(TIMEZONE_PROVIDER);
 	upgradeAdapter.addProvider(VALIDATION_PROVIDER);
 	upgradeAdapter.addProvider(WINDOW_PROVIDER);
+
+	utilitiesModule.filter(isEmptyFilterName, PipeDowngrader(new IsEmptyPipe(objectUtility)));
+	utilitiesModule.filter(truncateFilterName, PipeDowngrader(new TruncatePipe(objectUtility)));
 
 	utilitiesModule.service(arrayServiceName, upgradeAdapter.downgradeNg2Provider(ARRAY_PROVIDER));
 	utilitiesModule.service(booleanServiceName, upgradeAdapter.downgradeNg2Provider(BOOLEAN_PROVIDER));
