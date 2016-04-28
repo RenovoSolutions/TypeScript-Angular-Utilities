@@ -1,4 +1,6 @@
-'use strict';
+import { Provider } from 'angular2/core';
+import { HTTP_PROVIDERS } from 'angular2/http';
+import * as _ from 'lodash';
 
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
@@ -8,6 +10,7 @@ import * as errorHandler from './errorHandler/errorHandler.service';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 import * as guid from './guid/guid.service';
+import * as http from './http/http.service';
 import * as logger from './logger/logger.service';
 import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
@@ -23,6 +26,8 @@ import * as timezone from './timezone/timezone.service';
 import * as transform from './transform/transform.service';
 import * as validation from './validation/validation.service';
 
+import { WINDOW_PROVIDER } from './window/window.provider';
+
 export {
 	array,
 	boolean,
@@ -32,6 +37,7 @@ export {
 	fileSize,
 	genericSearchFilter,
 	guid,
+	http,
 	logger,
 	notification,
 	numberService as number,
@@ -47,3 +53,35 @@ export {
 	transform,
 	validation,
 };
+
+/**
+ * Providers for utility services.
+ */
+export const UTILITY_PROVIDERS: Provider[] = [
+	HTTP_PROVIDERS,
+
+	array.ARRAY_PROVIDER,
+	boolean.BOOLEAN_PROVIDER,
+	date.DATE_PROVIDER,
+	genericSearchFilter.GENERIC_SEARCH_FILTER_PROVIDER,
+	guid.GUID_PROVIDER,
+	http.HTTP_PROVIDER,
+	numberService.NUMBER_UTILITY_PROVIDER,
+	objectService.OBJECT_PROVIDER,
+	promise.PROMISE_PROVIDER,
+	search.SEARCH_PROVIDER,
+	stringService.STRING_PROVIDER,
+	synchronizedRequests.SYNCHRONIZED_REQUESTS_PROVIDER,
+	time.TIME_PROVIDER,
+	timezone.TIMEZONE_PROVIDER,
+	transform.TRANSFORM_SERVICE_PROVIDER,
+	validation.VALIDATION_PROVIDER,
+
+];
+
+/**
+ * Providers that are often overridden by child applications.
+ */
+export const DEFAULT_UTILITY_PROVIDERS: Provider[] = [
+WINDOW_PROVIDER,
+];

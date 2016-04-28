@@ -14,8 +14,6 @@
     "url": "https://github.com/RenovoSolutions/TypeScript-Angular-Utilities"
   },
   "scripts": {
-    "update": "npm install & typings install",
-
     "clean": "gulp clean",
     "build": "gulp clean && tsc && echo Build complete",
     "build.watch": "tsc -w",
@@ -28,17 +26,19 @@
     "bundle": "webpack & webpack --config webpack.min.config.js",
     "bundle.watch": "webpack -w",
 
-    "update-build": "npm run update && npm run build",
-    "update-build-test": "npm run update && npm run build && npm run test",
+    "install-build": "npm install && npm run build",
+    "install-build-test": "npm install && npm run build && npm run test",
     "build-bundle": "npm run build && npm run bundle",
     "build-bundle.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run bundle.watch\"",
     "build-test": "npm run build && npm run test",
     "build-test.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run test.debug\"",
 
-    "full-build": "npm run update && npm run build && npm run bundle",
+    "full-build": "npm install && npm run build && npm run bundle",
 
-    "all": "npm run update && npm run build && npm run test.full && npm run bundle",
-    "build-test-bundle": "npm run build && npm run test.full && npm run bundle"
+    "all": "npm install && npm run build && npm run test.full && npm run bundle",
+    "build-test-bundle": "npm run build && npm run test.full && npm run bundle",
+
+    "postinstall": "typings install"
   },
   "devDependencies": {
     "angular-bluebird-promises": "^1.0.1",
