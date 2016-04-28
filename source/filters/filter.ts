@@ -1,6 +1,6 @@
 'use strict';
 
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 
 import { objectUtility } from '../services/object/object.service';
 
@@ -11,7 +11,7 @@ export interface IFilterWithCounts extends IFilter {
 export interface ISerializableFilter<TFilterData> extends IFilter {
 	type: string;
 	serialize(): TFilterData;
-	subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
+	subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscription;
 }
 
 export interface IValueChangeCallback<TFilterData> {
@@ -28,7 +28,7 @@ export abstract class SerializableFilter<TFilterData> implements ISerializableFi
 	private _value: TFilterData;
 
 	constructor() {
-		this.subject = new Rx.Subject();
+		this.subject = new Rx.Subject<TFilterData>();
 	}
 
 	abstract filter(item: any): boolean;
@@ -37,7 +37,7 @@ export abstract class SerializableFilter<TFilterData> implements ISerializableFi
 		return <any>this;
 	}
 
-	subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber {
+	subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscription {
 		return this.subject.subscribe(onValueChange);
 	}
 
@@ -45,7 +45,7 @@ export abstract class SerializableFilter<TFilterData> implements ISerializableFi
 		let newValue: TFilterData = this.serialize();
 		if (force || !objectUtility.areEqual(newValue, this._value)) {
 			this._value = newValue;
-			this.subject.onNext(this._value);
+			this.subject.next(this._value);
 		}
 	}
 }

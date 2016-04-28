@@ -1,7 +1,6 @@
 import { Inject, Provider, OpaqueToken } from 'angular2/core';
 
 import * as _ from 'lodash';
-import * as Rx from 'rx';
 
 import {
 	IObjectUtility,
