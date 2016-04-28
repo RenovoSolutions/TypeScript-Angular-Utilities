@@ -65,7 +65,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		};
 
 		if (this.useDeepSearch) {
-			return this.behavior.search(requestParams);
+			return this.behavior.search<TDataType[]>(requestParams);
 		} else {
 			return this.behavior.getList(requestParams);
 		}
