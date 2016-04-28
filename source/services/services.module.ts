@@ -69,7 +69,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
 	genericSearchFilter.GENERIC_SEARCH_FILTER_PROVIDER,
 	guid.GUID_PROVIDER,
 	http.HTTP_PROVIDER,
-	numberService.NUMBER_UTILITY_PROVIDER,
+	numberService.NUMBER_PROVIDER,
 	objectService.OBJECT_PROVIDER,
 	promise.PROMISE_PROVIDER,
 	search.SEARCH_PROVIDER,
@@ -86,7 +86,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
 	errorHandler.DEFAULT_ERROR_PROVIDERS,
 	errorHandler.DEFAULT_LOGIN_URL_PROVIDERS,
 
-	notification.NOTIFICATION_SERVICE_PROVIDER,
+	notification.NOTIFICATION_PROVIDER,
 	redirect.REDIRECT_PROVIDER,
 	WINDOW_PROVIDER,
 ];

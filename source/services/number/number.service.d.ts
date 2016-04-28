@@ -11,4 +11,4 @@ export declare class NumberUtility implements INumberUtility {
 }
 export declare const numberUtility: INumberUtility;
 export declare const numberUtilityToken: OpaqueToken;
-export declare const NUMBER_UTILITY_PROVIDER: Provider;
+export declare const NUMBER_PROVIDER: Provider;
