@@ -1,21 +1,19 @@
-'use strict';
-var angular = require('angular');
+"use strict";
+var core_1 = require('angular2/core');
 var _ = require('lodash');
-exports.moduleName = 'rl.utilities.services.string';
-exports.serviceName = 'stringUtilityService';
-var StringUtilityService = (function () {
-    function StringUtilityService() {
+var StringUtility = (function () {
+    function StringUtility() {
     }
-    StringUtilityService.prototype.toNumber = function (string) {
+    StringUtility.prototype.toNumber = function (string) {
         return +string;
     };
-    StringUtilityService.prototype.contains = function (str, substring) {
+    StringUtility.prototype.contains = function (str, substring) {
         if (substring) {
             return str.indexOf(substring) !== -1;
         }
         return true;
     };
-    StringUtilityService.prototype.substitute = function (formatString) {
+    StringUtility.prototype.substitute = function (formatString) {
         var _this = this;
         var params = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -26,13 +24,15 @@ var StringUtilityService = (function () {
         });
         return formatString;
     };
-    StringUtilityService.prototype.replaceAll = function (str, patternToFind, replacementString) {
+    StringUtility.prototype.replaceAll = function (str, patternToFind, replacementString) {
         return str.replace(new RegExp(patternToFind, 'gi'), replacementString);
     };
-    return StringUtilityService;
+    return StringUtility;
 }());
-exports.StringUtilityService = StringUtilityService;
-exports.stringUtility = new StringUtilityService();
-angular.module(exports.moduleName, [])
-    .service(exports.serviceName, StringUtilityService);
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RyaW5nLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJzdHJpbmcuc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxZQUFZLENBQUM7QUFFYixJQUFZLE9BQU8sV0FBTSxTQUFTLENBQUMsQ0FBQTtBQUNuQyxJQUFZLENBQUMsV0FBTSxRQUFRLENBQUMsQ0FBQTtBQUVqQixrQkFBVSxHQUFXLDhCQUE4QixDQUFDO0FBQ3BELG1CQUFXLEdBQVcsc0JBQXNCLENBQUM7QUFTeEQ7SUFBQTtJQXVCQSxDQUFDO0lBdEJBLHVDQUFRLEdBQVIsVUFBUyxNQUFjO1FBQ3RCLE1BQU0sQ0FBQyxDQUFDLE1BQU0sQ0FBQztJQUNoQixDQUFDO0lBRUQsdUNBQVEsR0FBUixVQUFTLEdBQVcsRUFBRSxTQUFrQjtRQUN2QyxFQUFFLENBQUMsQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDO1lBQ2YsTUFBTSxDQUFDLEdBQUcsQ0FBQyxPQUFPLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUM7UUFDdEMsQ0FBQztRQUVELE1BQU0sQ0FBQyxJQUFJLENBQUM7SUFDYixDQUFDO0lBRUQseUNBQVUsR0FBVixVQUFXLFlBQW9CO1FBQS9CLGlCQUtDO1FBTGdDLGdCQUFtQjthQUFuQixXQUFtQixDQUFuQixzQkFBbUIsQ0FBbkIsSUFBbUI7WUFBbkIsK0JBQW1COztRQUNuRCxDQUFDLENBQUMsSUFBSSxDQUFDLE1BQU0sRUFBRSxVQUFDLEtBQWEsRUFBRSxLQUFhO1lBQzNDLFlBQVksR0FBRyxLQUFJLENBQUMsVUFBVSxDQUFDLFlBQVksRUFBRSxLQUFLLEdBQUcsS0FBSyxHQUFHLEtBQUssRUFBRSxLQUFLLENBQUMsQ0FBQztRQUM1RSxDQUFDLENBQUMsQ0FBQztRQUNILE1BQU0sQ0FBQyxZQUFZLENBQUM7SUFDckIsQ0FBQztJQUVELHlDQUFVLEdBQVYsVUFBVyxHQUFXLEVBQUUsYUFBcUIsRUFBRSxpQkFBeUI7UUFDdkUsTUFBTSxDQUFDLEdBQUcsQ0FBQyxPQUFPLENBQUMsSUFBSSxNQUFNLENBQUMsYUFBYSxFQUFFLElBQUksQ0FBQyxFQUFFLGlCQUFpQixDQUFDLENBQUM7SUFDeEUsQ0FBQztJQUNGLDJCQUFDO0FBQUQsQ0FBQyxBQXZCRCxJQXVCQztBQXZCWSw0QkFBb0IsdUJBdUJoQyxDQUFBO0FBRVUscUJBQWEsR0FBMEIsSUFBSSxvQkFBb0IsRUFBRSxDQUFDO0FBRTdFLE9BQU8sQ0FBQyxNQUFNLENBQUMsa0JBQVUsRUFBRSxFQUFFLENBQUM7S0FDNUIsT0FBTyxDQUFDLG1CQUFXLEVBQUUsb0JBQW9CLENBQUMsQ0FBQyJ9
+exports.StringUtility = StringUtility;
+exports.stringUtility = new StringUtility();
+exports.stringToken = new core_1.OpaqueToken('A service for working with strings');
+exports.STRING_PROVIDER = new core_1.Provider(exports.stringToken, {
+    useClass: StringUtility,
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RyaW5nLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJzdHJpbmcuc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUEscUJBQXNDLGVBQWUsQ0FBQyxDQUFBO0FBRXRELElBQVksQ0FBQyxXQUFNLFFBQVEsQ0FBQyxDQUFBO0FBUzVCO0lBQUE7SUF1QkEsQ0FBQztJQXRCQSxnQ0FBUSxHQUFSLFVBQVMsTUFBYztRQUN0QixNQUFNLENBQUMsQ0FBQyxNQUFNLENBQUM7SUFDaEIsQ0FBQztJQUVELGdDQUFRLEdBQVIsVUFBUyxHQUFXLEVBQUUsU0FBa0I7UUFDdkMsRUFBRSxDQUFDLENBQUMsU0FBUyxDQUFDLENBQUMsQ0FBQztZQUNmLE1BQU0sQ0FBQyxHQUFHLENBQUMsT0FBTyxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDO1FBQ3RDLENBQUM7UUFFRCxNQUFNLENBQUMsSUFBSSxDQUFDO0lBQ2IsQ0FBQztJQUVELGtDQUFVLEdBQVYsVUFBVyxZQUFvQjtRQUEvQixpQkFLQztRQUxnQyxnQkFBbUI7YUFBbkIsV0FBbUIsQ0FBbkIsc0JBQW1CLENBQW5CLElBQW1CO1lBQW5CLCtCQUFtQjs7UUFDbkQsQ0FBQyxDQUFDLElBQUksQ0FBQyxNQUFNLEVBQUUsVUFBQyxLQUFhLEVBQUUsS0FBYTtZQUMzQyxZQUFZLEdBQUcsS0FBSSxDQUFDLFVBQVUsQ0FBQyxZQUFZLEVBQUUsS0FBSyxHQUFHLEtBQUssR0FBRyxLQUFLLEVBQUUsS0FBSyxDQUFDLENBQUM7UUFDNUUsQ0FBQyxDQUFDLENBQUM7UUFDSCxNQUFNLENBQUMsWUFBWSxDQUFDO0lBQ3JCLENBQUM7SUFFRCxrQ0FBVSxHQUFWLFVBQVcsR0FBVyxFQUFFLGFBQXFCLEVBQUUsaUJBQXlCO1FBQ3ZFLE1BQU0sQ0FBQyxHQUFHLENBQUMsT0FBTyxDQUFDLElBQUksTUFBTSxDQUFDLGFBQWEsRUFBRSxJQUFJLENBQUMsRUFBRSxpQkFBaUIsQ0FBQyxDQUFDO0lBQ3hFLENBQUM7SUFDRixvQkFBQztBQUFELENBQUMsQUF2QkQsSUF1QkM7QUF2QlkscUJBQWEsZ0JBdUJ6QixDQUFBO0FBRVUscUJBQWEsR0FBbUIsSUFBSSxhQUFhLEVBQUUsQ0FBQztBQUVsRCxtQkFBVyxHQUFnQixJQUFJLGtCQUFXLENBQUMsb0NBQW9DLENBQUMsQ0FBQztBQUVqRix1QkFBZSxHQUFhLElBQUksZUFBUSxDQUFDLG1CQUFXLEVBQUU7SUFDbEUsUUFBUSxFQUFFLGFBQWE7Q0FDdkIsQ0FBQyxDQUFDIn0=

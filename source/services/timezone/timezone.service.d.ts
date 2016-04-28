@@ -1,3 +1,4 @@
+import { OpaqueToken, Provider } from 'angular2/core';
 import { ITimezone } from './timezone.enum';
 export * from './timezone.enum';
 export interface ITimezoneService {
@@ -7,7 +8,7 @@ export interface ITimezoneService {
     currentTimezone: ITimezone;
     buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone, format?: string): moment.Moment;
 }
-export declare class TimezoneService {
+export declare class TimezoneService implements ITimezoneService {
     private _currentTimezone;
     currentTimezone: ITimezone;
     setCurrentTimezone(offset: string): void;
@@ -16,3 +17,5 @@ export declare class TimezoneService {
     buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone, format?: string): moment.Moment;
 }
 export declare let timezoneService: ITimezoneService;
+export declare const timezoneToken: OpaqueToken;
+export declare const TIMEZONE_PROVIDER: Provider;

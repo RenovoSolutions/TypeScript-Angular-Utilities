@@ -1,7 +1,6 @@
-import * as ng from 'angular';
+import { Provider, ExceptionHandler, OpaqueToken } from 'angular2/core';
 import { INotificationService } from '../notification/notification.service';
-export declare var moduleName: string;
-export declare var serviceName: string;
+import { IRedirectService } from '../redirect/redirect.service';
 export declare enum HttpStatusCode {
     cancelledRequest = -1,
     badRequest = 400,
@@ -28,14 +27,21 @@ export interface IErrorMessages {
     defaultError: string;
     goneError: string;
 }
+export interface ILoginUrlSettings {
+    loginUrl: string;
+    returnUrlParam: string;
+}
+export declare const defaultErrorsToken: OpaqueToken;
+export declare const DEFAULT_ERROR_PROVIDERS: Provider;
+export declare const defaultLoginUrlSettingsToken: OpaqueToken;
+export declare const DEFAULT_LOGIN_URL_PROVIDERS: Provider;
 export declare class ErrorHandlerService implements IErrorHandlerService {
-    private $window;
-    private $exceptionHandler;
+    private redirect;
+    private exceptionHandler;
     private notification;
-    private loginUrl;
+    private loginSettings;
     private errorMessages;
-    private returnUrlParam;
-    constructor($window: ng.IWindowService, $exceptionHandler: ng.IExceptionHandlerService, notification: INotificationService, loginUrl: string, errorMessages: IErrorMessages, returnUrlParam: string);
+    constructor(redirect: IRedirectService, exceptionHandler: ExceptionHandler, notification: INotificationService, errorMessages: IErrorMessages, loginSettings: ILoginUrlSettings);
     httpResponseError(rejection: IRejection): void;
     private badRequestError(rejection);
     private loggedOutError();
@@ -45,9 +51,5 @@ export declare class ErrorHandlerService implements IErrorHandlerService {
     private systemError();
     private goneError();
 }
-export interface IErrorHandlerServiceProvider extends angular.IServiceProvider {
-    loginUrl: string;
-    errorMessages: IErrorMessages;
-    returnUrlParam: string;
-    $get($window: ng.IWindowService, $exceptionHandler: ng.IExceptionHandlerService, notification: INotificationService): IErrorHandlerService;
-}
+export declare const errorHandlerToken: OpaqueToken;
+export declare const ERROR_HANDLER_PROVIDER: Provider;

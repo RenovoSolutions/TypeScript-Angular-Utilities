@@ -1,19 +1,14 @@
-'use strict';
+import { Inject, Injectable, OpaqueToken, Provider } from 'angular2/core';
 
-import * as angular from 'angular';
+import { IArrayUtility, arrayToken } from '../../array/array.service';
+import { IHttpUtility, httpToken } from '../../http/http.service';
 
-import { IArrayUtility, serviceName as arrayServiceName, moduleName as arrayModuleName } from '../../array/array.service';
-
-import { IContractLibrary, ContractLibrary, ILibraryServices } from '../contractLibrary/contractLibrary';
 import { IConverter } from '../converters/converters';
 import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
 import { IDataServiceView, IParentDataServiceView, DataServiceView, ParentDataServiceView } from '../dataService/view/dataServiceView';
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService, SingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService, ParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
-
-export var moduleName: string = 'rl.utilities.services.dataContracts.resourceBuilder';
-export var serviceName: string = 'resourceBuilder';
 
 export interface IBaseOptions<TDataType> {
 	/**
@@ -72,12 +67,7 @@ export interface IParentSingletonResourceParams<TDataType, TResourceDictionaryTy
 	resourceDictionaryBuilder?: { (): TResourceDictionaryType };
 }
 
-export interface IBaseResourceBuilder {
-	/**
-	 * A helper to pass into the constructor when building a new contracts library
-	 */
-	getLibraryServices(): ILibraryServices;
-
+export interface IResourceBuilder {
 	/**
 	 * Create a standard resource with getList, getDetail, create, update, delete
 	 */
@@ -134,51 +124,45 @@ export interface IBaseResourceBuilder {
 		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType>;
 }
 
-export class BaseResourceBuilder implements IBaseResourceBuilder {
-	static $inject: string[] = ['$http', '$q', '$rootScope', arrayServiceName];
-	constructor(private $http: angular.IHttpService
-			, private $q: angular.IQService
-			, private $rootScope: angular.IRootScopeService
-			, private array: IArrayUtility) { }
+@Injectable()
+export class ResourceBuilder implements IResourceBuilder {
+	private http: IHttpUtility;
+	private array: IArrayUtility;
 
-	getLibraryServices(): ILibraryServices {
-		return {
-			$q: this.$q,
-			$rootScope: this.$rootScope,
-		};
-	}
+	constructor(@Inject(httpToken) http: IHttpUtility
+			, @Inject(arrayToken) array: IArrayUtility) { }
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
-		return new DataService(this.$http, this.$q, this.array, options);
+		return new DataService(this.http, this.array, options);
 	}
 
 	createResourceView<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataServiceView<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
-		return new DataServiceView(this.$http, this.$q, this.array, options);
+		return new DataServiceView(this.http, this.array, options);
 	}
 
 	createParentResource<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new ParentDataService<TDataType, TSearchParams, TResourceDictionaryType>(this.$http, this.$q, this.array, options);
+		return new ParentDataService<TDataType, TSearchParams, TResourceDictionaryType>(this.http, this.array, options);
 	}
 
 	createParentResourceView<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType>
 		(options: IParentResourceParams<TDataType, TResourceDictionaryType>): IParentDataServiceView<TDataType, TSearchParams, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new ParentDataServiceView(this.$http, this.$q, this.array, options);
+		return new ParentDataServiceView(this.http, this.array, options);
 	}
 
 	createSingletonResource<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new SingletonDataService<TDataType>(this.$http, this.$q, options);
+		return new SingletonDataService<TDataType>(this.http, options);
 	}
 
 	createParentSingletonResource<TDataType, TResourceDictionaryType>
 		(options: IParentSingletonResourceParams<TDataType, TResourceDictionaryType>): IParentSingletonDataService<TDataType, TResourceDictionaryType> {
 		options = this.useMockIfNoEndpoint(options);
-		return new ParentSingletonDataService(this.$http, this.$q, options);
+		return new ParentSingletonDataService(this.http, options);
 	}
 
 	private useMockIfNoEndpoint<TDataType>(options: IBaseOptions<TDataType>): IBaseOptions<TDataType> {
@@ -187,5 +171,8 @@ export class BaseResourceBuilder implements IBaseResourceBuilder {
 	}
 }
 
-angular.module(moduleName, [arrayModuleName])
-	.service(serviceName, BaseResourceBuilder);
+export const resourceBuilderToken: OpaqueToken = new OpaqueToken('A helper for building resources for hitting REST endpoints');
+
+export const RESOURCE_BUILDER_PROVIDER: Provider = new Provider(resourceBuilderToken, {
+	useClass: ResourceBuilder,
+});

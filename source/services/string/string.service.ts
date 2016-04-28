@@ -1,19 +1,15 @@
-'use strict';
+import { OpaqueToken, Provider } from 'angular2/core';
 
-import * as angular from 'angular';
 import * as _ from 'lodash';
 
-export var moduleName: string = 'rl.utilities.services.string';
-export var serviceName: string = 'stringUtilityService';
-
-export interface IStringUtilityService {
+export interface IStringUtility {
 	toNumber(string: string): number;
 	contains(str: string, substring?: string): boolean;
 	substitute(formatString: string, ...params: string[]): string;
 	replaceAll(str: string, patternToFind: string, replacementString: string): string;
 }
 
-export class StringUtilityService implements IStringUtilityService {
+export class StringUtility implements IStringUtility {
 	toNumber(string: string): number {
 		return +string;
 	}
@@ -38,7 +34,10 @@ export class StringUtilityService implements IStringUtilityService {
 	}
 }
 
-export let stringUtility: IStringUtilityService = new StringUtilityService();
+export let stringUtility: IStringUtility = new StringUtility();
 
-angular.module(moduleName, [])
-	.service(serviceName, StringUtilityService);
+export const stringToken: OpaqueToken = new OpaqueToken('A service for working with strings');
+
+export const STRING_PROVIDER: Provider = new Provider(stringToken, {
+	useClass: StringUtility,
+});

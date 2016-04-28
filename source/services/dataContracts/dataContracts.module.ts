@@ -1,27 +1,23 @@
-'use strict';
+import { Provider } from 'angular2/core';
 
-import * as angular from 'angular';
-
-import { moduleName as resourceBuilderModuleName } from './resourceBuilder/resourceBuilder.service';
-import { moduleName as baseDataServiceModuleName } from './dataService/data.service';
-import { moduleName as baseSingletonDataServiceModuleName } from './singletonDataService/singletonData.service';
+import { RESOURCE_BUILDER_PROVIDER } from './resourceBuilder/resourceBuilder.service';
+import { DATA_SERVICE_PROVIDER } from './dataService/data.service';
+import { SINGLETON_DATA_SERVICE_PROVIDER } from './singletonDataService/singletonData.service';
 
 import * as converters from './converters/converters';
 import * as mocks from './contractLibrary/dataServiceMocks';
 
-export var moduleName: string = 'rl.utilities.services.dataContracts';
-
 export * from './contractLibrary/contractLibrary';
-export { IDataService, IDataServiceFactory, IBaseDomainObject, DataService, factoryName as baseDataServiceFactoryName } from './dataService/data.service';
-export { IDataServiceView, IParentDataServiceView } from './dataService/view/dataServiceView';
+export * from './dataService/data.service';
+export * from './dataService/view/dataServiceView';
 export * from './dataService/parent/parentData.service';
-export { ISingletonDataService, ISingletonDataServiceFactory, SingletonDataService, factoryName as baseSingletonDataServiceFactoryName } from './singletonDataService/singletonData.service';
+export * from './singletonDataService/singletonData.service';
 export * from './singletonDataService/parent/parentSingletonData.service';
-export { IBaseResourceBuilder, serviceName as builderServiceName } from './resourceBuilder/resourceBuilder.service';
+export * from './resourceBuilder/resourceBuilder.service';
 export { converters, mocks };
 
-angular.module(moduleName, [
-	baseDataServiceModuleName,
-	baseSingletonDataServiceModuleName,
-	resourceBuilderModuleName,
-]);
+export const DATA_CONTRACT_PROVIDERS: Provider[] = [
+	RESOURCE_BUILDER_PROVIDER,
+	DATA_SERVICE_PROVIDER,
+	SINGLETON_DATA_SERVICE_PROVIDER,
+];

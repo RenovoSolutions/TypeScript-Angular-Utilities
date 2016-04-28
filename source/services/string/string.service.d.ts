@@ -1,15 +1,16 @@
-export declare var moduleName: string;
-export declare var serviceName: string;
-export interface IStringUtilityService {
+import { OpaqueToken, Provider } from 'angular2/core';
+export interface IStringUtility {
     toNumber(string: string): number;
     contains(str: string, substring?: string): boolean;
     substitute(formatString: string, ...params: string[]): string;
     replaceAll(str: string, patternToFind: string, replacementString: string): string;
 }
-export declare class StringUtilityService implements IStringUtilityService {
+export declare class StringUtility implements IStringUtility {
     toNumber(string: string): number;
     contains(str: string, substring?: string): boolean;
     substitute(formatString: string, ...params: string[]): string;
     replaceAll(str: string, patternToFind: string, replacementString: string): string;
 }
-export declare let stringUtility: IStringUtilityService;
+export declare let stringUtility: IStringUtility;
+export declare const stringToken: OpaqueToken;
+export declare const STRING_PROVIDER: Provider;

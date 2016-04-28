@@ -1,24 +1,19 @@
-import { IObservableService, IObservableServiceFactory, moduleName, factoryName } from './observable.service';
+import { ObservableService } from './observable.service';
 
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+interface IMockExceptionHandler {
+	call: Sinon.SinonSpy;
+}
 
 describe('observable', () => {
-	let observable: IObservableService;
-	let $exceptionHandler: Sinon.SinonSpy;
+	let observable: ObservableService;
+	let exceptionHandler: IMockExceptionHandler;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
+		exceptionHandler = {
+			call: sinon.spy(),
+		};
 
-		$exceptionHandler = sinon.spy();
-
-		angularFixture.mock({ $exceptionHandler: $exceptionHandler });
-
-		let services: any = angularFixture.inject(factoryName);
-		let observableFactory: IObservableServiceFactory = services[factoryName];
-		observable = observableFactory.getInstance();
+		observable = new ObservableService(<any>exceptionHandler);
 	});
 
 	it('should register a watcher and call the action when fire is called', (): void => {
@@ -86,10 +81,10 @@ describe('observable', () => {
 	});
 
 	it('should return with an error if no function is provided', (): void => {
-		let cancel: () => void = observable.register(null);
+		let cancel: Function = observable.register(null);
 
-		sinon.assert.calledOnce($exceptionHandler);
-		sinon.assert.calledWith($exceptionHandler, new Error('Watcher must be a function'));
+		sinon.assert.calledOnce(exceptionHandler.call);
+		sinon.assert.calledWith(exceptionHandler.call, new Error('Watcher must be a function'));
 
 		expect(cancel).to.be.null;
 	});
@@ -97,10 +92,10 @@ describe('observable', () => {
 	it('should return with an error if the event is not allowed', (): void => {
 		observable.allowableEvents = ['event1', 'event2'];
 
-		let cancel: () => void = observable.register((): void => { return; }, 'event3');
+		let cancel: Function = observable.register((): void => { return; }, 'event3');
 
-		sinon.assert.calledOnce($exceptionHandler);
-		sinon.assert.calledWith($exceptionHandler, new Error('This event is not allowed. Events: event1, event2'));
+		sinon.assert.calledOnce(exceptionHandler.call);
+		sinon.assert.calledWith(exceptionHandler.call, new Error('This event is not allowed. Events: event1, event2'));
 
 		expect(cancel).to.be.null;
 

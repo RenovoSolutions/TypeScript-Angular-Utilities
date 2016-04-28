@@ -1,11 +1,9 @@
-'use strict';
+import { OpaqueToken, Provider } from 'angular2/core';
 
-import * as angular from 'angular';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import { timezones, ITimezone } from './timezone.enum';
-import { defaultFormats } from '../date/date.module';
 
 export * from './timezone.enum';
 
@@ -17,7 +15,7 @@ export interface ITimezoneService {
 	buildMomentWithTimezone(dateValue: string | moment.Moment, timezone: ITimezone, format?: string): moment.Moment;
 }
 
-export class TimezoneService {
+export class TimezoneService implements ITimezoneService {
 	private _currentTimezone: ITimezone;
 
 	get currentTimezone(): ITimezone {
@@ -69,3 +67,9 @@ export class TimezoneService {
 }
 
 export let timezoneService: ITimezoneService = new TimezoneService();
+
+export const timezoneToken: OpaqueToken = new OpaqueToken('A service for working with timezones');
+
+export const TIMEZONE_PROVIDER: Provider = new Provider(timezoneToken, {
+	useClass: TimezoneService,
+});

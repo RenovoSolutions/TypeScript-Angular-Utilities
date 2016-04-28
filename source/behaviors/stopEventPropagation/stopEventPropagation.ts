@@ -1,26 +1,22 @@
-import * as angular from 'angular';
+import { Input, Directive, ElementRef, AfterContentInit } from 'angular2/core';
 
-export var moduleName: string = 'rl.utilities.behaviors.stopEventPropogation';
-export var directiveName: string = 'rlStopEventPropagation';
+@Directive({
+	selector: '[rl-stop-event-propagation]'
+})
+export class StopEventPropagation implements AfterContentInit {
+	private element: ElementRef;
 
-export interface IStopEventPropagationAttrs extends angular.IAttributes {
-	rlStopEventPropagation: string;
+	@Input('rl-stop-event-propagation')
+	private event: string;
+
+	constructor(element: ElementRef) {
+		this.element = element;
+	}
+
+	ngAfterContentInit(): void {
+		this.element.nativeElement.on(this.event, (event: any): void => {
+			event.preventDefault();
+			event.stopPropagation();
+		});
+	}
 }
-
-function stopEventPropagation(): angular.IDirective {
-	'use strict';
-	return {
-		restrict: 'A',
-		link(scope: angular.IScope
-			, element: angular.IAugmentedJQuery
-			, attrs: IStopEventPropagationAttrs): void {
-			element.on(attrs.rlStopEventPropagation, (event: any): void => {
-				event.preventDefault();
-				event.stopPropagation();
-			});
-		}
-	};
-}
-
-angular.module(moduleName, [])
-	.directive(directiveName, stopEventPropagation);

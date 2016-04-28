@@ -1,7 +1,5 @@
-'use strict';
-var angular = require('angular');
-exports.moduleName = 'rl.utilities.services.boolean';
-exports.serviceName = 'booleanUtility';
+"use strict";
+var core_1 = require('angular2/core');
 var BooleanUtility = (function () {
     function BooleanUtility() {
     }
@@ -10,6 +8,9 @@ var BooleanUtility = (function () {
     };
     return BooleanUtility;
 }());
-angular.module(exports.moduleName, [])
-    .service(exports.serviceName, BooleanUtility);
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYm9vbGVhbi5zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiYm9vbGVhbi5zZXJ2aWNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLFlBQVksQ0FBQztBQUViLElBQVksT0FBTyxXQUFNLFNBQVMsQ0FBQyxDQUFBO0FBRXhCLGtCQUFVLEdBQVcsK0JBQStCLENBQUM7QUFDckQsbUJBQVcsR0FBVyxnQkFBZ0IsQ0FBQztBQU1sRDtJQUFBO0lBSUEsQ0FBQztJQUhBLCtCQUFNLEdBQU4sVUFBTyxNQUFXO1FBQ2pCLE1BQU0sQ0FBQyxDQUFDLENBQUMsTUFBTSxDQUFDO0lBQ2pCLENBQUM7SUFDRixxQkFBQztBQUFELENBQUMsQUFKRCxJQUlDO0FBRUQsT0FBTyxDQUFDLE1BQU0sQ0FBQyxrQkFBVSxFQUFFLEVBQUUsQ0FBQztLQUM1QixPQUFPLENBQUMsbUJBQVcsRUFBRSxjQUFjLENBQUMsQ0FBQyJ9
+exports.BooleanUtility = BooleanUtility;
+exports.booleanToken = new core_1.OpaqueToken('A utility for working with booleans');
+exports.BOOLEAN_PROVIDER = new core_1.Provider(exports.booleanToken, {
+    useClass: BooleanUtility,
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYm9vbGVhbi5zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiYm9vbGVhbi5zZXJ2aWNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFBQSxxQkFBc0MsZUFBZSxDQUFDLENBQUE7QUFNdEQ7SUFBQTtJQUlBLENBQUM7SUFIQSwrQkFBTSxHQUFOLFVBQU8sTUFBVztRQUNqQixNQUFNLENBQUMsQ0FBQyxDQUFDLE1BQU0sQ0FBQztJQUNqQixDQUFDO0lBQ0YscUJBQUM7QUFBRCxDQUFDLEFBSkQsSUFJQztBQUpZLHNCQUFjLGlCQUkxQixDQUFBO0FBRVksb0JBQVksR0FBZ0IsSUFBSSxrQkFBVyxDQUFDLHFDQUFxQyxDQUFDLENBQUM7QUFFbkYsd0JBQWdCLEdBQWEsSUFBSSxlQUFRLENBQUMsb0JBQVksRUFBRTtJQUNwRSxRQUFRLEVBQUUsY0FBYztDQUN4QixDQUFDLENBQUMifQ==

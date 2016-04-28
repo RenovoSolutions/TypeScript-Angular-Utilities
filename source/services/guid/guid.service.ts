@@ -1,11 +1,6 @@
-'use strict';
-
-import * as angular from 'angular';
+import { OpaqueToken, Provider } from 'angular2/core';
 
 import * as uuid from 'uuid';
-
-export var moduleName: string = 'rl.utilities.services.guid';
-export var serviceName: string = 'guidService';
 
 export interface IGuidService {
 	time(): string;
@@ -22,7 +17,10 @@ class GuidService implements IGuidService {
 	}
 }
 
-export let guid: IGuidService = new GuidService();
+export const guid: IGuidService = new GuidService();
 
-angular.module(moduleName, [])
-	.service(serviceName, GuidService);
+export const guidToken: OpaqueToken = new OpaqueToken('Service for generating guids');
+
+export const GUID_PROVIDER: Provider = new Provider(guidToken, {
+	useClass: GuidService,
+});

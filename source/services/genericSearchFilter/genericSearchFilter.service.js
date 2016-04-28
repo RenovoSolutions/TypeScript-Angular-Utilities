@@ -1,16 +1,26 @@
-'use strict';
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var angular = require('angular');
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var core_1 = require('angular2/core');
 var object_service_1 = require('../object/object.service');
 var string_service_1 = require('../string/string.service');
 var search_service_1 = require('../search/search.service');
 var filter_1 = require('../../filters/filter');
-exports.moduleName = 'rl.utilities.services.genericSearchFilter';
-exports.factoryName = 'genericSearchFilterFactory';
 exports.filterName = 'search';
 var GenericSearchFilter = (function (_super) {
     __extends(GenericSearchFilter, _super);
@@ -51,15 +61,24 @@ var GenericSearchFilter = (function (_super) {
     return GenericSearchFilter;
 }(filter_1.SerializableFilter));
 exports.GenericSearchFilter = GenericSearchFilter;
-genericSearchFilterFactory.$inject = [object_service_1.serviceName, string_service_1.serviceName];
-function genericSearchFilterFactory(object, stringUtility) {
-    'use strict';
-    return {
-        getInstance: function (tokenized) {
-            return new GenericSearchFilter(object, stringUtility, tokenized);
-        }
+var GenericSearchFilterFactory = (function () {
+    function GenericSearchFilterFactory(objectUtility, stringUtility) {
+        this.objectUtility = objectUtility;
+        this.stringUtility = stringUtility;
+    }
+    GenericSearchFilterFactory.prototype.getInstance = function (tokenized) {
+        return new GenericSearchFilter(this.objectUtility, this.stringUtility, tokenized);
     };
-}
-angular.module(exports.moduleName, [object_service_1.moduleName, string_service_1.moduleName])
-    .factory(exports.factoryName, genericSearchFilterFactory);
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2VuZXJpY1NlYXJjaEZpbHRlci5zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiZ2VuZXJpY1NlYXJjaEZpbHRlci5zZXJ2aWNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLFlBQVksQ0FBQzs7Ozs7O0FBRWIsSUFBWSxPQUFPLFdBQU0sU0FBUyxDQUFDLENBQUE7QUFJbkMsK0JBSU8sMEJBQTBCLENBQUMsQ0FBQTtBQUVsQywrQkFJTywwQkFBMEIsQ0FBQyxDQUFBO0FBQ2xDLCtCQUE4QiwwQkFBMEIsQ0FBQyxDQUFBO0FBRXpELHVCQUE4RSxzQkFBc0IsQ0FBQyxDQUFBO0FBRTFGLGtCQUFVLEdBQVcsMkNBQTJDLENBQUM7QUFDakUsbUJBQVcsR0FBVyw0QkFBNEIsQ0FBQztBQUNuRCxrQkFBVSxHQUFXLFFBQVEsQ0FBQztBQVV6QztJQUF5Qyx1Q0FBMEI7SUFNbEUsNkJBQXNCLE1BQXNCLEVBQ2hDLE1BQTZCLEVBQzdCLFNBQWtCO1FBQzdCLGlCQUFPLENBQUM7UUFIYSxXQUFNLEdBQU4sTUFBTSxDQUFnQjtRQUNoQyxXQUFNLEdBQU4sTUFBTSxDQUF1QjtRQUM3QixjQUFTLEdBQVQsU0FBUyxDQUFTO1FBUDlCLFNBQUksR0FBVyxrQkFBVSxDQUFDO1FBQzFCLG9CQUFlLEdBQVcsQ0FBQyxDQUFDO1FBQzVCLGtCQUFhLEdBQVksS0FBSyxDQUFDO0lBTy9CLENBQUM7SUFFRCxzQkFBSSwyQ0FBVTthQUFkO1lBQ0MsTUFBTSxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUM7UUFDekIsQ0FBQzthQUVELFVBQWUsS0FBYTtZQUMzQixJQUFJLENBQUMsV0FBVyxHQUFHLEtBQUssQ0FBQztZQUN6QixJQUFJLENBQUMsUUFBUSxDQUFDLEtBQUssQ0FBQyxDQUFDO1FBQ3RCLENBQUM7OztPQUxBO0lBT0QsdUNBQVMsR0FBVDtRQUNDLE1BQU0sQ0FBQyxJQUFJLENBQUMsVUFBVSxJQUFJLElBQUksSUFBSSxJQUFJLENBQUMsVUFBVSxDQUFDLE1BQU0sSUFBSSxJQUFJLENBQUMsZUFBZTtjQUM3RSxJQUFJLENBQUMsVUFBVTtjQUNmLElBQUksQ0FBQztJQUNULENBQUM7SUFFRCxvQ0FBTSxHQUFOLFVBQWtCLElBQWU7UUFDaEMsRUFBRSxDQUFDLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxhQUFhLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxJQUFJLElBQUksQ0FBQyxVQUFVLENBQUMsTUFBTSxHQUFHLElBQUksQ0FBQyxlQUFlLENBQUMsQ0FBQyxDQUFDO1lBQ2pHLE1BQU0sQ0FBQyxJQUFJLENBQUM7UUFDYixDQUFDO1FBRUQsRUFBRSxDQUFDLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDLENBQUM7WUFDcEIsTUFBTSxDQUFDLDhCQUFhLENBQUMsZUFBZSxDQUFDLElBQUksRUFBRSxJQUFJLENBQUMsVUFBVSxFQUFFLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQztRQUNqRixDQUFDO1FBRUQsTUFBTSxDQUFDLDhCQUFhLENBQUMsTUFBTSxDQUFDLElBQUksRUFBRSxJQUFJLENBQUMsVUFBVSxFQUFFLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQztJQUN4RSxDQUFDO0lBQ0YsMEJBQUM7QUFBRCxDQUFDLEFBdENELENBQXlDLDJCQUFrQixHQXNDMUQ7QUF0Q1ksMkJBQW1CLHNCQXNDL0IsQ0FBQTtBQU1ELDBCQUEwQixDQUFDLE9BQU8sR0FBRyxDQUFDLDRCQUFpQixFQUFFLDRCQUFpQixDQUFDLENBQUM7QUFDNUUsb0NBQW9DLE1BQXNCLEVBQ3pELGFBQW9DO0lBRXBDLFlBQVksQ0FBQztJQUViLE1BQU0sQ0FBQztRQUNOLFdBQVcsWUFBQyxTQUFtQjtZQUM5QixNQUFNLENBQUMsSUFBSSxtQkFBbUIsQ0FBQyxNQUFNLEVBQUUsYUFBYSxFQUFFLFNBQVMsQ0FBQyxDQUFDO1FBQ2xFLENBQUM7S0FDRCxDQUFDO0FBQ0gsQ0FBQztBQUVELE9BQU8sQ0FBQyxNQUFNLENBQUMsa0JBQVUsRUFBRSxDQUFDLDJCQUFnQixFQUFFLDJCQUFnQixDQUFDLENBQUM7S0FDOUQsT0FBTyxDQUFDLG1CQUFXLEVBQUUsMEJBQTBCLENBQUMsQ0FBQyJ9
+    GenericSearchFilterFactory = __decorate([
+        __param(0, core_1.Inject(object_service_1.objectToken)),
+        __param(1, core_1.Inject(string_service_1.stringToken)), 
+        __metadata('design:paramtypes', [Object, Object])
+    ], GenericSearchFilterFactory);
+    return GenericSearchFilterFactory;
+}());
+exports.GenericSearchFilterFactory = GenericSearchFilterFactory;
+exports.genericSearchFilterToken = new core_1.OpaqueToken('A factory for getting generic search filters');
+exports.GENERIC_SEARCH_FILTER_PROVIDER = new core_1.Provider(exports.genericSearchFilterToken, {
+    useClass: GenericSearchFilterFactory,
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2VuZXJpY1NlYXJjaEZpbHRlci5zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiZ2VuZXJpY1NlYXJjaEZpbHRlci5zZXJ2aWNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLHFCQUE4QyxlQUFlLENBQUMsQ0FBQTtBQUs5RCwrQkFHTywwQkFBMEIsQ0FBQyxDQUFBO0FBRWxDLCtCQUdPLDBCQUEwQixDQUFDLENBQUE7QUFDbEMsK0JBQThCLDBCQUEwQixDQUFDLENBQUE7QUFFekQsdUJBQXdELHNCQUFzQixDQUFDLENBQUE7QUFFcEUsa0JBQVUsR0FBVyxRQUFRLENBQUM7QUFVekM7SUFBeUMsdUNBQTBCO0lBTWxFLDZCQUFzQixNQUFzQixFQUNoQyxNQUFzQixFQUN0QixTQUFrQjtRQUM3QixpQkFBTyxDQUFDO1FBSGEsV0FBTSxHQUFOLE1BQU0sQ0FBZ0I7UUFDaEMsV0FBTSxHQUFOLE1BQU0sQ0FBZ0I7UUFDdEIsY0FBUyxHQUFULFNBQVMsQ0FBUztRQVA5QixTQUFJLEdBQVcsa0JBQVUsQ0FBQztRQUMxQixvQkFBZSxHQUFXLENBQUMsQ0FBQztRQUM1QixrQkFBYSxHQUFZLEtBQUssQ0FBQztJQU8vQixDQUFDO0lBRUQsc0JBQUksMkNBQVU7YUFBZDtZQUNDLE1BQU0sQ0FBQyxJQUFJLENBQUMsV0FBVyxDQUFDO1FBQ3pCLENBQUM7YUFFRCxVQUFlLEtBQWE7WUFDM0IsSUFBSSxDQUFDLFdBQVcsR0FBRyxLQUFLLENBQUM7WUFDekIsSUFBSSxDQUFDLFFBQVEsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUN0QixDQUFDOzs7T0FMQTtJQU9ELHVDQUFTLEdBQVQ7UUFDQyxNQUFNLENBQUMsSUFBSSxDQUFDLFVBQVUsSUFBSSxJQUFJLElBQUksSUFBSSxDQUFDLFVBQVUsQ0FBQyxNQUFNLElBQUksSUFBSSxDQUFDLGVBQWU7Y0FDN0UsSUFBSSxDQUFDLFVBQVU7Y0FDZixJQUFJLENBQUM7SUFDVCxDQUFDO0lBRUQsb0NBQU0sR0FBTixVQUFrQixJQUFlO1FBQ2hDLEVBQUUsQ0FBQyxDQUFDLElBQUksQ0FBQyxNQUFNLENBQUMsYUFBYSxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsSUFBSSxJQUFJLENBQUMsVUFBVSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsZUFBZSxDQUFDLENBQUMsQ0FBQztZQUNqRyxNQUFNLENBQUMsSUFBSSxDQUFDO1FBQ2IsQ0FBQztRQUVELEVBQUUsQ0FBQyxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDO1lBQ3BCLE1BQU0sQ0FBQyw4QkFBYSxDQUFDLGVBQWUsQ0FBQyxJQUFJLEVBQUUsSUFBSSxDQUFDLFVBQVUsRUFBRSxJQUFJLENBQUMsYUFBYSxDQUFDLENBQUM7UUFDakYsQ0FBQztRQUVELE1BQU0sQ0FBQyw4QkFBYSxDQUFDLE1BQU0sQ0FBQyxJQUFJLEVBQUUsSUFBSSxDQUFDLFVBQVUsRUFBRSxJQUFJLENBQUMsYUFBYSxDQUFDLENBQUM7SUFDeEUsQ0FBQztJQUNGLDBCQUFDO0FBQUQsQ0FBQyxBQXRDRCxDQUF5QywyQkFBa0IsR0FzQzFEO0FBdENZLDJCQUFtQixzQkFzQy9CLENBQUE7QUFNRDtJQUlDLG9DQUFrQyxhQUE2QixFQUN6QyxhQUE2QjtRQUNsRCxJQUFJLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztRQUNuQyxJQUFJLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztJQUNwQyxDQUFDO0lBRUQsZ0RBQVcsR0FBWCxVQUFZLFNBQW1CO1FBQzlCLE1BQU0sQ0FBQyxJQUFJLG1CQUFtQixDQUFDLElBQUksQ0FBQyxhQUFhLEVBQUUsSUFBSSxDQUFDLGFBQWEsRUFBRSxTQUFTLENBQUMsQ0FBQztJQUNuRixDQUFDO0lBUlk7bUJBQUMsYUFBTSxDQUFDLDRCQUFXLENBQUM7bUJBQy9CLGFBQU0sQ0FBQyw0QkFBVyxDQUFDOztrQ0FEWTtJQVNsQyxpQ0FBQztBQUFELENBQUMsQUFiRCxJQWFDO0FBYlksa0NBQTBCLDZCQWF0QyxDQUFBO0FBRVksZ0NBQXdCLEdBQWdCLElBQUksa0JBQVcsQ0FBQyw4Q0FBOEMsQ0FBQyxDQUFDO0FBRXhHLHNDQUE4QixHQUFhLElBQUksZUFBUSxDQUFDLGdDQUF3QixFQUFFO0lBQzlGLFFBQVEsRUFBRSwwQkFBMEI7Q0FDcEMsQ0FBQyxDQUFDIn0=

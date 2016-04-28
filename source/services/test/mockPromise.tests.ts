@@ -1,9 +1,4 @@
 import { mock, IMockedPromise } from './mockPromise';
-import * as Promise from 'bluebird';
-
-import * as angular from 'angular';
-import 'angular-mocks';
-import { moduleName, angularFixture } from './test.module';
 
 interface ITestType {
 	value: number;
@@ -126,7 +121,7 @@ describe('mockPromise', () => {
 
 	it('should flush all requests on an unshared promise', (done: MochaDone): void => {
 		let mockedPromise: IMockedPromise<number> = mock.promise(result => result);
-		Promise.all([
+		Promise.all<number>([
 			mockedPromise(5),
 			mockedPromise(10),
 		]).then(([result1, result2]: number[]): void => {
@@ -150,7 +145,7 @@ describe('mockPromise', () => {
 			promise1: mock.promise({ value: 3 }),
 			promise2: mock.promise({ value: 4 }),
 		};
-		Promise.all([
+		Promise.all<ITestType>([
 			service.promise1(),
 			service.promise2(),
 		]).then(([result1, result2]: ITestType[]): void => {
@@ -161,18 +156,15 @@ describe('mockPromise', () => {
 		mock.flushAll(service);
 	});
 
-	it('should work with $q.when and $q.all', (done: MochaDone): void => {
-		angular.mock.module(moduleName);
-		const $q: angular.IQService = angularFixture.inject('$q').$q;
-
+	it('should work with Promise.resolve and Promise.all', (done: MochaDone): void => {
 		const mockedPromises: IMockedPromise<number>[] = [
 			mock.promise(5),
 			mock.promise(10),
 		];
 
-		const whens: angular.IPromise<number>[] = mockedPromises.map((mocked: IMockedPromise<number>) => $q.when(mocked()));
+		const whens: Promise<number>[] = mockedPromises.map((mocked: IMockedPromise<number>) => Promise.resolve(mocked()));
 
-		$q.all(whens).then(([result1, result2]: number[]): void => {
+		Promise.all<number>(whens).then(([result1, result2]: number[]): void => {
 			expect(result1).to.equal(5);
 			expect(result2).to.equal(10);
 			done();

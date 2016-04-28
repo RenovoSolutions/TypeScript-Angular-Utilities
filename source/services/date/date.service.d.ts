@@ -1,6 +1,6 @@
+import { OpaqueToken, Provider } from 'angular2/core';
 import 'moment-timezone';
 import { CompareResult } from '../../types/compareResult';
-export declare let serviceName: string;
 export interface IMonth {
     name: string;
     days(year?: number): number;
@@ -26,9 +26,7 @@ export interface IDateUtility {
     sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
 }
 export declare class DateUtility {
-    private moment;
-    static $inject: string[];
-    constructor(moment: moment.MomentStatic);
+    constructor();
     private baseFormat;
     getFullString(month: number): string;
     subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue;
@@ -47,3 +45,5 @@ export declare class DateUtility {
     private getFormat(customFormat);
 }
 export declare let dateUtility: IDateUtility;
+export declare const dateToken: OpaqueToken;
+export declare const DATE_PROVIDER: Provider;

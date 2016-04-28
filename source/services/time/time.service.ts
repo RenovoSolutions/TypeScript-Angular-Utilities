@@ -1,13 +1,8 @@
-'use strict';
-
-import * as angular from 'angular';
+import { OpaqueToken, Provider } from 'angular2/core';
 import * as moment from 'moment';
 
 import { CompareResult } from '../../types/compareResult';
 import { defaultFormats } from '../date/date.module';
-
-export var moduleName: string = 'rl.utilities.services.time';
-export var serviceName: string = 'timeUtility';
 
 export interface ITimeUtility {
 	compareTimes(time1: string, time2: string): CompareResult;
@@ -20,8 +15,8 @@ export class TimeUtility {
 		let start: moment.Moment = moment(time1, format);
 		let end: moment.Moment = moment(time2, format);
 
-		if (start.hours() == end.hours()
-			&& start.minutes() == end.minutes()) {
+		if (start.hours() === end.hours()
+			&& start.minutes() === end.minutes()) {
 			return CompareResult.equal;
 		} else if (start.hours() >= end.hours()
 				&& start.minutes() >= end.minutes()) {
@@ -34,5 +29,8 @@ export class TimeUtility {
 
 export let timeUtility: ITimeUtility = new TimeUtility();
 
-angular.module(moduleName, [])
-	.service(serviceName, TimeUtility);
+export const timeToken: OpaqueToken = new OpaqueToken('A utility for working with time');
+
+export const TIME_PROVIDER: Provider = new Provider(timeToken, {
+	useClass: TimeUtility,
+});

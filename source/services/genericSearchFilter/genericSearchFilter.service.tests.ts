@@ -1,9 +1,7 @@
-import { IGenericSearchFilter, IGenericSearchFilterFactory, moduleName, factoryName } from './genericSearchFilter.service';
+import { IGenericSearchFilter, IGenericSearchFilterFactory, GenericSearchFilterFactory } from './genericSearchFilter.service';
 
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { objectUtility } from '../object/object.service';
+import { stringUtility } from '../string/string.service';
 
 interface ITestObject {
 	prop: string;
@@ -22,10 +20,8 @@ describe('genericSearchFilter', () => {
 	let genericSearchFilter: IGenericSearchFilter;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-		let services: any = angularFixture.inject(factoryName);
-		let genericSearchFilterFactory: IGenericSearchFilterFactory = services[factoryName];
-		genericSearchFilter = genericSearchFilterFactory.getInstance();
+		const factory: IGenericSearchFilterFactory = new GenericSearchFilterFactory(objectUtility, stringUtility);
+		genericSearchFilter = factory.getInstance();
 	});
 
 	it('should include all items if query is null or empty', (): void => {
@@ -168,12 +164,11 @@ describe('genericSearchFilter', () => {
 	});
 
 	describe('tokenized', (): void => {
-		let genericSearchFilterFactory: IGenericSearchFilterFactory;
+		let factory: IGenericSearchFilterFactory;
 
 		beforeEach((): void => {
-			let services: any = angularFixture.inject(factoryName);
-			genericSearchFilterFactory = services[factoryName];
-			genericSearchFilter = genericSearchFilterFactory.getInstance(true);
+			factory = new GenericSearchFilterFactory(objectUtility, stringUtility);
+			genericSearchFilter = factory.getInstance(true);
 		});
 
 		it('should support tokenized search', (): void => {
@@ -192,7 +187,7 @@ describe('genericSearchFilter', () => {
 		});
 
 		it('should not use tokenized search by default', (): void => {
-			genericSearchFilter = genericSearchFilterFactory.getInstance();
+			genericSearchFilter = factory.getInstance();
 			genericSearchFilter.searchText = 'some text';
 
 			let object1: ITestObject = {

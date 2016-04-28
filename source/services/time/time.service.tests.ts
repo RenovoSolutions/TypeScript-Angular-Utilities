@@ -1,19 +1,11 @@
-import { ITimeUtility, moduleName, serviceName } from './time.service';
+import { ITimeUtility, TimeUtility } from './time.service';
 import { CompareResult } from '../../types/compareResult';
 
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
-
 describe('timeUtility', () => {
-	var timeUtility: ITimeUtility;
+	let timeUtility: ITimeUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		var services: any = angularFixture.inject(serviceName);
-		timeUtility = services[serviceName];
+		timeUtility = new TimeUtility();
 	});
 
 	it('should compare times and return a compare result to indicate which is greater', (): void => {

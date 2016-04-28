@@ -1,17 +1,14 @@
-import * as angular from 'angular';
-export declare var moduleName: string;
-export declare var factoryName: string;
+import { OpaqueToken, Provider } from 'angular2/core';
 export interface ISynchronizedRequestsService {
     dataProvider: IRequestGetter;
     handleRequest: IRequestCallback;
     getData(...params: any[]): void;
 }
 export declare class SynchronizedRequestsService {
+    private requestId;
     dataProvider: IRequestGetter;
     handleRequest: IRequestCallback;
-    private $q;
-    private requestId;
-    constructor(dataProvider: IRequestGetter, handleRequest: IRequestCallback, $q: angular.IQService);
+    constructor(dataProvider: IRequestGetter, handleRequest: IRequestCallback);
     getData(...params: any[]): void;
 }
 export interface IRequestGetter {
@@ -23,4 +20,9 @@ export interface IRequestCallback {
 export interface ISynchronizedRequestsFactory {
     getInstance(dataProvider: IRequestGetter, handleRequest: IRequestCallback): ISynchronizedRequestsService;
 }
-export declare function synchronizedRequestsFactory($q: angular.IQService): ISynchronizedRequestsFactory;
+export declare class SynchronizedRequestsFactory {
+    getInstance(dataProvider: IRequestGetter, handleRequest: IRequestCallback): ISynchronizedRequestsService;
+}
+export declare const synchronizedRequestsToken: OpaqueToken;
+export declare function SynchronizedRequestsProvider(dataProvider: IRequestGetter, handleRequest: IRequestCallback): Provider;
+export declare const SYNCHRONIZED_REQUESTS_PROVIDER: Provider;

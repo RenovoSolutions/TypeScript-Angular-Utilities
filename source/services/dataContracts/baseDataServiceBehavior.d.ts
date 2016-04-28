@@ -1,4 +1,4 @@
-import * as angular from 'angular';
+import { IHttpUtility } from '../http/http.service';
 import { IConverter } from './converters/converters';
 export interface IRequestOptions {
     endpoint: string;
@@ -28,25 +28,24 @@ export interface ISearchResult<TDataType> {
     dataSet: TDataType[];
 }
 export interface IBaseDataServiceBehavior<TDataType> {
-    getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]>;
-    search<TResultType>(options: IGetListOptions<TDataType>): angular.IPromise<TResultType>;
-    getItem(options: IGetItemOptions<TDataType>): angular.IPromise<TDataType>;
-    create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType>;
-    update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType>;
-    delete(options: IDeleteOptions<TDataType>): angular.IPromise<void>;
+    getList(options: IGetListOptions<TDataType>): Promise<TDataType[]>;
+    search<TResultType>(options: IGetListOptions<TDataType>): Promise<TResultType>;
+    getItem(options: IGetItemOptions<TDataType>): Promise<TDataType>;
+    create(options: ICreateOptions<TDataType>): Promise<TDataType>;
+    update(options: IUpdateOptions<TDataType>): Promise<TDataType>;
+    delete(options: IDeleteOptions<TDataType>): Promise<void>;
 }
 export declare class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehavior<TDataType> {
-    private $http;
-    private $q;
+    private http;
     private transform;
-    constructor($http: angular.IHttpService, $q: angular.IQService, transform: IConverter<TDataType> | {
+    constructor(http: IHttpUtility, transform: IConverter<TDataType> | {
         [index: string]: IConverter<any>;
     });
-    getList(options: IGetListOptions<TDataType>): angular.IPromise<TDataType[]>;
-    search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): angular.IPromise<TResultType>;
-    getItem(options: IGetItemOptions<TDataType>): angular.IPromise<TDataType>;
-    create(options: ICreateOptions<TDataType>): angular.IPromise<TDataType>;
-    update(options: IUpdateOptions<TDataType>): angular.IPromise<TDataType>;
-    delete(options: IDeleteOptions<TDataType>): angular.IPromise<void>;
+    getList(options: IGetListOptions<TDataType>): Promise<TDataType[]>;
+    search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): Promise<TResultType>;
+    getItem(options: IGetItemOptions<TDataType>): Promise<TDataType>;
+    create(options: ICreateOptions<TDataType>): Promise<TDataType>;
+    update(options: IUpdateOptions<TDataType>): Promise<TDataType>;
+    delete(options: IDeleteOptions<TDataType>): Promise<void>;
     private log(requestName, params, data, endpoint, useMock);
 }

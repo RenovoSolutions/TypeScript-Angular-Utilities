@@ -1,19 +1,11 @@
-import { IStringUtilityService, moduleName, serviceName } from './string.service';
-
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { IStringUtility, StringUtility } from './string.service';
 
 
 describe('stringUtility', () => {
-	var stringUtility: IStringUtilityService;
+	let stringUtility: IStringUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		var services: any = angularFixture.inject(serviceName);
-		stringUtility = services[serviceName];
+		stringUtility = new StringUtility();
 	});
 
 	describe('toNumber', (): void => {

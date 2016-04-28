@@ -1,9 +1,8 @@
-'use strict';
-var angular = require('angular');
-var stopEventPropogation = require('./stopEventPropagation/stopEventPropagation');
-exports.stopEventPropogation = stopEventPropogation;
-exports.name = 'rl.utilities.behaviors';
-angular.module(exports.name, [
-    stopEventPropogation.moduleName,
-]);
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYmVoYXZpb3JzLm1vZHVsZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbImJlaGF2aW9ycy5tb2R1bGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsWUFBWSxDQUFDO0FBRWIsSUFBWSxPQUFPLFdBQU0sU0FBUyxDQUFDLENBQUE7QUFFbkMsSUFBWSxvQkFBb0IsV0FBTSw2Q0FBNkMsQ0FBQyxDQUFBO0FBRTNFLDRCQUFvQjtBQUVsQixZQUFJLEdBQVcsd0JBQXdCLENBQUM7QUFFbkQsT0FBTyxDQUFDLE1BQU0sQ0FBQyxZQUFJLEVBQUU7SUFDcEIsb0JBQW9CLENBQUMsVUFBVTtDQUMvQixDQUFDLENBQUMifQ==
+"use strict";
+var stopEventPropagation = require('./stopEventPropagation/stopEventPropagation');
+exports.stopEventPropagation = stopEventPropagation;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
+    directives: [stopEventPropagation.StopEventPropagation],
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYmVoYXZpb3JzLm1vZHVsZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbImJlaGF2aW9ycy5tb2R1bGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtBQUFBLElBQVksb0JBQW9CLFdBQU0sNkNBQTZDLENBQUMsQ0FBQTtBQUUzRSw0QkFBb0I7QUFFN0I7a0JBQWU7SUFDZCxVQUFVLEVBQUUsQ0FBQyxvQkFBb0IsQ0FBQyxvQkFBb0IsQ0FBQztDQUN2RCxDQUFBIn0=

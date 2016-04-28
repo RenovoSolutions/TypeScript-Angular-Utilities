@@ -1,9 +1,7 @@
-import { IObjectUtility, moduleName, serviceName } from './object.service';
+import { IObjectUtility, ObjectUtility } from './object.service';
+import { dateUtility } from '../date/date.module';
+import { arrayUtility } from '../array/array.service';
 
-import { angularFixture } from '../../services/test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
 import * as moment from 'moment';
 import 'moment-timezone';
 
@@ -11,10 +9,7 @@ describe('objectUtility', () => {
 	var objectUtility: IObjectUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		var services: any = angularFixture.inject(serviceName);
-		objectUtility = services[serviceName];
+		objectUtility = new ObjectUtility(arrayUtility, dateUtility);
 	});
 
 	describe('isNullOrEmpty', (): void => {

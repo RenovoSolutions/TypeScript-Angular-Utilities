@@ -1,29 +1,22 @@
-'use strict';
-
-import * as angular from 'angular';
+import { Injectable, Inject, OpaqueToken, Provider, provide } from 'angular2/core';
 import * as _ from 'lodash';
 
+import { IHttpUtility, httpToken } from '../../http/http.service';
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior } from '../baseDataServiceBehavior';
 import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper/dataContractsHelper.service';
 
-export var moduleName: string = 'rl.utilities.services.dataContracts.singletonDataService';
-export var factoryName: string = 'singletonDataService';
-
 export interface ISingletonDataService<TDataType> {
-    get(): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<TDataType>;
+	get(): Promise<TDataType>;
+	update(domainObject: TDataType): Promise<TDataType>;
 	version(versionNumber: number): SingletonDataService<TDataType>;
 
-    useMock: boolean;
-    logRequests: boolean;
+	useMock: boolean;
+	logRequests: boolean;
 }
 
-// deprecated - use ISingletonDataService
-export interface IBaseSingletonDataService<TDataType> extends ISingletonDataService<TDataType> { }
-
 export class SingletonDataService<TDataType> implements ISingletonDataService<TDataType> {
-    private behavior: IBaseDataServiceBehavior<TDataType>;
+	private behavior: IBaseDataServiceBehavior<TDataType>;
 	private mockData: TDataType;
 	endpoint: string;
 	url: string;
@@ -31,37 +24,35 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 	logRequests: boolean;
 
 
-    constructor($http: angular.IHttpService
-            , $q: angular.IQService
-            , options: ISingletonResourceParams<TDataType>) {
-		this.behavior = new BaseDataServiceBehavior($http, $q, options.transform);
+	constructor(http: IHttpUtility, options: ISingletonResourceParams<TDataType>) {
+		this.behavior = new BaseDataServiceBehavior(http, options.transform);
 		this.mockData = options.mockData;
 		this.endpoint = options.endpoint;
 		this.url = this.endpoint;
 		this.useMock = options.useMock;
 		this.logRequests = options.logRequests;
-    }
+	}
 
-    get(): angular.IPromise<TDataType> {
-        return this.behavior.getItem({
-            endpoint: this.url,
-            getMockData: (): TDataType => { return this.mockData; },
-            useMock: this.useMock,
-            logRequests: this.logRequests,
-        });
-    }
+	get(): Promise<TDataType> {
+		return this.behavior.getItem({
+			endpoint: this.url,
+			getMockData: (): TDataType => { return this.mockData; },
+			useMock: this.useMock,
+			logRequests: this.logRequests,
+		});
+	}
 
-    update(domainObject: TDataType): angular.IPromise<TDataType> {
-        return this.behavior.update({
-            domainObject: domainObject,
-            endpoint: this.url,
-            updateMockData: (data: TDataType): void => {
-                this.mockData = <TDataType>_.assign(this.mockData, domainObject);
-            },
-            useMock: this.useMock,
-            logRequests: this.logRequests,
-        });
-    }
+	update(domainObject: TDataType): Promise<TDataType> {
+		return this.behavior.update({
+			domainObject: domainObject,
+			endpoint: this.url,
+			updateMockData: (data: TDataType): void => {
+				this.mockData = <TDataType>_.assign(this.mockData, domainObject);
+			},
+			useMock: this.useMock,
+			logRequests: this.logRequests,
+		});
+	}
 
 	version(versionNumber: number): SingletonDataService<TDataType> {
 		let dataService: SingletonDataService<TDataType> = _.clone(this);
@@ -71,20 +62,31 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 }
 
 export interface ISingletonDataServiceFactory {
-    getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
+	getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
 }
 
-// deprecated - use ISingletonDataServiceFactory
-export interface IBaseSingletonDataServiceFactory extends ISingletonDataServiceFactory { }
+@Injectable()
+export class SingletonDataServiceFactory {
+	private http: IHttpUtility;
 
-singletonDataServiceFactory.$inject = ['$http', '$q'];
-export function singletonDataServiceFactory($http: angular.IHttpService, $q: angular.IQService): ISingletonDataServiceFactory {
-    return {
-        getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType> {
-            return new SingletonDataService<TDataType>($http, $q, options);
-        },
-    };
+	constructor( @Inject(httpToken) http: IHttpUtility) {
+		this.http = http;
+	}
+
+	getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType> {
+		return new SingletonDataService(this.http, options);
+	}
 }
 
-angular.module(moduleName, [])
-    .factory(factoryName, singletonDataServiceFactory);
+export const singletonDataServiceToken: OpaqueToken = new OpaqueToken('A service for making http requests against a singleton REST endpoint');
+
+export const SINGLETON_DATA_SERVICE_PROVIDER: Provider = new Provider(singletonDataServiceToken, {
+	useClass: SingletonDataServiceFactory,
+});
+
+export function SingletonDataServiceProvider(options: ISingletonResourceParams<any>): Provider {
+	return provide(singletonDataServiceToken, {
+		deps: [httpToken],
+		useFactory: (http: IHttpUtility) => new SingletonDataService(http, options),
+	});
+};

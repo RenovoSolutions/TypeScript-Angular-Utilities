@@ -1,33 +1,23 @@
-'use strict';
-
-import * as angular from 'angular';
+import {Inject, Pipe, PipeTransform} from 'angular2/core';
 
 import {
-	serviceName as objectServiceName,
 	IObjectUtility,
-	moduleName as objectModuleName
+	objectToken
 } from '../../services/object/object.service';
 
-export var moduleName: string = 'rl.utilities.filters.isEmpty';
-export var serviceName: string = 'isEmpty';
-export var filterName: string = serviceName + 'Filter';
+@Pipe({	name: 'isEmpty' })
+export class IsEmptyPipe implements PipeTransform {
+	private objectUtility: IObjectUtility;
 
-export interface IIsEmptyFilter {
-	(input: any, trueWhenEmpty?: boolean): boolean;
-}
-
-isEmpty.$inject = [objectServiceName];
-function isEmpty(object: IObjectUtility): IIsEmptyFilter {
-	'use strict';
-	return (input: any, trueWhenEmpty?: boolean): boolean => {
-		var isEmpty: boolean = object.isNullOrEmpty(input);
+	constructor( @Inject(objectToken) objectUtility: IObjectUtility) {
+		this.objectUtility = objectUtility;
+	}
+	transform(input: any, trueWhenEmpty?: boolean): boolean {
+		var isEmpty: boolean = this.objectUtility.isNullOrEmpty(input);
 
 		if (trueWhenEmpty === false) {
 			return !isEmpty;
 		}
 		return isEmpty;
-	};
+	}
 }
-
-angular.module(moduleName, [objectModuleName])
-	.filter(serviceName, isEmpty);

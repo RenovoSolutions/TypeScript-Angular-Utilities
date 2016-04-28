@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 export interface IMockPromiseService {
     promise<TData>(result?: TData | {
         (...args: any[]): TData;

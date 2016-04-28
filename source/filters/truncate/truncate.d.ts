@@ -1,7 +1,7 @@
-export declare var moduleName: string;
-export declare var serviceName: string;
-export declare var filterName: string;
-export interface ITruncateFilter {
-    (input?: string, truncateTo?: number, includeEllipses?: boolean): string;
-    (input?: number, truncateTo?: number, includeEllipses?: boolean): string;
+import { PipeTransform } from 'angular2/core';
+import { IObjectUtility } from '../../services/object/object.service';
+export declare class TruncatePipe implements PipeTransform {
+    private objectUtility;
+    constructor(objectUtility: IObjectUtility);
+    transform(input?: string | number, truncateTo?: number, includeEllipses?: boolean): string;
 }

@@ -1,18 +1,10 @@
-import { IBooleanUtility, moduleName, serviceName } from './boolean.service';
-
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { IBooleanUtility, BooleanUtility } from './boolean.service';
 
 describe('booleanUtility', () => {
 	var booleanUtility: IBooleanUtility;
 
 	beforeEach(() => {
-		angular.mock.module(moduleName);
-
-		var services: any = angularFixture.inject(serviceName);
-		booleanUtility = services[serviceName];
+		booleanUtility = new BooleanUtility();
 	});
 
 	describe('toBool', (): void => {

@@ -1,9 +1,4 @@
-﻿'use strict';
-
-import * as angular from 'angular';
-
-export var moduleName: string = 'rl.utilities.services.number';
-export var serviceName: string = 'numberUtility';
+﻿import { Provider, OpaqueToken } from 'angular2/core';
 
 enum Sign {
 	positive = 1,
@@ -16,7 +11,7 @@ export interface INumberUtility {
 	roundToStep(num: number, step: number): number;
 }
 
-class NumberUtility implements INumberUtility {
+export class NumberUtility implements INumberUtility {
 	preciseRound(num: number, decimals: number): number {
 		var sign: Sign = num >= 0 ? Sign.positive : Sign.negative;
 		return (Math.round((num * Math.pow(10, decimals)) + (<number>sign * 0.001)) / Math.pow(10, decimals));
@@ -41,7 +36,10 @@ class NumberUtility implements INumberUtility {
 	}
 }
 
-export let numberUtility: INumberUtility = new NumberUtility();
+export const numberUtility: INumberUtility = new NumberUtility();
 
-angular.module(moduleName, [])
-	.service(serviceName, NumberUtility);
+export const numberUtilityToken: OpaqueToken = new OpaqueToken('number utility service');
+
+export const NUMBER_UTILITY_PROVIDER: Provider = new Provider(numberUtilityToken, {
+	useClass: NumberUtility
+});

@@ -1,7 +1,19 @@
-'use strict';
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var core_1 = require('angular2/core');
 var notification_service_1 = require('../notification/notification.service');
-exports.moduleName = 'rl21.services.errorHandler';
-exports.serviceName = 'errorHandler';
+var redirect_service_1 = require('../redirect/redirect.service');
 (function (HttpStatusCode) {
     HttpStatusCode[HttpStatusCode["cancelledRequest"] = -1] = "cancelledRequest";
     HttpStatusCode[HttpStatusCode["badRequest"] = 400] = "badRequest";
@@ -13,14 +25,33 @@ exports.serviceName = 'errorHandler';
     HttpStatusCode[HttpStatusCode["gone"] = 410] = "gone";
 })(exports.HttpStatusCode || (exports.HttpStatusCode = {}));
 var HttpStatusCode = exports.HttpStatusCode;
+exports.defaultErrorsToken = new core_1.OpaqueToken('List of default errors for the error handler');
+exports.DEFAULT_ERROR_PROVIDERS = new core_1.Provider(exports.defaultErrorsToken, {
+    useValue: {
+        badRequestError: 'Your request failed one or more validation checks.',
+        forbiddenError: 'You have insufficient permissions to perform this action',
+        invalidUrlError: 'Resource not found. This issue has been logged',
+        timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
+        internalServerError: 'The system has encountered an error. This issue has been logged.' +
+            ' Please contact support if you are unable to complete critical tasks',
+        defaultError: 'Http status code not handled',
+        goneError: 'The requested resource is no longer available.',
+    },
+});
+exports.defaultLoginUrlSettingsToken = new core_1.OpaqueToken('Default login url information');
+exports.DEFAULT_LOGIN_URL_PROVIDERS = new core_1.Provider(exports.defaultLoginUrlSettingsToken, {
+    useValue: {
+        loginUrl: '/login',
+        returnUrlParam: 'returnUrl',
+    },
+});
 var ErrorHandlerService = (function () {
-    function ErrorHandlerService($window, $exceptionHandler, notification, loginUrl, errorMessages, returnUrlParam) {
-        this.$window = $window;
-        this.$exceptionHandler = $exceptionHandler;
+    function ErrorHandlerService(redirect, exceptionHandler, notification, errorMessages, loginSettings) {
+        this.redirect = redirect;
+        this.exceptionHandler = exceptionHandler;
         this.notification = notification;
-        this.loginUrl = loginUrl;
         this.errorMessages = errorMessages;
-        this.returnUrlParam = returnUrlParam;
+        this.loginSettings = loginSettings;
     }
     ErrorHandlerService.prototype.httpResponseError = function (rejection) {
         switch (rejection.status) {
@@ -49,23 +80,24 @@ var ErrorHandlerService = (function () {
                 // cancelled request
                 break;
             default:
-                this.$exceptionHandler(new Error(this.errorMessages.defaultError));
-                this.$exceptionHandler(new Error('Status: ' + rejection.status));
-                this.$exceptionHandler(new Error('Response: ' + rejection));
+                this.exceptionHandler.call(new Error(this.errorMessages.defaultError));
+                this.exceptionHandler.call(new Error('Status: ' + rejection.status));
+                this.exceptionHandler.call(new Error('Response: ' + rejection));
                 break;
         }
     };
     ErrorHandlerService.prototype.badRequestError = function (rejection) {
         if (rejection.data) {
-            return this.notification.error(rejection.data);
+            this.notification.error(rejection.data);
         }
-        return this.notification.error(this.errorMessages.badRequestError);
+        else {
+            this.notification.error(this.errorMessages.badRequestError);
+        }
     };
     ErrorHandlerService.prototype.loggedOutError = function () {
-        var baseUrl = this.$window.location.pathname;
-        var queryString = this.$window.location.search || '';
-        var returnUrl = encodeURIComponent(baseUrl + queryString);
-        this.$window.location = (this.loginUrl + '?' + this.returnUrlParam + '=' + returnUrl);
+        var returnUrl = this.redirect.getCurrentLocationAsParam();
+        var target = this.loginSettings.loginUrl + '?' + this.loginSettings.returnUrlParam + '=' + returnUrl;
+        this.redirect.to(target);
     };
     ErrorHandlerService.prototype.insufficientPermissionsError = function () {
         this.notification.error(this.errorMessages.forbiddenError);
@@ -83,31 +115,20 @@ var ErrorHandlerService = (function () {
     ErrorHandlerService.prototype.goneError = function () {
         this.notification.error(this.errorMessages.goneError);
     };
+    ErrorHandlerService = __decorate([
+        core_1.Injectable(),
+        __param(0, core_1.Inject(redirect_service_1.redirectToken)),
+        __param(1, core_1.Inject(core_1.ExceptionHandler)),
+        __param(2, core_1.Inject(notification_service_1.notificationServiceToken)),
+        __param(3, core_1.Inject(exports.defaultErrorsToken)),
+        __param(4, core_1.Inject(exports.defaultLoginUrlSettingsToken)), 
+        __metadata('design:paramtypes', [Object, core_1.ExceptionHandler, Object, Object, Object])
+    ], ErrorHandlerService);
     return ErrorHandlerService;
 }());
 exports.ErrorHandlerService = ErrorHandlerService;
-var ErrorHandlerServiceProvider = (function () {
-    function ErrorHandlerServiceProvider() {
-        var _this = this;
-        this.$get = function ($window, $exceptionHandler, notification) {
-            return new ErrorHandlerService($window, $exceptionHandler, notification, _this.loginUrl, _this.errorMessages, _this.returnUrlParam);
-        };
-        this.loginUrl = '/login';
-        this.errorMessages = {
-            badRequestError: 'Your request failed one or more validation checks.',
-            forbiddenError: 'You have insufficient permissions to perform this action',
-            invalidUrlError: 'Resource not found. This issue has been logged',
-            timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
-            internalServerError: 'The system has encountered an error. This issue has been logged.' +
-                ' Please contact support if you are unable to complete critical tasks',
-            defaultError: 'Http status code not handled',
-            goneError: 'The requested resource is no longer available.'
-        };
-        this.returnUrlParam = 'returnUrl';
-        this.$get.$inject = ['$window', '$exceptionHandler', notification_service_1.serviceName];
-    }
-    return ErrorHandlerServiceProvider;
-}());
-angular.module(exports.moduleName, [notification_service_1.moduleName])
-    .provider(exports.serviceName, new ErrorHandlerServiceProvider());
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZXJyb3JIYW5kbGVyLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJlcnJvckhhbmRsZXIuc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxZQUFZLENBQUM7QUFJYixxQ0FJTyxzQ0FBc0MsQ0FBQyxDQUFBO0FBRW5DLGtCQUFVLEdBQVcsNEJBQTRCLENBQUM7QUFDbEQsbUJBQVcsR0FBVyxjQUFjLENBQUM7QUFFaEQsV0FBWSxjQUFjO0lBQ3pCLDRFQUFxQixDQUFBO0lBQ3JCLGlFQUFnQixDQUFBO0lBQ2hCLHFFQUFrQixDQUFBO0lBQ2xCLCtEQUFlLENBQUE7SUFDZixpRUFBZ0IsQ0FBQTtJQUNoQiwyREFBYSxDQUFBO0lBQ2IsbUZBQXlCLENBQUE7SUFDekIscURBQVUsQ0FBQTtBQUNYLENBQUMsRUFUVyxzQkFBYyxLQUFkLHNCQUFjLFFBU3pCO0FBVEQsSUFBWSxjQUFjLEdBQWQsc0JBU1gsQ0FBQTtBQXFCRDtJQUNDLDZCQUFvQixPQUEwQixFQUNuQyxpQkFBOEMsRUFDOUMsWUFBa0MsRUFDbEMsUUFBZ0IsRUFDaEIsYUFBNkIsRUFDN0IsY0FBc0I7UUFMYixZQUFPLEdBQVAsT0FBTyxDQUFtQjtRQUNuQyxzQkFBaUIsR0FBakIsaUJBQWlCLENBQTZCO1FBQzlDLGlCQUFZLEdBQVosWUFBWSxDQUFzQjtRQUNsQyxhQUFRLEdBQVIsUUFBUSxDQUFRO1FBQ2hCLGtCQUFhLEdBQWIsYUFBYSxDQUFnQjtRQUM3QixtQkFBYyxHQUFkLGNBQWMsQ0FBUTtJQUFJLENBQUM7SUFFdEMsK0NBQWlCLEdBQWpCLFVBQWtCLFNBQXFCO1FBQ3RDLE1BQU0sQ0FBQyxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxDQUFDO1lBQzFCLEtBQUssY0FBYyxDQUFDLFVBQVU7Z0JBQzdCLElBQUksQ0FBQyxlQUFlLENBQUMsU0FBUyxDQUFDLENBQUM7Z0JBQ2hDLEtBQUssQ0FBQztZQUNQLEtBQUssY0FBYyxDQUFDLFlBQVk7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
+exports.errorHandlerToken = new core_1.OpaqueToken('A service for handling http errors');
+exports.ERROR_HANDLER_PROVIDER = new core_1.Provider(exports.errorHandlerToken, {
+    useClass: ErrorHandlerService,
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZXJyb3JIYW5kbGVyLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJlcnJvckhhbmRsZXIuc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7O0FBQUEscUJBQTRFLGVBQWUsQ0FBQyxDQUFBO0FBRTVGLHFDQUErRCxzQ0FBc0MsQ0FBQyxDQUFBO0FBRXRHLGlDQUFnRCw4QkFBOEIsQ0FBQyxDQUFBO0FBRS9FLFdBQVksY0FBYztJQUN6Qiw0RUFBcUIsQ0FBQTtJQUNyQixpRUFBZ0IsQ0FBQTtJQUNoQixxRUFBa0IsQ0FBQTtJQUNsQiwrREFBZSxDQUFBO0lBQ2YsaUVBQWdCLENBQUE7SUFDaEIsMkRBQWEsQ0FBQTtJQUNiLG1GQUF5QixDQUFBO0lBQ3pCLHFEQUFVLENBQUE7QUFDWCxDQUFDLEVBVFcsc0JBQWMsS0FBZCxzQkFBYyxRQVN6QjtBQVRELElBQVksY0FBYyxHQUFkLHNCQVNYLENBQUE7QUEyQlksMEJBQWtCLEdBQWdCLElBQUksa0JBQVcsQ0FBQyw4Q0FBOEMsQ0FBQyxDQUFDO0FBRWxHLCtCQUF1QixHQUFhLElBQUksZUFBUSxDQUFDLDBCQUFrQixFQUFFO0lBQ2pGLFFBQVEsRUFBRTtRQUNULGVBQWUsRUFBRSxvREFBb0Q7UUFDckUsY0FBYyxFQUFFLDBEQUEwRDtRQUMxRSxlQUFlLEVBQUUsZ0RBQWdEO1FBQ2pFLFlBQVksRUFBRSwyRkFBMkY7UUFDekcsbUJBQW1CLEVBQUUsa0VBQWtFO1lBQ3ZGLHNFQUFzRTtRQUN0RSxZQUFZLEVBQUUsOEJBQThCO1FBQzVDLFNBQVMsRUFBRSxnREFBZ0Q7S0FDM0Q7Q0FDRCxDQUFDLENBQUM7QUFFVSxvQ0FBNEIsR0FBZ0IsSUFBSSxrQkFBVyxDQUFDLCtCQUErQixDQUFDLENBQUM7QUFFN0YsbUNBQTJCLEdBQWEsSUFBSSxlQUFRLENBQUMsb0NBQTRCLEVBQUU7SUFDL0YsUUFBUSxFQUFFO1FBQ1QsUUFBUSxFQUFFLFFBQVE7UUFDbEIsY0FBYyxF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

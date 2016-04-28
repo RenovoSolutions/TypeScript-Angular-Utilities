@@ -1,19 +1,17 @@
-'use strict';
-
-import * as angular from 'angular';
-
-export var moduleName: string = 'rl.utilities.services.boolean';
-export var serviceName: string = 'booleanUtility';
+import { OpaqueToken, Provider } from 'angular2/core';
 
 export interface IBooleanUtility {
 	toBool(object: any): boolean;
 }
 
-class BooleanUtility implements IBooleanUtility {
+export class BooleanUtility implements IBooleanUtility {
 	toBool(object: any): boolean {
 		return !!object;
 	}
 }
 
-angular.module(moduleName, [])
-	.service(serviceName, BooleanUtility);
+export const booleanToken: OpaqueToken = new OpaqueToken('A utility for working with booleans');
+
+export const BOOLEAN_PROVIDER: Provider = new Provider(booleanToken, {
+	useClass: BooleanUtility,
+});

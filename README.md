@@ -1,19 +1,19 @@
 # TypeScript-Angular-Utilities
-Contains a list of reusable TypeScript libraries, services, and general utilities. These are all defined as angular services and can be injected via the angular dependency injector.
+Contains a list of reusable TypeScript libraries, services, and general utilities. These are all defined as angular 2 services, easily made available via providers.
 
 ## Behaviors
 Angular directives that are applied as attributes to an element in order to modify the element's behavior.
 
-* [stopEventPropogation](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/behaviors/stopEventPropagation/documentation.md)
+* [stopEventPropogation](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/behaviors/stopEventPropagation/stopEventPropagation.md)
 
 ## [Filters](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/filters.md)
-Contains Angular filters, which can be applied to bindings using the Angular pipe operator `<span>{{myMoney | currency}}</span>`
+Contains Angular pipes, which can be applied to bindings using the Angular pipe operator `<span>{{myMoney | currency}}</span>`
 
-Contains interfaces for several types of filters. Also an abstract base class for defining serializable filters.
+Contains interfaces for several types of pipes. Also an abstract base class for defining serializable filters.
 
-* [isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/documentation.md)
+* [isEmpty](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/isEmpty/isEmpty.md)
 
-* [truncate](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/truncate/documentation.md)
+* [truncate](https://github.com/RenovoSolutions/TypeScript-Angular-Utilities/blob/master/source/filters/truncate/truncate.md)
 
 ## Services
 Contains miscellaneous tools and utilities for working with objects and other useful tasks.
@@ -42,12 +42,19 @@ Contains miscellaneous tools and utilities for working with objects and other us
 
 ### Injecting a service
 ```
-import { services } from 'typescript-angular-utilities';
-import objectNamespace = services.object;
+import { Component, Inject } from 'angular2/core';
+import { object, OBJECT_PROVIDER } from 'typescript-angular-utilities/services';
 
-export class MyController {
-  static $inject: string[] = [objectNamespace.serviceName];
-  constructor(private objectService: objectNamespace.IObjectUtility): void {
+@Component({
+  selector: 'some-selector',
+  template: '<span>html!</span>',
+  providers: [OBJECT_PROVIDER], // Or include UTILITY_PROVIDERS in a root component
+})
+export class MyComponent {
+  private objectService: object.IObjectUtility;
+
+  constructor(@Inject(object.objectToken) objectService: object.IObjectUtility): void {
+    this.objectService = objectService;
   }
 
   ...
@@ -57,8 +64,6 @@ export class MyController {
   }
 }
 
-angular.module('moduleName', [objectNamespace.moduleName])
-  .controller('controllerName', MyController);
 ```
 
 ## Types
@@ -82,7 +87,7 @@ Can be used to build more descriptive enumerations were each entry contains a va
 Please always test new builds to ensure non-breaking commits and PRs
 
 The primary build scripts are:
-### `npm run update`
+### `npm install`
 Installs external libraries and dependencies. Should be run after pulling down code changes.
 
 ### `npm run build`
@@ -100,10 +105,10 @@ Bundle all of the javascript files together and put in the output folder.
 
 ### Combinations
 In addition, there are some useful combination tasks:
-`npm run update-build`
+`npm run install-build`
 `npm run build-test`
 
-To perform a full build from scratch, including `update`, `build`, `bundle`, run:
+To perform a full build from scratch, including `install`, `build`, `bundle`, run:
 `npm run full-build`
 
 ### Watch

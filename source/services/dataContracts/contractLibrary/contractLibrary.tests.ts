@@ -1,19 +1,19 @@
+import { Injector, ReflectiveInjector, provide } from 'angular2/core';
+
 import { ContractLibrary } from './contractLibrary';
-import { IBaseResourceBuilder, serviceName as resourceBuilderService } from '../resourceBuilder/resourceBuilder.service';
+import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../resourceBuilder/resourceBuilder.service';
 import { DataServiceView } from '../dataService/view/dataServiceView';
-import { DataService, ParentDataService, ParentSingletonDataService, moduleName } from '../dataContracts.module';
+import { DataService, ParentDataService, ParentSingletonDataService } from '../dataContracts.module';
 
-import { angularFixture } from '../../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { httpToken } from '../../http/http.service';
+import { arrayToken } from '../../array/array.service';
 
 interface ITestChildResources {
 	childResource: DataService<number, void>;
 	resourceView: DataServiceView<number, void>;
 }
 
-function testChildBuilder(resourceBuilder: IBaseResourceBuilder): { (): ITestChildResources } {
+function testChildBuilder(resourceBuilder: IResourceBuilder): { (): ITestChildResources } {
 	return (): ITestChildResources => {
 		return <any>{
 			childResource: resourceBuilder.createResource<number, void>({
@@ -31,7 +31,7 @@ class TestLibrary extends ContractLibrary {
 	parent1: ParentDataService<number, void, ITestChildResources>;
 	parentSingleton: ParentSingletonDataService<number, ITestChildResources>;
 
-	constructor(resourceBuilder: IBaseResourceBuilder) {
+	constructor(resourceBuilder: IResourceBuilder) {
 		super(resourceBuilder, 'www.example.com/api');
 
 		this.resource1 = <any>this.createResource<number, void>({
@@ -50,13 +50,15 @@ class TestLibrary extends ContractLibrary {
 
 describe('contractLibrary', (): void => {
 	let testLibrary: TestLibrary;
-	let resourceBuilder: IBaseResourceBuilder;
+	let resourceBuilder: IResourceBuilder;
 
 	beforeEach((): void => {
-		angular.mock.module(moduleName);
-
-		let services: any = angularFixture.inject(resourceBuilderService);
-		resourceBuilder = services[resourceBuilderService];
+		const injector: Injector = ReflectiveInjector.resolveAndCreate([
+			RESOURCE_BUILDER_PROVIDER,
+			provide(httpToken, { useValue: {} }),
+			provide(arrayToken, { useValue: {} }),
+		]);
+		resourceBuilder = injector.get(resourceBuilderToken);
 		testLibrary = new TestLibrary(resourceBuilder);
 	});
 

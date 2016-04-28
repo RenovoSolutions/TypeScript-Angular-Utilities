@@ -1,5 +1,4 @@
-export declare var moduleName: string;
-export declare var serviceName: string;
+import { Provider, OpaqueToken } from 'angular2/core';
 export interface ITransformService {
     getValue<TItemType, TReturnType>(item: TItemType, transform: {
         (item: TItemType): TReturnType;
@@ -10,4 +9,5 @@ export declare class TransformService implements ITransformService {
         (item: TItemType): TReturnType;
     } | string): any;
 }
-export declare let transform: ITransformService;
+export declare const transformServiceToken: OpaqueToken;
+export declare const TRANSFORM_SERVICE_PROVIDER: Provider;

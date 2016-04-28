@@ -1,6 +1,5 @@
-'use strict';
-
-import * as angular from 'angular';
+import { Provider } from 'angular2/core';
+import { HTTP_PROVIDERS } from 'angular2/http';
 
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
@@ -10,13 +9,14 @@ import * as errorHandler from './errorHandler/errorHandler.service';
 import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 import * as guid from './guid/guid.service';
-import * as moment from './moment/moment.module';
+import * as http from './http/http.service';
+import * as logger from './logger/logger.service';
 import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
-import * as parentChildBehavior from './parentChildBehavior/parentChildBehavior.service';
 import * as promise from './promise/promise.service';
+import * as redirect from './redirect/redirect.service';
 import * as search from './search/search.service';
 import * as stringService from './string/string.service';
 import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
@@ -25,6 +25,8 @@ import * as time from './time/time.service';
 import * as timezone from './timezone/timezone.service';
 import * as transform from './transform/transform.service';
 import * as validation from './validation/validation.service';
+
+import { WINDOW_PROVIDER } from './window/window.provider';
 
 export {
 	array,
@@ -35,13 +37,14 @@ export {
 	fileSize,
 	genericSearchFilter,
 	guid,
-	moment,
+	http,
+	logger,
 	notification,
 	numberService as number,
 	objectService as object,
 	observable,
-	parentChildBehavior,
 	promise,
+	redirect,
 	search,
 	stringService as string,
 	synchronizedRequests,
@@ -52,27 +55,37 @@ export {
 	validation,
 };
 
-export var moduleName: string = 'rl.utilities.services';
+/**
+ * Providers for utility services.
+ */
+export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
+	HTTP_PROVIDERS,
 
-angular.module(moduleName, [
-	array.moduleName,
-	boolean.moduleName,
-	dataContracts.moduleName,
-    date.moduleName,
-    errorHandler.moduleName,
-	fileSize.moduleName,
-	genericSearchFilter.moduleName,
-	guid.moduleName,
-	moment.moduleName,
-	notification.moduleName,
-	numberService.moduleName,
-	objectService.moduleName,
-	observable.moduleName,
-	parentChildBehavior.moduleName,
-	promise.moduleName,
-	stringService.moduleName,
-	synchronizedRequests.moduleName,
-	time.moduleName,
-	transform.moduleName,
-	validation.moduleName,
-]);
+	array.ARRAY_PROVIDER,
+	boolean.BOOLEAN_PROVIDER,
+	dataContracts.DATA_CONTRACT_PROVIDERS,
+	date.DATE_PROVIDER,
+	errorHandler.ERROR_HANDLER_PROVIDER,
+	genericSearchFilter.GENERIC_SEARCH_FILTER_PROVIDER,
+	guid.GUID_PROVIDER,
+	http.HTTP_PROVIDER,
+	numberService.NUMBER_UTILITY_PROVIDER,
+	objectService.OBJECT_PROVIDER,
+	promise.PROMISE_PROVIDER,
+	search.SEARCH_PROVIDER,
+	stringService.STRING_PROVIDER,
+	synchronizedRequests.SYNCHRONIZED_REQUESTS_PROVIDER,
+	time.TIME_PROVIDER,
+	timezone.TIMEZONE_PROVIDER,
+	transform.TRANSFORM_SERVICE_PROVIDER,
+	validation.VALIDATION_PROVIDER,
+
+	logger.LOGGER_PROVIDER,
+
+	errorHandler.DEFAULT_ERROR_PROVIDERS,
+	errorHandler.DEFAULT_LOGIN_URL_PROVIDERS,
+
+	notification.NOTIFICATION_SERVICE_PROVIDER,
+	redirect.REDIRECT_PROVIDER,
+	WINDOW_PROVIDER,
+];

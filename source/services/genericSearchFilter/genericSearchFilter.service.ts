@@ -1,26 +1,21 @@
-'use strict';
+import { Inject, Provider, OpaqueToken } from 'angular2/core';
 
-import * as angular from 'angular';
 import * as _ from 'lodash';
 import * as Rx from 'rx';
 
 import {
-	moduleName as objectModuleName,
-	serviceName as objectServiceName,
 	IObjectUtility,
+	objectToken,
 } from '../object/object.service';
 
 import {
-	moduleName as stringModuleName,
-	serviceName as stringServiceName,
-	IStringUtilityService,
+	IStringUtility,
+	stringToken,
 } from '../string/string.service';
 import { searchUtility } from '../search/search.service';
 
-import { ISerializableFilter, SerializableFilter, IValueChangeCallback } from '../../filters/filter';
+import { ISerializableFilter, SerializableFilter } from '../../filters/filter';
 
-export var moduleName: string = 'rl.utilities.services.genericSearchFilter';
-export var factoryName: string = 'genericSearchFilterFactory';
 export var filterName: string = 'search';
 
 export interface IGenericSearchFilter extends ISerializableFilter<string> {
@@ -38,7 +33,7 @@ export class GenericSearchFilter extends SerializableFilter<string> implements I
 	private _searchText: string;
 
 	constructor(protected object: IObjectUtility
-			, private string: IStringUtilityService
+			, private string: IStringUtility
 			, private tokenized: boolean) {
 		super();
 	}
@@ -75,18 +70,23 @@ export interface IGenericSearchFilterFactory {
 	getInstance(tokenized?: boolean): IGenericSearchFilter;
 }
 
-genericSearchFilterFactory.$inject = [objectServiceName, stringServiceName];
-function genericSearchFilterFactory(object: IObjectUtility,
-	stringUtility: IStringUtilityService): IGenericSearchFilterFactory {
+export class GenericSearchFilterFactory implements IGenericSearchFilterFactory {
+	private objectUtility: IObjectUtility;
+	private stringUtility: IStringUtility;
 
-	'use strict';
+	constructor( @Inject(objectToken) objectUtility: IObjectUtility,
+		@Inject(stringToken) stringUtility: IStringUtility) {
+		this.objectUtility = objectUtility;
+		this.stringUtility = stringUtility;
+	}
 
-	return {
-		getInstance(tokenized?: boolean): IGenericSearchFilter {
-			return new GenericSearchFilter(object, stringUtility, tokenized);
-		}
-	};
+	getInstance(tokenized?: boolean): IGenericSearchFilter {
+		return new GenericSearchFilter(this.objectUtility, this.stringUtility, tokenized);
+	}
 }
 
-angular.module(moduleName, [objectModuleName, stringModuleName])
-	.factory(factoryName, genericSearchFilterFactory);
+export const genericSearchFilterToken: OpaqueToken = new OpaqueToken('A factory for getting generic search filters');
+
+export const GENERIC_SEARCH_FILTER_PROVIDER: Provider = new Provider(genericSearchFilterToken, {
+	useClass: GenericSearchFilterFactory,
+});

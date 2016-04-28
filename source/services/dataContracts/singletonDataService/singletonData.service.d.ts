@@ -1,15 +1,12 @@
-import * as angular from 'angular';
+import { OpaqueToken, Provider } from 'angular2/core';
+import { IHttpUtility } from '../../http/http.service';
 import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
-export declare var moduleName: string;
-export declare var factoryName: string;
 export interface ISingletonDataService<TDataType> {
-    get(): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<TDataType>;
+    get(): Promise<TDataType>;
+    update(domainObject: TDataType): Promise<TDataType>;
     version(versionNumber: number): SingletonDataService<TDataType>;
     useMock: boolean;
     logRequests: boolean;
-}
-export interface IBaseSingletonDataService<TDataType> extends ISingletonDataService<TDataType> {
 }
 export declare class SingletonDataService<TDataType> implements ISingletonDataService<TDataType> {
     private behavior;
@@ -18,14 +15,19 @@ export declare class SingletonDataService<TDataType> implements ISingletonDataSe
     url: string;
     useMock: boolean;
     logRequests: boolean;
-    constructor($http: angular.IHttpService, $q: angular.IQService, options: ISingletonResourceParams<TDataType>);
-    get(): angular.IPromise<TDataType>;
-    update(domainObject: TDataType): angular.IPromise<TDataType>;
+    constructor(http: IHttpUtility, options: ISingletonResourceParams<TDataType>);
+    get(): Promise<TDataType>;
+    update(domainObject: TDataType): Promise<TDataType>;
     version(versionNumber: number): SingletonDataService<TDataType>;
 }
 export interface ISingletonDataServiceFactory {
     getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
 }
-export interface IBaseSingletonDataServiceFactory extends ISingletonDataServiceFactory {
+export declare class SingletonDataServiceFactory {
+    private http;
+    constructor(http: IHttpUtility);
+    getInstance<TDataType>(options: ISingletonResourceParams<TDataType>): ISingletonDataService<TDataType>;
 }
-export declare function singletonDataServiceFactory($http: angular.IHttpService, $q: angular.IQService): ISingletonDataServiceFactory;
+export declare const singletonDataServiceToken: OpaqueToken;
+export declare const SINGLETON_DATA_SERVICE_PROVIDER: Provider;
+export declare function SingletonDataServiceProvider(options: ISingletonResourceParams<any>): Provider;

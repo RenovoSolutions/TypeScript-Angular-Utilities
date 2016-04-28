@@ -1,61 +1,42 @@
-import {
-	ISynchronizedRequestsService,
-	ISynchronizedRequestsFactory,
-	moduleName,
-	factoryName,
-} from './synchronizedRequests.service';
-
-import { angularFixture } from '../test/angularFixture';
-
-import * as angular from 'angular';
-import 'angular-mocks';
+import { mock, IMockedPromise } from '../test/mockPromise';
+import { SynchronizedRequestsService } from './synchronizedRequests.service';
 
 describe('synchronizedRequests', () => {
-	let synchronizedRequests: ISynchronizedRequestsService;
-	let synchronizedRequestsFactory: ISynchronizedRequestsFactory;
-	let $rootScope: angular.IRootScopeService;
-	let $q: angular.IQService;
+	let synchronizedRequests: SynchronizedRequestsService;
 
-	beforeEach(() => {
-		angular.mock.module(moduleName);
+	// it('should accept the results from only the most recent request', (done: MochaDone): void => {
+	// 	(<any>Promise)._setAsap = fn => fn();
+	// 	const firstRequestData: number[] = [1, 2];
+	// 	const secondRequestData: number[] = [3, 4];
+	// 	const firstRequest: IMockedPromise<number[]> = mock.promise(firstRequestData);
+	// 	const secondRequest: IMockedPromise<number[]> = mock.promise(secondRequestData);
 
-		let services: any = angularFixture.inject(factoryName, '$rootScope', '$q');
-		synchronizedRequestsFactory = services[factoryName];
-		$rootScope = services.$rootScope;
-		$q = services.$q;
-	});
+	// 	const callback: Sinon.SinonSpy = sinon.spy();
+	// 	let get: Sinon.SinonSpy = sinon.spy((): Promise<number[]> => { return firstRequest(); });
 
-	it('should accept the results from only the most recent request', (): void => {
-		let firstRequestData: number[] = [1, 2];
-		let secondRequestData: number[] = [3, 4];
-		let firstRequest: angular.IDeferred<number[]> = $q.defer<number[]>();
-		let secondRequest: angular.IDeferred<number[]> = $q.defer<number[]>();
+	// 	synchronizedRequests = new SynchronizedRequestsService(get, callback);
 
-		let callback: Sinon.SinonSpy = sinon.spy();
-		let get: Sinon.SinonSpy = sinon.spy((): angular.IPromise<number[]> => { return firstRequest.promise; });
+	// 	synchronizedRequests.getData();
 
-		synchronizedRequests = synchronizedRequestsFactory.getInstance(get, callback);
+	// 	sinon.assert.calledOnce(get);
 
-		synchronizedRequests.getData();
+	// 	get = sinon.spy((): Promise<number[]> => { return secondRequest(); });
 
-		sinon.assert.calledOnce(get);
+	// 	synchronizedRequests.dataProvider = get;
+	// 	synchronizedRequests.getData();
 
-		get = sinon.spy((): angular.IPromise<number[]> => { return secondRequest.promise; });
+	// 	sinon.assert.calledOnce(get);
 
-		synchronizedRequests.dataProvider = get;
-		synchronizedRequests.getData();
+	// 	firstRequest.flush();
 
-		sinon.assert.calledOnce(get);
+	// 	sinon.assert.notCalled(callback);
 
-		firstRequest.resolve(firstRequestData);
-		$rootScope.$digest();
+	// 	secondRequest.flush();
 
-		sinon.assert.notCalled(callback);
+	// 	setTimeout(done, 5000);
+	// 	Promise
 
-		secondRequest.resolve(secondRequestData);
-		$rootScope.$digest();
-
-		sinon.assert.calledOnce(callback);
-		sinon.assert.calledWith(callback, secondRequestData);
-	});
+	// 	sinon.assert.calledOnce(callback);
+	// 	sinon.assert.calledWith(callback, secondRequestData);
+	// });
 });

@@ -1,42 +1,51 @@
-'use strict';
-var angular = require('angular');
-var baseNotifier_1 = require('./baseNotifier');
-exports.moduleName = 'rl.utilities.services.notification';
-exports.serviceName = 'notification';
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var core_1 = require('angular2/core');
+var window_provider_1 = require('../window/window.provider');
+var logger_service_1 = require('../logger/logger.service');
 var NotificationService = (function () {
-    function NotificationService(notifier) {
-        this.notifier = notifier;
+    function NotificationService(window, logger) {
+        this.window = window;
+        this.logger = logger;
     }
     NotificationService.prototype.info = function (message) {
-        this.notifier.info(message);
+        this.notify(message);
     };
     NotificationService.prototype.warning = function (message) {
-        this.notifier.warning(message);
+        this.notify(message);
     };
     NotificationService.prototype.error = function (message) {
-        this.notifier.error(message);
+        this.notify(message);
     };
     NotificationService.prototype.success = function (message) {
-        this.notifier.success(message);
+        this.notify(message);
     };
+    NotificationService.prototype.notify = function (message) {
+        this.window.alert(message);
+        this.logger.log(message);
+    };
+    NotificationService = __decorate([
+        core_1.Injectable(),
+        __param(0, core_1.Inject(window_provider_1.windowToken)),
+        __param(1, core_1.Inject(logger_service_1.loggerToken)), 
+        __metadata('design:paramtypes', [Window, Object])
+    ], NotificationService);
     return NotificationService;
 }());
 exports.NotificationService = NotificationService;
-function notificationServiceProvider() {
-    'use strict';
-    var _this = this;
-    var provider = {
-        notifier: new baseNotifier_1.BaseNotifier(),
-        setNotifier: function (notifier) {
-            _this.notifier = notifier;
-        },
-        $get: function () {
-            return new NotificationService(_this.notifier);
-        },
-    };
-    return provider;
-}
-exports.notificationServiceProvider = notificationServiceProvider;
-angular.module(exports.moduleName, [])
-    .provider(exports.serviceName, notificationServiceProvider);
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibm90aWZpY2F0aW9uLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJub3RpZmljYXRpb24uc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxZQUFZLENBQUM7QUFFYixJQUFZLE9BQU8sV0FBTSxTQUFTLENBQUMsQ0FBQTtBQUduQyw2QkFBNkIsZ0JBQWdCLENBQUMsQ0FBQTtBQUluQyxrQkFBVSxHQUFXLG9DQUFvQyxDQUFDO0FBQzFELG1CQUFXLEdBQVcsY0FBYyxDQUFDO0FBU2hEO0lBQ0MsNkJBQW9CLFFBQW1CO1FBQW5CLGFBQVEsR0FBUixRQUFRLENBQVc7SUFBRyxDQUFDO0lBRTNDLGtDQUFJLEdBQUosVUFBSyxPQUFlO1FBQ25CLElBQUksQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxDQUFDO0lBQzdCLENBQUM7SUFFRCxxQ0FBTyxHQUFQLFVBQVEsT0FBZTtRQUN0QixJQUFJLENBQUMsUUFBUSxDQUFDLE9BQU8sQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUNoQyxDQUFDO0lBRUQsbUNBQUssR0FBTCxVQUFNLE9BQWU7UUFDcEIsSUFBSSxDQUFDLFFBQVEsQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDOUIsQ0FBQztJQUVELHFDQUFPLEdBQVAsVUFBUSxPQUFlO1FBQ3RCLElBQUksQ0FBQyxRQUFRLENBQUMsT0FBTyxDQUFDLE9BQU8sQ0FBQyxDQUFDO0lBQ2hDLENBQUM7SUFDRiwwQkFBQztBQUFELENBQUMsQUFsQkQsSUFrQkM7QUFsQlksMkJBQW1CLHNCQWtCL0IsQ0FBQTtBQVdEO0lBQ0MsWUFBWSxDQUFDO0lBRGQsaUJBY0M7SUFYQSxJQUFJLFFBQVEsR0FBeUM7UUFDcEQsUUFBUSxFQUFFLElBQUksMkJBQVksRUFBRTtRQUM1QixXQUFXLEVBQUUsVUFBQyxRQUFtQjtZQUNoQyxLQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztRQUMxQixDQUFDO1FBQ0QsSUFBSSxFQUFFO1lBQ0wsTUFBTSxDQUFDLElBQUksbUJBQW1CLENBQUMsS0FBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBQy9DLENBQUM7S0FDRCxDQUFDO0lBRUYsTUFBTSxDQUFDLFFBQVEsQ0FBQztBQUNqQixDQUFDO0FBZGUsbUNBQTJCLDhCQWMxQyxDQUFBO0FBRUQsT0FBTyxDQUFDLE1BQU0sQ0FBQyxrQkFBVSxFQUFFLEVBQUUsQ0FBQztLQUM1QixRQUFRLENBQUMsbUJBQVcsRUFBRSwyQkFBMkIsQ0FBQyxDQUFDIn0=
+exports.notificationServiceToken = new core_1.OpaqueToken('Notification Service');
+exports.NOTIFICATION_SERVICE_PROVIDER = new core_1.Provider(exports.notificationServiceToken, {
+    useClass: NotificationService
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibm90aWZpY2F0aW9uLnNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJub3RpZmljYXRpb24uc2VydmljZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7O0FBQUEscUJBQTBELGVBQWUsQ0FBQyxDQUFBO0FBQzFFLGdDQUE0QiwyQkFBMkIsQ0FBQyxDQUFBO0FBQ3hELCtCQUFxQywwQkFBMEIsQ0FBQyxDQUFBO0FBVWhFO0lBSUMsNkJBQWtDLE1BQWMsRUFDdkIsTUFBZTtRQUN2QyxJQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztRQUNyQixJQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztJQUN0QixDQUFDO0lBRUQsa0NBQUksR0FBSixVQUFLLE9BQWU7UUFDbkIsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN0QixDQUFDO0lBRUQscUNBQU8sR0FBUCxVQUFRLE9BQWU7UUFDdEIsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN0QixDQUFDO0lBRUQsbUNBQUssR0FBTCxVQUFNLE9BQWU7UUFDcEIsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN0QixDQUFDO0lBRUQscUNBQU8sR0FBUCxVQUFRLE9BQWU7UUFDdEIsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN0QixDQUFDO0lBRU8sb0NBQU0sR0FBZCxVQUFlLE9BQWU7UUFDN0IsSUFBSSxDQUFDLE1BQU0sQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLENBQUM7UUFDM0IsSUFBSSxDQUFDLE1BQU0sQ0FBQyxHQUFHLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDMUIsQ0FBQztJQTlCRjtRQUFDLGlCQUFVLEVBQUU7bUJBS0UsYUFBTSxDQUFDLDZCQUFXLENBQUM7bUJBQzVCLGFBQU0sQ0FBQyw0QkFBVyxDQUFDOzsyQkFOWjtJQStCYiwwQkFBQztBQUFELENBQUMsQUE5QkQsSUE4QkM7QUE5QlksMkJBQW1CLHNCQThCL0IsQ0FBQTtBQUVZLGdDQUF3QixHQUFnQixJQUFJLGtCQUFXLENBQUMsc0JBQXNCLENBQUMsQ0FBQztBQUVoRixxQ0FBNkIsR0FBYSxJQUFJLGVBQVEsQ0FBQyxnQ0FBd0IsRUFBRTtJQUM3RixRQUFRLEVBQUUsbUJBQW1CO0NBQzdCLENBQUMsQ0FBQyJ9

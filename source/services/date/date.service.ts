@@ -1,14 +1,8 @@
-﻿'use strict';
+﻿import { OpaqueToken, Provider } from 'angular2/core';
 
-import * as angular from 'angular';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment-timezone';
-
-import {
-	moduleName as momentModuleName,
-	serviceName as momentServiceName,
-} from '../moment/moment.module';
 
 import { timezoneService } from '../timezone/timezone.service';
 
@@ -16,7 +10,6 @@ import { defaultFormats } from './dateTimeFormatStrings';
 
 import { CompareResult, getCompareResult } from '../../types/compareResult';
 
-export let serviceName: string = 'dateUtility';
 
 export interface IMonth {
 	name: string;
@@ -46,8 +39,7 @@ export interface IDateUtility {
 }
 
 export class DateUtility {
-	static $inject: string[] = [momentServiceName];
-	constructor(private moment: moment.MomentStatic) {}
+	constructor() {}
 
 	private baseFormat: string = defaultFormats.isoFormat;
 
@@ -121,7 +113,7 @@ export class DateUtility {
 
 		let momentOffset: string = timezoneService.getMomentTimezone(isoDateTime);
 
-		let momentDate: moment.Moment = this.moment(isoDateTime, defaultFormats.isoFormat);
+		let momentDate: moment.Moment = moment(isoDateTime, defaultFormats.isoFormat);
 
 		return momentOffset != null
 			? momentDate.tz(momentOffset)
@@ -135,7 +127,7 @@ export class DateUtility {
 			//check the time value of the date object to verify that it's a Valid Date.
 			return !isNaN(date.getTime());
 		}
-		return this.moment(<string>date, this.getFormat(dateFormat)).isValid();
+		return moment(<string>date, this.getFormat(dateFormat)).isValid();
 	}
 
 	getNow(): moment.Moment {
@@ -147,7 +139,7 @@ export class DateUtility {
 	}
 
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string {
-		return this.moment(this.parseDate(date, dateFormat)).format(this.getFormat(dateFormat));
+		return moment(this.parseDate(date, dateFormat)).format(this.getFormat(dateFormat));
 	}
 
 	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string, granularity?: string): boolean {
@@ -174,10 +166,10 @@ export class DateUtility {
 
 	private parseDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {
 		if (_.isDate(date)) {
-			return this.moment(date);
+			return moment(date);
 		}
 
-		return this.moment(<string>date, this.getFormat(dateFormat));
+		return moment(<string>date, this.getFormat(dateFormat));
 	}
 
 	private getFormat(customFormat: string): string {
@@ -185,4 +177,10 @@ export class DateUtility {
 	}
 }
 
-export let dateUtility: IDateUtility = new DateUtility(moment);
+export let dateUtility: IDateUtility = new DateUtility();
+
+export const dateToken: OpaqueToken = new OpaqueToken('A utility for working with dates');
+
+export const DATE_PROVIDER: Provider = new Provider(dateToken, {
+	useClass: DateUtility,
+});
