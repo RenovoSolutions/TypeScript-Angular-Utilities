@@ -155,4 +155,21 @@ describe('mockPromise', () => {
 		});
 		mock.flushAll(service);
 	});
+
+	it('should work with Promise.resolve and Promise.all', (done: MochaDone): void => {
+		const mockedPromises: IMockedPromise<number>[] = [
+			mock.promise(5),
+			mock.promise(10),
+		];
+
+		const whens: Promise<number>[] = mockedPromises.map((mocked: IMockedPromise<number>) => Promise.resolve(mocked()));
+
+		Promise.all<number>(whens).then(([result1, result2]: number[]): void => {
+			expect(result1).to.equal(5);
+			expect(result2).to.equal(10);
+			done();
+		});
+
+		mock.flushAll(mockedPromises);
+	});
 });
