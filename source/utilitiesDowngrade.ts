@@ -18,7 +18,6 @@ import { NOTIFICATION_PROVIDER } from './services/notification/notification.serv
 import { NUMBER_PROVIDER } from './services/number/number.service';
 import { OBJECT_PROVIDER, objectUtility } from './services/object/object.service';
 import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
-import { PROMISE_PROVIDER } from './services/promise/promise.service';
 import { REDIRECT_PROVIDER } from './services/redirect/redirect.service';
 import { STRING_PROVIDER } from './services/string/string.service';
 import { SYNCHRONIZED_REQUESTS_PROVIDER } from './services/synchronizedRequests/synchronizedRequests.service';
@@ -42,7 +41,6 @@ export const notificationServiceName: string = 'rlNotificationService';
 export const numberServiceName: string = 'rlNumberService';
 export const objectServiceName: string = 'rlObjectService';
 export const observableServiceName: string = 'rlObservableService';
-export const promiseServiceName: string = 'rlPromiseService';
 export const stringServiceName: string = 'rlStringService';
 export const synchronizedRequestsServiceName: string = 'rlSynchronizedRequestsService';
 export const timeServiceName: string = 'rlTimeService';
@@ -86,7 +84,6 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	upgradeAdapter.addProvider(NUMBER_PROVIDER);
 	upgradeAdapter.addProvider(OBJECT_PROVIDER);
 	upgradeAdapter.addProvider(observableFactoryProvider);
-	upgradeAdapter.addProvider(PROMISE_PROVIDER);
 	upgradeAdapter.addProvider(REDIRECT_PROVIDER);
 	upgradeAdapter.addProvider(STRING_PROVIDER);
 	upgradeAdapter.addProvider(SYNCHRONIZED_REQUESTS_PROVIDER);
@@ -109,7 +106,6 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.service(numberServiceName, upgradeAdapter.downgradeNg2Provider(NUMBER_PROVIDER));
 	utilitiesModule.service(objectServiceName, upgradeAdapter.downgradeNg2Provider(OBJECT_PROVIDER));
 	utilitiesModule.service(observableServiceName, upgradeAdapter.downgradeNg2Provider(observableFactoryProvider));
-	utilitiesModule.service(promiseServiceName, upgradeAdapter.downgradeNg2Provider(PROMISE_PROVIDER));
 	utilitiesModule.service(stringServiceName, upgradeAdapter.downgradeNg2Provider(STRING_PROVIDER));
 	utilitiesModule.service(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(SYNCHRONIZED_REQUESTS_PROVIDER));
 	utilitiesModule.service(timeServiceName, upgradeAdapter.downgradeNg2Provider(TIME_PROVIDER));
