@@ -40,6 +40,6 @@ export const numberUtility: INumberUtility = new NumberUtility();
 
 export const numberUtilityToken: OpaqueToken = new OpaqueToken('number utility service');
 
-export const NUMBER_UTILITY_PROVIDER: Provider = new Provider(numberUtilityToken, {
+export const NUMBER_PROVIDER: Provider = new Provider(numberUtilityToken, {
 	useClass: NumberUtility
 });

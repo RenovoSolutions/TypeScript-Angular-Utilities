@@ -44,6 +44,6 @@ export class NotificationService implements INotificationService {
 
 export const notificationServiceToken: OpaqueToken = new OpaqueToken('Notification Service');
 
-export const NOTIFICATION_SERVICE_PROVIDER: Provider = new Provider(notificationServiceToken, {
+export const NOTIFICATION_PROVIDER: Provider = new Provider(notificationServiceToken, {
 	useClass: NotificationService
 });
