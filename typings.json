@@ -4,20 +4,18 @@
   "author": "Renovo Solutions, LLC",
   "description": "Typescript utility classes published as angular services",
   "ambientDependencies": {
-    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
-    "angular-mocks": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-mocks.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
-    "assertion-error": "github:DefinitelyTyped/DefinitelyTyped/assertion-error/assertion-error.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
-    "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai-2.0.0.d.ts#91989d35b892f1526c35fb1e55219ba05bc5065e",
-    "core-js": "github:DefinitelyTyped/DefinitelyTyped/core-js/core-js.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
-    "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#86dbea8fc37d9473fee465da4f0a21bea4f8cbd9",
-    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
-    "moment": "github:DefinitelyTyped/DefinitelyTyped/moment/moment.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
-    "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#1ec036686e70ad0d837ed2443684d54bca13af01",
-    "moment-timezone": "github:DefinitelyTyped/DefinitelyTyped/moment-timezone/moment-timezone.d.ts#1ec036686e70ad0d837ed2443684d54bca13af01",
-    "sinon": "github:DefinitelyTyped/DefinitelyTyped/sinon/sinon.d.ts#54f064352a3615443f7bff4198078db15e28247b"
+    "angular": "registry:dt/angular#1.5.0+20160412133217",
+    "angular-mocks": "registry:dt/angular-mocks#1.3.0+20160425155016",
+    "chai": "registry:dt/chai#3.4.0+20160317120654",
+    "core-js": "registry:dt/core-js#0.0.0+20160317120654",
+    "jquery": "registry:dt/jquery#1.10.0+20160417213236",
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "moment": "registry:dt/moment#2.8.0+20160316155526",
+    "moment-node": "registry:dt/moment-node#2.11.1+20160417135035",
+    "moment-timezone": "registry:dt/moment-timezone#0.2.5+20160329220348",
+    "sinon": "registry:dt/sinon#1.16.0+20160317120654"
   },
-  "devDependencies": {
-    "bluebird": "github:typed-typings/npm-bluebird#cfd8d3ac544649768a437b5f707fedbe4a60cd18"
+  "dependencies": {
+    "lodash": "registry:npm/lodash#4.0.0+20160416211519"
   }
 }

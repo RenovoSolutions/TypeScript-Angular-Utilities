@@ -15,7 +15,6 @@ import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
 import * as objectService from './object/object.service';
 import * as observable from './observable/observable.service';
-import * as promise from './promise/promise.service';
 import * as redirect from './redirect/redirect.service';
 import * as search from './search/search.service';
 import * as stringService from './string/string.service';
@@ -43,7 +42,6 @@ export {
 	numberService as number,
 	objectService as object,
 	observable,
-	promise,
 	redirect,
 	search,
 	stringService as string,
@@ -71,7 +69,6 @@ export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
 	http.HTTP_PROVIDER,
 	numberService.NUMBER_PROVIDER,
 	objectService.OBJECT_PROVIDER,
-	promise.PROMISE_PROVIDER,
 	search.SEARCH_PROVIDER,
 	stringService.STRING_PROVIDER,
 	synchronizedRequests.SYNCHRONIZED_REQUESTS_PROVIDER,

@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { Inject, OpaqueToken, Provider, Injectable } from 'angular2/core';
 
 import { Http, URLSearchParams, Response, RequestOptions, Headers } from 'angular2/http';

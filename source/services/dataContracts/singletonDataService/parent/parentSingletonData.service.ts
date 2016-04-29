@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { IHttpUtility } from '../../../http/http.service';
 import { ISingletonDataService, SingletonDataService } from '../../singletonDataService/singletonData.service';
 import { IDataService } from '../../dataService/data.service';

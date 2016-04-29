@@ -60,7 +60,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		if (options.useMock) {
 			promise = Promise.resolve(options.getMockData());
 		} else {
-			promise = this.http.get(options.endpoint, options.params)
+			promise = this.http.get<TDataType[]>(options.endpoint, options.params)
 				.toPromise();
 		}
 		return promise.then((data: TDataType[]): TDataType[] => {
@@ -75,11 +75,11 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 	search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): Promise<TResultType> {
 		let promise: Promise<TResultType>;
 		if (options.useMock) {
-			promise = Promise.resolve({
+			promise = Promise.resolve<TResultType>(<any>{
 				dataSet: options.getMockData(),
 			});
 		} else {
-			promise = this.http.post(options.endpoint, options.params)
+			promise = this.http.post<TResultType>(options.endpoint, options.params)
 				.toPromise();
 		}
 		return promise.then((result: TResultType): TResultType => {
@@ -96,7 +96,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		if (options.useMock) {
 			promise = Promise.resolve(options.getMockData());
 		} else {
-			promise = this.http.get(options.endpoint)
+			promise = this.http.get<TDataType>(options.endpoint)
 				.toPromise();
 		}
 		return promise.then((data: TDataType): TDataType => {
@@ -115,7 +115,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 			options.addMockData(options.domainObject);
 			promise = Promise.resolve(options.domainObject);
 		} else {
-			promise = this.http.post(options.endpoint, options.domainObject)
+			promise = this.http.post<TDataType>(options.endpoint, options.domainObject)
 				.toPromise();
 		}
 		return promise.then((data: TDataType): TDataType => {
@@ -134,7 +134,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 			options.updateMockData(options.domainObject)
 			promise = Promise.resolve(options.domainObject);
 		} else {
-			promise = this.http.put(options.endpoint, options.domainObject)
+			promise = this.http.put<TDataType>(options.endpoint, options.domainObject)
 				.toPromise();
 		}
 		return promise.then((data: TDataType): TDataType => {

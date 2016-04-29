@@ -21,6 +21,7 @@ export class TransformService implements ITransformService {
 	}
 }
 
+export const transform: ITransformService = new TransformService();
 
 export const transformServiceToken: OpaqueToken = new OpaqueToken('transform service token');
 

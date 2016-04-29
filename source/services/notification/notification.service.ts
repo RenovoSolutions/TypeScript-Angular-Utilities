@@ -14,7 +14,7 @@ export class NotificationService implements INotificationService {
 	private window: Window;
 	private logger: ILogger;
 
-	constructor( @Inject(windowToken) window: Window
+	constructor(@Inject(windowToken) window: Window
 			, @Inject(loggerToken) logger: ILogger) {
 		this.window = window;
 		this.logger = logger;
