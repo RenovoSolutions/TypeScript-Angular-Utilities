@@ -3,6 +3,7 @@ export * from './dateConverter/dateConverter';
 export * from './enumConverter/enumConverter';
 export * from './timeConverter/timeConverter';
 
+import * as _ from 'lodash';
 import { objectUtility } from '../../object/object.service';
 
 export interface IConverter<TDataType> {

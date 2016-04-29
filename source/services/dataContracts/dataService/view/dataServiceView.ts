@@ -8,6 +8,8 @@ import { ISingletonDataService, SingletonDataService } from '../../singletonData
 import { IParentSingletonDataService, ParentSingletonDataService } from '../../singletonDataService/parent/parentSingletonData.service';
 import { IBaseResourceParams, IParentResourceParams } from '../../resourceBuilder/resourceBuilder.service';
 
+import * as _ from 'lodash';
+
 export interface IDataServiceView<TDataType extends IBaseDomainObject, TSearchParams> extends IDataService<TDataType, TSearchParams> {
 	AsSingleton(parentId: number): ISingletonDataService<TDataType>;
 }
