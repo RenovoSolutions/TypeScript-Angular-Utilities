@@ -8,7 +8,7 @@ import { TruncatePipe } from './filters/truncate/truncate';
 
 import { ARRAY_PROVIDER } from './services/array/array.service';
 import { BOOLEAN_PROVIDER } from './services/boolean/boolean.service';
-import { RESOURCE_BUILDER_PROVIDER } from './services/dataContracts/resourceBuilder/resourcebuilder.service';
+import { RESOURCE_BUILDER_PROVIDER } from './services/dataContracts/resourceBuilder/resourceBuilder.service';
 import { DATE_PROVIDER } from './services/date/date.service';
 import { ERROR_HANDLER_PROVIDER, DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS } from './services/errorHandler/errorHandler.service';
 import { GENERIC_SEARCH_FILTER_PROVIDER } from './services/genericSearchFilter/genericSearchFilter.service';
@@ -95,20 +95,20 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.filter(isEmptyFilterName, PipeDowngrader(new IsEmptyPipe(objectUtility)));
 	utilitiesModule.filter(truncateFilterName, PipeDowngrader(new TruncatePipe(objectUtility)));
 
-	utilitiesModule.service(arrayServiceName, upgradeAdapter.downgradeNg2Provider(ARRAY_PROVIDER));
-	utilitiesModule.service(booleanServiceName, upgradeAdapter.downgradeNg2Provider(BOOLEAN_PROVIDER));
-	utilitiesModule.service(resourceBuilderServiceName, upgradeAdapter.downgradeNg2Provider(RESOURCE_BUILDER_PROVIDER));
-	utilitiesModule.service(dateServiceName, upgradeAdapter.downgradeNg2Provider(DATE_PROVIDER));
-	utilitiesModule.service(errorHandlerServiceName, upgradeAdapter.downgradeNg2Provider(ERROR_HANDLER_PROVIDER));
-	utilitiesModule.service(genericSearchFilterServiceName, upgradeAdapter.downgradeNg2Provider(GENERIC_SEARCH_FILTER_PROVIDER));
-	utilitiesModule.service(guidServiceName, upgradeAdapter.downgradeNg2Provider(GUID_PROVIDER));
-	utilitiesModule.service(notificationServiceName, upgradeAdapter.downgradeNg2Provider(NOTIFICATION_PROVIDER));
-	utilitiesModule.service(numberServiceName, upgradeAdapter.downgradeNg2Provider(NUMBER_PROVIDER));
-	utilitiesModule.service(objectServiceName, upgradeAdapter.downgradeNg2Provider(OBJECT_PROVIDER));
-	utilitiesModule.service(observableServiceName, upgradeAdapter.downgradeNg2Provider(observableFactoryProvider));
-	utilitiesModule.service(stringServiceName, upgradeAdapter.downgradeNg2Provider(STRING_PROVIDER));
-	utilitiesModule.service(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(SYNCHRONIZED_REQUESTS_PROVIDER));
-	utilitiesModule.service(timeServiceName, upgradeAdapter.downgradeNg2Provider(TIME_PROVIDER));
-	utilitiesModule.service(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(TIMEZONE_PROVIDER));
-	utilitiesModule.service(validationServiceName, upgradeAdapter.downgradeNg2Provider(VALIDATION_PROVIDER));
+	utilitiesModule.factory(arrayServiceName, upgradeAdapter.downgradeNg2Provider(ARRAY_PROVIDER));
+	utilitiesModule.factory(booleanServiceName, upgradeAdapter.downgradeNg2Provider(BOOLEAN_PROVIDER));
+	utilitiesModule.factory(resourceBuilderServiceName, upgradeAdapter.downgradeNg2Provider(RESOURCE_BUILDER_PROVIDER));
+	utilitiesModule.factory(dateServiceName, upgradeAdapter.downgradeNg2Provider(DATE_PROVIDER));
+	utilitiesModule.factory(errorHandlerServiceName, upgradeAdapter.downgradeNg2Provider(ERROR_HANDLER_PROVIDER));
+	utilitiesModule.factory(genericSearchFilterServiceName, upgradeAdapter.downgradeNg2Provider(GENERIC_SEARCH_FILTER_PROVIDER));
+	utilitiesModule.factory(guidServiceName, upgradeAdapter.downgradeNg2Provider(GUID_PROVIDER));
+	utilitiesModule.factory(notificationServiceName, upgradeAdapter.downgradeNg2Provider(NOTIFICATION_PROVIDER));
+	utilitiesModule.factory(numberServiceName, upgradeAdapter.downgradeNg2Provider(NUMBER_PROVIDER));
+	utilitiesModule.factory(objectServiceName, upgradeAdapter.downgradeNg2Provider(OBJECT_PROVIDER));
+	utilitiesModule.factory(observableServiceName, upgradeAdapter.downgradeNg2Provider(observableFactoryProvider));
+	utilitiesModule.factory(stringServiceName, upgradeAdapter.downgradeNg2Provider(STRING_PROVIDER));
+	utilitiesModule.factory(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(SYNCHRONIZED_REQUESTS_PROVIDER));
+	utilitiesModule.factory(timeServiceName, upgradeAdapter.downgradeNg2Provider(TIME_PROVIDER));
+	utilitiesModule.factory(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(TIMEZONE_PROVIDER));
+	utilitiesModule.factory(validationServiceName, upgradeAdapter.downgradeNg2Provider(VALIDATION_PROVIDER));
 }
