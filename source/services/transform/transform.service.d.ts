@@ -9,5 +9,6 @@ export declare class TransformService implements ITransformService {
         (item: TItemType): TReturnType;
     } | string): any;
 }
+export declare const transform: ITransformService;
 export declare const transformServiceToken: OpaqueToken;
 export declare const TRANSFORM_SERVICE_PROVIDER: Provider;

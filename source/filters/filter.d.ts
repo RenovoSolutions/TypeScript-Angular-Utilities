@@ -1,11 +1,11 @@
-import * as Rx from 'rx';
+import * as Rx from 'rxjs';
 export interface IFilterWithCounts extends IFilter {
     updateOptionCounts<TItemType>(data: TItemType[]): void;
 }
 export interface ISerializableFilter<TFilterData> extends IFilter {
     type: string;
     serialize(): TFilterData;
-    subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
+    subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscription;
 }
 export interface IValueChangeCallback<TFilterData> {
     (newValue: TFilterData): void;
@@ -20,6 +20,6 @@ export declare abstract class SerializableFilter<TFilterData> implements ISerial
     constructor();
     abstract filter(item: any): boolean;
     serialize(): TFilterData;
-    subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscriber;
+    subscribe(onValueChange: IValueChangeCallback<TFilterData>): Rx.Subscription;
     onChange(force?: boolean): void;
 }
