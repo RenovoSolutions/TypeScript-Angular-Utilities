@@ -1,0 +1,4 @@
+*.tests.js
+karma.*
+test-bootstrapper.js
+webpack.*
