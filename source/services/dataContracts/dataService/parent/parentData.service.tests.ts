@@ -1,4 +1,4 @@
-import { Injector, ReflectiveInjector, provide } from 'angular2/core';
+import { Injector, ReflectiveInjector, provide } from '@angular/core';
 import * as _ from 'lodash';
 
 import { IDataService } from '../data.service';

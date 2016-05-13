@@ -1,4 +1,4 @@
-﻿import { Injectable, Provider, Inject, ExceptionHandler, OpaqueToken } from 'angular2/core';
+﻿import { Injectable, Provider, Inject, ExceptionHandler, OpaqueToken } from '@angular/core';
 
 import { INotificationService, notificationServiceToken } from '../notification/notification.service';
 

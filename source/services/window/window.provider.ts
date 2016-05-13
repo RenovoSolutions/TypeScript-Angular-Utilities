@@ -1,4 +1,4 @@
-import { Injectable, Inject, Provider, OpaqueToken } from 'angular2/core';
+import { Injectable, Inject, Provider, OpaqueToken } from '@angular/core';
 
 export const windowToken: OpaqueToken = new OpaqueToken('The browser window');
 

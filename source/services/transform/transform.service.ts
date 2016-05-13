@@ -1,4 +1,4 @@
-import { Provider, OpaqueToken } from 'angular2/core';
+import { Provider, OpaqueToken } from '@angular/core';
 import * as _ from 'lodash';
 
 export interface ITransformService {

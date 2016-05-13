@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
-import { Inject, OpaqueToken, Provider, Injectable } from 'angular2/core';
+import { Inject, OpaqueToken, Provider, Injectable } from '@angular/core';
 
-import { Http, URLSearchParams, Response, RequestOptions, Headers } from 'angular2/http';
 import { Observable } from 'rxjs';
+import { Http, URLSearchParams, Response, RequestOptions, Headers } from '@angular/http';
 
 export interface IHttpUtility {
 	buildQueryString(params: any): URLSearchParams;

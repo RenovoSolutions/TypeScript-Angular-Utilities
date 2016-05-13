@@ -1,4 +1,4 @@
-import { Inject, Injectable, OpaqueToken, Provider } from 'angular2/core';
+import { Inject, Injectable, OpaqueToken, Provider } from '@angular/core';
 
 import { IArrayUtility, arrayToken } from '../../array/array.service';
 import { IHttpUtility, httpToken } from '../../http/http.service';

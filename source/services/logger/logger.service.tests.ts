@@ -1,4 +1,4 @@
-import { Injector, ReflectiveInjector } from 'angular2/core';
+import { Injector, ReflectiveInjector } from '@angular/core';
 import { loggerToken, LOGGER_PROVIDER, ILogger } from './logger.service';
 
 describe('logger', () => {

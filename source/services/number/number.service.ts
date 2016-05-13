@@ -1,4 +1,4 @@
-﻿import { Provider, OpaqueToken } from 'angular2/core';
+﻿import { Provider, OpaqueToken } from '@angular/core';
 
 enum Sign {
 	positive = 1,

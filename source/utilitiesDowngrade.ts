@@ -1,5 +1,5 @@
-import { Provider, provide, ExceptionHandler, PipeTransform } from 'angular2/core';
-import { UpgradeAdapter } from 'angular2/upgrade';
+import { Provider, provide, ExceptionHandler, PipeTransform } from '@angular/core';
+import { UpgradeAdapter } from '@angular/upgrade';
 
 import * as angular from 'angular';
 
@@ -69,7 +69,6 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 		},
 	})
 
-	upgradeAdapter.addProvider(ExceptionHandler);
 	upgradeAdapter.addProvider(ARRAY_PROVIDER);
 	upgradeAdapter.addProvider(BOOLEAN_PROVIDER);
 	upgradeAdapter.addProvider(RESOURCE_BUILDER_PROVIDER);

@@ -1,4 +1,4 @@
-import { Input, Directive, ElementRef, AfterContentInit } from 'angular2/core';
+import { Input, Directive, ElementRef, AfterContentInit } from '@angular/core';
 
 @Directive({
 	selector: '[rl-stop-event-propagation]'

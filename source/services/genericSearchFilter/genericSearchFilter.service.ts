@@ -1,4 +1,4 @@
-import { Inject, Provider, OpaqueToken } from 'angular2/core';
+import { Inject, Provider, OpaqueToken } from '@angular/core';
 
 import * as _ from 'lodash';
 

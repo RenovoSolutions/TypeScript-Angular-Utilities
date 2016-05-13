@@ -1,6 +1,6 @@
 ﻿// Formats and optionally truncates and ellipsimogrifies a string for display in a card header
 
-import { Inject, Pipe, PipeTransform } from 'angular2/core';
+import { Inject, Pipe, PipeTransform } from '@angular/core';
 
 import {
 	IObjectUtility,

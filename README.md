@@ -42,7 +42,7 @@ Contains miscellaneous tools and utilities for working with objects and other us
 
 ### Injecting a service
 ```
-import { Component, Inject } from 'angular2/core';
+import { Component, Inject } from '@angular/core';
 import { object, OBJECT_PROVIDER } from 'typescript-angular-utilities/services';
 
 @Component({

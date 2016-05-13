@@ -1,4 +1,4 @@
-import { Injectable, Inject, Provider, OpaqueToken } from 'angular2/core';
+import { Injectable, Inject, Provider, OpaqueToken } from '@angular/core';
 import {windowToken} from '../window/window.provider';
 
 export interface IRedirectService {

@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 import * as moment from 'moment';
 
 import { CompareResult } from '../../types/compareResult';

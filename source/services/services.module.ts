@@ -1,5 +1,5 @@
-import { Provider } from 'angular2/core';
-import { HTTP_PROVIDERS } from 'angular2/http';
+import { Provider } from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
 
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
