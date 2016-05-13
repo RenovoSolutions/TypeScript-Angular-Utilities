@@ -19,3 +19,6 @@
 # Node deps
 npm-debug.log
 /node_modules/
+
+# Ignore git conflict / diff files
+*.orig
