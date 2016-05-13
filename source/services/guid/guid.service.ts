@@ -1,6 +1,6 @@
 import { OpaqueToken, Provider } from '@angular/core';
 
-import * as uuid from 'uuid';
+import * as uuid from 'node-uuid';
 
 export interface IGuidService {
 	time(): string;
