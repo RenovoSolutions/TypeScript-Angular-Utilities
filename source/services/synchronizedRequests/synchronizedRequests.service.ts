@@ -31,7 +31,7 @@ export class SynchronizedRequestsService {
 }
 
 export interface IRequestGetter {
-	(...params: any[]): angular.IPromise<any>;
+	(...params: any[]): Promise<any>;
 }
 
 export interface IRequestCallback {
