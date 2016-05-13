@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 import { CompareResult } from '../../types/compareResult';
 export interface ITimeUtility {
     compareTimes(time1: string, time2: string): CompareResult;

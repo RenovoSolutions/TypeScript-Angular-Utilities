@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 export interface ISynchronizedRequestsService {
     dataProvider: IRequestGetter;
     handleRequest: IRequestCallback;
@@ -12,7 +12,7 @@ export declare class SynchronizedRequestsService {
     getData(...params: any[]): void;
 }
 export interface IRequestGetter {
-    (...params: any[]): angular.IPromise<any>;
+    (...params: any[]): Promise<any>;
 }
 export interface IRequestCallback {
     (...data: any[]): void;

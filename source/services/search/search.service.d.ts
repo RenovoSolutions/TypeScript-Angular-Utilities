@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 export interface ISearchUtility {
     search(object: any, search: string, caseSensitive?: boolean): boolean;
     tokenizedSearch(object: any, search: string, caseSensitive?: boolean): boolean;

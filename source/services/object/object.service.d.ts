@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 import { IArrayUtility } from '../array/array.service';
 import { IDateUtility } from '../date/date.module';
 export interface IObjectUtility {

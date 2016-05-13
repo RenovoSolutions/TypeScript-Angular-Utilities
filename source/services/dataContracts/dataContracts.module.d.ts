@@ -1,4 +1,4 @@
-import { Provider } from 'angular2/core';
+import { Provider } from '@angular/core';
 import * as converters from './converters/converters';
 import * as mocks from './contractLibrary/dataServiceMocks';
 export * from './contractLibrary/contractLibrary';

@@ -1,5 +1,5 @@
 "use strict";
-var http_1 = require('angular2/http');
+var http_1 = require('@angular/http');
 var array = require('./array/array.service');
 exports.array = array;
 var boolean = require('./boolean/boolean.service');

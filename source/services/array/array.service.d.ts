@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 export interface IArrayUtility {
     findIndexOf<TDataType>(array: TDataType[], predicate: {
         (item: TDataType): boolean;

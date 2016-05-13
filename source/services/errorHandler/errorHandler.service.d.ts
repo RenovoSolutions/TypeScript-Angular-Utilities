@@ -1,4 +1,4 @@
-import { Provider, ExceptionHandler, OpaqueToken } from 'angular2/core';
+import { Provider, ExceptionHandler, OpaqueToken } from '@angular/core';
 import { INotificationService } from '../notification/notification.service';
 import { IRedirectService } from '../redirect/redirect.service';
 export declare enum HttpStatusCode {

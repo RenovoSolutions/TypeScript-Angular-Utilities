@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 import { IHttpUtility } from '../../http/http.service';
 import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 export interface ISingletonDataService<TDataType> {

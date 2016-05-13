@@ -1,5 +1,5 @@
 "use strict";
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 exports.windowToken = new core_1.OpaqueToken('The browser window');
 exports.WINDOW_PROVIDER = new core_1.Provider(exports.windowToken, {
     useValue: window,

@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 import 'moment-timezone';
 import { CompareResult } from '../../types/compareResult';
 export interface IMonth {

@@ -1,4 +1,4 @@
-import * as Rx from 'rxjs';
+import * as Rx from 'rxjs/Rx';
 export interface IFilterWithCounts extends IFilter {
     updateOptionCounts<TItemType>(data: TItemType[]): void;
 }

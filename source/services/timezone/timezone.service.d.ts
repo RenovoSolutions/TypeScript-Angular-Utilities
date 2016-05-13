@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 import { ITimezone } from './timezone.enum';
 export * from './timezone.enum';
 export interface ITimezoneService {

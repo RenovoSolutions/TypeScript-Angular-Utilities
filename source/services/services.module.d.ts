@@ -1,4 +1,4 @@
-import { Provider } from 'angular2/core';
+import { Provider } from '@angular/core';
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
 import * as dataContracts from './dataContracts/dataContracts.module';

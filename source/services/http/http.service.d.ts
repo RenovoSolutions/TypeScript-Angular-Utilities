@@ -1,6 +1,6 @@
-import { OpaqueToken, Provider } from 'angular2/core';
-import { Http, URLSearchParams } from 'angular2/http';
-import { Observable } from 'rxjs';
+import { OpaqueToken, Provider } from '@angular/core';
+import { Http, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 export interface IHttpUtility {
     buildQueryString(params: any): URLSearchParams;
     get<TDataType>(endpoint: string, params?: any): Observable<TDataType>;

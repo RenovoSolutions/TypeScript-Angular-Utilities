@@ -1,4 +1,4 @@
-import { Provider, OpaqueToken } from 'angular2/core';
+import { Provider, OpaqueToken } from '@angular/core';
 export interface IRedirectService {
     getCurrentLocationAsParam(): string;
     to(target: string, newTab?: boolean): void;

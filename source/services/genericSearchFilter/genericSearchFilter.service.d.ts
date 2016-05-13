@@ -1,4 +1,4 @@
-import { Provider, OpaqueToken } from 'angular2/core';
+import { Provider, OpaqueToken } from '@angular/core';
 import { IObjectUtility } from '../object/object.service';
 import { IStringUtility } from '../string/string.service';
 import { ISerializableFilter, SerializableFilter } from '../../filters/filter';

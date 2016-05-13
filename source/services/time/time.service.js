@@ -1,5 +1,5 @@
 "use strict";
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var moment = require('moment');
 var compareResult_1 = require('../../types/compareResult');
 var date_module_1 = require('../date/date.module');

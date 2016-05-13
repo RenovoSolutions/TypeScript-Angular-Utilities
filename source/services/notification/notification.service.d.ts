@@ -1,4 +1,4 @@
-import { Provider, OpaqueToken } from 'angular2/core';
+import { Provider, OpaqueToken } from '@angular/core';
 import { ILogger } from '../logger/logger.service';
 export interface INotificationService {
     info(message: string): void;

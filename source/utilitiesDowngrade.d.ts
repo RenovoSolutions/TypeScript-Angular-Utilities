@@ -1,5 +1,5 @@
-import { PipeTransform } from 'angular2/core';
-import { UpgradeAdapter } from 'angular2/upgrade';
+import { PipeTransform } from '@angular/core';
+import { UpgradeAdapter } from '@angular/upgrade';
 import { IObservableService } from './services/observable/observable.service';
 export declare const isEmptyFilterName: string;
 export declare const truncateFilterName: string;

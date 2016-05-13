@@ -2,7 +2,7 @@
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var moment = require('moment');
 var _ = require('lodash');
 var timezone_enum_1 = require('./timezone.enum');

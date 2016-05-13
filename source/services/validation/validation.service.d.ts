@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 import { INotificationService } from '../notification/notification.service';
 import { ISimpleValidator, IErrorHandler, ICompositeValidator } from './validationTypes';
 export * from './validationTypes';

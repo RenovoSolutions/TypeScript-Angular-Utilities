@@ -1,4 +1,4 @@
-import { Provider, OpaqueToken } from 'angular2/core';
+import { Provider, OpaqueToken } from '@angular/core';
 export interface INumberUtility {
     preciseRound(num: number, decimals: number): number;
     integerDivide(dividend: number, divisor: number): number;

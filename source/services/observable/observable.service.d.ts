@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider, ExceptionHandler } from 'angular2/core';
+import { OpaqueToken, Provider, ExceptionHandler } from '@angular/core';
 export interface IWatcher<TReturnType> {
     action: IAction<TReturnType>;
     event?: string;

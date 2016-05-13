@@ -1,5 +1,5 @@
 "use strict";
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var SynchronizedRequestsService = (function () {
     function SynchronizedRequestsService(dataProvider, handleRequest) {
         this.requestId = 0;

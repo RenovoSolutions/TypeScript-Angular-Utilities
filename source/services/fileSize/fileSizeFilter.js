@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var number_service_1 = require('../number/number.service');
 var fileSize_service_1 = require('./fileSize.service');
 // Formats and optionally truncates and ellipsimogrifies a string for display in a card header

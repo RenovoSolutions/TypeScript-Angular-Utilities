@@ -1,4 +1,4 @@
-import { PipeTransform } from 'angular2/core';
+import { PipeTransform } from '@angular/core';
 import { IObjectUtility } from '../../services/object/object.service';
 export declare class TruncatePipe implements PipeTransform {
     private objectUtility;

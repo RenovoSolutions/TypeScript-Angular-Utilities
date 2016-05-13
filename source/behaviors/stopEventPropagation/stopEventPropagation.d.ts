@@ -1,4 +1,4 @@
-import { ElementRef, AfterContentInit } from 'angular2/core';
+import { ElementRef, AfterContentInit } from '@angular/core';
 export declare class StopEventPropagation implements AfterContentInit {
     private element;
     private event;

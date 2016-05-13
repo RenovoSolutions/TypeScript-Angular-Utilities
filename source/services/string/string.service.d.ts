@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 export interface IStringUtility {
     toNumber(string: string): number;
     contains(str: string, substring?: string): boolean;
