@@ -19,12 +19,12 @@ const map = {
 	'node-uuid': 'node_modules/node-uuid/uuid',
 	'moment': 'node_modules/moment/moment',
 	'moment-timezone': 'node_modules/moment-timezone/builds/moment-timezone-with-data.min',
-}
+};
 
-let meta = {};
-externalDeps.forEach(dep => {
-	meta[dep] = { build: false };
-});
+const meta = externalDeps.reduce((curMeta, dep) => {
+	curMeta[dep] = { build: false };
+	return curMeta;
+}, {});
 
 System.config({
 	meta,
