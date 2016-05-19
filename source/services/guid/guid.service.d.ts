@@ -1,6 +1,5 @@
 import { OpaqueToken, Provider } from '@angular/core';
 export interface IGuidService {
-    time(): string;
     random(): string;
 }
 export declare const guid: IGuidService;
