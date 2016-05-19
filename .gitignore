@@ -1,8 +1,7 @@
-# Definitively typed files (resolved via tsd)
-/typings/main.d.ts
-/typings/browser.d.ts
-/typings/browser/
-/typings/main/
+# Typings files (resolved via typings)
+/typings/index.d.ts
+/typings/globals/
+/typings/modules/
 
 # Bower file
 /output/bower.json
