@@ -1,6 +1,7 @@
 ﻿import { Inject, Injectable, OpaqueToken, Provider } from '@angular/core';
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import {
 	IArrayUtility,
