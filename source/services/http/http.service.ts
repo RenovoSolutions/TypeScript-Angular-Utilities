@@ -3,6 +3,7 @@ import { Inject, OpaqueToken, Provider, Injectable } from '@angular/core';
 
 import { Http, URLSearchParams, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 export interface IHttpUtility {
 	buildQueryString(params: any): URLSearchParams;
