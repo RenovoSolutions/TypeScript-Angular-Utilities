@@ -55,7 +55,7 @@ export class ValidationService implements IValidationService {
 
 	constructor(@Inject(notificationServiceToken) notification: INotificationService) {
 		this.notification = notification;
-	 }
+	}
 
 	buildNotificationWarningValidator(): ISimpleValidator {
 		return new Validator((error: string): void => {
