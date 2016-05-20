@@ -56,7 +56,8 @@ export interface IObservableFactory {
 }
 
 export function PipeDowngrader(pipe: PipeTransform) {
-	return (value: any, ...args: any[]): any => {
+	// factory that returns a filter
+	return () => (value: any, ...args: any[]): any => {
 		return pipe.transform(value, ...args);
 	};
 }
