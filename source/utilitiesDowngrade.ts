@@ -1,4 +1,5 @@
 import { Provider, provide, ExceptionHandler, PipeTransform } from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
 import { UpgradeAdapter } from '@angular/upgrade';
 
 import * as angular from 'angular';
@@ -13,6 +14,7 @@ import { DATE_PROVIDER, dateToken } from './services/date/date.service';
 import { ERROR_HANDLER_PROVIDER, DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS, errorHandlerToken } from './services/errorHandler/errorHandler.service';
 import { GENERIC_SEARCH_FILTER_PROVIDER, genericSearchFilterToken } from './services/genericSearchFilter/genericSearchFilter.service';
 import { GUID_PROVIDER, guidToken } from './services/guid/guid.service';
+import { HTTP_PROVIDER, httpToken } from './services/http/http.service';
 import { LOGGER_PROVIDER, loggerToken } from './services/logger/logger.service';
 import { NOTIFICATION_PROVIDER, notificationServiceToken } from './services/notification/notification.service';
 import { NUMBER_PROVIDER, numberUtilityToken } from './services/number/number.service';
@@ -70,6 +72,9 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 		},
 	})
 
+	// angular's http (distinct from ours below)
+	upgradeAdapter.addProvider(HTTP_PROVIDERS);
+
 	upgradeAdapter.addProvider(ARRAY_PROVIDER);
 	upgradeAdapter.addProvider(BOOLEAN_PROVIDER);
 	upgradeAdapter.addProvider(RESOURCE_BUILDER_PROVIDER);
@@ -79,6 +84,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	upgradeAdapter.addProvider(DEFAULT_LOGIN_URL_PROVIDERS);
 	upgradeAdapter.addProvider(GENERIC_SEARCH_FILTER_PROVIDER);
 	upgradeAdapter.addProvider(GUID_PROVIDER);
+	upgradeAdapter.addProvider(HTTP_PROVIDER);
 	upgradeAdapter.addProvider(LOGGER_PROVIDER);
 	upgradeAdapter.addProvider(NOTIFICATION_PROVIDER);
 	upgradeAdapter.addProvider(NUMBER_PROVIDER);
@@ -102,6 +108,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.factory(errorHandlerServiceName, upgradeAdapter.downgradeNg2Provider(errorHandlerToken));
 	utilitiesModule.factory(genericSearchFilterServiceName, upgradeAdapter.downgradeNg2Provider(genericSearchFilterToken));
 	utilitiesModule.factory(guidServiceName, upgradeAdapter.downgradeNg2Provider(guidToken));
+	utilitiesModule.factory(httpServiceName, upgradeAdapter.downgradeNg2Provider(httpToken));
 	utilitiesModule.factory(notificationServiceName, upgradeAdapter.downgradeNg2Provider(notificationServiceToken));
 	utilitiesModule.factory(numberServiceName, upgradeAdapter.downgradeNg2Provider(numberUtilityToken));
 	utilitiesModule.factory(objectServiceName, upgradeAdapter.downgradeNg2Provider(objectToken));
