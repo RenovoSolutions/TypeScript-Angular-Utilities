@@ -130,7 +130,10 @@ export class ResourceBuilder implements IResourceBuilder {
 	private array: IArrayUtility;
 
 	constructor(@Inject(httpToken) http: IHttpUtility
-			, @Inject(arrayToken) array: IArrayUtility) { }
+			, @Inject(arrayToken) array: IArrayUtility) {
+		this.http = http;
+		this.array = array;
+	}
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);
