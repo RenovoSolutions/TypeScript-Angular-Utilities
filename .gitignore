@@ -1,13 +1,7 @@
-# Typings files (resolved via typings)
-/typings/index.d.ts
+# Definitively typed files (from typings)
 /typings/globals/
 /typings/modules/
-
-# Bower file
-/output/bower.json
-/output/LICENSE
-/output/README.md
-
+/typings/index.d.ts
 # Don't commit built files (*.js, *.d.ts)
 /source/**/*.js
 /source/**/*.d.ts
