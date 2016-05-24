@@ -12,9 +12,9 @@
 # Don't need type definitions with bundles right now
 /output/**/*.d.ts
 
-# Don't built test files
-/source/**/*.tests.js
-/source/**/*.tests.d.ts
+# Don't commit built files
+/source/**/*.js
+/source/**/*.d.ts
 
 # Node deps
 npm-debug.log
