@@ -4,14 +4,6 @@
 /typings/browser/
 /typings/main/
 
-# Bower file
-/output/bower.json
-/output/LICENSE
-/output/README.md
-
-# Don't need type definitions with bundles right now
-/output/**/*.d.ts
-
 # Don't commit built files
 /source/**/*.js
 /source/**/*.d.ts
