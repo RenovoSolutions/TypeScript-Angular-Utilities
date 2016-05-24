@@ -1,5 +1,5 @@
 export interface IValidator {
-	validate(): boolean;
+	validate(value?: any): boolean;
 	getErrorCount(): number;
 }
 
@@ -14,7 +14,7 @@ export interface ICompositeValidator extends IValidator {
 
 export interface IValidationHandler {
 	isActive?: {(): boolean} | boolean;
-	validate(): boolean;
+	validate(value?: any): boolean;
 	errorMessage: string | { (): string };
 	name?: string;
 }
