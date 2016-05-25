@@ -1,4 +1,15 @@
-*.tests.js
+# Ignore test files
+source/**/*.tests.js
+source/*.tests.d.ts
 karma.*
 test-bootstrapper.js
+
+# NPM
+/node_modules/
+npm-debug.log
+
+# Ignore webpack settings
 webpack.*
+
+# Git
+*.orig
