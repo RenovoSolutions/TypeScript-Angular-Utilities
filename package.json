@@ -15,6 +15,7 @@
   },
   "scripts": {
     "prepublish": "npm run build",
+    "postinstall": "typings install",
 
     "version": "gulp version -v ",
 
@@ -40,9 +41,7 @@
     "full-build": "npm install && npm run build && npm run bundle",
 
     "all": "npm install && npm run build && npm run test.full && npm run bundle",
-    "build-test-bundle": "npm run build && npm run test.full && npm run bundle",
-
-    "postinstall": "typings install"
+    "build-test-bundle": "npm run build && npm run test.full && npm run bundle"
   },
   "devDependencies": {
     "@renovolive/gulp-utilities": "~2.1.3",
