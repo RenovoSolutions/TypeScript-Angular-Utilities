@@ -25,8 +25,8 @@ export class TransformService implements ITransformService {
 
 export const transform: ITransformService = new TransformService();
 
-export const transformServiceToken: OpaqueToken = new OpaqueToken('transform service token');
+export const transformToken: OpaqueToken = new OpaqueToken('transform service token');
 
-export const TRANSFORM_SERVICE_PROVIDER: Provider = new Provider(transformServiceToken, {
+export const TRANSFORM_PROVIDER: Provider = new Provider(transformToken, {
 	useClass: TransformService
 });

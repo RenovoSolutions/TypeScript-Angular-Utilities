@@ -1,6 +1,6 @@
 ﻿import { Injectable, Provider, Inject, ExceptionHandler, OpaqueToken } from '@angular/core';
 
-import { INotificationService, notificationServiceToken } from '../notification/notification.service';
+import { INotificationService, notificationToken } from '../notification/notification.service';
 
 import { IRedirectService, redirectToken } from '../redirect/redirect.service';
 
@@ -74,7 +74,7 @@ export class ErrorHandlerService implements IErrorHandlerService {
 
 	constructor(@Inject(redirectToken) redirect: IRedirectService
 			, @Inject(ExceptionHandler) exceptionHandler: ExceptionHandler
-			, @Inject(notificationServiceToken) notification: INotificationService
+			, @Inject(notificationToken) notification: INotificationService
 			, @Inject(defaultErrorsToken) errorMessages: IErrorMessages
 			, @Inject(defaultLoginUrlSettingsToken) loginSettings: ILoginUrlSettings) {
 		this.redirect = redirect;

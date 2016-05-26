@@ -16,8 +16,8 @@ import { GENERIC_SEARCH_FILTER_PROVIDER, genericSearchFilterToken } from './serv
 import { GUID_PROVIDER, guidToken } from './services/guid/guid.service';
 import { HTTP_PROVIDER, httpToken } from './services/http/http.service';
 import { LOGGER_PROVIDER, loggerToken } from './services/logger/logger.service';
-import { NOTIFICATION_PROVIDER, notificationServiceToken } from './services/notification/notification.service';
-import { NUMBER_PROVIDER, numberUtilityToken } from './services/number/number.service';
+import { NOTIFICATION_PROVIDER, notificationToken } from './services/notification/notification.service';
+import { NUMBER_PROVIDER, numberToken } from './services/number/number.service';
 import { OBJECT_PROVIDER, objectUtility, objectToken } from './services/object/object.service';
 import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
 import { REDIRECT_PROVIDER, redirectToken } from './services/redirect/redirect.service';
@@ -109,8 +109,8 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.factory(genericSearchFilterServiceName, upgradeAdapter.downgradeNg2Provider(genericSearchFilterToken));
 	utilitiesModule.factory(guidServiceName, upgradeAdapter.downgradeNg2Provider(guidToken));
 	utilitiesModule.factory(httpServiceName, upgradeAdapter.downgradeNg2Provider(httpToken));
-	utilitiesModule.factory(notificationServiceName, upgradeAdapter.downgradeNg2Provider(notificationServiceToken));
-	utilitiesModule.factory(numberServiceName, upgradeAdapter.downgradeNg2Provider(numberUtilityToken));
+	utilitiesModule.factory(notificationServiceName, upgradeAdapter.downgradeNg2Provider(notificationToken));
+	utilitiesModule.factory(numberServiceName, upgradeAdapter.downgradeNg2Provider(numberToken));
 	utilitiesModule.factory(objectServiceName, upgradeAdapter.downgradeNg2Provider(objectToken));
 	utilitiesModule.factory(observableServiceName, upgradeAdapter.downgradeNg2Provider(observableToken));
 	utilitiesModule.factory(stringServiceName, upgradeAdapter.downgradeNg2Provider(stringToken));
