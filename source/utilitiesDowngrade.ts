@@ -25,6 +25,7 @@ import { STRING_PROVIDER, stringToken } from './services/string/string.service';
 import { SYNCHRONIZED_REQUESTS_PROVIDER, synchronizedRequestsToken } from './services/synchronizedRequests/synchronizedRequests.service';
 import { TIME_PROVIDER, timeToken } from './services/time/time.service';
 import { TIMEZONE_PROVIDER, timezoneToken } from './services/timezone/timezone.service';
+import { TRANSFORM_PROVIDER, transformToken } from './services/transform/transform.service';
 import { VALIDATION_PROVIDER, validationToken } from './services/validation/validation.service';
 import { WINDOW_PROVIDER, windowToken } from './services/window/window.provider';
 
@@ -47,6 +48,7 @@ export const stringServiceName: string = 'rlStringService';
 export const synchronizedRequestsServiceName: string = 'rlSynchronizedRequestsService';
 export const timeServiceName: string = 'rlTimeService';
 export const timezoneServiceName: string = 'rlTimezoneService';
+export const transformServiceName: string = 'rlTransformService';
 export const validationServiceName: string = 'rlValidationService';
 
 export const moduleName: string = 'rl.utilities';
@@ -95,6 +97,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	upgradeAdapter.addProvider(SYNCHRONIZED_REQUESTS_PROVIDER);
 	upgradeAdapter.addProvider(TIME_PROVIDER);
 	upgradeAdapter.addProvider(TIMEZONE_PROVIDER);
+	upgradeAdapter.addProvider(TRANSFORM_PROVIDER);
 	upgradeAdapter.addProvider(VALIDATION_PROVIDER);
 	upgradeAdapter.addProvider(WINDOW_PROVIDER);
 
@@ -117,5 +120,6 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.factory(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(synchronizedRequestsToken));
 	utilitiesModule.factory(timeServiceName, upgradeAdapter.downgradeNg2Provider(timeToken));
 	utilitiesModule.factory(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(timezoneToken));
+	utilitiesModule.factory(transformServiceName, upgradeAdapter.downgradeNg2Provider(transformToken));
 	utilitiesModule.factory(validationServiceName, upgradeAdapter.downgradeNg2Provider(validationToken));
 }
