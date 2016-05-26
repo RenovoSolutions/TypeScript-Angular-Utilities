@@ -13,3 +13,6 @@ webpack.*
 
 # Git
 *.orig
+
+# Don't need external typings on npm
+/typings/
