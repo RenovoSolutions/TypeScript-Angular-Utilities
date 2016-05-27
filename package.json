@@ -15,6 +15,9 @@
   },
   "scripts": {
     "prepublish": "npm run build",
+    "postinstall": "typings install",
+
+    "version": "gulp version -v ",
 
     "clean": "gulp clean",
     "build": "gulp clean && tsc && echo Build complete",
@@ -33,15 +36,14 @@
     "full-build": "npm install && npm run build",
 
     "all": "npm install && npm run build && npm run test.full",
-
-    "postinstall": "typings install"
+    "build-test-bundle": "npm run build && npm run test.full && npm run bundle"
   },
   "devDependencies": {
+    "@renovolive/gulp-utilities": "~2.1.3",
     "chai": "~3.5.0",
     "concurrently": "~2.0.0",
     "del": "~2.2.0",
     "gulp": "~3.9.1",
-    "gulp-utilities": "https://github.com/RenovoSolutions/Gulp-Typescript-Utilities/archive/2.0.5.tar.gz",
     "karma": "~0.13.21",
     "karma-chai": "~0.1.0",
     "karma-chrome-launcher": "~0.2.2",
