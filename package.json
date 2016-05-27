@@ -35,8 +35,7 @@
 
     "full-build": "npm install && npm run build",
 
-    "all": "npm install && npm run build && npm run test.full",
-    "build-test-bundle": "npm run build && npm run test.full && npm run bundle"
+    "all": "npm install && npm run build && npm run test.full"
   },
   "devDependencies": {
     "@renovolive/gulp-utilities": "~2.1.3",
