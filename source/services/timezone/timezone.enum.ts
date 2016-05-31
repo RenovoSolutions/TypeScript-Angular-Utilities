@@ -108,3 +108,12 @@ class Timezone implements ITimezone {
 }
 
 export let timezones: ITimezones = new Timezones();
+
+// Intentionally not in timezones list as this is not a valid user timezone,
+//  but is used for server values.
+export const UTC: ITimezone = {
+	offset: '+00:00',
+	display: 'UTC',
+	momentName: 'UTC',
+	offsetMinutes: 0,
+};
