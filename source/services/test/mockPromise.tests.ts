@@ -156,6 +156,21 @@ describe('mockPromise', () => {
 		mock.flushAll(service);
 	});
 
+	it('should run some additional logic when flush completes', (done: MochaDone) => {
+		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 10 });
+		let result: ITestType = null;
+		mockedPromise().then(promiseResult => {
+			result = promiseResult;
+		});
+
+		mockedPromise.flush()
+			.then(() => {
+				expect(result.value).to.equal(10);
+
+				done();
+			});
+	});
+
 	it('should work with Promise.resolve and Promise.all', (done: MochaDone): void => {
 		const mockedPromises: IMockedPromise<number>[] = [
 			mock.promise(5),
