@@ -56,6 +56,7 @@ export interface IContractLibrary {
 
 export class ContractLibrary implements IContractLibrary {
 	private builder: IResourceBuilder;
+	private pendingRequests: Promise<any>[] = [];
 	baseEndpoint: string;
 
 	constructor(builder: IResourceBuilder, baseEndpoint?: string) {
@@ -102,8 +103,9 @@ export class ContractLibrary implements IContractLibrary {
 		return resource;
 	}
 
-	flush(): void {
-		// flush es6 promises
+	flush(): Promise<void> {
+		return Promise.all(this.pendingRequests)
+			.then((): void => { this.pendingRequests = []; });
 	}
 
 	mockGet(resource: any, data: any): Sinon.SinonSpy {
@@ -168,7 +170,9 @@ export class ContractLibrary implements IContractLibrary {
 
 	private baseMockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
 		let func: Sinon.SinonSpy = this.sinon.spy((): any => {
-			return Promise.resolve(data);
+			const request: Promise<any> = Promise.resolve(data);
+			this.pendingRequests.push(request);
+			return request;
 		});
 		resource[actionName] = func;
 		return func;
@@ -179,7 +183,9 @@ export class ContractLibrary implements IContractLibrary {
 			if (dataTransform) {
 				data = dataTransform(data);
 			}
-			return Promise.resolve(data);
+			const request: Promise<any> = Promise.resolve(data);
+			this.pendingRequests.push(request);
+			return request;
 		});
 		resource[actionName] = func;
 		return func;
