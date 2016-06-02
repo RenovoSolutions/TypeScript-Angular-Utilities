@@ -10,7 +10,11 @@ gulp.task('wipe-npm', () => {
 	return del('node_modules');
 });
 
-gulp.task('systemjs-for-tests', (done) => {
+gulp.task('bundle-tests.watch', (done) => {
+	gulp.watch('source/**/*.js', ['bundle-tests']);
+});
+
+gulp.task('bundle-tests', (done) => {
 	var builder = new Builder();
 
 	builder.loadConfig('./system.config.js')
