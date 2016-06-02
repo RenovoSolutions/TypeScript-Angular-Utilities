@@ -14,7 +14,7 @@ import { IDataServiceView, IParentDataServiceView } from '../dataService/view/da
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
-import { mock } from '../../test/mockPromise';
+import { mock, IMockedPromise } from '../../test/mockPromise';
 
 export interface IContractLibrary {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
@@ -56,7 +56,7 @@ export interface IContractLibrary {
 
 export class ContractLibrary implements IContractLibrary {
 	private builder: IResourceBuilder;
-	private pendingRequests: Promise<any>[] = [];
+	private pendingRequests: IMockedPromise<any>[] = [];
 	baseEndpoint: string;
 
 	constructor(builder: IResourceBuilder, baseEndpoint?: string) {
@@ -103,9 +103,8 @@ export class ContractLibrary implements IContractLibrary {
 		return resource;
 	}
 
-	flush(): Promise<void> {
-		return Promise.all(this.pendingRequests)
-			.then((): void => { this.pendingRequests = []; });
+	flush(): void {
+		_.each(this.pendingRequests, request => request.flush());
 	}
 
 	mockGet(resource: any, data: any): Sinon.SinonSpy {
@@ -169,24 +168,19 @@ export class ContractLibrary implements IContractLibrary {
 	}
 
 	private baseMockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
-		let func: Sinon.SinonSpy = this.sinon.spy((): any => {
-			const request: Promise<any> = Promise.resolve(data);
-			this.pendingRequests.push(request);
-			return request;
-		});
+		let func: IMockedPromise<any> = mock.promise(data);
+		this.pendingRequests.push(func);
 		resource[actionName] = func;
 		return func;
 	}
 
 	private baseMockSave(resource: any, actionName: string, dataTransform: IDataTransform): Sinon.SinonSpy {
-		let func: Sinon.SinonSpy = this.sinon.spy((data: any): any => {
-			if (dataTransform) {
-				data = dataTransform(data);
-			}
-			const request: Promise<any> = Promise.resolve(data);
-			this.pendingRequests.push(request);
-			return request;
+		let func: IMockedPromise<any> = mock.promise(data => {
+			return dataTransform
+				? dataTransform(data)
+				: data;
 		});
+		this.pendingRequests.push(func);
 		resource[actionName] = func;
 		return func;
 	}
