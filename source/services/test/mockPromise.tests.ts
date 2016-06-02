@@ -1,4 +1,5 @@
 import { mock, IMockedPromise } from './mockPromise';
+import { fakeAsync } from './fakeAsync';
 
 interface ITestType {
 	value: number;
@@ -10,18 +11,17 @@ interface ITestDataService {
 }
 
 describe('mockPromise', () => {
-	it('should create a promise that resolves when flushed', (done: MochaDone) => {
+	it('should create a promise that resolves when flushed', fakeAsync(() => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 10 });
 		mockedPromise()
 			.then((result: ITestType) => {
 				expect(result.value).to.equal(10);
-				done();
 			});
 
 		mockedPromise.flush();
-	});
+	}));
 
-	it('should create a promise that resolves with dynamic content when flushed', (done: MochaDone) => {
+	it('should create a promise that resolves with dynamic content when flushed', fakeAsync(() => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise((value1: number, value2: number) => {
 			return { value: value1 + value2 };
 		});
@@ -29,13 +29,12 @@ describe('mockPromise', () => {
 		mockedPromise(5, 3)
 			.then((result: ITestType) => {
 				expect(result.value).to.equal(8);
-				done();
 			});
 
 		mockedPromise.flush();
-	});
+	}));
 
-	it('should create a promise that is rejected', (done: MochaDone) => {
+	it('should create a promise that is rejected', fakeAsync(() => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.rejectedPromise<ITestType>(new Error('an error'));
 
 		mockedPromise()
@@ -43,13 +42,12 @@ describe('mockPromise', () => {
 				assert.fail(null, null, 'Promise should be rejected, not resolved');
 			}, (error: Error) => {
 				expect(error.message).to.equal('an error');
-				done();
 			});
 
 		mockedPromise.flush();
-	});
+	}));
 
-	it('should create a promise and set it to be rejected', (done: MochaDone) => {
+	it('should create a promise and set it to be rejected', fakeAsync(() => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 });
 		mockedPromise.reject(new Error('error message'));
 
@@ -58,13 +56,12 @@ describe('mockPromise', () => {
 				assert.fail(null, null, 'Promise should be rejected, not resolved');
 			}, (error: Error) => {
 				expect(error.message).to.equal('error message');
-				done();
 			});
 
 		mockedPromise.flush();
-	});
+	}));
 
-	it('should be able to reuse mocked promises', (done: MochaDone) => {
+	it('should be able to reuse mocked promises', fakeAsync(() => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise<ITestType>({ value: 3 }, true);
 		mockedPromise.reject(new Error('error message'));
 
@@ -75,16 +72,15 @@ describe('mockPromise', () => {
 				mockedPromise()
 					.then((result: ITestType) => {
 						expect(result.value).to.equal(3);
-						done();
 					});
 
 				mockedPromise.flush();
 			});
 
 		mockedPromise.flush();
-	});
+	}));
 
-	it('should allow unique parameters with successive calls', (done: MochaDone) => {
+	it('should allow unique parameters with successive calls', fakeAsync(() => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise((value1: number, value2: number) => {
 			return { value: value1 + value2 };
 		}, true);
@@ -96,15 +92,13 @@ describe('mockPromise', () => {
 				mockedPromise(8, 2)
 					.then((result: ITestType) => {
 						expect(result.value).to.equal(10);
-
-						done();
 					});
 
 				mockedPromise.flush();
 			});
 
 		mockedPromise.flush();
-	});
+	}));
 
 	it('should reuse a pending promise when sharing', (): void => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 }, true);
@@ -119,7 +113,7 @@ describe('mockPromise', () => {
 		expect(mockedPromise()).to.not.equal(mockedPromise());
 	});
 
-	it('should flush all requests on an unshared promise', (done: MochaDone): void => {
+	it('should flush all requests on an unshared promise', fakeAsync((): void => {
 		let mockedPromise: IMockedPromise<number> = mock.promise(result => result);
 		Promise.all<number>([
 			mockedPromise(5),
@@ -127,11 +121,10 @@ describe('mockPromise', () => {
 		]).then(([result1, result2]: number[]): void => {
 			expect(result1).to.equal(5);
 			expect(result2).to.equal(10);
-			done();
 		});
 
 		mockedPromise.flush();
-	});
+	}));
 
 	it('should spy on the promise function', (): void => {
 		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 3 });
@@ -140,7 +133,7 @@ describe('mockPromise', () => {
 		sinon.assert.calledWith(mockedPromise, 6);
 	});
 
-	it('should flush all promises on an object', (done: MochaDone): void => {
+	it('should flush all promises on an object', fakeAsync((): void => {
 		let service: ITestDataService = {
 			promise1: mock.promise({ value: 3 }),
 			promise2: mock.promise({ value: 4 }),
@@ -151,27 +144,11 @@ describe('mockPromise', () => {
 		]).then(([result1, result2]: ITestType[]): void => {
 			expect(result1.value).to.equal(3);
 			expect(result2.value).to.equal(4);
-			done();
 		});
 		mock.flushAll(service);
-	});
+	}));
 
-	it('should run some additional logic when flush completes', (done: MochaDone) => {
-		let mockedPromise: IMockedPromise<ITestType> = mock.promise({ value: 10 });
-		let result: ITestType = null;
-		mockedPromise().then(promiseResult => {
-			result = promiseResult;
-		});
-
-		mockedPromise.flush()
-			.then(() => {
-				expect(result.value).to.equal(10);
-
-				done();
-			});
-	});
-
-	it('should work with Promise.resolve and Promise.all', (done: MochaDone): void => {
+	it('should work with Promise.resolve and Promise.all', fakeAsync((): void => {
 		const mockedPromises: IMockedPromise<number>[] = [
 			mock.promise(5),
 			mock.promise(10),
@@ -182,9 +159,8 @@ describe('mockPromise', () => {
 		Promise.all<number>(whens).then(([result1, result2]: number[]): void => {
 			expect(result1).to.equal(5);
 			expect(result2).to.equal(10);
-			done();
 		});
 
 		mock.flushAll(mockedPromises);
-	});
+	}));
 });
