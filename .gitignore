@@ -2,6 +2,7 @@
 /typings/globals/
 /typings/modules/
 /typings/index.d.ts
+
 # Don't commit built files (*.js, *.d.ts)
 /source/**/*.js
 /source/**/*.d.ts
@@ -12,3 +13,6 @@ npm-debug.log
 
 # Ignore git conflict / diff files
 *.orig
+
+# Ignore test artifacts
+/tests/
