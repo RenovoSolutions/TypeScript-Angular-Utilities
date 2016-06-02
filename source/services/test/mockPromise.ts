@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { flushMicrotasks } from './fakeAsync';
+import { flushMicrotasks, queueRequest } from './fakeAsync';
 
 export interface IMockPromiseService {
 	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData>;
@@ -60,6 +60,7 @@ class MockPromiseService implements IMockPromiseService {
 			promise: Promise<TData>;
 			rejected: boolean;
 			rejectParams: any[];
+			pending: boolean;
 		};
 
 		let requests: IRequestType[] = [];
@@ -78,6 +79,7 @@ class MockPromiseService implements IMockPromiseService {
 				promise: null,
 				rejected: mocked.rejected,
 				rejectParams: mocked.rejectParams,
+				pending: true,
 			};
 
 			newRequest.promise = new Promise<TData>(function (resolve, reject) {
@@ -86,6 +88,8 @@ class MockPromiseService implements IMockPromiseService {
 			});
 
 			requests.push(newRequest);
+
+			queueRequest(newRequest);
 
 			return newRequest.promise;
 		});
@@ -111,6 +115,7 @@ class MockPromiseService implements IMockPromiseService {
 		// If current request, resolve and clear
 		mocked.flush = (): void => {
 			_.each(requests, (request: IRequestType): void => {
+				request.pending = false;
 				if (request.rejected) {
 					request.reject(...request.rejectParams);
 				} else {

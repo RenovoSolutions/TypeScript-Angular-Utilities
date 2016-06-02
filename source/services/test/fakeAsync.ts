@@ -1,6 +1,7 @@
 let Zone = (<any>window).Zone;
 
 let _FakeAsyncTestZoneSpecType = Zone['FakeAsyncTestZoneSpec'];
+let requestQueue = [];
 
 /**
  * Wraps a function to be executed in the fakeAsync zone:
@@ -28,8 +29,12 @@ export function fakeAsync(fn: Function): { (done?: MochaDone): void } {
 
 	return function (...args) {
 		let res = fakeAsyncZone.run(() => {
+			requestQueue = [];
 			let res = fn(...args);
 			flushMicrotasks();
+			if (requestQueue.some(request => request.pending)) {
+				throw new Error('There are still pending requests. Please be sure to flush all of your requests');
+			}
 			return res;
 		});
 
@@ -93,4 +98,8 @@ export function discardPeriodicTasks(): void {
  */
 export function flushMicrotasks(): void {
 	_getFakeAsyncZoneSpec().flushMicrotasks();
+}
+
+export function queueRequest(request): void {
+	requestQueue.push(request);
 }
