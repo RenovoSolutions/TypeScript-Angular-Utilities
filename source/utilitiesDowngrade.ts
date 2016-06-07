@@ -14,7 +14,7 @@ import { DATE_PROVIDER, dateToken } from './services/date/date.service';
 import { ERROR_HANDLER_PROVIDER, DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS, errorHandlerToken } from './services/errorHandler/errorHandler.service';
 import { GENERIC_SEARCH_FILTER_PROVIDER, genericSearchFilterToken } from './services/genericSearchFilter/genericSearchFilter.service';
 import { GUID_PROVIDER, guidToken } from './services/guid/guid.service';
-import { HTTP_PROVIDER, httpToken, interceptorToken } from './services/http/http.service';
+import { HTTP_PROVIDER, httpToken } from './services/http/http.service';
 import { LOGGER_PROVIDER, loggerToken } from './services/logger/logger.service';
 import { NOTIFICATION_PROVIDER, notificationToken } from './services/notification/notification.service';
 import { NUMBER_PROVIDER, numberToken } from './services/number/number.service';
@@ -73,7 +73,6 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 			getInstance: (exceptionHandler: ExceptionHandler): IObservableService => new ObservableService(exceptionHandler),
 		},
 	})
-	upgradeAdapter.addProvider(new Provider(interceptorToken, { useValue: null }));
 
 	// angular's http (distinct from ours below)
 	upgradeAdapter.addProvider(HTTP_PROVIDERS);
