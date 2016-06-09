@@ -15,7 +15,8 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "postinstall": "typings install",
+    "bundle-deps": "gulp bundle-tests-vendor && gulp bundle-tests-renovo",
+    "postinstall": "typings install && npm run bundle-deps",
 
     "version": "gulp version -v ",
 
@@ -23,10 +24,11 @@
     "build": "gulp clean && tsc && echo Build complete",
     "build.watch": "tsc -w",
 
-    "test": "karma start",
-    "test.debug": "karma start karma.debug.conf.js",
-    "test.tc": "karma start karma.tc.conf.js",
-    "test.full": "karma start karma.full.conf.js",
+    "bundle-tests": "gulp bundle-tests",
+    "test": "npm run bundle-tests && karma start",
+    "test.debug": "concurrently --kill-others \"gulp bundle-tests.watch\" \"karma start karma.debug.conf.js\"",
+    "test.tc": "npm run bundle-tests && karma start karma.tc.conf.js",
+    "test.full": "npm run bundle-tests && karma start karma.full.conf.js",
 
     "install-build": "npm install && npm run build",
     "install-build-test": "npm install && npm run build && npm run test",

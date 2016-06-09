@@ -1,4 +1,6 @@
 exports.files = [
+	'tests/vendor.bundle.js',
+	'tests/renovo.bundle.js',
 	'tests/tests.bundle.js',
 ];
 
