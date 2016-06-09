@@ -1,8 +1,8 @@
-import { Injectable, Inject, OpaqueToken, Provider } from 'angular2/core';
+import { Injectable, Inject, OpaqueToken, Provider } from '@angular/core';
 
 import * as _ from 'lodash';
 
-import { INotificationService, notificationServiceToken } from '../notification/notification.service';
+import { INotificationService, notificationToken } from '../notification/notification.service';
 
 import { ISimpleValidator, IErrorHandler, ICompositeValidator } from './validationTypes';
 import { Validator } from './validator';
@@ -53,9 +53,9 @@ export interface IValidationService {
 export class ValidationService implements IValidationService {
 	private notification: INotificationService;
 
-	constructor(@Inject(notificationServiceToken) notification: INotificationService) {
+	constructor(@Inject(notificationToken) notification: INotificationService) {
 		this.notification = notification;
-	 }
+	}
 
 	buildNotificationWarningValidator(): ISimpleValidator {
 		return new Validator((error: string): void => {

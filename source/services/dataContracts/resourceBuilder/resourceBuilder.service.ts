@@ -1,4 +1,4 @@
-import { Inject, Injectable, OpaqueToken, Provider } from 'angular2/core';
+import { Inject, Injectable, OpaqueToken, Provider } from '@angular/core';
 
 import { IArrayUtility, arrayToken } from '../../array/array.service';
 import { IHttpUtility, httpToken } from '../../http/http.service';
@@ -130,7 +130,10 @@ export class ResourceBuilder implements IResourceBuilder {
 	private array: IArrayUtility;
 
 	constructor(@Inject(httpToken) http: IHttpUtility
-			, @Inject(arrayToken) array: IArrayUtility) { }
+			, @Inject(arrayToken) array: IArrayUtility) {
+		this.http = http;
+		this.array = array;
+	}
 
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
 		options = this.useMockIfNoEndpoint(options);

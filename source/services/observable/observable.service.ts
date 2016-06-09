@@ -1,4 +1,4 @@
-﻿import { Injectable, OpaqueToken, Provider, ExceptionHandler } from 'angular2/core';
+﻿import { Injectable, OpaqueToken, Provider, ExceptionHandler } from '@angular/core';
 import * as _ from 'lodash';
 
 // deprecated - use rxjs instead

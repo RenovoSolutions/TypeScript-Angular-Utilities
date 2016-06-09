@@ -1,4 +1,4 @@
-import { Injectable, Inject, OpaqueToken, Provider, provide } from 'angular2/core';
+import { Injectable, Inject, OpaqueToken, Provider, provide } from '@angular/core';
 import * as _ from 'lodash';
 
 import { IArrayUtility, arrayToken } from '../../array/array.service';

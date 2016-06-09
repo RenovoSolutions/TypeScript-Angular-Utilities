@@ -1,4 +1,4 @@
-import {Inject, Pipe, PipeTransform} from 'angular2/core';
+import {Inject, Pipe, PipeTransform} from '@angular/core';
 
 import {
 	IObjectUtility,

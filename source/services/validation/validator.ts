@@ -8,13 +8,13 @@ export class Validator implements ISimpleValidator {
 
 	constructor(private showError: IErrorHandler) {}
 
-	validate(): boolean {
+	validate(value?: any): boolean {
 		let isValid: boolean = true;
 
 		_.each(this.validationHandlers, (handler: IValidationHandler): boolean => {
 			var isActive: boolean = this.isActive(handler);
 
-			if (isActive && !handler.validate()) {
+			if (isActive && !handler.validate(value)) {
 				isValid = false;
 
 				let error: string = this.errorMessage(handler);

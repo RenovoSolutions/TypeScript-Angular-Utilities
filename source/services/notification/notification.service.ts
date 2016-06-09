@@ -1,4 +1,4 @@
-import { Injectable, Provider, OpaqueToken, Inject } from 'angular2/core';
+import { Injectable, Provider, OpaqueToken, Inject } from '@angular/core';
 import { windowToken } from '../window/window.provider';
 import { loggerToken, ILogger } from '../logger/logger.service';
 
@@ -42,8 +42,8 @@ export class NotificationService implements INotificationService {
 	}
 }
 
-export const notificationServiceToken: OpaqueToken = new OpaqueToken('Notification Service');
+export const notificationToken: OpaqueToken = new OpaqueToken('Notification Service');
 
-export const NOTIFICATION_PROVIDER: Provider = new Provider(notificationServiceToken, {
+export const NOTIFICATION_PROVIDER: Provider = new Provider(notificationToken, {
 	useClass: NotificationService
 });

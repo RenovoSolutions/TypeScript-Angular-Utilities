@@ -3,10 +3,16 @@
 /typings/modules/
 /typings/index.d.ts
 
-# Don't commit built files
+# Don't commit built files (*.js, *.d.ts)
 /source/**/*.js
 /source/**/*.d.ts
 
 # Node deps
 npm-debug.log
 /node_modules/
+
+# Ignore git conflict / diff files
+*.orig
+
+# Ignore test artifacts
+/tests/

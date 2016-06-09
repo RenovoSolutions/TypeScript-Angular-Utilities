@@ -1,4 +1,4 @@
-import { Provider } from 'angular2/core';
+import { Provider } from '@angular/core';
 
 import { RESOURCE_BUILDER_PROVIDER } from './resourceBuilder/resourceBuilder.service';
 import { DATA_SERVICE_PROVIDER } from './dataService/data.service';

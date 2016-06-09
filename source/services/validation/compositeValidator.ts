@@ -13,11 +13,11 @@ export class CompositeValidator implements ICompositeValidator {
 
 	constructor(private showError: IErrorHandler) {}
 
-	validate(): boolean {
+	validate(value?: any): boolean {
 		let isValid: boolean = true;
 
 		_.each(this.childValidators, (handler: ISimpleValidator): boolean => {
-			if (!handler.validate()) {
+			if (!handler.validate(value)) {
 				isValid = false;
 				return false;
 			}

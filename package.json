@@ -3,8 +3,8 @@
   "version": "3.0.3",
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
-  "main": "source/utilities.js",
-  "typings": "source/utilities.d.ts",
+  "main": "source/main.js",
+  "typings": "source/main.d.ts",
   "keywords": [
     "typescript",
     "utilities"
@@ -28,29 +28,19 @@
     "test.tc": "karma start karma.tc.conf.js",
     "test.full": "karma start karma.full.conf.js",
 
-    "bundle": "webpack & webpack --config webpack.min.config.js",
-    "bundle.watch": "webpack -w",
-
     "install-build": "npm install && npm run build",
     "install-build-test": "npm install && npm run build && npm run test",
-    "build-bundle": "npm run build && npm run bundle",
-    "build-bundle.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run bundle.watch\"",
     "build-test": "npm run build && npm run test",
     "build-test.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run test.debug\"",
 
-    "full-build": "npm install && npm run build && npm run bundle",
+    "full-build": "npm install && npm run build",
 
-    "all": "npm install && npm run build && npm run test.full && npm run bundle",
-    "build-test-bundle": "npm run build && npm run test.full && npm run bundle"
+    "all": "npm install && npm run build && npm run test.full"
   },
   "devDependencies": {
-    "@renovolive/gulp-utilities": "~2.1.3",
-    "angular-bluebird-promises": "^1.0.1",
-    "angular-mocks": "~1.5.0",
-    "bluebird": "^3.3.5",
+    "@renovolive/gulp-utilities": "~2.1.8",
     "chai": "~3.5.0",
     "concurrently": "~2.0.0",
-    "css-loader": "~0.23.1",
     "del": "~2.2.0",
     "gulp": "~3.9.1",
     "karma": "~0.13.21",
@@ -63,26 +53,28 @@
     "karma-teamcity-reporter": "~0.2.1",
     "karma-webpack": "~1.7.0",
     "mocha": "~2.4.5",
-    "raw-loader": "~0.5.1",
+    "run-sequence": "^1.1.5",
     "sinon": "~1.17.3",
-    "source-map-loader": "~0.1.5",
-    "style-loader": "~0.13.1",
-    "ts-loader": "~0.8.1",
+    "systemjs-builder": "^0.15.16",
     "typescript": "~1.8.2",
-    "typings": "^0.8.1",
-    "webpack": "~1.12.14"
+    "typings": "^1.0.4"
   },
   "dependencies": {
+    "@angular/core": "^2.0.0-rc.1",
+    "@angular/http": "^2.0.0-rc.1",
+    "@angular/upgrade": "^2.0.0-rc.1",
+    "@angular/platform-browser": "^2.0.0-rc.1",
+    "@angular/common": "^2.0.0-rc.1",
+    "angular2-uuid": "^1.0.7",
     "angular": "^1.5.3",
-    "angular2": "^2.0.0-beta.16",
+    "angular-mocks": "~1.5.0",
     "es6-shim": "^0.35.0",
     "json-loader": "~0.5.4",
     "lodash": "~4.5.1",
     "moment": "~2.11.2",
     "moment-timezone": "~0.5.3",
     "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.2",
-    "uuid": "~2.0.1",
+    "rxjs": "5.0.0-beta.6",
     "zone.js": "^0.6.12"
   },
   "license": "MIT"

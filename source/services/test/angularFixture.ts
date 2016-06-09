@@ -19,6 +19,7 @@ export interface IDirectiveResult<TControllerType> {
 export interface IAngularFixture {
 	inject: (...serviceNames: string[]) => any;
 	mock: (mocks: any) => void;
+	componentController<TControllerType>(componentName: string, bindings?: any, locals?: any): IControllerResult<TControllerType>;
 	controllerWithBindings<TControllerType>(controllerName: string, bindings?: any, locals?: any, scope?: any)
 		: IControllerResult<TControllerType>;
 	directive<TControllerType>(directiveName: string, dom: string, scope: angular.IScope): IDirectiveResult<TControllerType>;
@@ -51,6 +52,25 @@ class AngularFixture implements IAngularFixture {
 				$provide.value(key.toString(), value);
 			});
 		});
+	}
+
+	componentController<TControllerType>(componentName: string, bindings?: any, locals?: any, scope?: any): IControllerResult<TControllerType> {
+		const services: any = this.inject('$rootScope', '$componentController');
+		const $rootScope: angular.IRootScopeService = services.$rootScope;
+		const $componentController: angular.IComponentControllerService = services.$componentController;
+
+		scope = _.extend($rootScope.$new(), scope);
+
+		if (locals == null) {
+			locals = {};
+		}
+
+		locals.$scope = scope;
+
+		return {
+			scope: scope,
+			controller: <TControllerType>$componentController(componentName, locals, bindings),
+		};
 	}
 
 	controllerWithBindings<TControllerType>(controllerName: string, bindings?: any, locals?: any, scope?: any)

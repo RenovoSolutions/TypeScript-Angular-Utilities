@@ -9,8 +9,6 @@
 		"target": "ES5"
 	},
 	"exclude": [
-		"typings/main.d.ts",
-		"typings/main",
 		"node_modules",
 		".vscode",
 		"output"

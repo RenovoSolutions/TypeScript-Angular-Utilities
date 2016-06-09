@@ -1,4 +1,4 @@
-import { Injector, ReflectiveInjector, provide } from 'angular2/core';
+import { Injector, ReflectiveInjector, provide } from '@angular/core';
 
 import { ContractLibrary } from './contractLibrary';
 import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../resourceBuilder/resourceBuilder.service';

@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { flushMicrotasks, queueRequest } from './fakeAsync';
 
 export interface IMockPromiseService {
 	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData>;
@@ -43,7 +44,7 @@ class MockPromiseService implements IMockPromiseService {
 			if (promise && _.isFunction(promise.flush)) {
 				promise.flush();
 			}
-		});
+		})
 	}
 
 	private makeMockPromise<TData>(result: TData, share: boolean): IMockedPromiseInternal<TData> {
@@ -59,6 +60,7 @@ class MockPromiseService implements IMockPromiseService {
 			promise: Promise<TData>;
 			rejected: boolean;
 			rejectParams: any[];
+			pending: boolean;
 		};
 
 		let requests: IRequestType[] = [];
@@ -77,6 +79,7 @@ class MockPromiseService implements IMockPromiseService {
 				promise: null,
 				rejected: mocked.rejected,
 				rejectParams: mocked.rejectParams,
+				pending: true,
 			};
 
 			newRequest.promise = new Promise<TData>(function (resolve, reject) {
@@ -85,6 +88,8 @@ class MockPromiseService implements IMockPromiseService {
 			});
 
 			requests.push(newRequest);
+
+			queueRequest(newRequest);
 
 			return newRequest.promise;
 		});
@@ -108,8 +113,9 @@ class MockPromiseService implements IMockPromiseService {
 		};
 
 		// If current request, resolve and clear
-		mocked.flush = () => {
+		mocked.flush = (): void => {
 			_.each(requests, (request: IRequestType): void => {
+				request.pending = false;
 				if (request.rejected) {
 					request.reject(...request.rejectParams);
 				} else {
@@ -117,6 +123,7 @@ class MockPromiseService implements IMockPromiseService {
 				}
 			});
 			requests = [];
+			flushMicrotasks();
 		};
 
 		return mocked;

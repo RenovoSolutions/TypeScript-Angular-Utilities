@@ -1,12 +1,14 @@
-import { Provider, OpaqueToken } from 'angular2/core';
+import { Provider, OpaqueToken } from '@angular/core';
 import * as _ from 'lodash';
 
+export type ITransform<TItemType, TReturnType> = string | { (item: TItemType): TReturnType };
+
 export interface ITransformService {
-	getValue<TItemType, TReturnType>(item: TItemType, transform: { (item: TItemType): TReturnType } | string);
+	getValue<TItemType, TReturnType>(item: TItemType, transform: ITransform<TItemType, TReturnType>);
 }
 
 export class TransformService implements ITransformService {
-	getValue<TItemType, TReturnType>(item: TItemType, transform: { (item: TItemType): TReturnType } | string) {
+	getValue<TItemType, TReturnType>(item: TItemType, transform: ITransform<TItemType, TReturnType>) {
 		if (item == null) {
 			return null;
 		}
@@ -23,8 +25,8 @@ export class TransformService implements ITransformService {
 
 export const transform: ITransformService = new TransformService();
 
-export const transformServiceToken: OpaqueToken = new OpaqueToken('transform service token');
+export const transformToken: OpaqueToken = new OpaqueToken('transform service token');
 
-export const TRANSFORM_SERVICE_PROVIDER: Provider = new Provider(transformServiceToken, {
+export const TRANSFORM_PROVIDER: Provider = new Provider(transformToken, {
 	useClass: TransformService
 });

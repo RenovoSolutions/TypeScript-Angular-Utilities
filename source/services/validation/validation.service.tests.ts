@@ -119,6 +119,20 @@ describe('validation', () => {
 			sinon.assert.calledOnce(showErrorSpy);
 			sinon.assert.calledWith(showErrorSpy, 'error1');
 		});
+
+		it('should pass a value to each of the validators to validate against', (): void => {
+			let firstValidHandler: IMockValidationHandler = {
+				validate: sinon.spy((value: any): boolean => { return value; }),
+			};
+			let secondValidHandler: IMockValidationHandler = {
+				validate: sinon.spy((value: any): boolean => { return value; }),
+			};
+
+			validator.registerValidationHandler(<any>firstValidHandler);
+			validator.registerValidationHandler(<any>secondValidHandler);
+
+			expect(validator.validate(true)).to.be.true;
+		});
 	});
 
 	describe('isActive', (): void => {

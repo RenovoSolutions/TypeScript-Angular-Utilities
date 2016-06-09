@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 
 import * as moment from 'moment';
 import * as _ from 'lodash';

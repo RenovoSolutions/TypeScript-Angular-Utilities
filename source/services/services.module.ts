@@ -1,5 +1,5 @@
-import { Provider } from 'angular2/core';
-import { HTTP_PROVIDERS } from 'angular2/http';
+import { Provider } from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
 
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
@@ -74,7 +74,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
 	synchronizedRequests.SYNCHRONIZED_REQUESTS_PROVIDER,
 	time.TIME_PROVIDER,
 	timezone.TIMEZONE_PROVIDER,
-	transform.TRANSFORM_SERVICE_PROVIDER,
+	transform.TRANSFORM_PROVIDER,
 
 	validation.VALIDATION_PROVIDER,
 

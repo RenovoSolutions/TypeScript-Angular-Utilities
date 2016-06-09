@@ -1,42 +1,39 @@
 import { mock, IMockedPromise } from '../test/mockPromise';
 import { SynchronizedRequestsService } from './synchronizedRequests.service';
+import { fakeAsync } from '../test/fakeAsync';
 
 describe('synchronizedRequests', () => {
 	let synchronizedRequests: SynchronizedRequestsService;
 
-	// it('should accept the results from only the most recent request', (done: MochaDone): void => {
-	// 	(<any>Promise)._setAsap = fn => fn();
-	// 	const firstRequestData: number[] = [1, 2];
-	// 	const secondRequestData: number[] = [3, 4];
-	// 	const firstRequest: IMockedPromise<number[]> = mock.promise(firstRequestData);
-	// 	const secondRequest: IMockedPromise<number[]> = mock.promise(secondRequestData);
+	it('should accept the results from only the most recent request', fakeAsync((): void => {
+		const firstRequestData: number[] = [1, 2];
+		const secondRequestData: number[] = [3, 4];
+		const firstRequest: IMockedPromise<number[]> = mock.promise(firstRequestData);
+		const secondRequest: IMockedPromise<number[]> = mock.promise(secondRequestData);
 
-	// 	const callback: Sinon.SinonSpy = sinon.spy();
-	// 	let get: Sinon.SinonSpy = sinon.spy((): Promise<number[]> => { return firstRequest(); });
+		const callback: Sinon.SinonSpy = sinon.spy();
+		let get: Sinon.SinonSpy = sinon.spy((): Promise<number[]> => { return firstRequest(); });
 
-	// 	synchronizedRequests = new SynchronizedRequestsService(get, callback);
+		synchronizedRequests = new SynchronizedRequestsService(get, callback);
 
-	// 	synchronizedRequests.getData();
+		synchronizedRequests.getData();
 
-	// 	sinon.assert.calledOnce(get);
+		sinon.assert.calledOnce(get);
 
-	// 	get = sinon.spy((): Promise<number[]> => { return secondRequest(); });
+		get = sinon.spy((): Promise<number[]> => { return secondRequest(); });
 
-	// 	synchronizedRequests.dataProvider = get;
-	// 	synchronizedRequests.getData();
+		synchronizedRequests.dataProvider = get;
+		synchronizedRequests.getData();
 
-	// 	sinon.assert.calledOnce(get);
+		sinon.assert.calledOnce(get);
 
-	// 	firstRequest.flush();
+		firstRequest.flush();
 
-	// 	sinon.assert.notCalled(callback);
+		sinon.assert.notCalled(callback);
 
-	// 	secondRequest.flush();
+		secondRequest.flush();
 
-	// 	setTimeout(done, 5000);
-	// 	Promise
-
-	// 	sinon.assert.calledOnce(callback);
-	// 	sinon.assert.calledWith(callback, secondRequestData);
-	// });
+		sinon.assert.calledOnce(callback);
+		sinon.assert.calledWith(callback, secondRequestData);
+	}));
 });

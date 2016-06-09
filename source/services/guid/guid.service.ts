@@ -1,19 +1,14 @@
-import { OpaqueToken, Provider } from 'angular2/core';
+import { OpaqueToken, Provider } from '@angular/core';
 
-import * as uuid from 'uuid';
+import { UUID } from 'angular2-uuid';
 
 export interface IGuidService {
-	time(): string;
 	random(): string;
 }
 
 class GuidService implements IGuidService {
-	time(): string {
-		return uuid.v1();
-	}
-
 	random(): string {
-		return uuid.v4();
+		return UUID.UUID();
 	}
 }
 
