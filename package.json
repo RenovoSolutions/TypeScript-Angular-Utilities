@@ -38,7 +38,7 @@
     "all": "npm install && npm run build && npm run test.full"
   },
   "devDependencies": {
-    "@renovolive/gulp-utilities": "~2.1.6",
+    "@renovolive/gulp-utilities": "~2.1.8",
     "chai": "~3.5.0",
     "concurrently": "~2.0.0",
     "del": "~2.2.0",
