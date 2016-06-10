@@ -17,6 +17,7 @@
     "prepublish": "npm run build",
     "bundle-deps": "gulp bundle-tests-vendor && gulp bundle-tests-renovo",
     "postinstall": "typings install",
+    "update": "npm install && npm run bundle-deps",
 
     "version": "gulp version -v ",
 
@@ -37,7 +38,7 @@
 
     "full-build": "npm install && npm run build",
 
-    "all": "npm install && npm run build && npm run test.full"
+    "all": "npm run update && npm run build && npm run test.full"
   },
   "devDependencies": {
     "@renovolive/gulp-utilities": "~2.1.8",
