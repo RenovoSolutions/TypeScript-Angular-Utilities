@@ -16,7 +16,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "bundle-deps": "gulp bundle-tests-vendor && gulp bundle-tests-renovo",
-    "postinstall": "typings install && npm run bundle-deps",
+    "postinstall": "typings install",
 
     "version": "gulp version -v ",
 
