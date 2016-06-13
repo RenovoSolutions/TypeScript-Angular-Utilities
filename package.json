@@ -17,26 +17,20 @@
     "prepublish": "npm run build",
     "bundle-deps": "gulp bundle-tests-vendor && gulp bundle-tests-renovo",
     "update": "npm install && typings install && npm run bundle-deps",
-
     "version": "gulp version -v ",
-
     "clean": "gulp clean",
     "build": "gulp clean && tsc && echo Build complete",
     "build.watch": "tsc -w",
-
     "bundle-tests": "gulp bundle-tests",
     "test": "npm run bundle-tests && karma start",
     "test.debug": "concurrently --kill-others \"gulp bundle-tests.watch\" \"karma start karma.debug.conf.js\"",
     "test.tc": "npm run bundle-tests && karma start karma.tc.conf.js",
     "test.full": "npm run bundle-tests && karma start karma.full.conf.js",
-
     "install-build": "npm install && npm run build",
     "install-build-test": "npm install && npm run build && npm run test",
     "build-test": "npm run build && npm run test",
     "build-test.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run test.debug\"",
-
     "full-build": "npm install && npm run build",
-
     "all": "npm run update && npm run build && npm run test.full"
   },
   "devDependencies": {
@@ -59,7 +53,8 @@
     "sinon": "~1.17.3",
     "systemjs-builder": "^0.15.16",
     "typescript": "~1.8.2",
-    "typings": "^1.0.4"
+    "typings": "^1.0.4",
+    "webpack": "^1.13.1"
   },
   "dependencies": {
     "@angular/compiler": "^2.0.0-rc.1",
