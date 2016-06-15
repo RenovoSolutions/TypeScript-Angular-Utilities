@@ -37,7 +37,7 @@ export class HttpUtility implements IHttpUtility {
 	buildQueryString(params: any): URLSearchParams {
 		const searchParams: URLSearchParams = new URLSearchParams();
 		_.each(params, (param: any, key: string): void => {
-			searchParams.set(key, param);
+			searchParams.set(key, param || '');
 		});
 		return searchParams;
 	}
