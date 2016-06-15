@@ -53,7 +53,7 @@ describe('HttpUtility', (): void => {
 	});
 
 	it('should parse the response from json', (): void => {
-		const putStream: Subject = new Subject();
+		const putStream: Subject<any> = new Subject();
 		const response: any = {
 			_body: 'content',
 			json: sinon.spy(),
@@ -67,7 +67,7 @@ describe('HttpUtility', (): void => {
 	});
 
 	it('should not try to parse if the response is empty', (): void => {
-		const putStream: Subject = new Subject();
+		const putStream: Subject<any> = new Subject();
 		const response: any = {
 			_body: '',
 			json: sinon.spy(),
