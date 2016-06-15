@@ -86,8 +86,8 @@ export class HttpUtility implements IHttpUtility {
 
 	private parse(response: any): any {
 		return this.object.isNullOrEmpty(response._body)
-			? response.json()
-			: null;
+			? null
+			: response.json();
 	}
 
 	private handleError(response: Response): Observable<any> {
