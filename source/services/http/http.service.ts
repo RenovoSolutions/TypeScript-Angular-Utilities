@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { errorHandlerToken, IErrorHandlerService } from '../errorHandler/errorHandler.service';
+import { objectToken, IObjectUtility } from '../object/object.service';
 
 export const interceptorToken: OpaqueToken = new OpaqueToken('Custom interceptor for http requests');
 
@@ -26,18 +27,21 @@ export interface IHttpUtility {
 @Injectable()
 export class HttpUtility implements IHttpUtility {
 	private http: Http;
+	private object: IObjectUtility;
 	private interceptor: IHttpInterceptor;
 
 	constructor( @Inject(Http) http: Http
+			, @Inject(objectToken) object: IObjectUtility
 			, @Optional() @Inject(interceptorToken) interceptor: IHttpInterceptor) {
 		this.http = http;
+		this.object = object;
 		this.interceptor = this.setDefaults(interceptor);
 	}
 
 	buildQueryString(params: any): URLSearchParams {
 		const searchParams: URLSearchParams = new URLSearchParams();
 		_.each(params, (param: any, key: string): void => {
-			searchParams.set(key, param);
+			searchParams.set(key, param || '');
 		});
 		return searchParams;
 	}
@@ -46,7 +50,7 @@ export class HttpUtility implements IHttpUtility {
 		return this.http.get(endpoint, { search: this.buildQueryString(params) })
 			.catch(this.handleError.bind(this))
 			.map(this.handleSuccess.bind(this))
-			.map((response: Response): TDataType => response.json());
+			.map((response: Response): TDataType => this.parse(response));
 	}
 
 	post<TDataType>(endpoint: string, data: any): Observable<TDataType> {
@@ -58,7 +62,7 @@ export class HttpUtility implements IHttpUtility {
 		return this.http.post(endpoint, JSON.stringify(data), options)
 			.catch(this.handleError.bind(this))
 			.map(this.handleSuccess.bind(this))
-			.map((response: Response) => response.json());
+			.map((response: Response) => this.parse(response));
 	}
 
 	put<TDataType>(endpoint: string, data: any): Observable<TDataType> {
@@ -70,7 +74,7 @@ export class HttpUtility implements IHttpUtility {
 		return this.http.put(endpoint, JSON.stringify(data), options)
 			.catch(this.handleError.bind(this))
 			.map(this.handleSuccess.bind(this))
-			.map((response: Response) => response.json());
+			.map((response: Response) => this.parse(response));
 	}
 
 	delete(endpoint: string, params?: any): Observable<void> {
@@ -78,6 +82,12 @@ export class HttpUtility implements IHttpUtility {
 			.catch(this.handleError.bind(this))
 			.map(this.handleSuccess.bind(this))
 			.map(() => null);
+	}
+
+	private parse(response: any): any {
+		return this.object.isNullOrEmpty(response._body)
+			? null
+			: response.json();
 	}
 
 	private handleError(response: Response): Observable<any> {
