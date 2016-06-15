@@ -25,7 +25,7 @@ export class RedirectService implements IRedirectService {
 
 	to(target: string, newTab?: boolean): void {
 		if (!newTab) {
-			this.window.open(target);
+			this.window.open(target, '_self');
 		} else {
 			const win: Window = this.window.open(target, '_blank');
 			win.focus();
