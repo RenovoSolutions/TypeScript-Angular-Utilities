@@ -52,7 +52,7 @@ describe('RedirectService', () => {
 			redirectService.to('/some/path');
 
 			sinon.assert.calledOnce(mockWindow.open);
-			sinon.assert.calledWith(mockWindow.open, '/some/path');
+			sinon.assert.calledWith(mockWindow.open, '/some/path', '_self');
 		});
 
 		it('should redirect to the specified target in new window', () => {
