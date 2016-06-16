@@ -38,4 +38,18 @@ describe('TimeoutService', (): void => {
 		sinon.assert.calledOnce(rejectSpy);
 		sinon.assert.notCalled(callback);
 	}));
+
+	it('should allow for specifying just a duration for chaining as a promise', fakeAsync((): void => {
+		const promiseSpy: Sinon.SinonSpy = sinon.spy();
+
+		timeoutService.setTimeout(2000).then(promiseSpy);
+
+		flushMicrotasks();
+		sinon.assert.notCalled(promiseSpy);
+
+		tick(2000);
+		flushMicrotasks();
+
+		sinon.assert.calledOnce(promiseSpy);
+	}));
 });

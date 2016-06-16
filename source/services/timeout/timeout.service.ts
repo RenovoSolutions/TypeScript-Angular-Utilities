@@ -1,9 +1,17 @@
+import { isFunction } from 'lodash';
+
 export interface ITimeout extends Promise<void> {
 	cancel(): void;
 }
 
 export class TimeoutService {
-	setTimeout(callback: Function, duration?: number): ITimeout {
+	setTimeout(callbackOrDuration: number): ITimeout;
+	setTimeout(callbackOrDuration: Function, duration?: number): ITimeout;
+	setTimeout(callbackOrDuration: Function | number, duration?: number): ITimeout {
+		let useCallback = isFunction(callbackOrDuration);
+		let callback: Function = useCallback ? <any>callbackOrDuration : () => null;
+		duration = useCallback ? duration : <any>callbackOrDuration;
+
 		let pending: boolean;
 		let rejectFunc: Function;
 		const timeout: ITimeout = <any>new Promise<void>((resolve, reject) => {
