@@ -34,7 +34,7 @@
     "all": "npm run update && npm run build && npm run test.full"
   },
   "devDependencies": {
-    "@renovolive/gulp-utilities": "~2.1.9",
+    "@renovolive/gulp-utilities": "~2.1.10",
     "chai": "~3.5.0",
     "concurrently": "~2.0.0",
     "del": "~2.2.0",
@@ -47,14 +47,12 @@
     "karma-mocha": "~0.2.2",
     "karma-sinon": "~1.0.4",
     "karma-teamcity-reporter": "~0.2.1",
-    "karma-webpack": "~1.7.0",
     "mocha": "~2.4.5",
     "run-sequence": "^1.1.5",
     "sinon": "~1.17.3",
     "systemjs-builder": "^0.15.16",
     "typescript": "~1.8.2",
-    "typings": "^1.0.4",
-    "webpack": "^1.13.1"
+    "typings": "^1.0.4"
   },
   "dependencies": {
     "@angular/compiler": "^2.0.0-rc.1",
