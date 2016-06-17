@@ -26,10 +26,9 @@ describe('TimeoutService', (): void => {
 		const rejectSpy: Sinon.SinonSpy = sinon.spy();
 		const callback: Sinon.SinonSpy = sinon.spy();
 
-		const timeout: ITimeout = timeoutService.setTimeout(callback, 2000);
-
-		timeout.then(assert.fail)
-				.catch(rejectSpy);
+		const timeout: ITimeout = timeoutService.setTimeout(callback, 2000)
+												.then(assert.fail)
+												.catch(rejectSpy);
 
 		timeout.cancel();
 		tick(2000);

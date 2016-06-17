@@ -2,6 +2,8 @@ import { isFunction } from 'lodash';
 
 export interface ITimeout extends Promise<void> {
 	cancel(): void;
+	then<TValue>(onSucces: TValue, onError?: any): ITimeout;
+	catch<TReason>(reason: TReason): ITimeout;
 }
 
 export class TimeoutService {
@@ -14,7 +16,7 @@ export class TimeoutService {
 
 		let pending: boolean;
 		let rejectFunc: Function;
-		const timeout: ITimeout = <any>new Promise<void>((resolve, reject) => {
+		const promise: Promise<void> = new Promise<void>((resolve, reject) => {
 			pending = true;
 			rejectFunc = reject;
 
@@ -26,10 +28,21 @@ export class TimeoutService {
 				}
 			}, duration);
 		});
-		timeout.cancel = () => {
+		return this.wrapPromiseAsTimeout(promise, () => {
 			pending = false;
 			rejectFunc();
-		};
+		});
+	}
+
+	private wrapPromiseAsTimeout(promise: Promise<void>, cancel: { (): void }): ITimeout {
+		const promiseThen = promise.then.bind(promise);
+		const promiseCatch = promise.catch.bind(promise);
+		const timeout: ITimeout = <any>promise;
+		timeout.cancel = cancel;
+		timeout.then = (onSuccess, onError) => {
+			const newPromise: Promise<void> = promiseThen(onSuccess, onError);
+			return this.wrapPromiseAsTimeout(newPromise, cancel);
+		}
 		return timeout;
 	}
 }
