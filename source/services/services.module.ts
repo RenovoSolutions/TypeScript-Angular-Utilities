@@ -21,6 +21,7 @@ import * as stringService from './string/string.service';
 import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
 import * as test from './test/test.module';
 import * as time from './time/time.service';
+import * as timeout from './timeout/timeout.service';
 import * as timezone from './timezone/timezone.service';
 import * as transform from './transform/transform.service';
 import * as validation from './validation/validation.service';
@@ -48,6 +49,7 @@ export {
 	synchronizedRequests,
 	test,
 	time,
+	timeout,
 	timezone,
 	transform,
 	validation,
@@ -56,7 +58,7 @@ export {
 /**
  * Providers for utility services.
  */
-export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
+export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 	HTTP_PROVIDERS,
 
 	array.ARRAY_PROVIDER,
@@ -73,6 +75,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[])[] = [
 	stringService.STRING_PROVIDER,
 	synchronizedRequests.SYNCHRONIZED_REQUESTS_PROVIDER,
 	time.TIME_PROVIDER,
+	timeout.TimeoutService,
 	timezone.TIMEZONE_PROVIDER,
 	transform.TRANSFORM_PROVIDER,
 

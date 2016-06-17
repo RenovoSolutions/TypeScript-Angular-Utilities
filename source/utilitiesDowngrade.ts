@@ -24,6 +24,7 @@ import { REDIRECT_PROVIDER, redirectToken } from './services/redirect/redirect.s
 import { STRING_PROVIDER, stringToken } from './services/string/string.service';
 import { SYNCHRONIZED_REQUESTS_PROVIDER, synchronizedRequestsToken } from './services/synchronizedRequests/synchronizedRequests.service';
 import { TIME_PROVIDER, timeToken } from './services/time/time.service';
+import { TimeoutService } from './services/timeout/timeout.service';
 import { TIMEZONE_PROVIDER, timezoneToken } from './services/timezone/timezone.service';
 import { TRANSFORM_PROVIDER, transformToken } from './services/transform/transform.service';
 import { VALIDATION_PROVIDER, validationToken } from './services/validation/validation.service';
@@ -47,6 +48,7 @@ export const observableServiceName: string = 'rlObservableService';
 export const stringServiceName: string = 'rlStringService';
 export const synchronizedRequestsServiceName: string = 'rlSynchronizedRequestsService';
 export const timeServiceName: string = 'rlTimeService';
+export const timeoutServiceName: string = 'rlTimeoutService';
 export const timezoneServiceName: string = 'rlTimezoneService';
 export const transformServiceName: string = 'rlTransformService';
 export const validationServiceName: string = 'rlValidationService';
@@ -96,6 +98,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	upgradeAdapter.addProvider(STRING_PROVIDER);
 	upgradeAdapter.addProvider(SYNCHRONIZED_REQUESTS_PROVIDER);
 	upgradeAdapter.addProvider(TIME_PROVIDER);
+	upgradeAdapter.addProvider(TimeoutService);
 	upgradeAdapter.addProvider(TIMEZONE_PROVIDER);
 	upgradeAdapter.addProvider(TRANSFORM_PROVIDER);
 	upgradeAdapter.addProvider(VALIDATION_PROVIDER);
@@ -119,6 +122,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.factory(stringServiceName, upgradeAdapter.downgradeNg2Provider(stringToken));
 	utilitiesModule.factory(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(synchronizedRequestsToken));
 	utilitiesModule.factory(timeServiceName, upgradeAdapter.downgradeNg2Provider(timeToken));
+	utilitiesModule.factory(timeoutServiceName, upgradeAdapter.downgradeNg2Provider(TimeoutService));
 	utilitiesModule.factory(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(timezoneToken));
 	utilitiesModule.factory(transformServiceName, upgradeAdapter.downgradeNg2Provider(transformToken));
 	utilitiesModule.factory(validationServiceName, upgradeAdapter.downgradeNg2Provider(validationToken));
