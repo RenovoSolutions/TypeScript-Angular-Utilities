@@ -37,7 +37,7 @@ export class NumberUtility implements INumberUtility {
 	}
 
 	isEven(num: number): boolean {
-		return true;
+		return !(num % 2);
 	}
 }
 
