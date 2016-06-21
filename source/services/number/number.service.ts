@@ -9,6 +9,7 @@ export interface INumberUtility {
 	preciseRound(num: number, decimals: number): number;
 	integerDivide(dividend: number, divisor: number): number;
 	roundToStep(num: number, step: number): number;
+	isEven(num: number): boolean;
 }
 
 export class NumberUtility implements INumberUtility {
@@ -33,6 +34,10 @@ export class NumberUtility implements INumberUtility {
 		} else {
 			return num - remainder;
 		}
+	}
+
+	isEven(num: number): boolean {
+		return true;
 	}
 }
 
