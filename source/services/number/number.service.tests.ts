@@ -55,4 +55,20 @@ describe('numberUtility', () => {
 			expect(numberUtility.roundToStep(10.95, 3.65)).to.equal(10.95);
 		});
 	});
+
+	describe('isEven', (): void => {
+		it('should return true for even numbers', (): void => {
+			expect(numberUtility.isEven(0)).to.be.true;
+			expect(numberUtility.isEven(2)).to.be.true;
+			expect(numberUtility.isEven(16)).to.be.true;
+			expect(numberUtility.isEven(36)).to.be.true;
+		});
+
+		it('should return false for odd numbers', (): void => {
+			expect(numberUtility.isEven(1)).to.be.false;
+			expect(numberUtility.isEven(5)).to.be.false;
+			expect(numberUtility.isEven(17)).to.be.false;
+			expect(numberUtility.isEven(33)).to.be.false;
+		});
+	});
 });
