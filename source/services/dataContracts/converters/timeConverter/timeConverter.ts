@@ -10,7 +10,9 @@ export { defaultFormats };
 
 export let timeConverter: IConverter<moment.Moment> = {
 	fromServer(raw: string): moment.Moment {
-		return timezoneService.buildMomentWithTimezone(raw, timezoneService.currentTimezone, defaultFormats.timeFormat);
+		return raw != null
+			? timezoneService.buildMomentWithTimezone(raw, timezoneService.currentTimezone, defaultFormats.timeFormat)
+			: null;
 	},
 	toServer(data: moment.Moment): string {
 		return data != null
