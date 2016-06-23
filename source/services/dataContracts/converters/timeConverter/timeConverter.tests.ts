@@ -18,6 +18,7 @@ describe('timeConverter', (): void => {
 	});
 
 	it('should handle nulls', (): void => {
+		expect(timeConverter.fromServer(null)).to.be.null;
 		expect(timeConverter.toServer(null)).to.be.null;
 	});
 });
