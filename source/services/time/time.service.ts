@@ -79,6 +79,11 @@ export let timeUtility: ITimeUtility = new TimeUtility(stringUtility);
 
 export const timeToken: OpaqueToken = new OpaqueToken('A utility for working with time');
 
-export const TIME_PROVIDER: Provider = new Provider(timeToken, {
-	useClass: TimeUtility,
-});
+export const TIME_PROVIDERS: Provider[] = [
+	new Provider(timeToken, {
+		useClass: TimeUtility,
+	}),
+	new Provider(TimeUtility, {
+		useClass: TimeUtility,
+	}),
+];
