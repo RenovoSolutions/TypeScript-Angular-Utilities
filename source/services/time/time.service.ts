@@ -5,6 +5,7 @@ import { takeRight, dropRight, padStart } from 'lodash';
 import { CompareResult } from '../../types/compareResult';
 import { defaultFormats } from '../date/date.module';
 import { IStringUtility, stringToken, stringUtility } from '../string/string.service';
+import { IObjectUtility, objectToken, objectUtility } from '../object/object.service';
 
 export interface ITime {
 	hour: number;
@@ -32,9 +33,12 @@ export interface ITimeUtility {
 @Injectable()
 export class TimeUtility {
 	stringUtility: IStringUtility;
+	objectUtility: IObjectUtility;
 
-	constructor( @Inject(stringToken) stringUtility: IStringUtility) {
+	constructor( @Inject(stringToken) stringUtility: IStringUtility
+			, @Inject(objectToken) objectUtility: IObjectUtility) {
 		this.stringUtility = stringUtility;
+		this.objectUtility = objectUtility;
 	}
 
 	compareTimes(time1: string, time2: string): CompareResult {
@@ -55,7 +59,7 @@ export class TimeUtility {
 	}
 
 	parseTime(value: string): ITime {
-		if (value == null) {
+		if (this.objectUtility.isNullOrEmpty(value)) {
 			return null;
 		}
 
@@ -84,7 +88,7 @@ export class TimeUtility {
 	}
 }
 
-export let timeUtility: ITimeUtility = new TimeUtility(stringUtility);
+export let timeUtility: ITimeUtility = new TimeUtility(stringUtility, objectUtility);
 
 export const timeToken: OpaqueToken = new OpaqueToken('A utility for working with time');
 

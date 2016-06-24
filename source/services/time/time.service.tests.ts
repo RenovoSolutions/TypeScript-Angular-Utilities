@@ -1,12 +1,13 @@
 import { ITimeUtility, TimeUtility } from './time.service';
 import { CompareResult } from '../../types/compareResult';
 import { stringUtility } from '../string/string.service';
+import { objectUtility } from '../object/object.service';
 
 describe('timeUtility', () => {
 	let timeUtility: ITimeUtility;
 
 	beforeEach(() => {
-		timeUtility = new TimeUtility(stringUtility);
+		timeUtility = new TimeUtility(stringUtility, objectUtility);
 	});
 
 	it('should compare times and return a compare result to indicate which is greater', (): void => {
@@ -15,8 +16,9 @@ describe('timeUtility', () => {
 		expect(timeUtility.compareTimes('2:00PM', '1:00PM')).to.equal(CompareResult.greater);
 	});
 
-	it('should return null if the time is null', (): void => {
+	it('should return null if the time is null or empty', (): void => {
 		expect(timeUtility.parseTime(null)).to.be.null;
+		expect(timeUtility.parseTime('')).to.be.null;
 		expect(timeUtility.formatTime(null)).to.be.null;
 	});
 
