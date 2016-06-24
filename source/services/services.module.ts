@@ -74,7 +74,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 	search.SEARCH_PROVIDER,
 	stringService.STRING_PROVIDER,
 	synchronizedRequests.SYNCHRONIZED_REQUESTS_PROVIDER,
-	time.TIME_PROVIDER,
+	time.TIME_PROVIDERS,
 	timeout.TimeoutService,
 	timezone.TIMEZONE_PROVIDER,
 	transform.TRANSFORM_PROVIDER,
