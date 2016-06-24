@@ -25,7 +25,7 @@ export const timePeriods: ITimePeriods = {
 export interface ITimeUtility {
 	compareTimes(time1: string, time2: string): CompareResult;
 	parseTime(value: string): ITime;
-	formatTime(time: ITime): string;
+	formatTime(time: ITime, includePeriod?: boolean): string;
 }
 
 @Injectable()
@@ -68,10 +68,12 @@ export class TimeUtility {
 		return time;
 	}
 
-	formatTime(time: ITime): string {
-		return time != null
-			? time.hour + ':' + padStart(time.minute.toString(), 2, '0') + time.period
-			: null;
+	formatTime(time: ITime, includePeriod: boolean = true): string {
+		if (time == null) {
+			return null;
+		}
+		const postfix = includePeriod ? time.period : '';
+		return time.hour + ':' + padStart(time.minute.toString(), 2, '0') + postfix;
 	}
 }
 

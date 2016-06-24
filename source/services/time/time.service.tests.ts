@@ -33,4 +33,9 @@ describe('timeUtility', () => {
 		expect(timeUtility.formatTime({ hour: 10, minute: 15, period: 'AM' })).to.equal('10:15AM');
 		expect(timeUtility.formatTime({ hour: 1, minute: 41, period: 'PM' })).to.equal('1:41PM');
 	});
+
+	it('should hide the period if includePeriod is false', (): void => {
+		expect(timeUtility.formatTime({ hour: 8, minute: 0, period: 'AM' }, false)).to.equal('8:00');
+		expect(timeUtility.formatTime({ hour: 12, minute: 0, period: 'PM' }, false)).to.equal('12:00');
+	});
 });
