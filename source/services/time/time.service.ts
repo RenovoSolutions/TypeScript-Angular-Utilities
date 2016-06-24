@@ -26,6 +26,7 @@ export interface ITimeUtility {
 	compareTimes(time1: string, time2: string): CompareResult;
 	parseTime(value: string): ITime;
 	formatTime(time: ITime, includePeriod?: boolean): string;
+	inversePeriod(period: string): string
 }
 
 @Injectable()
@@ -74,6 +75,12 @@ export class TimeUtility {
 		}
 		const postfix = includePeriod ? time.period : '';
 		return time.hour + ':' + padStart(time.minute.toString(), 2, '0') + postfix;
+	}
+
+	inversePeriod(period: string): string {
+		return period === timePeriods.AM
+			? timePeriods.PM
+			: timePeriods.AM;
 	}
 }
 
