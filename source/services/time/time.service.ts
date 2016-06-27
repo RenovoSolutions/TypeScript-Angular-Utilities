@@ -23,6 +23,9 @@ export const timePeriods: ITimePeriods = {
 	PM: 'PM',
 };
 
+const defaultHour: number = 12;
+const defaultMinute: number = 0;
+
 export interface ITimeUtility {
 	compareTimes(time1: string, time2: string): CompareResult;
 	parseTime(value: string): ITime;
@@ -78,7 +81,10 @@ export class TimeUtility {
 			return null;
 		}
 		const postfix = includePeriod ? time.period : '';
-		return time.hour + ':' + padStart(time.minute.toString(), 2, '0') + postfix;
+		return (time.hour || defaultHour)
+			+ ':'
+			+ padStart((time.minute || defaultMinute).toString(), 2, '0')
+			+ postfix;
 	}
 
 	inversePeriod(period: string): string {

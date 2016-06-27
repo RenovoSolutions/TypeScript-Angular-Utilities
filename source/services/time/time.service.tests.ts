@@ -43,6 +43,11 @@ describe('timeUtility', () => {
 		expect(timeUtility.formatTime({ hour: 12, minute: 0, period: 'PM' }, false)).to.equal('12:00');
 	});
 
+	it('should handle null hours or minutes', (): void => {
+		expect(timeUtility.formatTime({ hour: 9, minute: null, period: 'AM' })).to.equal('9:00AM');
+		expect(timeUtility.formatTime({ hour: null, minute: 30, period: 'AM' })).to.equal('12:30AM');
+	});
+
 	it('should return the opposite period, defaulting to AM', (): void => {
 		expect(timeUtility.inversePeriod('AM')).to.equal('PM');
 		expect(timeUtility.inversePeriod('PM')).to.equal('AM');
