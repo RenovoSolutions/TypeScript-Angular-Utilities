@@ -5,6 +5,7 @@ import { takeRight, dropRight, padStart } from 'lodash';
 import { CompareResult } from '../../types/compareResult';
 import { defaultFormats } from '../date/date.module';
 import { IStringUtility, stringToken, stringUtility } from '../string/string.service';
+import { IObjectUtility, objectToken, objectUtility } from '../object/object.service';
 
 export interface ITime {
 	hour: number;
@@ -22,6 +23,9 @@ export const timePeriods: ITimePeriods = {
 	PM: 'PM',
 };
 
+const defaultHour: number = 12;
+const defaultMinute: number = 0;
+
 export interface ITimeUtility {
 	compareTimes(time1: string, time2: string): CompareResult;
 	parseTime(value: string): ITime;
@@ -32,9 +36,12 @@ export interface ITimeUtility {
 @Injectable()
 export class TimeUtility {
 	stringUtility: IStringUtility;
+	objectUtility: IObjectUtility;
 
-	constructor( @Inject(stringToken) stringUtility: IStringUtility) {
+	constructor( @Inject(stringToken) stringUtility: IStringUtility
+			, @Inject(objectToken) objectUtility: IObjectUtility) {
 		this.stringUtility = stringUtility;
+		this.objectUtility = objectUtility;
 	}
 
 	compareTimes(time1: string, time2: string): CompareResult {
@@ -55,7 +62,7 @@ export class TimeUtility {
 	}
 
 	parseTime(value: string): ITime {
-		if (value == null) {
+		if (this.objectUtility.isNullOrEmpty(value)) {
 			return null;
 		}
 
@@ -74,7 +81,10 @@ export class TimeUtility {
 			return null;
 		}
 		const postfix = includePeriod ? time.period : '';
-		return time.hour + ':' + padStart(time.minute.toString(), 2, '0') + postfix;
+		return (time.hour || defaultHour)
+			+ ':'
+			+ padStart((time.minute || defaultMinute).toString(), 2, '0')
+			+ postfix;
 	}
 
 	inversePeriod(period: string): string {
@@ -84,7 +94,7 @@ export class TimeUtility {
 	}
 }
 
-export let timeUtility: ITimeUtility = new TimeUtility(stringUtility);
+export let timeUtility: ITimeUtility = new TimeUtility(stringUtility, objectUtility);
 
 export const timeToken: OpaqueToken = new OpaqueToken('A utility for working with time');
 
