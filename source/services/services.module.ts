@@ -10,6 +10,7 @@ import * as fileSize from './fileSize/fileSize.module';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 import * as guid from './guid/guid.service';
 import * as http from './http/http.service';
+import * as httpDigestService from './http/httpDigest.service';
 import * as logger from './logger/logger.service';
 import * as notification from './notification/notification.service';
 import * as numberService from './number/number.service';
@@ -38,6 +39,7 @@ export {
 	genericSearchFilter,
 	guid,
 	http,
+	httpDigestService,
 	logger,
 	notification,
 	numberService as number,
@@ -69,6 +71,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 	genericSearchFilter.GENERIC_SEARCH_FILTER_PROVIDER,
 	guid.GUID_PROVIDER,
 	http.HTTP_PROVIDER,
+	httpDigestService.HTTP_DIGEST_PROVIDER,
 	numberService.NUMBER_PROVIDER,
 	objectService.OBJECT_PROVIDER,
 	search.SEARCH_PROVIDER,
