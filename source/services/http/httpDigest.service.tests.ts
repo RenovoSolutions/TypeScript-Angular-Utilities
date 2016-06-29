@@ -1,22 +1,26 @@
-import {HttpDigestService} from './httpDigest.service';
+import { HttpDigestService, IHttpDigestService } from './httpDigest.service';
 
 describe('HttpDigestService', (): void => {
-	it('should call the passed in function', (): void => {
-        const httpDigestService = new HttpDigestService();
-        const functionToCall = sinon.spy();
+    let httpDigestService: IHttpDigestService;
 
-        httpDigestService.startDigestCycle(functionToCall);
-
-        sinon.assert.calledOnce(functionToCall);
+    beforeEach((): void => {
+        httpDigestService = new HttpDigestService();
     });
 
-	it('should not call the passed in function if null', (): void => {
-        const httpDigestService = new HttpDigestService();
-        const functionToNotCall = null;
-        const functionSpy = sinon.spy(functionToNotCall);
+    it('should call the passed in function', (): void => {
+        const mockFunc = sinon.spy();
 
-        httpDigestService.startDigestCycle(functionToNotCall);
+        httpDigestService.startDigestCycle(mockFunc);
 
-        sinon.assert.notCalled(functionSpy);
-	});
-});
+        sinon.assert.calledOnce(mockFunc);
+    });
+
+    it('should not call the passed in function if null', (): void => {
+        const mockFunc = null;
+        const mockFuncSpy = sinon.spy(mockFunc);
+
+        httpDigestService.startDigestCycle(mockFunc);
+
+        sinon.assert.notCalled(mockFuncSpy);
+    });
+})
