@@ -35,6 +35,10 @@ describe('objectUtility', () => {
 			expect(objectUtility.isNullOrEmpty(Number.NaN)).to.be.true;
 			expect(objectUtility.isNullOrEmpty(5)).to.be.false;
 		});
+
+		it('should return false for an array of items with 0 value', (): void => {
+			expect(objectUtility.isNullOrEmpty([0])).to.be.false;
+		});
 	});
 
 	describe('isNullOrWhitespace', (): void => {

@@ -45,7 +45,7 @@ export class ObjectUtility implements IObjectUtility {
 		if (object == null) {
 			return true;
 		} else if (_.isArray(object)) {
-			return _.some(object) === false;
+			return object.length <= 0;
 		} else if (_.isNumber(object)) {
 			return _.isNaN(object);
 		} else {
