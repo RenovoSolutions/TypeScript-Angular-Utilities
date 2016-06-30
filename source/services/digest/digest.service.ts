@@ -1,32 +1,32 @@
 import { Injectable, Provider, OpaqueToken } from '@angular/core';
 
 export interface IDigestService {
-    runDigestCycle(): void;
+	runDigestCycle(): void;
 }
 
 @Injectable()
 export class DigestService implements IDigestService {
-    private $applyAsync: Function = null;
+	private $applyAsync: Function = null;
 
-    constructor() { }
+	constructor() { }
 
-    /*
-     *  TODO: Remove when ng1 is dead
-     */
-    runDigestCycle(): void {
-        if (this.$applyAsync == null) {
-            let elem: ng.IAugmentedJQuery = ng.element($(".ng-scope"));
-            let scope: ng.IScope = elem && elem.scope();
+	/*
+	*  TODO: Remove when ng1 is dead
+	*/
+	runDigestCycle(): void {
+		if (this.$applyAsync == null) {
+			let elem: ng.IAugmentedJQuery = ng.element($(".ng-scope"));
+			let scope: ng.IScope = elem && elem.scope();
 
-            this.$applyAsync = scope && scope.$root && scope.$root.$applyAsync;
+			this.$applyAsync = scope && scope.$root && scope.$root.$applyAsync;
 
-            if (this.$applyAsync == null) {
-                console.error('Scope not found!')
-                return;
-            }
-        }
-        this.$applyAsync();
-    }
+			if (this.$applyAsync == null) {
+				console.error('Scope not found!')
+				return;
+			}
+		}
+		this.$applyAsync();
+	}
 }
 
 export const digestToken: OpaqueToken = new OpaqueToken('A service for running an ng1 digest cycle');
