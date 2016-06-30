@@ -16,6 +16,15 @@ describe('timeUtility', () => {
 		expect(timeUtility.compareTimes('2:00PM', '1:00PM')).to.equal(CompareResult.greater);
 	});
 
+	it('should return the rounded number of hours between two times', (): void => {
+		expect(timeUtility.durationInHours('8:00AM', '5:00PM')).to.equal(9);
+		expect(timeUtility.durationInHours('8:00AM', '8:00AM')).to.equal(0);
+		expect(timeUtility.durationInHours('2:45PM', '3:15PM')).to.equal(1);
+		expect(timeUtility.durationInHours('12:00AM', '12:00AM')).to.equal(0);
+		expect(timeUtility.durationInHours('12:00AM', '12:00PM')).to.equal(12);
+		expect(timeUtility.durationInHours('12:00AM', '11:59PM')).to.equal(24);
+	});
+
 	it('should return null if the time is null or empty', (): void => {
 		expect(timeUtility.parseTime(null)).to.be.null;
 		expect(timeUtility.parseTime('')).to.be.null;

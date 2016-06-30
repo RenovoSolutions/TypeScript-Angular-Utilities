@@ -27,7 +27,8 @@ const defaultHour: number = 12;
 const defaultMinute: number = 0;
 
 export interface ITimeUtility {
-	compareTimes(time1: string, time2: string): CompareResult;
+	compareTimes(start: string, end: string): CompareResult;
+	durationInHours(start: string, end: string): number;
 	parseTime(value: string): ITime;
 	formatTime(time: ITime, includePeriod?: boolean): string;
 	inversePeriod(period: string): string
@@ -44,21 +45,36 @@ export class TimeUtility {
 		this.objectUtility = objectUtility;
 	}
 
-	compareTimes(time1: string, time2: string): CompareResult {
-		let format: string = defaultFormats.timeFormat;
+	compareTimes(start: string, end: string): CompareResult {
+		const format: string = defaultFormats.timeFormat;
 
-		let start: moment.Moment = moment(time1, format);
-		let end: moment.Moment = moment(time2, format);
+		const startMoment: moment.Moment = moment(start, format);
+		const endMoment: moment.Moment = moment(end, format);
 
-		if (start.hours() === end.hours()
-			&& start.minutes() === end.minutes()) {
+		if (startMoment.hours() === endMoment.hours()
+			&& startMoment.minutes() === endMoment.minutes()) {
 			return CompareResult.equal;
-		} else if (start.hours() >= end.hours()
-				&& start.minutes() >= end.minutes()) {
+		} else if (startMoment.hours() >= endMoment.hours()
+				&& startMoment.minutes() >= endMoment.minutes()) {
 			return CompareResult.greater;
 		} else {
 			return CompareResult.less;
 		}
+	}
+
+	durationInHours(start: string, end: string): number {
+		const format: string = defaultFormats.timeFormat;
+
+		const startMoment: moment.Moment = moment(start, format);
+		const endMoment: moment.Moment = moment(end, format);
+
+		let hours: number = endMoment.hours() - startMoment.hours();
+		const minutes: number = endMoment.minutes() - startMoment.minutes();
+
+		if (minutes >= 30) {
+			hours += 1;
+		}
+		return hours;
 	}
 
 	parseTime(value: string): ITime {
