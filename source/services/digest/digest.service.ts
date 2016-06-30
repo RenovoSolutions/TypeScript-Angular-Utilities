@@ -1,4 +1,5 @@
 import { Injectable, Provider, OpaqueToken } from '@angular/core';
+import * as angular from 'angular';
 
 export interface IDigestService {
 	runDigestCycle(): void;
@@ -15,7 +16,7 @@ export class DigestService implements IDigestService {
 	*/
 	runDigestCycle(): void {
 		if (this.$applyAsync == null) {
-			let elem: ng.IAugmentedJQuery = ng.element($(".ng-scope"));
+			let elem: ng.IAugmentedJQuery = angular.element($(".ng-scope"));
 			let scope: ng.IScope = elem && elem.scope();
 
 			this.$applyAsync = scope && scope.$root && scope.$root.$applyAsync;
