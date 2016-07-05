@@ -1,6 +1,6 @@
 {
   "name": "typescript-angular-utilities",
-  "version": "3.1.12",
+  "version": "3.1.13",
   "description": "Typescript utility classes published as angular services",
   "author": "Renovo Development Team",
   "main": "source/main.js",
