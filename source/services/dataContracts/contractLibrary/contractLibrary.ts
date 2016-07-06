@@ -56,7 +56,7 @@ export interface IContractLibrary {
 
 export class ContractLibrary implements IContractLibrary {
 	private builder: IResourceBuilder;
-	private pendingRequests: IMockedPromise<any>[] = [];
+	private pendingRequests: IMockedRequest<any>[] = [];
 	baseEndpoint: string;
 
 	constructor(builder: IResourceBuilder, baseEndpoint?: string) {
