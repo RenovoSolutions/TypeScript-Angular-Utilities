@@ -1,4 +1,4 @@
-import { mock, IMockedPromise } from './mockPromise';
+import { mock, IMockedPromise } from './mockAsync';
 import { fakeAsync } from './fakeAsync';
 
 interface ITestType {

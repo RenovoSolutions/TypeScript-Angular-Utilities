@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { mock, IMockedObservable } from './mockObservable';
+import { mock, IMockedObservable } from './mockAsync';
 import { fakeAsync } from './fakeAsync';
 
 interface ITestType {
