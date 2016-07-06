@@ -103,7 +103,7 @@ class MockAsyncService implements IMockAsyncService {
 
 			requests.push(newRequest);
 
-			// queueRequest(newRequest);
+			queueRequest(newRequest);
 
 			return newRequest.observable;
 		});
@@ -142,7 +142,7 @@ class MockAsyncService implements IMockAsyncService {
 				}
 			});
 			requests = [];
-			// flushMicrotasks();
+			flushMicrotasks();
 		};
 
 		return mocked;
