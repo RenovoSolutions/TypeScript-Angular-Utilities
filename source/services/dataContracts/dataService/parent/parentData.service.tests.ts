@@ -68,14 +68,14 @@ describe('parent data service', () => {
 		});
 
 		it('should expose a get function', (done: MochaDone): void => {
-			(<any>children.testView).get().then((item: ITestMock): void => {
+			(<any>children.testView).get().subscribe((item: ITestMock): void => {
 				expect(item).to.equal(dataSet[0]);
 				done();
 			});
 		});
 
 		it('should expose an update function and return the result of the update', (done: MochaDone): void => {
-			(<any>children.testView).update(dataSet[0]).then((item: ITestMock): void => {
+			(<any>children.testView).update(dataSet[0]).subscribe((item: ITestMock): void => {
 				expect(item).to.equal(dataSet[0]);
 				done();
 			});

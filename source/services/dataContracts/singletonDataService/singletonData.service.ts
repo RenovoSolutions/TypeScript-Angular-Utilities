@@ -1,5 +1,6 @@
 import { Injectable, Inject, OpaqueToken, Provider, provide } from '@angular/core';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 
 import { IHttpUtility, httpToken } from '../../http/http.service';
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior } from '../baseDataServiceBehavior';
@@ -7,8 +8,8 @@ import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.ser
 import { helper } from '../dataContractsHelper/dataContractsHelper.service';
 
 export interface ISingletonDataService<TDataType> {
-	get(): Promise<TDataType>;
-	update(domainObject: TDataType): Promise<TDataType>;
+	get(): Observable<TDataType>;
+	update(domainObject: TDataType): Observable<TDataType>;
 	version(versionNumber: number): SingletonDataService<TDataType>;
 
 	useMock: boolean;
@@ -33,7 +34,7 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 		this.logRequests = options.logRequests;
 	}
 
-	get(): Promise<TDataType> {
+	get(): Observable<TDataType> {
 		return this.behavior.getItem({
 			endpoint: this.url,
 			getMockData: (): TDataType => { return this.mockData; },
@@ -42,7 +43,7 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 		});
 	}
 
-	update(domainObject: TDataType): Promise<TDataType> {
+	update(domainObject: TDataType): Observable<TDataType> {
 		return this.behavior.update({
 			domainObject: domainObject,
 			endpoint: this.url,

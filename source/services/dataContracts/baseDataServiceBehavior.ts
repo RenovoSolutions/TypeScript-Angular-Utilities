@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 
 import { IHttpUtility } from '../http/http.service';
 import { IConverter, converterService } from './converters/converters';
@@ -38,12 +39,12 @@ export interface ISearchResult<TDataType> {
 }
 
 export interface IBaseDataServiceBehavior<TDataType> {
-	getList(options: IGetListOptions<TDataType>): Promise<TDataType[]>;
-	search<TResultType>(options: IGetListOptions<TDataType>): Promise<TResultType>;
-	getItem(options: IGetItemOptions<TDataType>): Promise<TDataType>;
-	create(options: ICreateOptions<TDataType>): Promise<TDataType>;
-	update(options: IUpdateOptions<TDataType>): Promise<TDataType>;
-	delete(options: IDeleteOptions<TDataType>): Promise<void>;
+	getList(options: IGetListOptions<TDataType>): Observable<TDataType[]>;
+	search<TResultType>(options: IGetListOptions<TDataType>): Observable<TResultType>;
+	getItem(options: IGetItemOptions<TDataType>): Observable<TDataType>;
+	create(options: ICreateOptions<TDataType>): Observable<TDataType>;
+	update(options: IUpdateOptions<TDataType>): Observable<TDataType>;
+	delete(options: IDeleteOptions<TDataType>): Observable<void>;
 }
 
 export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehavior<TDataType> {
@@ -55,15 +56,14 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		this.transform = transform;
 	}
 
-	getList(options: IGetListOptions<TDataType>): Promise<TDataType[]> {
-		let promise: Promise<TDataType[]>;
+	getList(options: IGetListOptions<TDataType>): Observable<TDataType[]> {
+		let request: Observable<TDataType[]>;
 		if (options.useMock) {
-			promise = Promise.resolve(options.getMockData());
+			request = Observable.of(options.getMockData());
 		} else {
-			promise = this.http.get<TDataType[]>(options.endpoint, options.params)
-				.toPromise();
+			request = this.http.get<TDataType[]>(options.endpoint, options.params);
 		}
-		return promise.then((data: TDataType[]): TDataType[] => {
+		return request.map((data: TDataType[]): TDataType[] => {
 			data = converterService.applyTransform(data, this.transform, false);
 			if (options.logRequests) {
 				this.log('getList', options.params, data, options.endpoint, options.useMock);
@@ -72,17 +72,16 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		});
 	}
 
-	search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): Promise<TResultType> {
-		let promise: Promise<TResultType>;
+	search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): Observable<TResultType> {
+		let request: Observable<TResultType>;
 		if (options.useMock) {
-			promise = Promise.resolve<TResultType>(<any>{
+			request = Observable.of<TResultType>(<any>{
 				dataSet: options.getMockData(),
 			});
 		} else {
-			promise = this.http.post<TResultType>(options.endpoint, options.params)
-				.toPromise();
+			request = this.http.post<TResultType>(options.endpoint, options.params);
 		}
-		return promise.then((result: TResultType): TResultType => {
+		return request.map((result: TResultType): TResultType => {
 			result.dataSet = converterService.applyTransform(result.dataSet, this.transform, false);
 			if (options.logRequests) {
 				this.log('search', options.params, result, options.endpoint, options.useMock);
@@ -91,15 +90,14 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		})
 	}
 
-	getItem(options: IGetItemOptions<TDataType>): Promise<TDataType> {
-		let promise: Promise<TDataType>;
+	getItem(options: IGetItemOptions<TDataType>): Observable<TDataType> {
+		let promise: Observable<TDataType>;
 		if (options.useMock) {
-			promise = Promise.resolve(options.getMockData());
+			promise = Observable.of(options.getMockData());
 		} else {
-			promise = this.http.get<TDataType>(options.endpoint)
-				.toPromise();
+			promise = this.http.get<TDataType>(options.endpoint);
 		}
-		return promise.then((data: TDataType): TDataType => {
+		return promise.map((data: TDataType): TDataType => {
 			data = converterService.applyTransform(data, this.transform, false);
 			if (options.logRequests) {
 				this.log('get', null, data, options.endpoint, options.useMock);
@@ -108,17 +106,16 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		});
 	}
 
-	create(options: ICreateOptions<TDataType>): Promise<TDataType> {
-		let promise: Promise<TDataType>;
+	create(options: ICreateOptions<TDataType>): Observable<TDataType> {
+		let promise: Observable<TDataType>;
 		options.domainObject = converterService.applyTransform(options.domainObject, this.transform, true);
 		if (options.useMock) {
 			options.addMockData(options.domainObject);
-			promise = Promise.resolve(options.domainObject);
+			promise = Observable.of(options.domainObject);
 		} else {
-			promise = this.http.post<TDataType>(options.endpoint, options.domainObject)
-				.toPromise();
+			promise = this.http.post<TDataType>(options.endpoint, options.domainObject);
 		}
-		return promise.then((data: TDataType): TDataType => {
+		return promise.map((data: TDataType): TDataType => {
 			data = converterService.applyTransform(data, this.transform, false);
 			if (options.logRequests) {
 				this.log('create', options.domainObject, data, options.endpoint, options.useMock);
@@ -127,17 +124,16 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		});
 	}
 
-	update(options: IUpdateOptions<TDataType>): Promise<TDataType> {
-		let promise: Promise<TDataType>;
+	update(options: IUpdateOptions<TDataType>): Observable<TDataType> {
+		let promise: Observable<TDataType>;
 		options.domainObject = converterService.applyTransform(options.domainObject, this.transform, true);
 		if (options.useMock) {
 			options.updateMockData(options.domainObject)
-			promise = Promise.resolve(options.domainObject);
+			promise = Observable.of(options.domainObject);
 		} else {
-			promise = this.http.put<TDataType>(options.endpoint, options.domainObject)
-				.toPromise();
+			promise = this.http.put<TDataType>(options.endpoint, options.domainObject);
 		}
-		return promise.then((data: TDataType): TDataType => {
+		return promise.map((data: TDataType): TDataType => {
 			data = converterService.applyTransform(data, this.transform, false);
 			if (options.logRequests) {
 				this.log('update', options.domainObject, data, options.endpoint, options.useMock);
@@ -146,16 +142,15 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 		});
 	}
 
-	delete(options: IDeleteOptions<TDataType>): Promise<void> {
-		let promise: Promise<void>;
+	delete(options: IDeleteOptions<TDataType>): Observable<void> {
+		let promise: Observable<void>;
 		if (options.useMock) {
 			options.removeMockData(options.domainObject);
-			promise = Promise.resolve();
+			promise = Observable.empty<void>();
 		} else {
-			promise = this.http.delete(options.endpoint)
-				.toPromise();
+			promise = this.http.delete(options.endpoint);
 		}
-		return promise.then((): void => {
+		return promise.map((): void => {
 			if (options.logRequests) {
 				this.log('delete', options.domainObject, null, options.endpoint, options.useMock);
 			}
