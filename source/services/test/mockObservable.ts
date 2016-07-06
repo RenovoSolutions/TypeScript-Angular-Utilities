@@ -1,10 +1,15 @@
 import { each, isUndefined, isFunction, some, first } from 'lodash';
 import { Observable, Subject } from 'rxjs';
 import { flushMicrotasks, queueRequest } from './fakeAsync';
+import { IMockedPromise, mockPromise } from './mockPromise';
 
-export interface IMockObservableService {
+export { IMockedPromise } from './mockPromise';
+
+export interface IMockAsyncService {
 	request<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedObservable<TData>;
 	rejectedRequest<TData>(...params: any[]): IMockedObservable<TData>;
+	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData>;
+	rejectedPromise<TData>(...params: any[]): IMockedPromise<TData>;
 	flushAll(service: any): void;
 }
 
@@ -20,7 +25,15 @@ interface IMockedObservableInternal<TData> extends IMockedObservable<TData> {
 	rejectParam: any;
 }
 
-class MockObservableService implements IMockObservableService {
+class MockAsyncService implements IMockAsyncService {
+	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData> {
+		return mockPromise.promise(result);
+	}
+
+	rejectedPromise<TData>(...params: any[]): IMockedPromise<TData> {
+		return mockPromise.rejectedPromise(params);
+	}
+
 	request<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedObservable<TData> {
 		if (isUndefined(share)) {
 			share = false;
@@ -136,4 +149,4 @@ class MockObservableService implements IMockObservableService {
 	}
 }
 
-export const mock: IMockObservableService = new MockObservableService();
+export const mock: IMockAsyncService = new MockAsyncService();

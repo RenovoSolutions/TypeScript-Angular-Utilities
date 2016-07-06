@@ -130,4 +130,4 @@ class MockPromiseService implements IMockPromiseService {
 	}
 }
 
-export const mock: IMockPromiseService = new MockPromiseService();
+export const mockPromise: IMockPromiseService = new MockPromiseService();
