@@ -14,7 +14,7 @@ import { IDataServiceView, IParentDataServiceView } from '../dataService/view/da
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
-import { mock, IMockedPromise } from '../../test/mockPromise';
+import { mock, IMockedPromise } from '../../test/mockAsync';
 
 export interface IContractLibrary {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
