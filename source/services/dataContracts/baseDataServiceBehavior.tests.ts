@@ -5,7 +5,7 @@ import { BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavio
 import { arrayUtility } from '../array/array.service';
 import { IHttpUtility } from '../http/http.service';
 
-import { IMockedPromise, mock, fakeAsync, flushMicrotasks } from '../test/test.module';
+import { IMockedRequest, mock, fakeAsync, flushMicrotasks } from '../test/test.module';
 
 interface ITestMock {
 	id?: number;
@@ -54,8 +54,7 @@ describe('base data service behavior', () => {
 				{ id: 5 },
 			];
 
-			const getStream: Subject<ITestMock[]> = new Subject<ITestMock[]>();;
-			const mockGet = sinon.spy(() => getStream);
+			const mockGet: IMockedRequest<ITestMock[]> = mock.request(mockList);
 			mockHttp.get = mockGet;
 
 			dataServiceBehavior.getList({
@@ -76,9 +75,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(mockGet);
 			sinon.assert.calledWith(mockGet, testUrl, null);
 
-			getStream.next(mockList);
-			getStream.complete();
-			flushMicrotasks();
+			mockGet.flush();
 		}));
 
 		it('should make a POST request to search the data', fakeAsync((): void => {
@@ -94,8 +91,7 @@ describe('base data service behavior', () => {
 				dataSet: mockList,
 			};
 
-			const postStream: Subject<any> = new Subject();
-			const mockPost = sinon.spy(() => postStream);
+			const mockPost: IMockedRequest<ISearchResult<ITestMock>> = mock.request({ dataSet: mockList });
 			mockHttp.post = mockPost;
 
 			dataServiceBehavior.search<ISearchResult<ITestMock>>({
@@ -117,17 +113,14 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(mockPost);
 			sinon.assert.calledWith(mockPost, testUrl, searchObject);
 
-			postStream.next({ dataSet: mockList });
-			postStream.complete();
-			flushMicrotasks();
+			mockPost.flush();
 		}));
 
 		it('should make an http request to get a domain object', fakeAsync((): void => {
 			const id: number = 1;
 			const mockItem: ITestMock = { id: id };
 
-			const getStream: Subject<ITestMock> = new Subject<ITestMock>();
-			const mockGet = sinon.spy(() => getStream);
+			const mockGet: IMockedRequest<ITestMock> = mock.request(mockItem);
 			mockHttp.get = mockGet;
 
 			dataServiceBehavior.getItem({
@@ -142,16 +135,13 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(mockGet);
 			sinon.assert.calledWith(mockGet, testUrl);
 
-			getStream.next(mockItem);
-			getStream.complete();
-			flushMicrotasks();
+			mockGet.flush();
 		}));
 
 		it('should make an http request to create a domain object', fakeAsync((): void => {
 			const mockItem: ITestMock = { id: 1 };
 
-			const postStream: Subject<ITestMock> = new Subject<ITestMock>();
-			const mockPost = sinon.spy(() => postStream);
+			const mockPost: IMockedRequest<ITestMock> = mock.request(mockItem);
 			mockHttp.post = mockPost;
 
 			dataServiceBehavior.create({
@@ -167,16 +157,13 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(mockPost);
 			sinon.assert.calledWith(mockPost, testUrl, mockItem);
 
-			postStream.next(mockItem);
-			postStream.complete();
-			flushMicrotasks();
+			mockPost.flush();
 		}));
 
 		it('should make an http request to save an existing domain object', fakeAsync((): void => {
 			const mockItem: ITestMock = { id: 1 };
 
-			const putStream: Subject<ITestMock> = new Subject<ITestMock>();
-			const mockPut = sinon.spy(() => putStream);
+			const mockPut: IMockedRequest<ITestMock> = mock.request(mockItem);
 			mockHttp.put = mockPut;
 
 			dataServiceBehavior.update({
@@ -192,16 +179,13 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(mockPut);
 			sinon.assert.calledWith(mockPut, testUrl, mockItem);
 
-			putStream.next(mockItem);
-			putStream.complete();
-			flushMicrotasks();
+			mockPut.flush();
 		}));
 
 		it('should make an http request to delete an existing domain object', fakeAsync((): void => {
 			const mockItem: ITestMock = { id: 1 };
 
-			const deleteStream: Subject<void> = new Subject<void>();
-			const mockDelete = sinon.spy(() => deleteStream);
+			const mockDelete: IMockedRequest<void> = mock.request();
 			mockHttp.delete = mockDelete;
 
 			dataServiceBehavior.delete({
@@ -215,9 +199,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledOnce(mockDelete);
 			sinon.assert.calledWith(mockDelete, testUrl);
 
-			deleteStream.next(null);
-			deleteStream.complete();
-			flushMicrotasks();
+			mockDelete.flush();
 		}));
 	});
 
