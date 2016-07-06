@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { mock, IMockedObservable } from './mockAsync';
+import { mock, IMockedRequest } from './mockAsync';
 import { fakeAsync } from './fakeAsync';
 
 interface ITestType {
@@ -8,13 +8,13 @@ interface ITestType {
 }
 
 interface ITestDataService {
-	request1: IMockedObservable<ITestType>;
-	request2: IMockedObservable<ITestType>;
+	request1: IMockedRequest<ITestType>;
+	request2: IMockedRequest<ITestType>;
 }
 
 describe('mockObservable', () => {
 	it('should create a request that resolves when flushed', fakeAsync(() => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request({ value: 10 });
+		let mockedObservable: IMockedRequest<ITestType> = mock.request({ value: 10 });
 		mockedObservable()
 			.subscribe((result: ITestType) => {
 				expect(result.value).to.equal(10);
@@ -24,7 +24,7 @@ describe('mockObservable', () => {
 	}));
 
 	it('should create a request that resolves with dynamic content when flushed', fakeAsync(() => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request((value1: number, value2: number) => {
+		let mockedObservable: IMockedRequest<ITestType> = mock.request((value1: number, value2: number) => {
 			return { value: value1 + value2 };
 		});
 
@@ -37,7 +37,7 @@ describe('mockObservable', () => {
 	}));
 
 	it('should create a request that is rejected', fakeAsync(() => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.rejectedRequest<ITestType>(new Error('an error'));
+		let mockedObservable: IMockedRequest<ITestType> = mock.rejectedRequest<ITestType>(new Error('an error'));
 
 		mockedObservable()
 			.subscribe(() => {
@@ -50,7 +50,7 @@ describe('mockObservable', () => {
 	}));
 
 	it('should create a request and set it to be rejected', fakeAsync(() => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request<ITestType>({ value: 3 });
+		let mockedObservable: IMockedRequest<ITestType> = mock.request<ITestType>({ value: 3 });
 		mockedObservable.reject(new Error('error message'));
 
 		mockedObservable()
@@ -64,7 +64,7 @@ describe('mockObservable', () => {
 	}));
 
 	it('should be able to reuse mocked requests', fakeAsync(() => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request<ITestType>({ value: 3 }, true);
+		let mockedObservable: IMockedRequest<ITestType> = mock.request<ITestType>({ value: 3 }, true);
 
 		mockedObservable()
 			.subscribe((result1: ITestType) => {
@@ -82,7 +82,7 @@ describe('mockObservable', () => {
 	}));
 
 	it('should allow unique parameters with successive calls', fakeAsync(() => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request((value1: number, value2: number) => {
+		let mockedObservable: IMockedRequest<ITestType> = mock.request((value1: number, value2: number) => {
 			return { value: value1 + value2 };
 		}, true);
 
@@ -102,12 +102,12 @@ describe('mockObservable', () => {
 	}));
 
 	it('should reuse a pending request when sharing', (): void => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request({ value: 3 }, true);
+		let mockedObservable: IMockedRequest<ITestType> = mock.request({ value: 3 }, true);
 		expect(mockedObservable()).to.equal(mockedObservable());
 	});
 
 	it('should not reuse a pending request by default or not sharing', (): void => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request({ value: 3 });
+		let mockedObservable: IMockedRequest<ITestType> = mock.request({ value: 3 });
 		expect(mockedObservable()).to.not.equal(mockedObservable());
 
 		mockedObservable = mock.request({ value: 3 }, false);
@@ -115,7 +115,7 @@ describe('mockObservable', () => {
 	});
 
 	it('should flush all requests on an unshared mock request', fakeAsync((): void => {
-		let mockedObservable: IMockedObservable<number> = mock.request(result => result);
+		let mockedObservable: IMockedRequest<number> = mock.request(result => result);
 		Observable.forkJoin<number[]>([
 			mockedObservable(5),
 			mockedObservable(10),
@@ -128,7 +128,7 @@ describe('mockObservable', () => {
 	}));
 
 	it('should spy on the request function', (): void => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request({ value: 3 });
+		let mockedObservable: IMockedRequest<ITestType> = mock.request({ value: 3 });
 		mockedObservable(6);
 		sinon.assert.calledOnce(mockedObservable);
 		sinon.assert.calledWith(mockedObservable, 6);
@@ -150,12 +150,12 @@ describe('mockObservable', () => {
 	}));
 
 	it('should work with Observable.from and Observable.forkJoin', fakeAsync((): void => {
-		const mockedObservables: IMockedObservable<number>[] = [
+		const mockedObservables: IMockedRequest<number>[] = [
 			mock.request(5),
 			mock.request(10),
 		];
 
-		const whens: Observable<number>[] = mockedObservables.map((mocked: IMockedObservable<number>) => Observable.from(mocked()));
+		const whens: Observable<number>[] = mockedObservables.map((mocked: IMockedRequest<number>) => Observable.from(mocked()));
 
 		Observable.forkJoin<number[]>(whens).subscribe(([result1, result2]: number[]): void => {
 			expect(result1).to.equal(5);
@@ -166,7 +166,7 @@ describe('mockObservable', () => {
 	}));
 
 	it('should work with toPromise', fakeAsync((): void => {
-		let mockedObservable: IMockedObservable<ITestType> = mock.request({ value: 10 });
+		let mockedObservable: IMockedRequest<ITestType> = mock.request({ value: 10 });
 		mockedObservable()
 			.toPromise()
 			.then((result: ITestType) => {
