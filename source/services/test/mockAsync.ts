@@ -27,11 +27,11 @@ interface IMockedObservableInternal<TData> extends IMockedObservable<TData> {
 
 class MockAsyncService implements IMockAsyncService {
 	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData> {
-		return mockPromise.promise(result);
+		return mockPromise.promise(result, share);
 	}
 
 	rejectedPromise<TData>(...params: any[]): IMockedPromise<TData> {
-		return mockPromise.rejectedPromise(params);
+		return mockPromise.rejectedPromise(...params);
 	}
 
 	request<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedObservable<TData> {
