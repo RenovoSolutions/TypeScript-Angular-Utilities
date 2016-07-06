@@ -77,6 +77,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledWith(mockGet, testUrl, null);
 
 			getStream.next(mockList);
+			getStream.complete();
 			flushMicrotasks();
 		}));
 
@@ -117,6 +118,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledWith(mockPost, testUrl, searchObject);
 
 			postStream.next({ dataSet: mockList });
+			postStream.complete();
 			flushMicrotasks();
 		}));
 
@@ -141,6 +143,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledWith(mockGet, testUrl);
 
 			getStream.next(mockItem);
+			getStream.complete();
 			flushMicrotasks();
 		}));
 
@@ -165,6 +168,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledWith(mockPost, testUrl, mockItem);
 
 			postStream.next(mockItem);
+			postStream.complete();
 			flushMicrotasks();
 		}));
 
@@ -189,6 +193,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledWith(mockPut, testUrl, mockItem);
 
 			putStream.next(mockItem);
+			putStream.complete();
 			flushMicrotasks();
 		}));
 
@@ -211,6 +216,7 @@ describe('base data service behavior', () => {
 			sinon.assert.calledWith(mockDelete, testUrl);
 
 			deleteStream.next(null);
+			deleteStream.complete();
 			flushMicrotasks();
 		}));
 	});
