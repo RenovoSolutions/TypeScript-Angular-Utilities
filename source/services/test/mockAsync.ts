@@ -6,14 +6,14 @@ import { IMockedPromise, mockPromise } from './mockPromise';
 export { IMockedPromise } from './mockPromise';
 
 export interface IMockAsyncService {
-	request<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedObservable<TData>;
-	rejectedRequest<TData>(...params: any[]): IMockedObservable<TData>;
+	request<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedRequest<TData>;
+	rejectedRequest<TData>(...params: any[]): IMockedRequest<TData>;
 	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData>;
 	rejectedPromise<TData>(...params: any[]): IMockedPromise<TData>;
 	flushAll(service: any): void;
 }
 
-export interface IMockedObservable<TData> extends Sinon.SinonSpy {
+export interface IMockedRequest<TData> extends Sinon.SinonSpy {
 	(...args: any[]): Observable<TData>;
 	reject(error: any): void;
 	rejected: boolean;
@@ -21,7 +21,7 @@ export interface IMockedObservable<TData> extends Sinon.SinonSpy {
 	share(share?: boolean): void;
 }
 
-interface IMockedObservableInternal<TData> extends IMockedObservable<TData> {
+interface IMockedObservableInternal<TData> extends IMockedRequest<TData> {
 	rejectParam: any;
 }
 
@@ -34,7 +34,7 @@ class MockAsyncService implements IMockAsyncService {
 		return mockPromise.rejectedPromise(...params);
 	}
 
-	request<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedObservable<TData> {
+	request<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedRequest<TData> {
 		if (isUndefined(share)) {
 			share = false;
 		}
@@ -46,7 +46,7 @@ class MockAsyncService implements IMockAsyncService {
 		}
 	}
 
-	rejectedRequest<TData>(error: any): IMockedObservable<TData> {
+	rejectedRequest<TData>(error: any): IMockedRequest<TData> {
 		let mocked: IMockedObservableInternal<TData> = this.makeMockRequest(null, false);
 		mocked.rejected = true;
 		mocked.rejectParam = error;
@@ -54,7 +54,7 @@ class MockAsyncService implements IMockAsyncService {
 	}
 
 	flushAll(service: any): void {
-		each(service, (request: IMockedObservable<any>): void => {
+		each(service, (request: IMockedRequest<any>): void => {
 			if (request && isFunction(request.flush)) {
 				request.flush();
 			}
