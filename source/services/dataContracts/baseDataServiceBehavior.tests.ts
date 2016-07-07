@@ -63,7 +63,7 @@ describe('base data service behavior', () => {
 				logRequests: false,
 				getMockData: null,
 				params: null,
-			}).then((data: ITestMock[]): void => {
+			}).subscribe((data: ITestMock[]): void => {
 				expect(data).to.have.length(5);
 				expect(data[0].id).to.equal(1);
 				expect(data[1].id).to.equal(2);
@@ -100,7 +100,7 @@ describe('base data service behavior', () => {
 				logRequests: false,
 				getMockData: null,
 				params: searchObject,
-			}).then((result: ISearchResult<ITestMock>): void => {
+			}).subscribe((result: ISearchResult<ITestMock>): void => {
 				let data: ITestMock[] = result.dataSet;
 				expect(data).to.have.length(5);
 				expect(data[0].id).to.equal(1);
@@ -128,7 +128,7 @@ describe('base data service behavior', () => {
 				useMock: false,
 				logRequests: false,
 				getMockData: null,
-			}).then((data: ITestMock): void => {
+			}).subscribe((data: ITestMock): void => {
 				expect(data).to.deep.equal(mockItem);
 			});
 
@@ -150,7 +150,7 @@ describe('base data service behavior', () => {
 				useMock: false,
 				logRequests: false,
 				addMockData: null,
-			}).then((data: ITestMock): void => {
+			}).subscribe((data: ITestMock): void => {
 				expect(data).to.deep.equal(mockItem);
 			});
 
@@ -172,7 +172,7 @@ describe('base data service behavior', () => {
 				useMock: false,
 				logRequests: false,
 				updateMockData: null,
-			}).then((data: ITestMock): void => {
+			}).subscribe((data: ITestMock): void => {
 				expect(data).to.deep.equal(mockItem);
 			});
 
@@ -223,7 +223,7 @@ describe('base data service behavior', () => {
 				endpoint: null,
 				logRequests: false,
 				params: null,
-			}).then((data: ITestMock[]): void => {
+			}).subscribe((data: ITestMock[]): void => {
 				expect(data).to.have.length(3);
 				expect(data[0]).to.equal(dataSet[0]);
 				expect(data[1]).to.equal(dataSet[1]);
@@ -239,7 +239,7 @@ describe('base data service behavior', () => {
 				endpoint: null,
 				logRequests: false,
 				params: null,
-			}).then((result: ISearchResult<ITestMock>): void => {
+			}).subscribe((result: ISearchResult<ITestMock>): void => {
 				let data: ITestMock[] = result.dataSet;
 				expect(data).to.have.length(3);
 				expect(data[0]).to.equal(dataSet[0]);
@@ -255,7 +255,7 @@ describe('base data service behavior', () => {
 				getMockData(): ITestMock { return dataSet[1]; },
 				endpoint: null,
 				logRequests: false,
-			}).then((data: ITestMock): void => {
+			}).subscribe((data: ITestMock): void => {
 				expect(data).to.equal(dataSet[1]);
 				done();
 			});
@@ -273,7 +273,7 @@ describe('base data service behavior', () => {
 				addMockData: addSpy,
 				endpoint: null,
 				logRequests: false,
-			}).then((data: ITestMock): void => {
+			}).subscribe((data: ITestMock): void => {
 				expect(data).to.equal(newItem);
 				done();
 			});
@@ -295,7 +295,7 @@ describe('base data service behavior', () => {
 				updateMockData: updateSpy,
 				endpoint: null,
 				logRequests: false,
-			}).then((data: ITestMock): void => {
+			}).subscribe((data: ITestMock): void => {
 				expect(data).to.equal(updatedItem);
 				done();
 			});

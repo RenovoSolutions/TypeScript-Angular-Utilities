@@ -1,5 +1,6 @@
 import { Injectable, Inject, OpaqueToken, Provider, provide } from '@angular/core';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 
 import { IArrayUtility, arrayToken } from '../../array/array.service';
 import { IHttpUtility, httpToken } from '../../http/http.service';
@@ -12,11 +13,11 @@ export interface IBaseDomainObject {
 }
 
 export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams> {
-	getList(params?: TSearchParams): Promise<TDataType[]>;
-	getDetail(id: number): Promise<TDataType>;
-	create(domainObject: TDataType): Promise<TDataType>;
-	update(domainObject: TDataType): Promise<TDataType>;
-	delete(domainObject: TDataType): Promise<void>;
+	getList(params?: TSearchParams): Observable<TDataType[]>;
+	getDetail(id: number): Observable<TDataType>;
+	create(domainObject: TDataType): Observable<TDataType>;
+	update(domainObject: TDataType): Observable<TDataType>;
+	delete(domainObject: TDataType): Observable<void>;
 	version(versionNumber: number): DataService<TDataType, TSearchParams>;
 
 	useMock: boolean;
@@ -24,7 +25,7 @@ export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams
 }
 
 export interface ISearchDataService<TDataType extends IBaseDomainObject, TSearchParams, TResultType> {
-	getList(params?: TSearchParams): Promise<TResultType>;
+	getList(params?: TSearchParams): Observable<TResultType>;
 }
 
 @Injectable()
@@ -55,7 +56,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		return this.url + '/' + id.toString();
 	}
 
-	getList(params: TSearchParams): Promise<TDataType[]> {
+	getList(params: TSearchParams): Observable<TDataType[]> {
 		let requestParams: IGetListOptions<TDataType> = {
 			params: params,
 			endpoint: this.url,
@@ -71,7 +72,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		}
 	}
 
-	getDetail(id: number): Promise<TDataType> {
+	getDetail(id: number): Observable<TDataType> {
 		return this.behavior.getItem({
 			endpoint: this.getItemEndpoint(id),
 			getMockData: (): TDataType => {
@@ -84,7 +85,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		});
 	}
 
-	create(domainObject: TDataType): Promise<TDataType> {
+	create(domainObject: TDataType): Observable<TDataType> {
 		return this.behavior.create({
 			domainObject: domainObject,
 			endpoint: this.url,
@@ -98,7 +99,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		});
 	}
 
-	update(domainObject: TDataType): Promise<TDataType> {
+	update(domainObject: TDataType): Observable<TDataType> {
 		return this.behavior.update({
 			domainObject: domainObject,
 			endpoint: this.getItemEndpoint(domainObject.id),
@@ -113,7 +114,7 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		});
 	}
 
-	delete(domainObject: TDataType): Promise<void> {
+	delete(domainObject: TDataType): Observable<void> {
 		return this.behavior.delete({
 			domainObject: domainObject,
 			endpoint: this.getItemEndpoint(domainObject.id),

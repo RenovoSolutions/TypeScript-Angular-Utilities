@@ -14,7 +14,7 @@ import { IDataServiceView, IParentDataServiceView } from '../dataService/view/da
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
-import { mock, IMockedPromise } from '../../test/mockAsync';
+import { mock, IMockedRequest } from '../../test/mockAsync';
 
 export interface IContractLibrary {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
@@ -56,7 +56,7 @@ export interface IContractLibrary {
 
 export class ContractLibrary implements IContractLibrary {
 	private builder: IResourceBuilder;
-	private pendingRequests: IMockedPromise<any>[] = [];
+	private pendingRequests: IMockedRequest<any>[] = [];
 	baseEndpoint: string;
 
 	constructor(builder: IResourceBuilder, baseEndpoint?: string) {
@@ -168,14 +168,14 @@ export class ContractLibrary implements IContractLibrary {
 	}
 
 	private baseMockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
-		let func: IMockedPromise<any> = mock.promise(data);
+		let func: IMockedRequest<any> = mock.request(data);
 		this.pendingRequests.push(func);
 		resource[actionName] = func;
 		return func;
 	}
 
 	private baseMockSave(resource: any, actionName: string, dataTransform: IDataTransform): Sinon.SinonSpy {
-		let func: IMockedPromise<any> = mock.promise(data => {
+		let func: IMockedRequest<any> = mock.request(data => {
 			return dataTransform
 				? dataTransform(data)
 				: data;
