@@ -1,11 +1,14 @@
-import {Inject, Pipe, PipeTransform} from '@angular/core';
+import { Inject, Pipe, PipeTransform } from '@angular/core';
 
 import {
 	IObjectUtility,
 	objectToken
 } from '../../services/object/object.service';
 
-@Pipe({	name: 'isEmpty' })
+@Pipe({
+	name: 'isEmpty',
+	pure: false,
+})
 export class IsEmptyPipe implements PipeTransform {
 	private objectUtility: IObjectUtility;
 
