@@ -55,12 +55,12 @@
     "typings": "^1.0.4"
   },
   "dependencies": {
-    "@angular/compiler": "~2.0.0-rc.3",
-    "@angular/core": "~2.0.0-rc.3",
-    "@angular/http": "~2.0.0-rc.3",
-    "@angular/upgrade": "~2.0.0-rc.3",
-    "@angular/platform-browser": "~2.0.0-rc.3",
-    "@angular/common": "~2.0.0-rc.3",
+    "@angular/compiler": "2.0.0-rc.3",
+    "@angular/core": "2.0.0-rc.3",
+    "@angular/http": "2.0.0-rc.3",
+    "@angular/upgrade": "2.0.0-rc.3",
+    "@angular/platform-browser": "2.0.0-rc.3",
+    "@angular/common": "2.0.0-rc.3",
     "angular2-uuid": "^1.0.7",
     "angular": "^1.5.3",
     "angular-mocks": "~1.5.0",
