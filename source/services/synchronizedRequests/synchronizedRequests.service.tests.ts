@@ -1,4 +1,4 @@
-import { mock, IMockedPromise } from '../test/mockPromise';
+import { mock, IMockedPromise } from '../test/mockAsync';
 import { SynchronizedRequestsService } from './synchronizedRequests.service';
 import { fakeAsync } from '../test/fakeAsync';
 

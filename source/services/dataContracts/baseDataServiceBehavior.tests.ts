@@ -1,9 +1,11 @@
+import { Subject } from 'rxjs';
+
 import { BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavior';
 
 import { arrayUtility } from '../array/array.service';
 import { IHttpUtility } from '../http/http.service';
 
-import { IMockedPromise, mock } from '../test/test.module';
+import { IMockedRequest, mock, fakeAsync, flushMicrotasks } from '../test/test.module';
 
 interface ITestMock {
 	id?: number;
@@ -34,181 +36,172 @@ describe('base data service behavior', () => {
 		};
 	});
 
-	// TODO: Needs mocked observables, which will be implemented soon
+	describe('use http', (): void => {
+		let testUrl: string;
 
-	// describe('use http', (): void => {
-	// 	let testUrl: string;
+		beforeEach((): void => {
+			testUrl = '/api/test';
 
-	// 	beforeEach((): void => {
-	// 		testUrl = '/api/test';
+			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(mockHttp, null);
+		});
 
-	// 		dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(mockHttp, null);
-	// 	});
+		it('should make an http request to get a list of data', fakeAsync((): void => {
+			const mockList: ITestMock[] = [
+				{ id: 1 },
+				{ id: 2 },
+				{ id: 3 },
+				{ id: 4 },
+				{ id: 5 },
+			];
 
-	// 	it('should make an http request to get a list of data', (done: MochaDone): void => {
-	// 		let mockList: ITestMock[] = [
-	// 			{ id: 1 },
-	// 			{ id: 2 },
-	// 			{ id: 3 },
-	// 			{ id: 4 },
-	// 			{ id: 5 },
-	// 		];
+			const mockGet: IMockedRequest<ITestMock[]> = mock.request(mockList);
+			mockHttp.get = mockGet;
 
-	// 		const mockGet: IMockedPromise<ITestMock[]> = mock.promise(mockList);
-	// 		mockHttp.get = mockGet;
+			dataServiceBehavior.getList({
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				getMockData: null,
+				params: null,
+			}).then((data: ITestMock[]): void => {
+				expect(data).to.have.length(5);
+				expect(data[0].id).to.equal(1);
+				expect(data[1].id).to.equal(2);
+				expect(data[2].id).to.equal(3);
+				expect(data[3].id).to.equal(4);
+				expect(data[4].id).to.equal(5);
+			});
 
-	// 		dataServiceBehavior.getList({
-	// 			endpoint: testUrl,
-	// 			useMock: false,
-	// 			logRequests: false,
-	// 			getMockData: null,
-	// 			params: null,
-	// 		}).then((data: ITestMock[]): void => {
-	// 			expect(data).to.have.length(5);
-	// 			expect(data[0].id).to.equal(1);
-	// 			expect(data[1].id).to.equal(2);
-	// 			expect(data[2].id).to.equal(3);
-	// 			expect(data[3].id).to.equal(4);
-	// 			expect(data[4].id).to.equal(5);
-	// 			done();
-	// 		});
+			sinon.assert.calledOnce(mockGet);
+			sinon.assert.calledWith(mockGet, testUrl, null);
 
-	// 		sinon.assert.calledOnce(mockGet);
-	// 		sinon.assert.calledWith(mockGet, testUrl, null);
+			mockGet.flush();
+		}));
 
-	// 		mockGet.flush();
-	// 	});
+		it('should make a POST request to search the data', fakeAsync((): void => {
+			const mockList: ITestMock[] = [
+				{ id: 1 },
+				{ id: 2 },
+				{ id: 3 },
+				{ id: 4 },
+				{ id: 5 },
+			];
 
-	// 	it('should make a POST request to search the data', (done: MochaDone): void => {
-	// 		let mockList: ITestMock[] = [
-	// 			{ id: 1 },
-	// 			{ id: 2 },
-	// 			{ id: 3 },
-	// 			{ id: 4 },
-	// 			{ id: 5 },
-	// 		];
+			const searchObject: ISearchResult<ITestMock> = {
+				dataSet: mockList,
+			};
 
-	// 		let searchObject: ISearchResult<ITestMock> = {
-	// 			dataSet: mockList,
-	// 		};
+			const mockPost: IMockedRequest<ISearchResult<ITestMock>> = mock.request({ dataSet: mockList });
+			mockHttp.post = mockPost;
 
-	// 		const mockPost: IMockedPromise<ITestMock[]> = mock.promise(mockList);
-	// 		mockHttp.post = mockPost;
+			dataServiceBehavior.search<ISearchResult<ITestMock>>({
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				getMockData: null,
+				params: searchObject,
+			}).then((result: ISearchResult<ITestMock>): void => {
+				let data: ITestMock[] = result.dataSet;
+				expect(data).to.have.length(5);
+				expect(data[0].id).to.equal(1);
+				expect(data[1].id).to.equal(2);
+				expect(data[2].id).to.equal(3);
+				expect(data[3].id).to.equal(4);
+				expect(data[4].id).to.equal(5);
+			});
 
-	// 		dataServiceBehavior.search<ISearchResult<ITestMock>>({
-	// 			endpoint: testUrl,
-	// 			useMock: false,
-	// 			logRequests: false,
-	// 			getMockData: null,
-	// 			params: searchObject,
-	// 		}).then((result: ISearchResult<ITestMock>): void => {
-	// 			let data: ITestMock[] = result.dataSet;
-	// 			expect(data).to.have.length(5);
-	// 			expect(data[0].id).to.equal(1);
-	// 			expect(data[1].id).to.equal(2);
-	// 			expect(data[2].id).to.equal(3);
-	// 			expect(data[3].id).to.equal(4);
-	// 			expect(data[4].id).to.equal(5);
-	// 			done();
-	// 		});
+			sinon.assert.calledOnce(mockPost);
+			sinon.assert.calledWith(mockPost, testUrl, searchObject);
 
-	// 		sinon.assert.calledOnce(mockPost);
-	// 		sinon.assert.calledWith(mockPost, searchObject);
+			mockPost.flush();
+		}));
 
-	// 		mockPost.flush();
-	// 	});
+		it('should make an http request to get a domain object', fakeAsync((): void => {
+			const id: number = 1;
+			const mockItem: ITestMock = { id: id };
 
-	// 	it('should make an http request to get a domain object', (done: MochaDone): void => {
-	// 		let id: number = 1;
-	// 		let mockItem: ITestMock = { id: id };
+			const mockGet: IMockedRequest<ITestMock> = mock.request(mockItem);
+			mockHttp.get = mockGet;
 
-	// 		const mockGet: IMockedPromise<ITestMock> = mock.promise(mockItem);
-	// 		mockHttp.get = mockGet;
+			dataServiceBehavior.getItem({
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				getMockData: null,
+			}).then((data: ITestMock): void => {
+				expect(data).to.deep.equal(mockItem);
+			});
 
-	// 		dataServiceBehavior.getItem({
-	// 			endpoint: testUrl,
-	// 			useMock: false,
-	// 			logRequests: false,
-	// 			getMockData: null,
-	// 		}).then((data: ITestMock): void => {
-	// 			expect(data).to.deep.equal(mockItem);
-	// 			done();
-	// 		});
+			sinon.assert.calledOnce(mockGet);
+			sinon.assert.calledWith(mockGet, testUrl);
 
-	// 		sinon.assert.calledOnce(mockGet);
-	// 		sinon.assert.calledWith(mockGet, testUrl);
+			mockGet.flush();
+		}));
 
-	// 		mockGet.flush();
-	// 	});
+		it('should make an http request to create a domain object', fakeAsync((): void => {
+			const mockItem: ITestMock = { id: 1 };
 
-	// 	it('should make an http request to create a domain object', (done: MochaDone): void => {
-	// 		let mockItem: ITestMock = { id: 1 };
+			const mockPost: IMockedRequest<ITestMock> = mock.request(mockItem);
+			mockHttp.post = mockPost;
 
-	// 		const mockPost: IMockedPromise<ITestMock> = mock.promise(mockItem);
-	// 		mockHttp.post = mockPost;
+			dataServiceBehavior.create({
+				domainObject: mockItem,
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				addMockData: null,
+			}).then((data: ITestMock): void => {
+				expect(data).to.deep.equal(mockItem);
+			});
 
-	// 		dataServiceBehavior.create({
-	// 			domainObject: mockItem,
-	// 			endpoint: testUrl,
-	// 			useMock: false,
-	// 			logRequests: false,
-	// 			addMockData: null,
-	// 		}).then((data: ITestMock): void => {
-	// 			expect(data).to.deep.equal(mockItem);
-	// 			done();
-	// 		});
+			sinon.assert.calledOnce(mockPost);
+			sinon.assert.calledWith(mockPost, testUrl, mockItem);
 
-	// 		sinon.assert.calledOnce(mockPost);
-	// 		sinon.assert.calledWith(mockPost, testUrl, mockItem);
+			mockPost.flush();
+		}));
 
-	// 		mockPost.flush();
-	// 	});
+		it('should make an http request to save an existing domain object', fakeAsync((): void => {
+			const mockItem: ITestMock = { id: 1 };
 
-	// 	it('should make an http request to save an existing domain object', (done: MochaDone): void => {
-	// 		let mockItem: ITestMock = { id: 1 };
+			const mockPut: IMockedRequest<ITestMock> = mock.request(mockItem);
+			mockHttp.put = mockPut;
 
-	// 		const mockPut: IMockedPromise<ITestMock> = mock.promise(mockItem);
-	// 		mockHttp.put = mockPut;
+			dataServiceBehavior.update({
+				domainObject: mockItem,
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				updateMockData: null,
+			}).then((data: ITestMock): void => {
+				expect(data).to.deep.equal(mockItem);
+			});
 
-	// 		dataServiceBehavior.update({
-	// 			domainObject: mockItem,
-	// 			endpoint: testUrl,
-	// 			useMock: false,
-	// 			logRequests: false,
-	// 			updateMockData: null,
-	// 		}).then((data: ITestMock): void => {
-	// 			expect(data).to.deep.equal(mockItem);
-	// 			done();
-	// 		});
+			sinon.assert.calledOnce(mockPut);
+			sinon.assert.calledWith(mockPut, testUrl, mockItem);
 
-	// 		sinon.assert.calledOnce(mockPut);
-	// 		sinon.assert.calledWith(mockPut, testUrl, mockItem);
+			mockPut.flush();
+		}));
 
-	// 		mockPut.flush();
-	// 	});
+		it('should make an http request to delete an existing domain object', fakeAsync((): void => {
+			const mockItem: ITestMock = { id: 1 };
 
-	// 	it('should make an http request to delete an existing domain object', (done: MochaDone): void => {
-	// 		let mockItem: ITestMock = { id: 1 };
+			const mockDelete: IMockedRequest<void> = mock.request();
+			mockHttp.delete = mockDelete;
 
-	// 		const mockDelete: IMockedPromise<void> = mock.promise();
-	// 		mockHttp.delete = mockDelete;
+			dataServiceBehavior.delete({
+				domainObject: mockItem,
+				endpoint: testUrl,
+				useMock: false,
+				logRequests: false,
+				removeMockData: null,
+			});
 
-	// 		dataServiceBehavior.delete({
-	// 			domainObject: mockItem,
-	// 			endpoint: testUrl,
-	// 			useMock: false,
-	// 			logRequests: false,
-	// 			removeMockData: null,
-	// 		}).then((): void => {
-	// 			done();
-	// 		});
+			sinon.assert.calledOnce(mockDelete);
+			sinon.assert.calledWith(mockDelete, testUrl);
 
-	// 		sinon.assert.calledOnce(mockDelete);
-	// 		sinon.assert.calledWith(mockDelete, testUrl);
-
-	// 		mockDelete.flush();
-	// 	});
-	// });
+			mockDelete.flush();
+		}));
+	});
 
 	describe('use mock', (): void => {
 		let dataSet: ITestMock[];
