@@ -24,7 +24,7 @@ export interface ITimezones {
 	all(): ITimezone[];
 }
 
-class Timezones implements ITimezones {
+export class Timezones implements ITimezones {
 	AST: ITimezone = new Timezone ({
 		offset: '-04:00',
 		display: 'AST',
