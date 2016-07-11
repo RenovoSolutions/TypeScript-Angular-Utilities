@@ -9,7 +9,7 @@ export interface ISearchUtility {
 	tokenizedSearch(object: any, search: string, caseSensitive?: boolean): boolean;
 }
 
-class SearchUtility implements ISearchUtility {
+export class SearchUtility implements ISearchUtility {
 	private objectUtility: IObjectUtility;
 	private stringUtility: IStringUtility;
 
@@ -51,9 +51,3 @@ class SearchUtility implements ISearchUtility {
 }
 
 export let searchUtility: ISearchUtility = new SearchUtility(objectUtility, stringUtility);
-
-export const searchToken: OpaqueToken = new OpaqueToken('A service for performing text search against an object');
-
-export const SEARCH_PROVIDER: Provider = new Provider(searchToken, {
-	useClass: SearchUtility,
-});

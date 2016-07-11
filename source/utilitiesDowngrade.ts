@@ -23,6 +23,7 @@ import { OBJECT_PROVIDER, objectUtility, objectToken } from './services/object/o
 import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
 import { REDIRECT_PROVIDER, redirectToken } from './services/redirect/redirect.service';
 import { STRING_PROVIDER, stringToken } from './services/string/string.service';
+import { SearchUtility } from './services/search/search.service';
 import { SYNCHRONIZED_REQUESTS_PROVIDER, synchronizedRequestsToken } from './services/synchronizedRequests/synchronizedRequests.service';
 import { TIME_PROVIDERS, TimeUtility } from './services/time/time.service';
 import { TimeoutService } from './services/timeout/timeout.service';
@@ -99,6 +100,7 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	upgradeAdapter.addProvider(observableFactoryProvider);
 	upgradeAdapter.addProvider(REDIRECT_PROVIDER);
 	upgradeAdapter.addProvider(STRING_PROVIDER);
+	upgradeAdapter.addProvider(SearchUtility);
 	upgradeAdapter.addProvider(SYNCHRONIZED_REQUESTS_PROVIDER);
 	upgradeAdapter.addProvider(TIME_PROVIDERS);
 	upgradeAdapter.addProvider(TimeoutService);
