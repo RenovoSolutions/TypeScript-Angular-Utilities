@@ -105,6 +105,7 @@ export class ContractLibrary implements IContractLibrary {
 
 	flush(): void {
 		_.each(this.pendingRequests, request => request.flush());
+		this.pendingRequests = [];
 	}
 
 	mockGet(resource: any, data: any): Sinon.SinonSpy {
