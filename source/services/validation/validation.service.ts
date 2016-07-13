@@ -1,8 +1,8 @@
-import { Injectable, Inject, OpaqueToken, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
 
-import { INotificationService, notificationToken } from '../notification/notification.service';
+import { INotificationService, NotificationService } from '../notification/notification.service';
 
 import { ISimpleValidator, IErrorHandler, ICompositeValidator } from './validationTypes';
 import { Validator } from './validator';
@@ -53,7 +53,7 @@ export interface IValidationService {
 export class ValidationService implements IValidationService {
 	private notification: INotificationService;
 
-	constructor(@Inject(notificationToken) notification: INotificationService) {
+	constructor(notification: NotificationService) {
 		this.notification = notification;
 	}
 
@@ -89,9 +89,3 @@ export class ValidationService implements IValidationService {
 		return new CompositeValidator(showError);
 	}
 }
-
-export const validationToken: OpaqueToken = new OpaqueToken('Service for building validation rules');
-
-export const VALIDATION_PROVIDER: Provider = new Provider(validationToken, {
-	useClass: ValidationService,
-});

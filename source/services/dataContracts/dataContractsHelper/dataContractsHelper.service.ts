@@ -1,5 +1,3 @@
-'use strict';
-
 export interface IDataContractsHelper {
 	versionEndpoint(endpoint: string, versionNumber: number): string;
 }

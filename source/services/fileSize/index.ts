@@ -1,2 +1,2 @@
 export * from './fileSize.service';
-export * from './fileSizeFilter';
+export * from './fileSize.pipe';

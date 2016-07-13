@@ -1,16 +1,10 @@
-import { Inject, Provider, OpaqueToken } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
 
-import {
-	IObjectUtility,
-	objectToken,
-} from '../object/object.service';
+import { IObjectUtility, ObjectUtility } from '../object/object.service';
 
-import {
-	IStringUtility,
-	stringToken,
-} from '../string/string.service';
+import { IStringUtility, StringUtility } from '../string/string.service';
 import { searchUtility } from '../search/search.service';
 
 import { ISerializableFilter, SerializableFilter } from '../../filters/filter';
@@ -69,12 +63,13 @@ export interface IGenericSearchFilterFactory {
 	getInstance(tokenized?: boolean): IGenericSearchFilter;
 }
 
+@Injectable()
 export class GenericSearchFilterFactory implements IGenericSearchFilterFactory {
 	private objectUtility: IObjectUtility;
 	private stringUtility: IStringUtility;
 
-	constructor( @Inject(objectToken) objectUtility: IObjectUtility,
-		@Inject(stringToken) stringUtility: IStringUtility) {
+	constructor(objectUtility: ObjectUtility
+			, stringUtility: StringUtility) {
 		this.objectUtility = objectUtility;
 		this.stringUtility = stringUtility;
 	}
@@ -83,9 +78,3 @@ export class GenericSearchFilterFactory implements IGenericSearchFilterFactory {
 		return new GenericSearchFilter(this.objectUtility, this.stringUtility, tokenized);
 	}
 }
-
-export const genericSearchFilterToken: OpaqueToken = new OpaqueToken('A factory for getting generic search filters');
-
-export const GENERIC_SEARCH_FILTER_PROVIDER: Provider = new Provider(genericSearchFilterToken, {
-	useClass: GenericSearchFilterFactory,
-});

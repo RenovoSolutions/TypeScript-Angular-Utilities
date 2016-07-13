@@ -4,33 +4,35 @@ import { UpgradeAdapter } from '@angular/upgrade';
 
 import * as angular from 'angular';
 
+import { UTILITY_PROVIDERS } from './services/index';
+
 import { IsEmptyPipe } from './filters/isEmpty/isEmpty';
 import { TruncatePipe } from './filters/truncate/truncate';
 
-import { ARRAY_PROVIDER, arrayToken } from './services/array/array.service';
-import { BOOLEAN_PROVIDER, booleanToken } from './services/boolean/boolean.service';
-import { RESOURCE_BUILDER_PROVIDER, resourceBuilderToken } from './services/dataContracts/resourceBuilder/resourceBuilder.service';
-import { DATE_PROVIDER, dateToken } from './services/date/date.service';
-import { ERROR_HANDLER_PROVIDER, DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS, errorHandlerToken } from './services/errorHandler/errorHandler.service';
-import { GENERIC_SEARCH_FILTER_PROVIDER, genericSearchFilterToken } from './services/genericSearchFilter/genericSearchFilter.service';
-import { GUID_PROVIDER, guidToken } from './services/guid/guid.service';
-import { HTTP_PROVIDER, httpToken } from './services/http/http.service';
-import { DIGEST_PROVIDER, digestToken } from './services/digest/digest.service';
-import { LOGGER_PROVIDER, loggerToken } from './services/logger/logger.service';
-import { NOTIFICATION_PROVIDER, notificationToken } from './services/notification/notification.service';
-import { NUMBER_PROVIDER, numberToken } from './services/number/number.service';
-import { OBJECT_PROVIDER, objectUtility, objectToken } from './services/object/object.service';
+import { ArrayUtility } from './services/array/array.service';
+import { BooleanUtility } from './services/boolean/boolean.service';
+import { ResourceBuilder } from './services/dataContracts/resourceBuilder/resourceBuilder.service';
+import { DateUtility } from './services/date/date.service';
+import { ErrorHandlerService, DefaultErrors, DefaultLoginUrlSettings } from './services/errorHandler/errorHandler.service';
+import { GenericSearchFilterFactory } from './services/genericSearchFilter/genericSearchFilter.service';
+import { GuidService } from './services/guid/guid.service';
+import { HttpUtility } from './services/http/http.service';
+import { DigestService } from './services/digest/digest.service';
+import { Logger } from './services/logger/logger.service';
+import { NotificationService } from './services/notification/notification.service';
+import { NumberUtility } from './services/number/number.service';
+import { ObjectUtility, objectUtility } from './services/object/object.service';
 import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
-import { REDIRECT_PROVIDER, redirectToken } from './services/redirect/redirect.service';
-import { STRING_PROVIDER, stringToken } from './services/string/string.service';
+import { RedirectService } from './services/redirect/redirect.service';
+import { StringUtility } from './services/string/string.service';
 import { SearchUtility } from './services/search/search.service';
-import { SYNCHRONIZED_REQUESTS_PROVIDER, synchronizedRequestsToken } from './services/synchronizedRequests/synchronizedRequests.service';
-import { TIME_PROVIDERS, TimeUtility } from './services/time/time.service';
+import { SynchronizedRequestsFactory } from './services/synchronizedRequests/synchronizedRequests.service';
+import { TimeUtility } from './services/time/time.service';
 import { TimeoutService } from './services/timeout/timeout.service';
-import { TIMEZONE_PROVIDER, timezoneToken } from './services/timezone/timezone.service';
-import { TRANSFORM_PROVIDER, transformToken } from './services/transform/transform.service';
-import { VALIDATION_PROVIDER, validationToken } from './services/validation/validation.service';
-import { WINDOW_PROVIDER, windowToken } from './services/window/window.provider';
+import { TimezoneService } from './services/timezone/timezone.service';
+import { TransformService } from './services/transform/transform.service';
+import { ValidationService } from './services/validation/validation.service';
+import { WINDOW_PROVIDER, WindowWrapper } from './services/window/window.provider';
 
 export const isEmptyFilterName: string = 'isEmpty';
 export const truncateFilterName: string = 'truncate';
@@ -79,57 +81,31 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 		},
 	})
 
-	// angular's http (distinct from ours below)
-	upgradeAdapter.addProvider(HTTP_PROVIDERS);
-
-	upgradeAdapter.addProvider(ARRAY_PROVIDER);
-	upgradeAdapter.addProvider(BOOLEAN_PROVIDER);
-	upgradeAdapter.addProvider(RESOURCE_BUILDER_PROVIDER);
-	upgradeAdapter.addProvider(DATE_PROVIDER);
-	upgradeAdapter.addProvider(DEFAULT_ERROR_PROVIDERS);
-	upgradeAdapter.addProvider(DEFAULT_LOGIN_URL_PROVIDERS);
-	upgradeAdapter.addProvider(ERROR_HANDLER_PROVIDER);
-	upgradeAdapter.addProvider(DIGEST_PROVIDER);
-	upgradeAdapter.addProvider(GENERIC_SEARCH_FILTER_PROVIDER);
-	upgradeAdapter.addProvider(GUID_PROVIDER);
-	upgradeAdapter.addProvider(HTTP_PROVIDER);
-	upgradeAdapter.addProvider(LOGGER_PROVIDER);
-	upgradeAdapter.addProvider(NOTIFICATION_PROVIDER);
-	upgradeAdapter.addProvider(NUMBER_PROVIDER);
-	upgradeAdapter.addProvider(OBJECT_PROVIDER);
 	upgradeAdapter.addProvider(observableFactoryProvider);
-	upgradeAdapter.addProvider(REDIRECT_PROVIDER);
-	upgradeAdapter.addProvider(STRING_PROVIDER);
-	upgradeAdapter.addProvider(SearchUtility);
-	upgradeAdapter.addProvider(SYNCHRONIZED_REQUESTS_PROVIDER);
-	upgradeAdapter.addProvider(TIME_PROVIDERS);
-	upgradeAdapter.addProvider(TimeoutService);
-	upgradeAdapter.addProvider(TIMEZONE_PROVIDER);
-	upgradeAdapter.addProvider(TRANSFORM_PROVIDER);
-	upgradeAdapter.addProvider(VALIDATION_PROVIDER);
-	upgradeAdapter.addProvider(WINDOW_PROVIDER);
+
+	upgradeAdapter.addProvider(UTILITY_PROVIDERS);
 
 	utilitiesModule.filter(isEmptyFilterName, PipeDowngrader(new IsEmptyPipe(objectUtility)));
 	utilitiesModule.filter(truncateFilterName, PipeDowngrader(new TruncatePipe(objectUtility)));
 
-	utilitiesModule.factory(arrayServiceName, upgradeAdapter.downgradeNg2Provider(arrayToken));
-	utilitiesModule.factory(booleanServiceName, upgradeAdapter.downgradeNg2Provider(booleanToken));
-	utilitiesModule.factory(resourceBuilderServiceName, upgradeAdapter.downgradeNg2Provider(resourceBuilderToken));
-	utilitiesModule.factory(dateServiceName, upgradeAdapter.downgradeNg2Provider(dateToken));
-	utilitiesModule.factory(errorHandlerServiceName, upgradeAdapter.downgradeNg2Provider(errorHandlerToken));
-	utilitiesModule.factory(digestServiceName, upgradeAdapter.downgradeNg2Provider(digestToken));
-	utilitiesModule.factory(genericSearchFilterServiceName, upgradeAdapter.downgradeNg2Provider(genericSearchFilterToken));
-	utilitiesModule.factory(guidServiceName, upgradeAdapter.downgradeNg2Provider(guidToken));
-	utilitiesModule.factory(httpServiceName, upgradeAdapter.downgradeNg2Provider(httpToken));
-	utilitiesModule.factory(notificationServiceName, upgradeAdapter.downgradeNg2Provider(notificationToken));
-	utilitiesModule.factory(numberServiceName, upgradeAdapter.downgradeNg2Provider(numberToken));
-	utilitiesModule.factory(objectServiceName, upgradeAdapter.downgradeNg2Provider(objectToken));
+	utilitiesModule.factory(arrayServiceName, upgradeAdapter.downgradeNg2Provider(ArrayUtility));
+	utilitiesModule.factory(booleanServiceName, upgradeAdapter.downgradeNg2Provider(BooleanUtility));
+	utilitiesModule.factory(resourceBuilderServiceName, upgradeAdapter.downgradeNg2Provider(ResourceBuilder));
+	utilitiesModule.factory(dateServiceName, upgradeAdapter.downgradeNg2Provider(DateUtility));
+	utilitiesModule.factory(errorHandlerServiceName, upgradeAdapter.downgradeNg2Provider(ErrorHandlerService));
+	utilitiesModule.factory(digestServiceName, upgradeAdapter.downgradeNg2Provider(DigestService));
+	utilitiesModule.factory(genericSearchFilterServiceName, upgradeAdapter.downgradeNg2Provider(GenericSearchFilterFactory));
+	utilitiesModule.factory(guidServiceName, upgradeAdapter.downgradeNg2Provider(GuidService));
+	utilitiesModule.factory(httpServiceName, upgradeAdapter.downgradeNg2Provider(HttpUtility));
+	utilitiesModule.factory(notificationServiceName, upgradeAdapter.downgradeNg2Provider(NotificationService));
+	utilitiesModule.factory(numberServiceName, upgradeAdapter.downgradeNg2Provider(NumberUtility));
+	utilitiesModule.factory(objectServiceName, upgradeAdapter.downgradeNg2Provider(ObjectUtility));
 	utilitiesModule.factory(observableServiceName, upgradeAdapter.downgradeNg2Provider(observableToken));
-	utilitiesModule.factory(stringServiceName, upgradeAdapter.downgradeNg2Provider(stringToken));
-	utilitiesModule.factory(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(synchronizedRequestsToken));
+	utilitiesModule.factory(stringServiceName, upgradeAdapter.downgradeNg2Provider(StringUtility));
+	utilitiesModule.factory(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(SynchronizedRequestsFactory));
 	utilitiesModule.factory(timeServiceName, upgradeAdapter.downgradeNg2Provider(TimeUtility));
 	utilitiesModule.factory(timeoutServiceName, upgradeAdapter.downgradeNg2Provider(TimeoutService));
-	utilitiesModule.factory(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(timezoneToken));
-	utilitiesModule.factory(transformServiceName, upgradeAdapter.downgradeNg2Provider(transformToken));
-	utilitiesModule.factory(validationServiceName, upgradeAdapter.downgradeNg2Provider(validationToken));
+	utilitiesModule.factory(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(TimezoneService));
+	utilitiesModule.factory(transformServiceName, upgradeAdapter.downgradeNg2Provider(TransformService));
+	utilitiesModule.factory(validationServiceName, upgradeAdapter.downgradeNg2Provider(ValidationService));
 }

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { IArrayUtility } from '../../../array/array.service';
-import { IHttpUtility } from '../../../http/http.service';
+import { IHttpUtility, HttpUtility } from '../../../http/http.service';
 
 import { IDataService, DataService, IBaseDomainObject } from '../data.service';
 import { IDataServiceView } from '../view/dataServiceView';
@@ -18,7 +18,7 @@ export class ParentDataService<TDataType extends IBaseDomainObject, TSearchParam
 
 	resourceDictionaryBuilder: { (): TResourceDictionaryType };
 
-	constructor(http: IHttpUtility
+	constructor(http: HttpUtility
 			, array: IArrayUtility
 			, options: IParentResourceParams<TDataType, TResourceDictionaryType>) {
 		super(http, array, options);

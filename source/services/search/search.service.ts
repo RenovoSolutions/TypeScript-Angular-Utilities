@@ -1,20 +1,21 @@
-import { Injectable, Inject, OpaqueToken, Provider } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import * as _ from 'lodash';
 
-import { IObjectUtility, objectToken, objectUtility } from '../object/object.service';
-import { IStringUtility, stringToken, stringUtility } from '../string/string.service';
+import { IObjectUtility, ObjectUtility, objectUtility } from '../object/object.service';
+import { IStringUtility, StringUtility, stringUtility } from '../string/string.service';
 
 export interface ISearchUtility {
 	search(object: any, search: string, caseSensitive?: boolean): boolean;
 	tokenizedSearch(object: any, search: string, caseSensitive?: boolean): boolean;
 }
 
+@Injectable()
 export class SearchUtility implements ISearchUtility {
 	private objectUtility: IObjectUtility;
 	private stringUtility: IStringUtility;
 
-	constructor( @Inject(objectToken) objectUtility: IObjectUtility
-				, @Inject(stringToken) stringUtility: IStringUtility) {
+	constructor(objectUtility: ObjectUtility
+				, stringUtility: StringUtility) {
 		this.objectUtility = objectUtility;
 		this.stringUtility = stringUtility;
 	}
@@ -50,4 +51,4 @@ export class SearchUtility implements ISearchUtility {
 	}
 }
 
-export let searchUtility: ISearchUtility = new SearchUtility(objectUtility, stringUtility);
+export const searchUtility: SearchUtility = new SearchUtility(objectUtility, stringUtility);

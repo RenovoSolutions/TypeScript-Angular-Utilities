@@ -1,6 +1,4 @@
-﻿'use strict';
-
-import * as angular from 'angular';
+﻿import * as angular from 'angular';
 import 'angular-mocks';
 
 import * as _ from 'lodash';

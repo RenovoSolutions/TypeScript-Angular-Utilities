@@ -5,7 +5,7 @@ import { BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavio
 import { arrayUtility } from '../array/array.service';
 import { IHttpUtility } from '../http/http.service';
 
-import { IMockedRequest, mock, fakeAsync, flushMicrotasks } from '../test/test.module';
+import { IMockedRequest, mock, fakeAsync } from '../test/index';
 
 interface ITestMock {
 	id?: number;

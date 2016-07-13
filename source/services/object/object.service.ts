@@ -1,19 +1,11 @@
-﻿import { Inject, Injectable, OpaqueToken, Provider } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
-import {
-	IArrayUtility,
-	arrayToken,
-	arrayUtility,
-} from '../array/array.service';
+import { IArrayUtility,	ArrayUtility, arrayUtility } from '../array/array.service';
 
-import {
-	IDateUtility,
-	dateToken,
-	dateUtility,
-} from '../date/date.module';
+import { IDateUtility, DateUtility, dateUtility } from '../date/index';
 
 export interface IObjectUtility {
 	isNullOrEmpty(object: any[]): boolean;
@@ -36,7 +28,7 @@ export class ObjectUtility implements IObjectUtility {
 	private array: IArrayUtility;
 	private dateUtility: IDateUtility;
 
-	constructor(@Inject(arrayToken) array: IArrayUtility, @Inject(dateToken) dateUtility: IDateUtility) {
+	constructor(array: ArrayUtility, dateUtility: DateUtility) {
 		this.array = array;
 		this.dateUtility = dateUtility;
 	}
@@ -141,10 +133,4 @@ export class ObjectUtility implements IObjectUtility {
 	}
 }
 
-export let objectUtility: IObjectUtility = new ObjectUtility(arrayUtility, dateUtility);
-
-export const objectToken: OpaqueToken = new OpaqueToken('A utility for working with objects');
-
-export const OBJECT_PROVIDER: Provider = new Provider(objectToken, {
-	useClass: ObjectUtility,
-});
+export const objectUtility: ObjectUtility = new ObjectUtility(arrayUtility, dateUtility);

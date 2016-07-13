@@ -1,5 +1,3 @@
-'use strict';
-
 import * as Rx from 'rxjs/Rx';
 
 import { objectUtility } from '../services/object/object.service';

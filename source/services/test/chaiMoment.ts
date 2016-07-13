@@ -39,7 +39,6 @@ if (chai) {
 }
 
 function equalMoment(expected, granularity) {
-	'use strict';
 	var obj = this._obj
 	var objMoment = moment(obj)
 	var expectedMoment = moment(expected)

@@ -1,18 +1,15 @@
 import * as _ from 'lodash';
-import { Inject, Optional, OpaqueToken, Provider, Injectable } from '@angular/core';
+import { Inject, Optional, Injectable } from '@angular/core';
 
 import { Http, URLSearchParams, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { errorHandlerToken, IErrorHandlerService } from '../errorHandler/errorHandler.service';
-import { objectToken, IObjectUtility } from '../object/object.service';
+import { IObjectUtility, ObjectUtility } from '../object/object.service';
 
-export const interceptorToken: OpaqueToken = new OpaqueToken('Custom interceptor for http requests');
-
-export interface IHttpInterceptor {
-	handleSuccess?: { (Response): any };
-	handleError?: { (Response): Observable<any> };
+export abstract class HttpInterceptor {
+	handleSuccess: { (Response): any };
+	handleError: { (Response): Observable<any> };
 }
 
 export interface IHttpUtility {
@@ -28,11 +25,11 @@ export interface IHttpUtility {
 export class HttpUtility implements IHttpUtility {
 	private http: Http;
 	private object: IObjectUtility;
-	private interceptor: IHttpInterceptor;
+	private interceptor: HttpInterceptor;
 
 	constructor( @Inject(Http) http: Http
-			, @Inject(objectToken) object: IObjectUtility
-			, @Optional() @Inject(interceptorToken) interceptor: IHttpInterceptor) {
+			, object: ObjectUtility
+			, @Optional() interceptor: HttpInterceptor) {
 		this.http = http;
 		this.object = object;
 		this.interceptor = this.setDefaults(interceptor);
@@ -104,7 +101,7 @@ export class HttpUtility implements IHttpUtility {
 		return response;
 	}
 
-	private setDefaults(interceptor: IHttpInterceptor): IHttpInterceptor {
+	private setDefaults(interceptor: HttpInterceptor): HttpInterceptor {
 		if (!interceptor) {
 			return null;
 		}
@@ -114,9 +111,3 @@ export class HttpUtility implements IHttpUtility {
 		return interceptor;
 	}
 }
-
-export const httpToken: OpaqueToken = new OpaqueToken('Wrapper for http client');
-
-export const HTTP_PROVIDER: Provider = new Provider(httpToken, {
-	useClass: HttpUtility,
-});

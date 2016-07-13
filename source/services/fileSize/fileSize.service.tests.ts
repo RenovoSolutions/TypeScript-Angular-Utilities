@@ -1,4 +1,4 @@
-import { FileSize } from './fileSize.module';
+import { FileSize } from './fileSize.service';
 import { numberUtility } from '../number/number.service';
 
 describe('fileSize', () => {

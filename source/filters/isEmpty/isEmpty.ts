@@ -1,15 +1,12 @@
-import {Inject, Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-import {
-	IObjectUtility,
-	objectToken
-} from '../../services/object/object.service';
+import { IObjectUtility, ObjectUtility } from '../../services/object/object.service';
 
 @Pipe({	name: 'isEmpty' })
 export class IsEmptyPipe implements PipeTransform {
 	private objectUtility: IObjectUtility;
 
-	constructor( @Inject(objectToken) objectUtility: IObjectUtility) {
+	constructor(objectUtility: ObjectUtility) {
 		this.objectUtility = objectUtility;
 	}
 	transform(input: any, trueWhenEmpty?: boolean): boolean {

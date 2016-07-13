@@ -1,5 +1,5 @@
 import { IArrayUtility } from '../../../array/array.service';
-import { IHttpUtility } from '../../../http/http.service';
+import { IHttpUtility, HttpUtility } from '../../../http/http.service';
 
 import { IConverter } from '../../converters/converters';
 import { IDataService, DataService, IBaseDomainObject } from '../data.service';
@@ -26,7 +26,7 @@ export class DataServiceView<TDataType extends IBaseDomainObject, TSearchParams>
 	private http: IHttpUtility;
 	private transform: IConverter<TDataType> | { [index: string]: IConverter<any> };
 
-	constructor(http: IHttpUtility
+	constructor(http: HttpUtility
 			, array: IArrayUtility
 			, options: IBaseResourceParams<TDataType>) {
 		super(http, array, options);
@@ -57,7 +57,7 @@ export class ParentDataServiceView<TDataType extends IBaseDomainObject, TSearchP
 	private http: IHttpUtility;
 	private transform: IConverter<TDataType> | { [index: string]: IConverter<any> };
 
-	constructor(http: IHttpUtility
+	constructor(http: HttpUtility
 		, array: IArrayUtility
 		, options: IParentResourceParams<TDataType, TResourceDictionaryType>) {
 		super(http, array, options);

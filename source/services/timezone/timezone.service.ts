@@ -1,5 +1,3 @@
-import { OpaqueToken, Provider } from '@angular/core';
-
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
@@ -66,10 +64,4 @@ export class TimezoneService implements ITimezoneService {
 	}
 }
 
-export let timezoneService: ITimezoneService = new TimezoneService();
-
-export const timezoneToken: OpaqueToken = new OpaqueToken('A service for working with timezones');
-
-export const TIMEZONE_PROVIDER: Provider = new Provider(timezoneToken, {
-	useClass: TimezoneService,
-});
+export const timezoneService: ITimezoneService = new TimezoneService();

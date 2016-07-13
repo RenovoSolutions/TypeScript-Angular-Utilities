@@ -1,7 +1,7 @@
-import { Injectable, Inject, Provider, OpaqueToken } from '@angular/core';
+import { Provider } from '@angular/core';
 
-export const windowToken: OpaqueToken = new OpaqueToken('The browser window');
+export abstract class WindowWrapper { }
 
-export const WINDOW_PROVIDER: Provider = new Provider(windowToken, {
+export const WINDOW_PROVIDER: Provider = new Provider(WindowWrapper, {
 	useValue: window,
 });

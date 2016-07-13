@@ -1,4 +1,3 @@
-import { OpaqueToken, Provider } from '@angular/core';
 import * as _ from 'lodash';
 
 export interface IArrayUtility {
@@ -101,10 +100,4 @@ export class ArrayUtility implements IArrayUtility {
 	}
 }
 
-export let arrayUtility: IArrayUtility = new ArrayUtility();
-
-export const arrayToken: OpaqueToken = new OpaqueToken('A service for manipulating arrays');
-
-export const ARRAY_PROVIDER: Provider = new Provider(arrayToken, {
-	useClass: ArrayUtility,
-});
+export const arrayUtility: ArrayUtility = new ArrayUtility();

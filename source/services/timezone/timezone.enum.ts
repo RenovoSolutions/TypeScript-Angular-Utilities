@@ -1,5 +1,3 @@
-'use strict';
-
 import * as _ from 'lodash';
 
 // functions like an itemList but doesn't want name and value

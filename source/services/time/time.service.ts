@@ -1,11 +1,11 @@
-import { OpaqueToken, Provider, Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { takeRight, dropRight, padStart } from 'lodash';
 
 import { CompareResult } from '../../types/compareResult';
-import { defaultFormats } from '../date/date.module';
-import { IStringUtility, stringToken, stringUtility } from '../string/string.service';
-import { IObjectUtility, objectToken, objectUtility } from '../object/object.service';
+import { defaultFormats } from '../date/index';
+import { IStringUtility, StringUtility, stringUtility } from '../string/string.service';
+import { IObjectUtility, ObjectUtility, objectUtility } from '../object/object.service';
 
 export interface ITime {
 	hour: number;
@@ -39,8 +39,8 @@ export class TimeUtility {
 	stringUtility: IStringUtility;
 	objectUtility: IObjectUtility;
 
-	constructor( @Inject(stringToken) stringUtility: IStringUtility
-			, @Inject(objectToken) objectUtility: IObjectUtility) {
+	constructor(stringUtility: StringUtility
+			, objectUtility: ObjectUtility) {
 		this.stringUtility = stringUtility;
 		this.objectUtility = objectUtility;
 	}
@@ -110,15 +110,4 @@ export class TimeUtility {
 	}
 }
 
-export let timeUtility: ITimeUtility = new TimeUtility(stringUtility, objectUtility);
-
-export const timeToken: OpaqueToken = new OpaqueToken('A utility for working with time');
-
-export const TIME_PROVIDERS: Provider[] = [
-	new Provider(timeToken, {
-		useClass: TimeUtility,
-	}),
-	new Provider(TimeUtility, {
-		useClass: TimeUtility,
-	}),
-];
+export const timeUtility: TimeUtility = new TimeUtility(stringUtility, objectUtility);

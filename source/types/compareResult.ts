@@ -1,5 +1,3 @@
-'use strict';
-
 export enum CompareResult {
 	greater = 1,
 	equal = 0,
@@ -8,7 +6,6 @@ export enum CompareResult {
 }
 
 export function getCompareResult(num: number): CompareResult {
-	'use strict';
 	if (num == null) {
 		return CompareResult.invalid;
 	}

@@ -3,10 +3,10 @@ import { HTTP_PROVIDERS } from '@angular/http';
 
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
-import * as dataContracts from './dataContracts/dataContracts.module';
-import * as date from './date/date.module';
+import * as dataContracts from './dataContracts/index';
+import * as date from './date/index';
 import * as errorHandler from './errorHandler/errorHandler.service';
-import * as fileSize from './fileSize/fileSize.module';
+import * as fileSize from './fileSize/index';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 import * as guid from './guid/guid.service';
 import * as http from './http/http.service';
@@ -20,7 +20,7 @@ import * as redirect from './redirect/redirect.service';
 import * as search from './search/search.service';
 import * as stringService from './string/string.service';
 import * as synchronizedRequests from './synchronizedRequests/synchronizedRequests.service';
-import * as test from './test/test.module';
+import * as test from './test/index';
 import * as time from './time/time.service';
 import * as timeout from './timeout/timeout.service';
 import * as timezone from './timezone/timezone.service';
@@ -63,33 +63,33 @@ export {
 export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 	HTTP_PROVIDERS,
 
-	array.ARRAY_PROVIDER,
-	boolean.BOOLEAN_PROVIDER,
+	array.ArrayUtility,
+	boolean.BooleanUtility,
 	dataContracts.DATA_CONTRACT_PROVIDERS,
-	date.DATE_PROVIDER,
-	errorHandler.ERROR_HANDLER_PROVIDER,
-	genericSearchFilter.GENERIC_SEARCH_FILTER_PROVIDER,
-	guid.GUID_PROVIDER,
-	http.HTTP_PROVIDER,
-	digestService.DIGEST_PROVIDER,
-	numberService.NUMBER_PROVIDER,
-	objectService.OBJECT_PROVIDER,
+	date.DateUtility,
+	errorHandler.ErrorHandlerService,
+	genericSearchFilter.GenericSearchFilterFactory,
+	guid.GuidService,
+	http.HttpUtility,
+	digestService.DigestService,
+	numberService.NumberUtility,
+	objectService.ObjectUtility,
 	search.SearchUtility,
-	stringService.STRING_PROVIDER,
-	synchronizedRequests.SYNCHRONIZED_REQUESTS_PROVIDER,
-	time.TIME_PROVIDERS,
+	stringService.StringUtility,
+	synchronizedRequests.SynchronizedRequestsFactory,
+	time.TimeUtility,
 	timeout.TimeoutService,
-	timezone.TIMEZONE_PROVIDER,
-	transform.TRANSFORM_PROVIDER,
+	timezone.TimezoneService,
+	transform.TransformService,
 
-	validation.VALIDATION_PROVIDER,
+	validation.ValidationService,
 
-	logger.LOGGER_PROVIDER,
+	logger.Logger,
 
-	errorHandler.DEFAULT_ERROR_PROVIDERS,
-	errorHandler.DEFAULT_LOGIN_URL_PROVIDERS,
+	errorHandler.DefaultErrors,
+	errorHandler.DefaultLoginUrlSettings,
 
-	notification.NOTIFICATION_PROVIDER,
-	redirect.REDIRECT_PROVIDER,
+	notification.NotificationService,
+	redirect.RedirectService,
 	WINDOW_PROVIDER,
 ];

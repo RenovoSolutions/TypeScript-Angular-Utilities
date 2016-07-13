@@ -1,7 +1,7 @@
-import * as behaviors from './behaviors/behaviors.module';
-import * as filters from './filters/filters.module';
-import * as services from './services/services.module';
-import * as types from './types/types.module';
+import * as behaviors from './behaviors/index';
+import * as filters from './filters/index';
+import * as services from './services/index';
+import * as types from './types/index';
 import * as downgrade from './utilitiesDowngrade';
 
 import './vendor';

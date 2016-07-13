@@ -1,8 +1,7 @@
-﻿import { Injectable, Provider, Inject, ExceptionHandler, OpaqueToken } from '@angular/core';
+﻿import { Injectable, ExceptionHandler } from '@angular/core';
 
-import { INotificationService, notificationToken } from '../notification/notification.service';
-
-import { IRedirectService, redirectToken } from '../redirect/redirect.service';
+import { INotificationService, NotificationService } from '../notification/notification.service';
+import { IRedirectService, RedirectService } from '../redirect/redirect.service';
 
 export enum HttpStatusCode {
 	cancelledRequest = -1,
@@ -39,30 +38,21 @@ export interface ILoginUrlSettings {
 	returnUrlParam: string;
 }
 
+export class DefaultErrors implements IErrorMessages {
+	badRequestError: string =  'Your request failed one or more validation checks.';
+	forbiddenError: string =  'You have insufficient permissions to perform this action';
+	invalidUrlError: string =  'Resource not found. This issue has been logged';
+	timeoutError: string =  'Request timed out. Check your network connection or contact your administrator for issues';
+	internalServerError: string =  'The system has encountered an error. This issue has been logged.' +
+	' Please contact support if you are unable to complete critical tasks';
+	defaultError: string =  'Http status code not handled';
+	goneError: string =  'The requested resource is no longer available.';
+}
 
-export const defaultErrorsToken: OpaqueToken = new OpaqueToken('List of default errors for the error handler');
-
-export const DEFAULT_ERROR_PROVIDERS: Provider = new Provider(defaultErrorsToken, {
-	useValue: {
-		badRequestError: 'Your request failed one or more validation checks.',
-		forbiddenError: 'You have insufficient permissions to perform this action',
-		invalidUrlError: 'Resource not found. This issue has been logged',
-		timeoutError: 'Request timed out. Check your network connection or contact your administrator for issues',
-		internalServerError: 'The system has encountered an error. This issue has been logged.' +
-		' Please contact support if you are unable to complete critical tasks',
-		defaultError: 'Http status code not handled',
-		goneError: 'The requested resource is no longer available.',
-	},
-});
-
-export const defaultLoginUrlSettingsToken: OpaqueToken = new OpaqueToken('Default login url information');
-
-export const DEFAULT_LOGIN_URL_PROVIDERS: Provider = new Provider(defaultLoginUrlSettingsToken, {
-	useValue: {
-		loginUrl: '/login',
-		returnUrlParam: 'returnUrl',
-	},
-});
+export class DefaultLoginUrlSettings implements ILoginUrlSettings {
+	loginUrl: string = '/login';
+	returnUrlParam: string = 'returnUrl';
+}
 
 @Injectable()
 export class ErrorHandlerService implements IErrorHandlerService {
@@ -72,11 +62,11 @@ export class ErrorHandlerService implements IErrorHandlerService {
 	private loginSettings: ILoginUrlSettings;
 	private errorMessages: IErrorMessages;
 
-	constructor(@Inject(redirectToken) redirect: IRedirectService
-			, @Inject(ExceptionHandler) exceptionHandler: ExceptionHandler
-			, @Inject(notificationToken) notification: INotificationService
-			, @Inject(defaultErrorsToken) errorMessages: IErrorMessages
-			, @Inject(defaultLoginUrlSettingsToken) loginSettings: ILoginUrlSettings) {
+	constructor(redirect: RedirectService
+			, exceptionHandler: ExceptionHandler
+			, notification: NotificationService
+			, errorMessages: DefaultErrors
+			, loginSettings: DefaultLoginUrlSettings) {
 		this.redirect = redirect;
 		this.exceptionHandler = exceptionHandler;
 		this.notification = notification;
@@ -152,9 +142,3 @@ export class ErrorHandlerService implements IErrorHandlerService {
 		this.notification.error(this.errorMessages.goneError);
 	}
 }
-
-export const errorHandlerToken: OpaqueToken = new OpaqueToken('A service for handling http errors');
-
-export const ERROR_HANDLER_PROVIDER: Provider = new Provider(errorHandlerToken, {
-	useClass: ErrorHandlerService,
-});

@@ -1,6 +1,4 @@
-﻿import { Provider, OpaqueToken } from '@angular/core';
-
-enum Sign {
+﻿enum Sign {
 	positive = 1,
 	negative = -1,
 }
@@ -41,10 +39,4 @@ export class NumberUtility implements INumberUtility {
 	}
 }
 
-export const numberUtility: INumberUtility = new NumberUtility();
-
-export const numberToken: OpaqueToken = new OpaqueToken('number utility service');
-
-export const NUMBER_PROVIDER: Provider = new Provider(numberToken, {
-	useClass: NumberUtility
-});
+export const numberUtility: NumberUtility = new NumberUtility();

@@ -1,4 +1,4 @@
-import { Injectable, Provider, OpaqueToken } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as angular from 'angular';
 
 export interface IDigestService {
@@ -8,8 +8,6 @@ export interface IDigestService {
 @Injectable()
 export class DigestService implements IDigestService {
 	private $applyAsync: Function = null;
-
-	constructor() { }
 
 	/*
 	*  TODO: Remove when ng1 is dead
@@ -29,9 +27,3 @@ export class DigestService implements IDigestService {
 		this.$applyAsync();
 	}
 }
-
-export const digestToken: OpaqueToken = new OpaqueToken('A service for running an ng1 digest cycle');
-
-export const DIGEST_PROVIDER: Provider = new Provider(digestToken, {
-	useClass: DigestService,
-});

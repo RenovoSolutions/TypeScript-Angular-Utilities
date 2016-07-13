@@ -1,6 +1,4 @@
-﻿import { OpaqueToken, Provider } from '@angular/core';
-
-import * as _ from 'lodash';
+﻿import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment-timezone';
 
@@ -39,8 +37,6 @@ export interface IDateUtility {
 }
 
 export class DateUtility {
-	constructor() {}
-
 	private baseFormat: string = defaultFormats.isoFormat;
 
 	getFullString(month: number): string {
@@ -177,10 +173,4 @@ export class DateUtility {
 	}
 }
 
-export let dateUtility: IDateUtility = new DateUtility();
-
-export const dateToken: OpaqueToken = new OpaqueToken('A utility for working with dates');
-
-export const DATE_PROVIDER: Provider = new Provider(dateToken, {
-	useClass: DateUtility,
-});
+export const dateUtility: DateUtility = new DateUtility();
