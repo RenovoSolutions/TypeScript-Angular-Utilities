@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import 'moment-timezone';
 
-import './test.module';
+import './index';
 
 describe('chai moment', () => {
 	it('should return true if moments are equal', (): void => {

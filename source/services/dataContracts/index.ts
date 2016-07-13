@@ -1,8 +1,6 @@
-import { Provider } from '@angular/core';
-
-import { RESOURCE_BUILDER_PROVIDER } from './resourceBuilder/resourceBuilder.service';
-import { DATA_SERVICE_PROVIDER } from './dataService/data.service';
-import { SINGLETON_DATA_SERVICE_PROVIDER } from './singletonDataService/singletonData.service';
+import { ResourceBuilder } from './resourceBuilder/resourceBuilder.service';
+import { DataServiceFactory, DataServiceProvider } from './dataService/data.service';
+import { SingletonDataServiceFactory, SingletonDataServiceProvider } from './singletonDataService/singletonData.service';
 
 import * as converters from './converters/converters';
 import * as mocks from './contractLibrary/dataServiceMocks';
@@ -16,8 +14,10 @@ export * from './singletonDataService/parent/parentSingletonData.service';
 export * from './resourceBuilder/resourceBuilder.service';
 export { converters, mocks };
 
-export const DATA_CONTRACT_PROVIDERS: Provider[] = [
-	RESOURCE_BUILDER_PROVIDER,
-	DATA_SERVICE_PROVIDER,
-	SINGLETON_DATA_SERVICE_PROVIDER,
+export const DATA_CONTRACT_PROVIDERS: any[] = [
+	ResourceBuilder,
+	DataServiceFactory,
+	DataServiceProvider,
+	SingletonDataServiceFactory,
+	SingletonDataServiceProvider,
 ];

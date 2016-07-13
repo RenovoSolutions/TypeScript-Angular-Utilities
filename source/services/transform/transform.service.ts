@@ -1,4 +1,3 @@
-import { Provider, OpaqueToken } from '@angular/core';
 import * as _ from 'lodash';
 
 export type ITransform<TItemType, TReturnType> = string | { (item: TItemType): TReturnType };
@@ -23,10 +22,4 @@ export class TransformService implements ITransformService {
 	}
 }
 
-export const transform: ITransformService = new TransformService();
-
-export const transformToken: OpaqueToken = new OpaqueToken('transform service token');
-
-export const TRANSFORM_PROVIDER: Provider = new Provider(transformToken, {
-	useClass: TransformService
-});
+export const transform: TransformService = new TransformService();

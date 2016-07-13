@@ -1,6 +1,6 @@
-import { Inject, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-import { INumberUtility, numberToken } from '../number/number.service';
+import { INumberUtility, NumberUtility } from '../number/number.service';
 
 import { FileSize } from './fileSize.service';
 
@@ -10,7 +10,7 @@ import { FileSize } from './fileSize.service';
 class FileSizePipe implements PipeTransform {
 	private numberUtility: INumberUtility;
 
-	constructor(@Inject(numberToken) numberUtility: INumberUtility) {
+	constructor(numberUtility: NumberUtility) {
 		this.numberUtility = numberUtility;
 	}
 

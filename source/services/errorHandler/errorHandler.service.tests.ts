@@ -1,10 +1,8 @@
 import { Injector, ReflectiveInjector } from '@angular/core';
 
 import {
-	defaultErrorsToken,
-	DEFAULT_ERROR_PROVIDERS,
-	defaultLoginUrlSettingsToken,
-	DEFAULT_LOGIN_URL_PROVIDERS,
+	DefaultErrors,
+	DefaultLoginUrlSettings,
 	ErrorHandlerService,
 	IErrorHandlerService,
 	IRejection,
@@ -39,13 +37,13 @@ describe('errorHandler', () => {
 			call: sinon.spy(),
 		};
 
-		const injector: Injector = ReflectiveInjector.resolveAndCreate([DEFAULT_ERROR_PROVIDERS, DEFAULT_LOGIN_URL_PROVIDERS]);
+		const injector: Injector = ReflectiveInjector.resolveAndCreate([DefaultErrors, DefaultLoginUrlSettings]);
 		errorHandler = new ErrorHandlerService(
-			redirect,
+			<any>redirect,
 			exceptionHandler,
 			<any>notification,
-			injector.get(defaultErrorsToken),
-			injector.get(defaultLoginUrlSettingsToken)
+			injector.get(DefaultErrors),
+			injector.get(DefaultLoginUrlSettings)
 		);
 	});
 

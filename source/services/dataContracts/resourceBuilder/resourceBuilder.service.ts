@@ -1,7 +1,7 @@
-import { Inject, Injectable, OpaqueToken, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { IArrayUtility, arrayToken } from '../../array/array.service';
-import { IHttpUtility, httpToken } from '../../http/http.service';
+import { ArrayUtility } from '../../array/array.service';
+import { HttpUtility } from '../../http/http.service';
 
 import { IConverter } from '../converters/converters';
 import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';
@@ -126,11 +126,10 @@ export interface IResourceBuilder {
 
 @Injectable()
 export class ResourceBuilder implements IResourceBuilder {
-	private http: IHttpUtility;
-	private array: IArrayUtility;
+	private http: HttpUtility;
+	private array: ArrayUtility;
 
-	constructor(@Inject(httpToken) http: IHttpUtility
-			, @Inject(arrayToken) array: IArrayUtility) {
+	constructor(http: HttpUtility, array: ArrayUtility) {
 		this.http = http;
 		this.array = array;
 	}
@@ -173,9 +172,3 @@ export class ResourceBuilder implements IResourceBuilder {
 		return options;
 	}
 }
-
-export const resourceBuilderToken: OpaqueToken = new OpaqueToken('A helper for building resources for hitting REST endpoints');
-
-export const RESOURCE_BUILDER_PROVIDER: Provider = new Provider(resourceBuilderToken, {
-	useClass: ResourceBuilder,
-});

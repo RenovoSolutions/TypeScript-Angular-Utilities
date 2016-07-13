@@ -4,10 +4,10 @@ import * as _ from 'lodash';
 import { IDataService } from '../data.service';
 import { IDataServiceView } from '../view/dataServiceView';
 import { IParentDataService } from './parentData.service';
-import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../../resourceBuilder/resourceBuilder.service';
+import { IResourceBuilder, ResourceBuilder } from '../../resourceBuilder/resourceBuilder.service';
 
-import { httpToken } from '../../../http/http.service';
-import { arrayToken } from '../../../array/array.service';
+import { HttpUtility } from '../../../http/http.service';
+import { ArrayUtility } from '../../../array/array.service';
 
 interface ITestResourceDictionaryType {
 	testView: IDataServiceView<ITestMock, void>;
@@ -34,12 +34,12 @@ describe('parent data service', () => {
 		];
 
 		const injector: Injector = ReflectiveInjector.resolveAndCreate([
-			RESOURCE_BUILDER_PROVIDER,
-			provide(httpToken, { useValue: {} }),
-			provide(arrayToken, { useValue: {} }),
+			ResourceBuilder,
+			provide(HttpUtility, { useValue: {} }),
+			provide(ArrayUtility, { useValue: {} }),
 		]);
 
-		resourceBuilder = injector.get(resourceBuilderToken);
+		resourceBuilder = injector.get(ResourceBuilder);
 
 		dataService = resourceBuilder.createResource<ITestMock, void>({
 			mockData: dataSet,

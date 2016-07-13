@@ -1,9 +1,9 @@
-import { Injectable, Inject, OpaqueToken, Provider, provide } from '@angular/core';
+import { Injectable, Provider, provide } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
-import { IArrayUtility, arrayToken } from '../../array/array.service';
-import { IHttpUtility, httpToken } from '../../http/http.service';
+import { IArrayUtility, ArrayUtility } from '../../array/array.service';
+import { IHttpUtility, HttpUtility } from '../../http/http.service';
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior, IGetListOptions } from '../baseDataServiceBehavior';
 import { IBaseResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper/dataContractsHelper.service';
@@ -39,8 +39,8 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 	useMock: boolean;
 	logRequests: boolean;
 
-	constructor(@Inject(httpToken) http: IHttpUtility
-				, @Inject(arrayToken) array: IArrayUtility
+	constructor(http: HttpUtility
+				, array: ArrayUtility
 				, options: IBaseResourceParams<TDataType>) {
 		this.array = array;
 		this.behavior = new BaseDataServiceBehavior(http, options.transform);
@@ -142,25 +142,19 @@ export class DataServiceFactory {
 	private http: IHttpUtility;
 	private array: IArrayUtility;
 
-	constructor( @Inject(httpToken) http: IHttpUtility, @Inject(arrayToken) array: IArrayUtility) {
+	constructor(http: HttpUtility, array: ArrayUtility) {
 		this.http = http;
 		this.array = array;
 	}
 
 	getInstance<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams> {
-		return new DataService(this.http, this.array, options);
+		return new DataService(<HttpUtility>this.http, this.array, options);
 	}
 }
 
-export const dataServiceToken: OpaqueToken = new OpaqueToken('A service for making http requests against a REST endpoint');
-
-export const DATA_SERVICE_PROVIDER: Provider = new Provider(dataServiceToken, {
-	useClass: DataServiceFactory,
-});
-
 export function DataServiceProvider(options: IBaseResourceParams<any>): Provider {
-	return provide(dataServiceToken, {
-		deps: [httpToken, arrayToken],
-		useFactory: (http: IHttpUtility, array: IArrayUtility) => new DataService(http, array, options),
+	return provide(DataService, {
+		deps: [HttpUtility, ArrayUtility],
+		useFactory: (http: HttpUtility, array: ArrayUtility) => new DataService(http, array, options),
 	});
 }

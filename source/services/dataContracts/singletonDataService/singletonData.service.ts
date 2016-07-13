@@ -1,8 +1,8 @@
-import { Injectable, Inject, OpaqueToken, Provider, provide } from '@angular/core';
+import { Injectable, Provider, provide } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
-import { IHttpUtility, httpToken } from '../../http/http.service';
+import { IHttpUtility, HttpUtility } from '../../http/http.service';
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior } from '../baseDataServiceBehavior';
 import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper/dataContractsHelper.service';
@@ -70,7 +70,7 @@ export interface ISingletonDataServiceFactory {
 export class SingletonDataServiceFactory {
 	private http: IHttpUtility;
 
-	constructor( @Inject(httpToken) http: IHttpUtility) {
+	constructor(http: HttpUtility) {
 		this.http = http;
 	}
 
@@ -79,15 +79,9 @@ export class SingletonDataServiceFactory {
 	}
 }
 
-export const singletonDataServiceToken: OpaqueToken = new OpaqueToken('A service for making http requests against a singleton REST endpoint');
-
-export const SINGLETON_DATA_SERVICE_PROVIDER: Provider = new Provider(singletonDataServiceToken, {
-	useClass: SingletonDataServiceFactory,
-});
-
 export function SingletonDataServiceProvider(options: ISingletonResourceParams<any>): Provider {
-	return provide(singletonDataServiceToken, {
-		deps: [httpToken],
+	return provide(SingletonDataService, {
+		deps: [HttpUtility],
 		useFactory: (http: IHttpUtility) => new SingletonDataService(http, options),
 	});
 };

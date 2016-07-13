@@ -1,8 +1,6 @@
-import { URLSearchParams } from '@angular/http';
 import { Subject } from 'rxjs';
 
 import { objectUtility } from '../object/object.service';
-
 import { HttpUtility } from './http.service';
 
 interface IMockHttp {

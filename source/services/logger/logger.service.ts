@@ -1,5 +1,3 @@
-import { OpaqueToken, Provider } from '@angular/core';
-
 export interface ILogger {
 	log(message: any): void;
 }
@@ -15,9 +13,3 @@ export class Logger {
 		this.console.log(message);
 	}
 }
-
-export const loggerToken: OpaqueToken = new OpaqueToken('An injectable logger for logging messages to the console');
-
-export const LOGGER_PROVIDER: Provider = new Provider(loggerToken, {
-	useClass: Logger,
-});

@@ -1,13 +1,10 @@
-import { Injector, ReflectiveInjector } from '@angular/core';
-import { loggerToken, LOGGER_PROVIDER, ILogger } from './logger.service';
+import { ILogger, Logger } from './logger.service';
 
 describe('logger', () => {
 	let logger: ILogger;
 
 	beforeEach(() => {
-		const injector: Injector = ReflectiveInjector.resolveAndCreate([LOGGER_PROVIDER]);
-
-		logger = injector.get(loggerToken);
+		logger = new Logger();
 	});
 
 	it('should log to the console', (): void => {

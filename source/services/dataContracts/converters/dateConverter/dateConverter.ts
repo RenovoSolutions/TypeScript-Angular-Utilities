@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 
 import { IConverter } from '../converters';
-import { dateUtility, defaultFormats } from '../../../date/date.module';
+import { dateUtility, defaultFormats } from '../../../date/index';
 
 export { defaultFormats };
 
-export let dateConverter: IConverter<moment.Moment> = {
+export const dateConverter: IConverter<moment.Moment> = {
 	fromServer(raw: string): moment.Moment {
 		return dateUtility.getDateFromISOString(raw);
 	},

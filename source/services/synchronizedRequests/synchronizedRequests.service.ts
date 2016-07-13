@@ -1,4 +1,4 @@
-import { OpaqueToken, Provider, provide } from '@angular/core';
+import { Provider, provide } from '@angular/core';
 
 export interface ISynchronizedRequestsService {
 	dataProvider: IRequestGetter;
@@ -48,14 +48,8 @@ export class SynchronizedRequestsFactory {
 	}
 }
 
-export const synchronizedRequestsToken: OpaqueToken = new OpaqueToken('A service for handling multiple requests and returning only the latest');
-
 export function SynchronizedRequestsProvider(dataProvider: IRequestGetter, handleRequest: IRequestCallback): Provider {
-	return provide(synchronizedRequestsToken, {
+	return provide(SynchronizedRequestsService, {
 		useFactory: () => new SynchronizedRequestsService(dataProvider, handleRequest),
 	});
 }
-
-export const SYNCHRONIZED_REQUESTS_PROVIDER: Provider = new Provider(synchronizedRequestsToken, {
-	useClass: SynchronizedRequestsFactory,
-});

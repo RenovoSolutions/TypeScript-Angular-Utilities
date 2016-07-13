@@ -1,17 +1,14 @@
 ﻿// Formats and optionally truncates and ellipsimogrifies a string for display in a card header
 
-import { Inject, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-import {
-	IObjectUtility,
-	objectToken,
-} from '../../services/object/object.service';
+import { IObjectUtility, ObjectUtility } from '../../services/object/object.service';
 
 @Pipe({ name: 'truncate' })
 export class TruncatePipe implements PipeTransform {
 	private objectUtility: IObjectUtility;
 
-	constructor( @Inject(objectToken) objectUtility: IObjectUtility) {
+	constructor(objectUtility: ObjectUtility) {
 		this.objectUtility = objectUtility;
 	}
 

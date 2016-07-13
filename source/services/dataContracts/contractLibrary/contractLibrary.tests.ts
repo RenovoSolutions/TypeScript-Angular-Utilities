@@ -1,12 +1,14 @@
 import { Injector, ReflectiveInjector, provide } from '@angular/core';
 
 import { ContractLibrary } from './contractLibrary';
-import { IResourceBuilder, resourceBuilderToken, RESOURCE_BUILDER_PROVIDER } from '../resourceBuilder/resourceBuilder.service';
+import { IResourceBuilder, ResourceBuilder } from '../resourceBuilder/resourceBuilder.service';
 import { DataServiceView } from '../dataService/view/dataServiceView';
-import { DataService, ParentDataService, ParentSingletonDataService } from '../dataContracts.module';
+import { DataService } from '../dataService/data.service';
+import { ParentDataService } from '../dataService/parent/parentData.service';
+import { ParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
 
-import { httpToken } from '../../http/http.service';
-import { arrayToken } from '../../array/array.service';
+import { HttpUtility } from '../../http/http.service';
+import { ArrayUtility } from '../../array/array.service';
 
 interface ITestChildResources {
 	childResource: DataService<number, void>;
@@ -54,11 +56,11 @@ describe('contractLibrary', (): void => {
 
 	beforeEach((): void => {
 		const injector: Injector = ReflectiveInjector.resolveAndCreate([
-			RESOURCE_BUILDER_PROVIDER,
-			provide(httpToken, { useValue: {} }),
-			provide(arrayToken, { useValue: {} }),
+			ResourceBuilder,
+			provide(HttpUtility, { useValue: {} }),
+			provide(ArrayUtility, { useValue: {} }),
 		]);
-		resourceBuilder = injector.get(resourceBuilderToken);
+		resourceBuilder = injector.get(ResourceBuilder);
 		testLibrary = new TestLibrary(resourceBuilder);
 	});
 

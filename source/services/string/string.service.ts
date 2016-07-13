@@ -1,5 +1,3 @@
-import { OpaqueToken, Provider } from '@angular/core';
-
 import * as _ from 'lodash';
 
 export interface IStringUtility {
@@ -34,10 +32,4 @@ export class StringUtility implements IStringUtility {
 	}
 }
 
-export let stringUtility: IStringUtility = new StringUtility();
-
-export const stringToken: OpaqueToken = new OpaqueToken('A service for working with strings');
-
-export const STRING_PROVIDER: Provider = new Provider(stringToken, {
-	useClass: StringUtility,
-});
+export const stringUtility: StringUtility = new StringUtility();

@@ -1,5 +1,5 @@
-import { Injectable, Inject, Provider, OpaqueToken } from '@angular/core';
-import {windowToken} from '../window/window.provider';
+import { Injectable } from '@angular/core';
+import { WindowWrapper } from '../window/window.provider';
 
 export interface IRedirectService {
 	getCurrentLocationAsParam(): string;
@@ -13,8 +13,8 @@ export interface IRedirectService {
 export class RedirectService implements IRedirectService {
 	private window: Window;
 
-	constructor(@Inject(windowToken) window: Window) {
-		this.window = window;
+	constructor(window: WindowWrapper) {
+		this.window = <any>window;
 	}
 
 	getCurrentLocationAsParam(): string {
@@ -32,9 +32,3 @@ export class RedirectService implements IRedirectService {
 		}
 	}
 }
-
-export const redirectToken: OpaqueToken = new OpaqueToken('A service for redirecting to a new page');
-
-export const REDIRECT_PROVIDER: Provider = new Provider(redirectToken, {
-	useClass: RedirectService,
-});

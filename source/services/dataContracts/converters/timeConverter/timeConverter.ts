@@ -1,12 +1,12 @@
 import * as moment from 'moment';
 
 import { IConverter } from '../converters';
-import { defaultFormats } from '../../../date/date.module';
+import { defaultFormats } from '../../../date/index';
 import { timezoneService } from '../../../timezone/timezone.service';
 
 export { defaultFormats };
 
-export let timeConverter: IConverter<moment.Moment> = {
+export const timeConverter: IConverter<moment.Moment> = {
 	fromServer(raw: string): moment.Moment {
 		return raw != null
 			? timezoneService.buildMomentWithTimezone(raw, timezoneService.currentTimezone, defaultFormats.timeFormat)

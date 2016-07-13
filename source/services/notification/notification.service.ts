@@ -1,6 +1,6 @@
-import { Injectable, Provider, OpaqueToken, Inject } from '@angular/core';
-import { windowToken } from '../window/window.provider';
-import { loggerToken, ILogger } from '../logger/logger.service';
+import { Injectable } from '@angular/core';
+import { WindowWrapper } from '../window/window.provider';
+import { ILogger, Logger } from '../logger/logger.service';
 
 export interface INotificationService {
 	info(message: string): void;
@@ -14,9 +14,9 @@ export class NotificationService implements INotificationService {
 	private window: Window;
 	private logger: ILogger;
 
-	constructor(@Inject(windowToken) window: Window
-			, @Inject(loggerToken) logger: ILogger) {
-		this.window = window;
+	constructor(window: WindowWrapper
+			, logger: ILogger) {
+		this.window = <any>window;
 		this.logger = logger;
 	}
 
@@ -41,9 +41,3 @@ export class NotificationService implements INotificationService {
 		this.logger.log(message);
 	}
 }
-
-export const notificationToken: OpaqueToken = new OpaqueToken('Notification Service');
-
-export const NOTIFICATION_PROVIDER: Provider = new Provider(notificationToken, {
-	useClass: NotificationService
-});

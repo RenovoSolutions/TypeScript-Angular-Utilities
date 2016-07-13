@@ -1,5 +1,5 @@
 import { IObjectUtility, ObjectUtility } from './object.service';
-import { dateUtility } from '../date/date.module';
+import { dateUtility } from '../date/index';
 import { arrayUtility } from '../array/array.service';
 
 import * as moment from 'moment';
