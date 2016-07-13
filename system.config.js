@@ -1,6 +1,4 @@
-'use strict';
-
-const map = {
+var map = {
 	'@angular': 'node_modules/@angular',
 	'angular': 'node_modules/angular',
 	'angular-mocks': 'node_modules/angular-mocks/angular-mocks',
@@ -13,7 +11,7 @@ const map = {
 	'rxjs': 'node_modules/rxjs',
 };
 
-const meta = {
+var meta = {
 	'jquery': {
 		build: false,
 	},
@@ -24,8 +22,8 @@ const meta = {
 
 System.config({
 	baseURL: '/',
-	meta,
-	map,
+	meta: meta,
+	map: map,
 	packages: {
 		'source': {
 			defaultExtension: 'js',
