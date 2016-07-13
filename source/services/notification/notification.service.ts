@@ -15,7 +15,7 @@ export class NotificationService implements INotificationService {
 	private logger: ILogger;
 
 	constructor(window: WindowWrapper
-			, logger: ILogger) {
+			, logger: Logger) {
 		this.window = <any>window;
 		this.logger = logger;
 	}
