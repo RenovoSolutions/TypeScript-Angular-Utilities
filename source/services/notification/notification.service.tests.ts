@@ -23,7 +23,7 @@ describe('notification', () => {
 			log: sinon.spy(),
 		};
 
-		notification = new NotificationService(<any>mockWindow, mockLogger);
+		notification = new NotificationService(<any>mockWindow, <any>mockLogger);
 	});
 
 	it('should call notifier to show an info notification', (): void => {
