@@ -26,11 +26,8 @@
     "test.debug": "concurrently --kill-others \"gulp bundle-tests.watch\" \"karma start karma.debug.conf.js\"",
     "test.tc": "npm run bundle-tests && karma start karma.tc.conf.js",
     "test.full": "npm run bundle-tests && karma start karma.full.conf.js",
-    "install-build": "npm install && npm run build",
-    "install-build-test": "npm install && npm run build && npm run test",
     "build-test": "npm run build && npm run test",
     "build-test.watch": "concurrently --kill-others \"npm run build.watch\" \"npm run test.debug\"",
-    "full-build": "npm install && npm run build",
     "all": "npm run update && npm run build && npm run test.full"
   },
   "devDependencies": {
