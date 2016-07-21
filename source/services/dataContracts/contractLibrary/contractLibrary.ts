@@ -165,6 +165,11 @@ export class ContractLibrary implements IContractLibrary {
 		if (resource != null) {
 			dataService = _.extend(resource, dataService);
 		}
+
+		if (!dataService.url) {
+			dataService.url = '/test';
+		}
+
 		return dataService;
 	}
 
