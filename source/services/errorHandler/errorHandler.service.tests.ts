@@ -22,7 +22,7 @@ describe('errorHandler', () => {
 	var returnUrl: string;
 
 	beforeEach(() => {
-		redirect = {
+		redirect = <any>{
 			getCurrentLocationAsParam: () => {
 				return returnUrl;
 			},
