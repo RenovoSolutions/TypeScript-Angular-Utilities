@@ -41,8 +41,6 @@ export class ItemList<TItemType extends IItem> implements IItemList<TItemType> {
 
 export class SortedItemList<TItemType extends IItem> extends ItemList<TItemType> {
 	setItems(items: TItemType[]): void {
-		super.setItems(items.sort((i1, i2) => {
-			return i1.display.localeCompare(i2.display);
-		}));
+		super.setItems(_.sortBy(items, x => x.display));
 	}
 }
