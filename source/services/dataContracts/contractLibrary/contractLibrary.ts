@@ -108,15 +108,15 @@ export class ContractLibrary implements IContractLibrary {
 		this.pendingRequests = [];
 	}
 
-	mockGet(resource: any, data: any): Sinon.SinonSpy {
+	mockGet(resource: any, data: any): IMockedRequest<any> {
 		return this.baseMockGet(resource, 'get', data);
 	}
 
-	mockGetList(resource: any, data: any): Sinon.SinonSpy {
+	mockGetList(resource: any, data: any): IMockedRequest<any> {
 		return this.baseMockGet(resource, 'getList', data);
 	}
 
-	mockGetDetail(resource: any, data: any): Sinon.SinonSpy {
+	mockGetDetail(resource: any, data: any): IMockedRequest<any> {
 		return this.baseMockGet(resource, 'getDetail', data);
 	}
 
@@ -131,10 +131,10 @@ export class ContractLibrary implements IContractLibrary {
 
 	createMock(resource?: any): IDataServiceMock<any, any> {
 		let dataService: IDataServiceMock<any, any> = <any>this.builder.createResource<any, any>({});
-		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
-		dataService.mockGetDetail = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
-		dataService.mockUpdate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update', dataTransform); };
-		dataService.mockCreate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create', dataTransform); };
+		dataService.mockGetList = (data: any[]): IMockedRequest<any> => { return this.baseMockGet(dataService, 'getList', data); };
+		dataService.mockGetDetail = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'get', data); };
+		dataService.mockUpdate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'update', dataTransform); };
+		dataService.mockCreate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'create', dataTransform); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -144,19 +144,19 @@ export class ContractLibrary implements IContractLibrary {
 		let dataService: IParentDataServiceMock<any, any, any> = <any>this.builder.createParentResource<any, any, any>({
 			resourceDictionaryBuilder: getChildren,
 		});
-		dataService.mockGetList = (data: any[]): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'getList', data); };
-		dataService.mockGetDetail = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
+		dataService.mockGetList = (data: any[]): IMockedRequest<any> => { return this.baseMockGet(dataService, 'getList', data); };
+		dataService.mockGetDetail = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'get', data); };
 		dataService.mockChild = (mockCallback: { (children: any): void }): void => { return this.mockChild(dataService, mockCallback); };
-		dataService.mockUpdate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update', dataTransform); };
-		dataService.mockCreate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'create', dataTransform); };
+		dataService.mockUpdate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'update', dataTransform); };
+		dataService.mockCreate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'create', dataTransform); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
 
 	createMockSingleton(resource?: any): ISingletonDataServiceMock<any> {
 		let dataService: ISingletonDataServiceMock<any> = <any>this.builder.createSingletonResource({});
-		dataService.mockGet = (data: any): Sinon.SinonSpy => { return this.baseMockGet(dataService, 'get', data); };
-		dataService.mockUpdate = (dataTransform?: IDataTransform): Sinon.SinonSpy => { return this.baseMockSave(dataService, 'update', dataTransform); };
+		dataService.mockGet = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'get', data); };
+		dataService.mockUpdate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'update', dataTransform); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -173,14 +173,14 @@ export class ContractLibrary implements IContractLibrary {
 		return dataService;
 	}
 
-	private baseMockGet(resource: any, actionName: string, data: any): Sinon.SinonSpy {
+	private baseMockGet(resource: any, actionName: string, data: any): IMockedRequest<any> {
 		let func: IMockedRequest<any> = mock.request(data);
 		this.pendingRequests.push(func);
 		resource[actionName] = func;
 		return func;
 	}
 
-	private baseMockSave(resource: any, actionName: string, dataTransform: IDataTransform): Sinon.SinonSpy {
+	private baseMockSave(resource: any, actionName: string, dataTransform: IDataTransform): IMockedRequest<any> {
 		let func: IMockedRequest<any> = mock.request(data => {
 			return dataTransform
 				? dataTransform(data)
