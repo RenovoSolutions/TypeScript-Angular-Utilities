@@ -11,7 +11,7 @@ export interface IItemList<TItemType extends IItem> {
 	all(): TItemType[];
 }
 
-export class ItemList<TItemType extends IItem> {
+export class ItemList<TItemType extends IItem> implements IItemList<TItemType> {
 	private items: TItemType[];
 
 	setItems(items: TItemType[]): void {
@@ -36,5 +36,11 @@ export class ItemList<TItemType extends IItem> {
 
 	all(): TItemType[] {
 		return this.items;
+	}
+}
+
+export class SortedItemList<TItemType extends IItem> extends ItemList<TItemType> {
+	setItems(items: TItemType[]): void {
+		super.setItems(_.sortBy(items, x => x.display));
 	}
 }
