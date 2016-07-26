@@ -26,8 +26,8 @@ import * as timeout from './timeout/timeout.service';
 import * as timezone from './timezone/timezone.service';
 import * as transform from './transform/transform.service';
 import * as validation from './validation/validation.service';
+import * as window from './window/window.provider';
 
-import { WINDOW_PROVIDER } from './window/window.provider';
 
 export {
 	array,
@@ -55,6 +55,7 @@ export {
 	timezone,
 	transform,
 	validation,
+	window,
 };
 
 /**
@@ -91,5 +92,5 @@ export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 
 	notification.NotificationService,
 	redirect.RedirectService,
-	WINDOW_PROVIDER,
+	window.WINDOW_PROVIDER,
 ];

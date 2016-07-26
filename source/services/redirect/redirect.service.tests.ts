@@ -6,7 +6,8 @@ interface IMockWindow {
 		search: string;
 	};
 	open: Sinon.SinonSpy;
-	focus:  Sinon.SinonSpy;
+	focus: Sinon.SinonSpy;
+	history: { back: Sinon.SinonSpy };
 }
 
 describe('RedirectService', () => {
@@ -18,6 +19,7 @@ describe('RedirectService', () => {
 			location: null,
 			open: sinon.spy(() => mockWindow),
 			focus: sinon.spy(),
+			history: { back: sinon.spy() },
 		};
 
 		redirectService = new RedirectService(<any>mockWindow);
@@ -62,6 +64,13 @@ describe('RedirectService', () => {
 			sinon.assert.calledWith(mockWindow.open, '/some/path', '_blank');
 
 			sinon.assert.calledOnce(mockWindow.focus);
+		});
+	});
+
+	describe('back', () => {
+		it('should trigger back on the window history', () => {
+			redirectService.back();
+			sinon.assert.calledOnce(mockWindow.history.back);
 		});
 	});
 });

@@ -4,6 +4,7 @@ import { WindowWrapper } from '../window/window.provider';
 export interface IRedirectService {
 	getCurrentLocationAsParam(): string;
 	to(target: string, newTab?: boolean): void;
+	back(): void;
 }
 
 
@@ -30,5 +31,9 @@ export class RedirectService implements IRedirectService {
 			const win: Window = this.window.open(target, '_blank');
 			win.focus();
 		}
+	}
+
+	back(): void {
+		this.window.history.back();
 	}
 }
