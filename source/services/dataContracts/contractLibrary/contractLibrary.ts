@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { BehaviorSubject } from 'rxjs';
 
 import {
 	IResourceBuilder,
@@ -15,6 +16,7 @@ import { IParentDataService, ParentDataService } from '../dataService/parent/par
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
 import { mock, IMockedRequest } from '../../test/mockAsync';
+import { inTestZone } from '../../test/fakeAsync';
 
 export interface IContractLibrary {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
@@ -174,24 +176,21 @@ export class ContractLibrary implements IContractLibrary {
 	}
 
 	private baseMockGet(resource: any, actionName: string, data: any): IMockedRequest<any> {
-		let func: IMockedRequest<any> = mock.request(data);
+		let func: IMockedRequest<any> = inTestZone() ? mock.request(data) : <any>(() => new BehaviorSubject(data).asObservable());
 		this.pendingRequests.push(func);
 		resource[actionName] = func;
 		return func;
 	}
 
 	private baseMockSave(resource: any, actionName: string, dataTransform: IDataTransform): IMockedRequest<any> {
-		let func: IMockedRequest<any> = mock.request(data => {
+		const applyTransform = data => {
 			return dataTransform
 				? dataTransform(data)
 				: data;
-		});
+		};
+		let func: IMockedRequest<any> = inTestZone() ? mock.request(applyTransform) : <any>(data => new BehaviorSubject(applyTransform(data)));
 		this.pendingRequests.push(func);
 		resource[actionName] = func;
 		return func;
-	}
-
-	private get sinon(): Sinon.SinonStatic {
-		return sinon || <any>{ spy: (func: any): any => { return func; } };
 	}
 }
