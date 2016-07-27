@@ -103,3 +103,7 @@ export function flushMicrotasks(): void {
 export function queueRequest(request): void {
 	requestQueue.push(request);
 }
+
+export function inTestZone(): boolean {
+	return !!Zone.current.get('FakeAsyncTestZoneSpec');
+}
