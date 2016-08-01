@@ -20,6 +20,8 @@ export interface IDataService<TDataType extends IBaseDomainObject, TSearchParams
 	delete(domainObject: TDataType): Observable<void>;
 	version(versionNumber: number): DataService<TDataType, TSearchParams>;
 
+	mockResource(mockData: TDataType[]): void;
+
 	useMock: boolean;
 	logRequests: boolean;
 }
@@ -130,6 +132,11 @@ export class DataService<TDataType extends IBaseDomainObject, TSearchParams> imp
 		let dataService: DataService<TDataType, TSearchParams> = _.clone(this);
 		dataService.url = helper.versionEndpoint(dataService.url, versionNumber);
 		return dataService;
+	}
+
+	mockResource(mockData: TDataType[]): void {
+		this.mockData = mockData;
+		this.useMock = true;
 	}
 }
 

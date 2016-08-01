@@ -12,6 +12,8 @@ export interface ISingletonDataService<TDataType> {
 	update(domainObject: TDataType): Observable<TDataType>;
 	version(versionNumber: number): SingletonDataService<TDataType>;
 
+	mockResource(mockData: TDataType): void;
+
 	useMock: boolean;
 	logRequests: boolean;
 }
@@ -59,6 +61,11 @@ export class SingletonDataService<TDataType> implements ISingletonDataService<TD
 		let dataService: SingletonDataService<TDataType> = _.clone(this);
 		dataService.url = helper.versionEndpoint(dataService.url, versionNumber);
 		return dataService;
+	}
+
+	mockResource(mockData: TDataType): void {
+		this.mockData = mockData;
+		this.useMock = true;
 	}
 }
 
