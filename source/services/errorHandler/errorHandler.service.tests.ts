@@ -1,4 +1,4 @@
-import { Injector, ReflectiveInjector } from '@angular/core';
+import { addProviders, inject } from '@angular/core/testing';
 
 import {
 	DefaultErrors,
@@ -37,14 +37,16 @@ describe('errorHandler', () => {
 			call: sinon.spy(),
 		};
 
-		const injector: Injector = ReflectiveInjector.resolveAndCreate([DefaultErrors, DefaultLoginUrlSettings]);
-		errorHandler = new ErrorHandlerService(
-			<any>redirect,
-			exceptionHandler,
-			<any>notification,
-			injector.get(DefaultErrors),
-			injector.get(DefaultLoginUrlSettings)
-		);
+		addProviders([DefaultErrors, DefaultLoginUrlSettings]);
+		inject([DefaultErrors, DefaultLoginUrlSettings], (defaultErrors, defaultLoginUrlSettings) => {
+			errorHandler = new ErrorHandlerService(
+				<any>redirect,
+				exceptionHandler,
+				<any>notification,
+				defaultErrors,
+				defaultLoginUrlSettings
+			);
+		})();
 	});
 
 	it('should redirect the user to the login page with a redirect url on an unauthorized error', (): void => {

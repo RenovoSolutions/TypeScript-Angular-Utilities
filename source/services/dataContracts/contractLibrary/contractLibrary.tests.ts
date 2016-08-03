@@ -1,4 +1,5 @@
-import { Injector, ReflectiveInjector, provide } from '@angular/core';
+import { provide } from '@angular/core';
+import { addProviders, inject } from '@angular/core/testing';
 
 import { ContractLibrary } from './contractLibrary';
 import { IResourceBuilder, ResourceBuilder } from '../resourceBuilder/resourceBuilder.service';
@@ -55,12 +56,14 @@ describe('contractLibrary', (): void => {
 	let resourceBuilder: IResourceBuilder;
 
 	beforeEach((): void => {
-		const injector: Injector = ReflectiveInjector.resolveAndCreate([
+		addProviders([
 			ResourceBuilder,
 			provide(HttpUtility, { useValue: {} }),
 			provide(ArrayUtility, { useValue: {} }),
 		]);
-		resourceBuilder = injector.get(ResourceBuilder);
+		inject([ResourceBuilder], (_resourceBuilder) => {
+			resourceBuilder = _resourceBuilder;
+		})();
 		testLibrary = new TestLibrary(resourceBuilder);
 	});
 
