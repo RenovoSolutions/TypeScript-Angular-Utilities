@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { mock, IMockedRequest } from './mockAsync';
+// import { fakeAsync } from '@angular/core/testing';
 import { fakeAsync } from './fakeAsync';
 
 interface ITestType {
@@ -12,7 +13,7 @@ interface ITestDataService {
 	request2: IMockedRequest<ITestType>;
 }
 
-describe('mockObservable', () => {
+describe('mockAsync', () => {
 	it('should create a request that resolves when flushed', fakeAsync(() => {
 		let mockedObservable: IMockedRequest<ITestType> = mock.request({ value: 10 });
 		mockedObservable()

@@ -1,4 +1,5 @@
-import { Injector, ReflectiveInjector, provide } from '@angular/core';
+import { provide } from '@angular/core';
+import { addProviders, inject } from '@angular/core/testing';
 import * as _ from 'lodash';
 
 import { IDataService } from '../data.service';
@@ -33,13 +34,14 @@ describe('parent data service', () => {
 			{ id: 3, prop: 'item3' },
 		];
 
-		const injector: Injector = ReflectiveInjector.resolveAndCreate([
+		addProviders([
 			ResourceBuilder,
 			provide(HttpUtility, { useValue: {} }),
 			provide(ArrayUtility, { useValue: {} }),
 		]);
-
-		resourceBuilder = injector.get(ResourceBuilder);
+		inject([ResourceBuilder], (_resourceBuilder) => {
+			resourceBuilder = _resourceBuilder;
+		})();
 
 		dataService = resourceBuilder.createResource<ITestMock, void>({
 			mockData: dataSet,

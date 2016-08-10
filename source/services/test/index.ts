@@ -1,7 +1,6 @@
 import './chaiMoment';
-import async from './async';
 
-export { async };
+export { async } from '@angular/core/testing';
 export * from './fakeAsync';
 export * from './mockAsync';
 export * from './angularFixture';
