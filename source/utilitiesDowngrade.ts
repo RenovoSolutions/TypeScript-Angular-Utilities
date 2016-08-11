@@ -32,7 +32,7 @@ import { TimeoutService } from './services/timeout/timeout.service';
 import { TimezoneService } from './services/timezone/timezone.service';
 import { TransformService } from './services/transform/transform.service';
 import { ValidationService } from './services/validation/validation.service';
-import { EmailValidationService } from './services/validation/Emailvalidation.service';
+import { EmailValidationService } from './services/validation/emailValidation.service';
 import { WINDOW_PROVIDER, WindowWrapper } from './services/window/window.provider';
 
 export const isEmptyFilterName: string = 'isEmpty';
