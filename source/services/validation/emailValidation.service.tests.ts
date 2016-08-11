@@ -16,7 +16,7 @@ describe.only('EmailValidationService', () => {
 		expect(isValid).to.be.true;
 	});
 
-	it('should return true when email is valid', () => {
+	it('should return false when email has double at signs', () => {
 		const fakeEmailToAdd = 'fake@@email.com';
 
 		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
