@@ -11,7 +11,7 @@ describe.only('EmailValidationService', () => {
 	it('should return true when email is valid', () => {
 		const fakeEmailToAdd = 'fake@email.com';
 
-		var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 		expect(isValid).to.be.true;
 	});
@@ -19,7 +19,7 @@ describe.only('EmailValidationService', () => {
 	it('should return true when email is valid', () => {
 		const fakeEmailToAdd = 'fake@@email.com';
 
-		var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 		expect(isValid).to.be.false;
 	});
@@ -29,7 +29,7 @@ describe.only('EmailValidationService', () => {
 		it(`should return false when an emailaddress contains ${invalidCharacter}`, () => {
 			const fakeEmailToAdd = `fake${invalidCharacter}invalid@email.org`;
 
-			var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+			let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 			expect(isValid).to.be.false;
 		});
@@ -39,7 +39,7 @@ describe.only('EmailValidationService', () => {
 		it(`should return true when an emailaddress contains ${invalidCharacter}`, () => {
 			const fakeEmailToAdd = `fake${invalidCharacter}invalid@email.org`;
 
-			var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+			let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 			expect(isValid).to.be.true;
 		});
@@ -49,7 +49,7 @@ describe.only('EmailValidationService', () => {
 		it(`should return false when an emailaddress starts with ${invalidCharacter}`, () => {
 			const fakeEmailToAdd = `${invalidCharacter}invalid@email.org`;
 
-			var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+			let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 			expect(isValid).to.be.false;
 		});
@@ -58,7 +58,7 @@ describe.only('EmailValidationService', () => {
 	it('should return false when an emailaddress ends with .', () => {
 		const fakeEmailToAdd = 'invalid@emailorg.';
 
-		var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 		expect(isValid).to.be.false;
 	});
@@ -66,7 +66,7 @@ describe.only('EmailValidationService', () => {
 	it('should return false when an emailaddress ends with', () => {
 		const fakeEmailToAdd = 'invalidemail.org@';
 
-		var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 		expect(isValid).to.be.false;
 	});
@@ -74,7 +74,7 @@ describe.only('EmailValidationService', () => {
 	it('should not contain a double dot', () => {
 		const fakeEmailToAdd = 'invalid@email..org@';
 
-		var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 		expect(isValid).to.be.false;
 	});
@@ -82,7 +82,7 @@ describe.only('EmailValidationService', () => {
 	it('should allow more than one dot contiguously', () => {
 		const fakeEmailToAdd = 'fake@cs.email.org';
 
-		var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 		expect(isValid).to.be.true;
 	});
@@ -90,7 +90,7 @@ describe.only('EmailValidationService', () => {
 	it('should not allow a dot immediately after an at sign', () => {
 		const fakeEmailToAdd = 'fake@.email.org';
 
-		var isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
+		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToAdd);
 
 		expect(isValid).to.be.false;
 	});
