@@ -32,6 +32,7 @@ import { TimeoutService } from './services/timeout/timeout.service';
 import { TimezoneService } from './services/timezone/timezone.service';
 import { TransformService } from './services/transform/transform.service';
 import { ValidationService } from './services/validation/validation.service';
+import { EmailValidationService } from './services/validation/Emailvalidation.service';
 import { WINDOW_PROVIDER, WindowWrapper } from './services/window/window.provider';
 
 export const isEmptyFilterName: string = 'isEmpty';
@@ -57,6 +58,7 @@ export const timeoutServiceName: string = 'rlTimeoutService';
 export const timezoneServiceName: string = 'rlTimezoneService';
 export const transformServiceName: string = 'rlTransformService';
 export const validationServiceName: string = 'rlValidationService';
+export const emailValidationServiceName: string = 'rlEmailValidationService';
 
 export const moduleName: string = 'rl.utilities';
 
@@ -108,4 +110,5 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	utilitiesModule.factory(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(TimezoneService));
 	utilitiesModule.factory(transformServiceName, upgradeAdapter.downgradeNg2Provider(TransformService));
 	utilitiesModule.factory(validationServiceName, upgradeAdapter.downgradeNg2Provider(ValidationService));
+	utilitiesModule.factory(emailValidationServiceName, upgradeAdapter.downgradeNg2Provider(EmailValidationService));
 }

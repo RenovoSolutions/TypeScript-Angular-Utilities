@@ -26,6 +26,7 @@ import * as timeout from './timeout/timeout.service';
 import * as timezone from './timezone/timezone.service';
 import * as transform from './transform/transform.service';
 import * as validation from './validation/validation.service';
+import * as emailValidation from './validation/emailValidation.service';
 import * as window from './window/window.provider';
 
 
@@ -55,6 +56,7 @@ export {
 	timezone,
 	transform,
 	validation,
+	emailValidation,
 	window,
 };
 
@@ -84,7 +86,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 	transform.TransformService,
 
 	validation.ValidationService,
-
+	emailValidation.EmailValidationService,
 	logger.Logger,
 
 	errorHandler.DefaultErrors,
