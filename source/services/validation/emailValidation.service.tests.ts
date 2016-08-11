@@ -63,7 +63,7 @@ describe.only('EmailValidationService', () => {
 		expect(isValid).to.be.false;
 	});
 
-	it('should return false when an emailaddress ends with', () => {
+	it('should return false when an emailaddress ends with a @', () => {
 		const fakeEmailToTest = 'invalidemail.org@';
 
 		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToTest);
@@ -72,7 +72,7 @@ describe.only('EmailValidationService', () => {
 	});
 
 	it('should not contain a double dot', () => {
-		const fakeEmailToTest = 'invalid@email..org@';
+		const fakeEmailToTest = 'invalid@email..org';
 
 		let isValid = emailValidationService.isValidEmailAddress(fakeEmailToTest);
 
