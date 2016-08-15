@@ -1,7 +1,7 @@
 
 import {EmailValidationService} from './emailValidation.service';
 
-describe.only('EmailValidationService', () => {
+describe('EmailValidationService', () => {
 	let emailValidationService = new EmailValidationService();
 
 	const validCharacterTestCases: string[] = ['_', '+', '.', '+'];
