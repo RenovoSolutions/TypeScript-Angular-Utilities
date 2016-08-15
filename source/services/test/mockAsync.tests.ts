@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 
 import { mock, IMockedRequest } from './mockAsync';
-// import { fakeAsync } from '@angular/core/testing';
 import { fakeAsync } from './fakeAsync';
 
 interface ITestType {
