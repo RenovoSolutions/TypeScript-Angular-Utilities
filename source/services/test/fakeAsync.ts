@@ -19,6 +19,7 @@ export { flushMicrotasks };
  */
 export function fakeAsync(fn: Function): { (done?: MochaDone): void } {
 	return ngFakeAsync(function (...args) {
+		const originalNow = Scheduler.async.now;
 		timeElapsed = 0;
 		Scheduler.async.now = () => timeElapsed;
 		requestQueue = [];
@@ -27,6 +28,7 @@ export function fakeAsync(fn: Function): { (done?: MochaDone): void } {
 		if (requestQueue.some(request => request.pending)) {
 			throw new Error('There are still pending requests. Please be sure to flush all of your requests');
 		}
+		Scheduler.async.now = originalNow;
 		return res;
 	});
 }
