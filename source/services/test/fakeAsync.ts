@@ -1,7 +1,10 @@
-let requestQueue = [];
+import { Scheduler } from 'rxjs';
 
-import { fakeAsync as ngFakeAsync, flushMicrotasks } from '@angular/core/testing';
-export { flushMicrotasks, tick } from '@angular/core/testing';
+let requestQueue = [];
+let timeElapsed: number = 0;
+
+import { fakeAsync as ngFakeAsync, flushMicrotasks, tick as ngTick, discardPeriodicTasks } from '@angular/core/testing';
+export { flushMicrotasks };
 
 /**
  * Wraps angular fakeAsync with the ability to track pending requests
@@ -9,11 +12,15 @@ export { flushMicrotasks, tick } from '@angular/core/testing';
  * When a request is initiated using mockAsync, the request is pushed to the requestQueue
  * If there are any pending requests at the end of the function, an exception will be thrown.
  *
+ * Also overrides 'now' on the default rxjs scheduler to return a value based on how much time has elapsed via 'tick'
+ *
  * @param fn
  * @returns {Function} The function wrapped to be executed in the fakeAsync zone
  */
 export function fakeAsync(fn: Function): { (done?: MochaDone): void } {
 	return ngFakeAsync(function (...args) {
+		timeElapsed = 0;
+		Scheduler.async.now = () => timeElapsed;
 		requestQueue = [];
 		let res = fn(...args);
 		flushMicrotasks();
@@ -26,4 +33,9 @@ export function fakeAsync(fn: Function): { (done?: MochaDone): void } {
 
 export function queueRequest(request): void {
 	requestQueue.push(request);
+}
+
+export function tick(milliseconds: number) {
+	timeElapsed += milliseconds;
+	ngTick(milliseconds);
 }
