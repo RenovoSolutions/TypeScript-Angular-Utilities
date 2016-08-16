@@ -1,6 +1,6 @@
 import { each, isUndefined, isFunction, some, first } from 'lodash';
 import { Observable, Subject } from 'rxjs';
-import { flushMicrotasks, queueRequest } from './fakeAsync';
+import { flushMicrotasks, rlQueueRequest } from './fakeAsync';
 import { IMockedPromise, mockPromise } from './mockPromise';
 
 export { IMockedPromise } from './mockPromise';
@@ -103,7 +103,7 @@ class MockAsyncService implements IMockAsyncService {
 
 			requests.push(newRequest);
 
-			queueRequest(newRequest);
+			rlQueueRequest(newRequest);
 
 			return newRequest.observable;
 		});
