@@ -5,7 +5,7 @@ import { BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavio
 import { arrayUtility } from '../array/array.service';
 import { IHttpUtility } from '../http/http.service';
 
-import { IMockedRequest, mock, fakeAsync } from '../test/index';
+import { IMockedRequest, mock, rlFakeAsync } from '../test/index';
 
 interface ITestMock {
 	id?: number;
@@ -45,7 +45,7 @@ describe('base data service behavior', () => {
 			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(mockHttp, null);
 		});
 
-		it('should make an http request to get a list of data', fakeAsync((): void => {
+		it('should make an http request to get a list of data', rlFakeAsync((): void => {
 			const mockList: ITestMock[] = [
 				{ id: 1 },
 				{ id: 2 },
@@ -78,7 +78,7 @@ describe('base data service behavior', () => {
 			mockGet.flush();
 		}));
 
-		it('should make a POST request to search the data', fakeAsync((): void => {
+		it('should make a POST request to search the data', rlFakeAsync((): void => {
 			const mockList: ITestMock[] = [
 				{ id: 1 },
 				{ id: 2 },
@@ -116,7 +116,7 @@ describe('base data service behavior', () => {
 			mockPost.flush();
 		}));
 
-		it('should make an http request to get a domain object', fakeAsync((): void => {
+		it('should make an http request to get a domain object', rlFakeAsync((): void => {
 			const id: number = 1;
 			const mockItem: ITestMock = { id: id };
 
@@ -138,7 +138,7 @@ describe('base data service behavior', () => {
 			mockGet.flush();
 		}));
 
-		it('should make an http request to create a domain object', fakeAsync((): void => {
+		it('should make an http request to create a domain object', rlFakeAsync((): void => {
 			const mockItem: ITestMock = { id: 1 };
 
 			const mockPost: IMockedRequest<ITestMock> = mock.request(mockItem);
@@ -160,7 +160,7 @@ describe('base data service behavior', () => {
 			mockPost.flush();
 		}));
 
-		it('should make an http request to save an existing domain object', fakeAsync((): void => {
+		it('should make an http request to save an existing domain object', rlFakeAsync((): void => {
 			const mockItem: ITestMock = { id: 1 };
 
 			const mockPut: IMockedRequest<ITestMock> = mock.request(mockItem);
@@ -182,7 +182,7 @@ describe('base data service behavior', () => {
 			mockPut.flush();
 		}));
 
-		it('should make an http request to delete an existing domain object', fakeAsync((): void => {
+		it('should make an http request to delete an existing domain object', rlFakeAsync((): void => {
 			const mockItem: ITestMock = { id: 1 };
 
 			const mockDelete: IMockedRequest<void> = mock.request();

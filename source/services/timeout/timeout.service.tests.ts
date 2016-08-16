@@ -1,6 +1,6 @@
 import { TimeoutService, ITimeout } from './timeout.service';
 
-import { fakeAsync, tick, flushMicrotasks } from '../test/fakeAsync';
+import { rlFakeAsync, rlTick, flushMicrotasks } from '../test/fakeAsync';
 
 describe('TimeoutService', (): void => {
 	let timeoutService: TimeoutService;
@@ -9,20 +9,20 @@ describe('TimeoutService', (): void => {
 		timeoutService = new TimeoutService();
 	});
 
-	it('should resolve the promise and call the callback when the timeout finishes', fakeAsync((): void => {
+	it('should resolve the promise and call the callback when the timeout finishes', rlFakeAsync((): void => {
 		const promiseSpy: Sinon.SinonSpy = sinon.spy();
 		const callback: Sinon.SinonSpy = sinon.spy();
 
 		timeoutService.setTimeout(callback, 2000).then(promiseSpy);
 
-		tick(2000);
+		rlTick(2000);
 		flushMicrotasks();
 
 		sinon.assert.calledOnce(promiseSpy);
 		sinon.assert.calledOnce(callback);
 	}));
 
-	it('should reject the promise without calling the callback if the timeout is canceled', fakeAsync((): void => {
+	it('should reject the promise without calling the callback if the timeout is canceled', rlFakeAsync((): void => {
 		const rejectSpy: Sinon.SinonSpy = sinon.spy();
 		const callback: Sinon.SinonSpy = sinon.spy();
 
@@ -31,14 +31,14 @@ describe('TimeoutService', (): void => {
 												.catch(rejectSpy);
 
 		timeout.cancel();
-		tick(2000);
+		rlTick(2000);
 		flushMicrotasks();
 
 		sinon.assert.calledOnce(rejectSpy);
 		sinon.assert.notCalled(callback);
 	}));
 
-	it('should allow for specifying just a duration for chaining as a promise', fakeAsync((): void => {
+	it('should allow for specifying just a duration for chaining as a promise', rlFakeAsync((): void => {
 		const promiseSpy: Sinon.SinonSpy = sinon.spy();
 
 		timeoutService.setTimeout(2000).then(promiseSpy);
@@ -46,7 +46,7 @@ describe('TimeoutService', (): void => {
 		flushMicrotasks();
 		sinon.assert.notCalled(promiseSpy);
 
-		tick(2000);
+		rlTick(2000);
 		flushMicrotasks();
 
 		sinon.assert.calledOnce(promiseSpy);

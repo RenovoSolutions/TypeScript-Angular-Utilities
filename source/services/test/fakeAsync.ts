@@ -3,7 +3,7 @@ import { Scheduler } from 'rxjs';
 let requestQueue = [];
 let timeElapsed: number = 0;
 
-import { fakeAsync as ngFakeAsync, flushMicrotasks, tick as ngTick, discardPeriodicTasks } from '@angular/core/testing';
+import { fakeAsync as ngFakeAsync, flushMicrotasks, tick as ngTick } from '@angular/core/testing';
 export { flushMicrotasks };
 
 /**
@@ -17,7 +17,7 @@ export { flushMicrotasks };
  * @param fn
  * @returns {Function} The function wrapped to be executed in the fakeAsync zone
  */
-export function fakeAsync(fn: Function): { (done?: MochaDone): void } {
+export function rlFakeAsync(fn: Function): { (done?: MochaDone): void } {
 	return ngFakeAsync(function (...args) {
 		const originalNow = Scheduler.async.now;
 		timeElapsed = 0;
@@ -33,11 +33,19 @@ export function fakeAsync(fn: Function): { (done?: MochaDone): void } {
 	});
 }
 
-export function queueRequest(request): void {
+
+export function rlQueueRequest(request): void {
 	requestQueue.push(request);
 }
 
-export function tick(milliseconds: number) {
+export function rlTick(milliseconds: number) {
 	timeElapsed += milliseconds;
 	ngTick(milliseconds);
 }
+
+// deprecated - use rlFakeAsync and rlTick instead
+export {
+	rlFakeAsync as fakeAsync,
+	rlTick as tick,
+	rlQueueRequest as queueRequest,
+};

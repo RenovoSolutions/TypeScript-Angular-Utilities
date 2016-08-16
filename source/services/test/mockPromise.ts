@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { flushMicrotasks, queueRequest } from './fakeAsync';
+import { flushMicrotasks, rlQueueRequest } from './fakeAsync';
 
 export interface IMockPromiseService {
 	promise<TData>(result?: TData | { (...args: any[]): TData }, share?: boolean): IMockedPromise<TData>;
@@ -89,7 +89,7 @@ class MockPromiseService implements IMockPromiseService {
 
 			requests.push(newRequest);
 
-			queueRequest(newRequest);
+			rlQueueRequest(newRequest);
 
 			return newRequest.promise;
 		});

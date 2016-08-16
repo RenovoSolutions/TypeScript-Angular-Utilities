@@ -1,11 +1,11 @@
 import { mock, IMockedPromise } from '../test/mockAsync';
 import { SynchronizedRequestsService } from './synchronizedRequests.service';
-import { fakeAsync } from '../test/fakeAsync';
+import { rlFakeAsync } from '../test/fakeAsync';
 
 describe('synchronizedRequests', () => {
 	let synchronizedRequests: SynchronizedRequestsService;
 
-	it('should accept the results from only the most recent request', fakeAsync((): void => {
+	it('should accept the results from only the most recent request', rlFakeAsync((): void => {
 		const firstRequestData: number[] = [1, 2];
 		const secondRequestData: number[] = [3, 4];
 		const firstRequest: IMockedPromise<number[]> = mock.promise(firstRequestData);
