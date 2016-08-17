@@ -135,6 +135,7 @@ export class ContractLibrary implements IContractLibrary {
 		dataService.mockGetDetail = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'get', data); };
 		dataService.mockUpdate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'update', dataTransform); };
 		dataService.mockCreate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'create', dataTransform); };
+		dataService.mockDelete = (): IMockedRequest<any> => { return this.baseMockSave(dataService, 'delete', () => null); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}
@@ -149,6 +150,7 @@ export class ContractLibrary implements IContractLibrary {
 		dataService.mockChild = (mockCallback: { (children: any): void }): void => { return this.mockChild(dataService, mockCallback); };
 		dataService.mockUpdate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'update', dataTransform); };
 		dataService.mockCreate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'create', dataTransform); };
+		dataService.mockDelete = (): IMockedRequest<any> => { return this.baseMockSave(dataService, 'delete', () => null); };
 		dataService = this.updateResource(dataService, resource);
 		return dataService;
 	}

@@ -12,6 +12,7 @@ export interface IDataServiceMock<TDataType extends IBaseDomainObject, TSearchPa
 	mockGetDetail(data: any): IMockedRequest<any>;
 	mockUpdate(dataTransform?: IDataTransform): IMockedRequest<any>;
 	mockCreate(dataTransform?: IDataTransform): IMockedRequest<any>;
+	mockDelete(): IMockedRequest<any>;
 }
 
 export interface IParentDataServiceMock<TDataType extends IBaseDomainObject, TSearchParams, TResourceDictionaryType> extends IParentDataService<TDataType, TSearchParams, TResourceDictionaryType> {
@@ -20,6 +21,7 @@ export interface IParentDataServiceMock<TDataType extends IBaseDomainObject, TSe
 	mockChild(mockCallback: { (children: any): void }): void;
 	mockUpdate(dataTransform?: IDataTransform): IMockedRequest<any>;
 	mockCreate(dataTransform?: IDataTransform): IMockedRequest<any>;
+	mockDelete(): IMockedRequest<any>;
 }
 
 export interface ISingletonDataServiceMock<TDataType> extends ISingletonDataService<TDataType> {
