@@ -27,7 +27,7 @@ export interface IDateUtility {
 	subtractDateInMilliseconds(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
 	subtractDatesMoment(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): moment.Duration;
 	compareDates(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, dateFormat?: string): CompareResult;
-	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment): boolean;
+	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment, dateFormat?: string): boolean;
 	getDateFromISOString(date: string): moment.Moment;
 	isDate(date: string | Date | moment.Moment, dateFormat?: string): boolean;
 	getNow(): moment.Moment;
@@ -89,13 +89,13 @@ export class DateUtility {
 		return getCompareResult(difference);
 	}
 
-	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment): boolean {
+	dateInRange(date: string | Date | moment.Moment, rangeStart: string | Date | moment.Moment, rangeEnd: string | Date | moment.Moment, dateFormat?: string): boolean {
 		if (date == null || rangeStart == null || rangeEnd == null) {
 			return null;
 		}
 
-		if (this.compareDates(date, rangeStart) === CompareResult.less
-			|| this.compareDates(date, rangeEnd) === CompareResult.greater) {
+		if (this.compareDates(date, rangeStart, dateFormat) === CompareResult.less
+			|| this.compareDates(date, rangeEnd, dateFormat) === CompareResult.greater) {
 			return false;
 		} else {
 			return true;
