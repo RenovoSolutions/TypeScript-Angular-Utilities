@@ -333,6 +333,12 @@ describe('dateUtility', () => {
 			expect(dateUtility.dateInRange('2016-01-01T12:00:00-07:00', '2016-01-01T12:00:00-07:00', null)).to.be.null;
 			expect(dateUtility.dateInRange(null, null, null)).to.be.null;
 		});
+
+		it('should allow for specifying a format', () => {
+			expect(dateUtility.dateInRange(moment('2016-08-29T12:00:00'), '1/1/2015', '1/1/2016', defaultFormats.dateFormat)).to.be.false;
+			expect(dateUtility.dateInRange(moment('2016-08-29T12:00:00'), '1/1/2016', '1/1/2017', defaultFormats.dateFormat)).to.be.true;
+			expect(dateUtility.dateInRange(moment('2016-08-29T12:00:00'), '1/1/2017', '1/1/2018', defaultFormats.dateFormat)).to.be.false;
+		});
 	});
 
 	describe('sameDate', (): void=> {
