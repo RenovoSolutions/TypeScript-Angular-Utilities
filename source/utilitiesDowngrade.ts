@@ -6,9 +6,6 @@ import * as angular from 'angular';
 
 import { UTILITY_PROVIDERS } from './services/index';
 
-import { IsEmptyPipe } from './filters/isEmpty/isEmpty';
-import { TruncatePipe } from './filters/truncate/truncate';
-
 import { ArrayUtility } from './services/array/array.service';
 import { BooleanUtility } from './services/boolean/boolean.service';
 import { ResourceBuilder } from './services/dataContracts/resourceBuilder/resourceBuilder.service';
@@ -34,9 +31,6 @@ import { TransformService } from './services/transform/transform.service';
 import { ValidationService } from './services/validation/validation.service';
 import { EmailValidationService } from './services/validation/emailValidation.service';
 import { WINDOW_PROVIDER, WindowWrapper } from './services/window/window.provider';
-
-export const isEmptyFilterName: string = 'isEmpty';
-export const truncateFilterName: string = 'truncate';
 
 export const arrayServiceName: string = 'rlArrayService';
 export const booleanServiceName: string = 'rlBooleanService';
@@ -68,13 +62,6 @@ export interface IObservableFactory {
 	getInstance(): IObservableService;
 }
 
-export function PipeDowngrader(pipe: PipeTransform) {
-	// factory that returns a filter
-	return () => (value: any, ...args: any[]): any => {
-		return pipe.transform(value, ...args);
-	};
-}
-
 export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	const observableFactoryProvider: Provider = new Provider(observableToken, {
 		useValue: {
@@ -84,9 +71,6 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 	})
 
 	upgradeAdapter.addProvider(observableFactoryProvider);
-
-	utilitiesModule.filter(isEmptyFilterName, PipeDowngrader(new IsEmptyPipe(objectUtility)));
-	utilitiesModule.filter(truncateFilterName, PipeDowngrader(new TruncatePipe(objectUtility)));
 
 	utilitiesModule.factory(arrayServiceName, upgradeAdapter.downgradeNg2Provider(ArrayUtility));
 	utilitiesModule.factory(booleanServiceName, upgradeAdapter.downgradeNg2Provider(BooleanUtility));
