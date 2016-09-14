@@ -7,3 +7,5 @@ import * as downgrade from './utilitiesDowngrade';
 import './vendor';
 
 export { behaviors, filters, services, types, downgrade };
+export * from './shared.module';
+export * from './utilities.module';

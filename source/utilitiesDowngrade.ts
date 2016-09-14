@@ -85,8 +85,6 @@ export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
 
 	upgradeAdapter.addProvider(observableFactoryProvider);
 
-	upgradeAdapter.addProvider(UTILITY_PROVIDERS);
-
 	utilitiesModule.filter(isEmptyFilterName, PipeDowngrader(new IsEmptyPipe(objectUtility)));
 	utilitiesModule.filter(truncateFilterName, PipeDowngrader(new TruncatePipe(objectUtility)));
 
