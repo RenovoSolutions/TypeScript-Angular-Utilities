@@ -34,10 +34,12 @@ export interface IDateUtility {
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string;
 	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
 	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
+	setOffset(millis: number);
 }
 
 export class DateUtility {
 	private baseFormat: string = defaultFormats.isoFormat;
+	private offsetFromServer: number;
 
 	getFullString(month: number): string {
 		return moment().month(month).format('MMMM');
@@ -127,11 +129,14 @@ export class DateUtility {
 	}
 
 	getNow(): moment.Moment {
+		let now = moment();
 		if (timezoneService.currentTimezone != null)
 		{
-			return moment().tz(timezoneService.currentTimezone.momentName);
+			now = now.tz(timezoneService.currentTimezone.momentName);
 		}
-		return moment();
+
+		now.add(this.offsetFromServer, 'milliseconds');
+		return now;
 	}
 
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string {
@@ -158,6 +163,10 @@ export class DateUtility {
 
 	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean {
 		return this.sameDate(date1, date2, date1Format, date2Format, 'milliseconds');
+	}
+
+	setOffset(millis: number) {
+		this.offsetFromServer = millis;
 	}
 
 	private parseDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {
