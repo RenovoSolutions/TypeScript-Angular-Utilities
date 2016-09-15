@@ -39,7 +39,6 @@ export interface IDateUtility {
 
 export class DateUtility {
 	private baseFormat: string = defaultFormats.isoFormat;
-	private offsetFromServer: number;
 
 	getFullString(month: number): string {
 		return moment().month(month).format('MMMM');
@@ -129,14 +128,7 @@ export class DateUtility {
 	}
 
 	getNow(): moment.Moment {
-		let now = moment();
-		if (timezoneService.currentTimezone != null)
-		{
-			now = now.tz(timezoneService.currentTimezone.momentName);
-		}
-
-		now.add(this.offsetFromServer, 'milliseconds');
-		return now;
+		return this.setTimezone(moment());
 	}
 
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string {
@@ -166,7 +158,11 @@ export class DateUtility {
 	}
 
 	setOffset(millis: number) {
-		this.offsetFromServer = millis;
+		moment.now = () => {
+			let now = moment(new Date());
+			now = this.setTimezone(now);
+			return now.valueOf() + millis;
+		}
 	}
 
 	private parseDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {
@@ -179,6 +175,15 @@ export class DateUtility {
 
 	private getFormat(customFormat: string): string {
 		return customFormat != null ? customFormat : this.baseFormat;
+	}
+
+	private setTimezone(date: moment.Moment) {
+		if (timezoneService.currentTimezone != null)
+		{
+			date = date.tz(timezoneService.currentTimezone.momentName);
+		}
+
+		return date;
 	}
 }
 
