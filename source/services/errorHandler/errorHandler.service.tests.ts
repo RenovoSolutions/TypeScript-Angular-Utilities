@@ -1,5 +1,3 @@
-import { addProviders, inject } from '@angular/core/testing';
-
 import {
 	DefaultErrors,
 	DefaultLoginUrlSettings,
@@ -37,16 +35,13 @@ describe('errorHandler', () => {
 			call: sinon.spy(),
 		};
 
-		addProviders([DefaultErrors, DefaultLoginUrlSettings]);
-		inject([DefaultErrors, DefaultLoginUrlSettings], (defaultErrors, defaultLoginUrlSettings) => {
-			errorHandler = new ErrorHandlerService(
-				<any>redirect,
-				exceptionHandler,
-				<any>notification,
-				defaultErrors,
-				defaultLoginUrlSettings
-			);
-		})();
+		errorHandler = new ErrorHandlerService(
+			<any>redirect,
+			exceptionHandler,
+			<any>notification,
+			new DefaultErrors(),
+			new DefaultLoginUrlSettings()
+		);
 	});
 
 	it('should redirect the user to the login page with a redirect url on an unauthorized error', (): void => {

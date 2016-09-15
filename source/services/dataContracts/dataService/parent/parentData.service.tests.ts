@@ -1,14 +1,9 @@
-import { provide } from '@angular/core';
-import { addProviders, inject } from '@angular/core/testing';
 import * as _ from 'lodash';
 
 import { IDataService } from '../data.service';
 import { IDataServiceView } from '../view/dataServiceView';
 import { IParentDataService } from './parentData.service';
 import { IResourceBuilder, ResourceBuilder } from '../../resourceBuilder/resourceBuilder.service';
-
-import { HttpUtility } from '../../../http/http.service';
-import { ArrayUtility } from '../../../array/array.service';
 
 interface ITestResourceDictionaryType {
 	testView: IDataServiceView<ITestMock, void>;
@@ -34,14 +29,7 @@ describe('parent data service', () => {
 			{ id: 3, prop: 'item3' },
 		];
 
-		addProviders([
-			ResourceBuilder,
-			provide(HttpUtility, { useValue: {} }),
-			provide(ArrayUtility, { useValue: {} }),
-		]);
-		inject([ResourceBuilder], (_resourceBuilder) => {
-			resourceBuilder = _resourceBuilder;
-		})();
+		resourceBuilder = new ResourceBuilder(<any>{}, <any>{});
 
 		dataService = resourceBuilder.createResource<ITestMock, void>({
 			mockData: dataSet,
