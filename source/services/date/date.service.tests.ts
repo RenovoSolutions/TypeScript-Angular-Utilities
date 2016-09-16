@@ -388,4 +388,33 @@ describe('dateUtility', () => {
 			expect(dateUtility.sameDateTime(null, null)).to.be.null;
 		});
 	});
+
+	describe('setOffset', (): void => {
+		let offset = 500;
+		let originalMomentNow: any;
+
+		beforeEach(() => {
+			originalMomentNow = moment.now;
+		});
+
+		afterEach(() => {
+			moment.now = originalMomentNow;
+		});
+
+		it('should offset current moment time', (): void => {
+			let nowBeforeOffset = moment.now();
+			dateUtility.setOffset(offset);
+			let nowAfterOffset = moment.now();
+
+			expect(nowAfterOffset - nowBeforeOffset).to.equal(offset);
+		});
+
+		it('should offset current date service time', (): void => {
+			let nowBeforeOffset = dateUtility.getNow();
+			dateUtility.setOffset(offset);
+			let nowAfterOffset = dateUtility.getNow();
+
+			expect(nowAfterOffset.valueOf() - nowBeforeOffset.valueOf()).to.equal(offset);
+		});
+	});
 });
