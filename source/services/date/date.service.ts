@@ -21,6 +21,7 @@ export interface IDateValue {
 }
 
 export interface IDateUtility {
+	usingOffset: boolean;
 	getFullString(month: number): string;
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue;
 	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
@@ -39,6 +40,7 @@ export interface IDateUtility {
 
 export class DateUtility {
 	private baseFormat: string = defaultFormats.isoFormat;
+	usingOffset: boolean = false;
 
 	getFullString(month: number): string {
 		return moment().month(month).format('MMMM');
@@ -163,6 +165,8 @@ export class DateUtility {
 			now = this.setTimezone(now);
 			return now.valueOf() + millis;
 		}
+
+		this.usingOffset = true;
 	}
 
 	private parseDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {
