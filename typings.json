@@ -9,7 +9,6 @@
     "chai": "registry:dt/chai#3.4.0+20160317120654",
     "core-js": "registry:dt/core-js#0.0.0+20160317120654",
     "jquery": "registry:dt/jquery#1.10.0+20160417213236",
-    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
     "moment": "registry:dt/moment#2.8.0+20160316155526",
     "moment-node": "registry:dt/moment-node#2.11.1+20160417135035",
     "moment-timezone": "registry:dt/moment-timezone#0.2.5+20160329220348",
