@@ -21,6 +21,7 @@ export interface IDateValue {
 }
 
 export interface IDateUtility {
+	usingOffset: boolean;
 	getFullString(month: number): string;
 	subtractDates(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): IDateValue;
 	subtractDateInDays(start: string | Date | moment.Moment, end: string | Date | moment.Moment, dateFormat?: string): number;
@@ -34,10 +35,12 @@ export interface IDateUtility {
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string;
 	sameDate(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
 	sameDateTime(date1: string | Date | moment.Moment, date2: string | Date | moment.Moment, date1Format?: string, date2Format?: string): boolean;
+	setOffset(millis: number);
 }
 
 export class DateUtility {
 	private baseFormat: string = defaultFormats.isoFormat;
+	usingOffset: boolean = false;
 
 	getFullString(month: number): string {
 		return moment().month(month).format('MMMM');
@@ -127,11 +130,7 @@ export class DateUtility {
 	}
 
 	getNow(): moment.Moment {
-		if (timezoneService.currentTimezone != null)
-		{
-			return moment().tz(timezoneService.currentTimezone.momentName);
-		}
-		return moment();
+		return this.setTimezone(moment());
 	}
 
 	formatDate(date: string | Date | moment.Moment, dateFormat?: string): string {
@@ -160,6 +159,16 @@ export class DateUtility {
 		return this.sameDate(date1, date2, date1Format, date2Format, 'milliseconds');
 	}
 
+	setOffset(millis: number) {
+		moment.now = () => {
+			let now = moment(new Date());
+			now = this.setTimezone(now);
+			return now.valueOf() + millis;
+		}
+
+		this.usingOffset = true;
+	}
+
 	private parseDate(date: string | Date | moment.Moment, dateFormat?: string): moment.Moment {
 		if (_.isDate(date)) {
 			return moment(date);
@@ -170,6 +179,15 @@ export class DateUtility {
 
 	private getFormat(customFormat: string): string {
 		return customFormat != null ? customFormat : this.baseFormat;
+	}
+
+	private setTimezone(date: moment.Moment) {
+		if (timezoneService.currentTimezone != null)
+		{
+			date = date.tz(timezoneService.currentTimezone.momentName);
+		}
+
+		return date;
 	}
 }
 
