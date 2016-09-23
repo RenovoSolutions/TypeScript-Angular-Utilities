@@ -1,15 +1,9 @@
-import { provide } from '@angular/core';
-import { addProviders, inject } from '@angular/core/testing';
-
 import { ContractLibrary } from './contractLibrary';
 import { IResourceBuilder, ResourceBuilder } from '../resourceBuilder/resourceBuilder.service';
 import { DataServiceView } from '../dataService/view/dataServiceView';
 import { DataService } from '../dataService/data.service';
 import { ParentDataService } from '../dataService/parent/parentData.service';
 import { ParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
-
-import { HttpUtility } from '../../http/http.service';
-import { ArrayUtility } from '../../array/array.service';
 
 interface ITestChildResources {
 	childResource: DataService<number, void>;
@@ -56,14 +50,7 @@ describe('contractLibrary', (): void => {
 	let resourceBuilder: IResourceBuilder;
 
 	beforeEach((): void => {
-		addProviders([
-			ResourceBuilder,
-			provide(HttpUtility, { useValue: {} }),
-			provide(ArrayUtility, { useValue: {} }),
-		]);
-		inject([ResourceBuilder], (_resourceBuilder) => {
-			resourceBuilder = _resourceBuilder;
-		})();
+		resourceBuilder = new ResourceBuilder(<any>{}, <any>{});
 		testLibrary = new TestLibrary(resourceBuilder);
 	});
 
