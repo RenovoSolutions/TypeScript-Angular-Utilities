@@ -11,6 +11,15 @@ var map = {
 	'rxjs': 'node_modules/rxjs',
 };
 
+var defaultPackages = [
+	'@angular/core',
+	'@angular/compiler',
+	'@angular/common',
+	'@angular/platform-browser',
+	'@angular/platform-browser-dynamic',
+	'@angular/http',
+];
+
 var meta = {
 	'jquery': {
 		build: false,
@@ -20,46 +29,34 @@ var meta = {
 	},
 };
 
+var packages = {
+	'source': {
+		defaultExtension: 'js',
+	},
+	'node_modules': {
+		defaultExtension: 'js',
+	},
+	'angular2-uuid': {
+		main: 'index.js',
+	},
+	'rxjs': {
+		main: 'Rx.js',
+	},
+	'angular': {
+		main: 'index.js',
+	},
+};
+
+function setDefaultPackage(packageName) {
+	packages[packageName] = {
+		main: 'index.js',
+	};
+}
+
+defaultPackages.forEach(setDefaultPackage);
+
 System.config({
-	baseURL: '/',
 	meta: meta,
 	map: map,
-	packages: {
-		'source': {
-			defaultExtension: 'js',
-		},
-		'node_modules': {
-			defaultExtension: 'js',
-		},
-		'@angular/http': {
-			main: 'index.js',
-		},
-		'@angular/core': {
-			main: 'index.js',
-		},
-		'@angular/upgrade': {
-			main: 'index.js',
-		},
-		'@angular/platform-browser-dynamic': {
-			main: 'index.js',
-		},
-		'@angular/platform-browser': {
-			main: 'index.js',
-		},
-		'@angular/compiler': {
-			main: 'index.js',
-		},
-		'@angular/common': {
-			main: 'index.js',
-		},
-		'angular2-uuid': {
-			main: 'index.js',
-		},
-		'rxjs': {
-			main: 'Rx.js',
-		},
-		'angular': {
-			main: 'index.js',
-		},
-	},
+	packages: packages,
 });
