@@ -216,7 +216,7 @@ describe('base data service behavior', () => {
 			dataServiceBehavior = new BaseDataServiceBehavior<ITestMock>(mockHttp, null);
 		});
 
-		it('should get the mocked data set', (done: MochaDone): void => {
+		it('should get the mocked data set', done => {
 			dataServiceBehavior.getList({
 				useMock: true,
 				getMockData(): ITestMock[] { return dataSet; },
@@ -232,7 +232,7 @@ describe('base data service behavior', () => {
 			});
 		});
 
-		it('should get the mocked data set wrapped in a dataSet property', (done: MochaDone): void => {
+		it('should get the mocked data set wrapped in a dataSet property', done => {
 			dataServiceBehavior.search<any>({
 				useMock: true,
 				getMockData(): ITestMock[] { return dataSet; },
@@ -249,7 +249,7 @@ describe('base data service behavior', () => {
 			});
 		});
 
-		it('should get an item from the mocked data set', (done: MochaDone): void => {
+		it('should get an item from the mocked data set', done => {
 			dataServiceBehavior.getItem({
 				useMock: true,
 				getMockData(): ITestMock { return dataSet[1]; },
@@ -261,7 +261,7 @@ describe('base data service behavior', () => {
 			});
 		});
 
-		it('should create an item and call the add callback to add it to the mock data set', (done: MochaDone): void => {
+		it('should create an item and call the add callback to add it to the mock data set', done => {
 			let newItem: ITestMock = { id: null, prop: 'item4' };
 			let addSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
 				dataSet.push(item);
@@ -283,7 +283,7 @@ describe('base data service behavior', () => {
 			expect(dataSet[3]).to.equal(newItem);
 		});
 
-		it('should update an item', (done: MochaDone): void => {
+		it('should update an item', done => {
 			let updatedItem: ITestMock = { id: 2, prop: 'made changes' };
 			let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
 				dataSet[1] = item;

@@ -17,7 +17,7 @@ export { flushMicrotasks };
  * @param fn
  * @returns {Function} The function wrapped to be executed in the fakeAsync zone
  */
-export function rlFakeAsync(fn: Function): { (done?: MochaDone): void } {
+export function rlFakeAsync(fn: Function): { (done?: { (): void }): void } {
 	return ngFakeAsync(function (...args) {
 		const originalNow = Scheduler.async.now;
 		timeElapsed = 0;
