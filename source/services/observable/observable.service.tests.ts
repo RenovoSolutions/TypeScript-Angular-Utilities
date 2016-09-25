@@ -1,7 +1,7 @@
 import { ObservableService } from './observable.service';
 
 interface IMockExceptionHandler {
-	call: Sinon.SinonSpy;
+	handleError: Sinon.SinonSpy;
 }
 
 describe('observable', () => {
@@ -10,7 +10,7 @@ describe('observable', () => {
 
 	beforeEach(() => {
 		exceptionHandler = {
-			call: sinon.spy(),
+			handleError: sinon.spy(),
 		};
 
 		observable = new ObservableService(<any>exceptionHandler);
@@ -83,8 +83,8 @@ describe('observable', () => {
 	it('should return with an error if no function is provided', (): void => {
 		let cancel: Function = observable.register(null);
 
-		sinon.assert.calledOnce(exceptionHandler.call);
-		sinon.assert.calledWith(exceptionHandler.call, new Error('Watcher must be a function'));
+		sinon.assert.calledOnce(exceptionHandler.handleError);
+		sinon.assert.calledWith(exceptionHandler.handleError, new Error('Watcher must be a function'));
 
 		expect(cancel).to.be.null;
 	});
@@ -94,8 +94,8 @@ describe('observable', () => {
 
 		let cancel: Function = observable.register((): void => { return; }, 'event3');
 
-		sinon.assert.calledOnce(exceptionHandler.call);
-		sinon.assert.calledWith(exceptionHandler.call, new Error('This event is not allowed. Events: event1, event2'));
+		sinon.assert.calledOnce(exceptionHandler.handleError);
+		sinon.assert.calledWith(exceptionHandler.handleError, new Error('This event is not allowed. Events: event1, event2'));
 
 		expect(cancel).to.be.null;
 
