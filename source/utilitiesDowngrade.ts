@@ -1,5 +1,4 @@
-import { Provider, provide, ExceptionHandler, PipeTransform } from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
+import { PipeTransform } from '@angular/core';
 import { UpgradeAdapter } from '@angular/upgrade';
 
 import * as angular from 'angular';
@@ -19,7 +18,7 @@ import { Logger } from './services/logger/logger.service';
 import { NotificationService } from './services/notification/notification.service';
 import { NumberUtility } from './services/number/number.service';
 import { ObjectUtility, objectUtility } from './services/object/object.service';
-import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
+import { observableToken, IObservableService } from './services/observable/observable.service';
 import { RedirectService } from './services/redirect/redirect.service';
 import { StringUtility } from './services/string/string.service';
 import { SearchUtility } from './services/search/search.service';
@@ -63,15 +62,6 @@ export interface IObservableFactory {
 }
 
 export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
-	const observableFactoryProvider: Provider = new Provider(observableToken, {
-		useValue: {
-			deps: [ExceptionHandler],
-			getInstance: (exceptionHandler: ExceptionHandler): IObservableService => new ObservableService(exceptionHandler),
-		},
-	})
-
-	upgradeAdapter.addProvider(observableFactoryProvider);
-
 	utilitiesModule.factory(arrayServiceName, upgradeAdapter.downgradeNg2Provider(ArrayUtility));
 	utilitiesModule.factory(booleanServiceName, upgradeAdapter.downgradeNg2Provider(BooleanUtility));
 	utilitiesModule.factory(resourceBuilderServiceName, upgradeAdapter.downgradeNg2Provider(ResourceBuilder));

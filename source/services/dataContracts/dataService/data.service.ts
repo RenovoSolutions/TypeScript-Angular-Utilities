@@ -1,4 +1,4 @@
-import { Injectable, Provider, provide } from '@angular/core';
+import { Injectable, FactoryProvider } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
@@ -152,9 +152,10 @@ export class DataServiceFactory {
 	}
 }
 
-export function DataServiceProvider(options: IBaseResourceParams<any>): Provider {
-	return provide(DataService, {
+export function DataServiceProvider(options: IBaseResourceParams<any>): FactoryProvider {
+	return {
+		provide: DataService,
 		deps: [HttpUtility, ArrayUtility],
 		useFactory: (http: HttpUtility, array: ArrayUtility) => new DataService(http, array, options),
-	});
+	};
 }

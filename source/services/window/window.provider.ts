@@ -1,7 +1,8 @@
-import { Provider } from '@angular/core';
+import { ValueProvider } from '@angular/core';
 
 export abstract class WindowWrapper { }
 
-export const WINDOW_PROVIDER: Provider = new Provider(WindowWrapper, {
+export const WINDOW_PROVIDER: ValueProvider = {
+	provide: WindowWrapper,
 	useValue: window,
-});
+};

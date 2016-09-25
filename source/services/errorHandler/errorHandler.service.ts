@@ -1,4 +1,4 @@
-﻿import { Injectable, ExceptionHandler } from '@angular/core';
+﻿import { Injectable, ErrorHandler } from '@angular/core';
 
 import { INotificationService, NotificationService } from '../notification/notification.service';
 import { IRedirectService, RedirectService } from '../redirect/redirect.service';
@@ -57,18 +57,18 @@ export class DefaultLoginUrlSettings implements ILoginUrlSettings {
 @Injectable()
 export class ErrorHandlerService implements IErrorHandlerService {
 	private redirect: IRedirectService;
-	private exceptionHandler: ExceptionHandler;
+	private errorHandler: ErrorHandler;
 	private notification: INotificationService;
 	private loginSettings: ILoginUrlSettings;
 	private errorMessages: IErrorMessages;
 
 	constructor(redirect: RedirectService
-			, exceptionHandler: ExceptionHandler
+			, errorHandler: ErrorHandler
 			, notification: NotificationService
 			, errorMessages: DefaultErrors
 			, loginSettings: DefaultLoginUrlSettings) {
 		this.redirect = redirect;
-		this.exceptionHandler = exceptionHandler;
+		this.errorHandler = errorHandler;
 		this.notification = notification;
 		this.errorMessages = errorMessages;
 		this.loginSettings = loginSettings;
@@ -101,9 +101,9 @@ export class ErrorHandlerService implements IErrorHandlerService {
 				// cancelled request
 				break;
 			default:
-				this.exceptionHandler.call(new Error(this.errorMessages.defaultError));
-				this.exceptionHandler.call(new Error('Status: ' + rejection.status));
-				this.exceptionHandler.call(new Error('Response: ' + rejection));
+				this.errorHandler.handleError(new Error(this.errorMessages.defaultError));
+				this.errorHandler.handleError(new Error('Status: ' + rejection.status));
+				this.errorHandler.handleError(new Error('Response: ' + rejection));
 				break;
 		}
 	}
