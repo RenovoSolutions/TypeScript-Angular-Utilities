@@ -11,13 +11,13 @@ var map = {
 	'rxjs': 'node_modules/rxjs',
 };
 
-var defaultPackages = [
-	'@angular/core',
-	'@angular/compiler',
-	'@angular/common',
-	'@angular/platform-browser',
-	'@angular/platform-browser-dynamic',
-	'@angular/http',
+var angularPackageNames = [
+	'core',
+	'compiler',
+	'common',
+	'platform-browser',
+	'platform-browser-dynamic',
+	'http',
 ];
 
 var meta = {
@@ -47,13 +47,16 @@ var packages = {
 	},
 };
 
-function setDefaultPackage(packageName) {
-	packages[packageName] = {
-		main: 'index.js',
-	};
+function setAngularPackage(packageName) {
+	map[`@angular/${packageName}`] = `node_modules/@angular/${packageName}/bundles/${packageName}.umd.js`;
 }
 
-defaultPackages.forEach(setDefaultPackage);
+function setAngularTestingPackage(packageName) {
+	map[`@angular/${packageName}/testing`] = `node_modules/@angular/${packageName}/bundles/${packageName}-testing.umd.js`;
+}
+
+angularPackageNames.forEach(setAngularPackage);
+angularPackageNames.forEach(setAngularTestingPackage);
 
 System.config({
 	meta: meta,
