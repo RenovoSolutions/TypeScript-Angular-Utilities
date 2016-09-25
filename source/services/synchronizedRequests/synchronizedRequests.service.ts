@@ -1,4 +1,4 @@
-import { Provider, provide } from '@angular/core';
+import { FactoryProvider } from '@angular/core';
 
 export interface ISynchronizedRequestsService {
 	dataProvider: IRequestGetter;
@@ -48,8 +48,9 @@ export class SynchronizedRequestsFactory {
 	}
 }
 
-export function SynchronizedRequestsProvider(dataProvider: IRequestGetter, handleRequest: IRequestCallback): Provider {
-	return provide(SynchronizedRequestsService, {
+export function SynchronizedRequestsProvider(dataProvider: IRequestGetter, handleRequest: IRequestCallback): FactoryProvider {
+	return {
+		provide: SynchronizedRequestsService,
 		useFactory: () => new SynchronizedRequestsService(dataProvider, handleRequest),
-	});
+	};
 }

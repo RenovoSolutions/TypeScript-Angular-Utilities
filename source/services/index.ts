@@ -1,5 +1,4 @@
 import { Provider } from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
 
 import * as array from './array/array.service';
 import * as boolean from './boolean/boolean.service';
@@ -64,8 +63,6 @@ export {
  * Providers for utility services.
  */
 export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
-	HTTP_PROVIDERS,
-
 	array.ArrayUtility,
 	boolean.BooleanUtility,
 	dataContracts.DATA_CONTRACT_PROVIDERS,

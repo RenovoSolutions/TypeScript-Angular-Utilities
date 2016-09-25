@@ -1,4 +1,4 @@
-﻿import { Injectable, OpaqueToken, Provider, ExceptionHandler } from '@angular/core';
+﻿import { Injectable, OpaqueToken, ClassProvider, ErrorHandler } from '@angular/core';
 import * as _ from 'lodash';
 
 // deprecated - use rxjs instead
@@ -26,23 +26,23 @@ export interface IObservableService {
 
 @Injectable()
 export class ObservableService implements IObservableService {
-	private exceptionHandler: ExceptionHandler;
+	private errorHandler: ErrorHandler;
 	private watchers: IWatcher<any>[] = [];
 	private nextKey: number = 0;
 	allowableEvents: string[];
 
-	constructor(exceptionHandler: ExceptionHandler) {
-		this.exceptionHandler = exceptionHandler;
+	constructor(errorHandler: ErrorHandler) {
+		this.errorHandler = errorHandler;
 	}
 
 	register<TReturnType>(action: IAction<TReturnType>, event?: string): IUnregisterFunction {
 		if (!_.isFunction(action)) {
-			this.exceptionHandler.call(new Error('Watcher must be a function'));
+			this.errorHandler.handleError(new Error('Watcher must be a function'));
 			return null;
 		}
 
 		if (this.allowableEvents != null && !_.find(this.allowableEvents, (e: string): boolean => { return e === event; })) {
-			this.exceptionHandler.call(new Error('This event is not allowed. Events: ' + this.allowableEvents.join(', ')));
+			this.errorHandler.handleError(new Error('This event is not allowed. Events: ' + this.allowableEvents.join(', ')));
 			return null;
 		}
 
@@ -74,6 +74,7 @@ export class ObservableService implements IObservableService {
 
 export const observableToken: OpaqueToken = new OpaqueToken('Deprecated - a service for observables');
 
-export const OBSERVABLE_PROVIDER: Provider = new Provider(observableToken, {
+export const OBSERVABLE_PROVIDER: ClassProvider = {
+	provide: observableToken,
 	useClass: ObservableService,
-});
+};

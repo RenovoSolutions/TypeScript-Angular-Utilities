@@ -1,4 +1,4 @@
-import { Injectable, Provider, provide } from '@angular/core';
+import { Injectable, FactoryProvider } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
@@ -79,9 +79,10 @@ export class SingletonDataServiceFactory {
 	}
 }
 
-export function SingletonDataServiceProvider(options: ISingletonResourceParams<any>): Provider {
-	return provide(SingletonDataService, {
+export function SingletonDataServiceProvider(options: ISingletonResourceParams<any>): FactoryProvider {
+	return {
+		provide: SingletonDataService,
 		deps: [HttpUtility],
 		useFactory: (http: IHttpUtility) => new SingletonDataService(http, options),
-	});
+	};
 };
