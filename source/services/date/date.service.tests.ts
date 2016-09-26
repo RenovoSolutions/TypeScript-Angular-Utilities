@@ -398,7 +398,7 @@ describe('dateUtility', () => {
 		});
 
 		afterEach(() => {
-			moment.now = originalMomentNow;
+			(<any>moment).now = originalMomentNow;
 		});
 
 		it('should offset current moment time', (): void => {

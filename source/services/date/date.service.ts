@@ -160,7 +160,7 @@ export class DateUtility {
 	}
 
 	setOffset(millis: number) {
-		moment.now = () => {
+		(<any>moment).now = () => {
 			let now = moment(new Date());
 			now = this.setTimezone(now);
 			return now.valueOf() + millis;
