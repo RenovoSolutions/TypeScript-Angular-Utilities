@@ -8,6 +8,8 @@ var map = {
 	'moment': 'node_modules/moment/moment',
 	'moment-timezone': 'node_modules/moment-timezone/builds/moment-timezone-with-data.min',
 	'ng-wig': 'node_modules/ng-wig',
+	'rl-async-testing': 'node_modules/rl-async-testing',
+	'rl-http': 'node_modules/rl-http',
 	'rxjs': 'node_modules/rxjs',
 };
 
@@ -18,6 +20,11 @@ var angularPackageNames = [
 	'platform-browser',
 	'platform-browser-dynamic',
 	'http',
+];
+
+var defaultPackages = [
+	'rl-async-testing',
+	'rl-http',
 ];
 
 var meta = {
@@ -55,8 +62,13 @@ function setAngularTestingPackage(packageName) {
 	map[`@angular/${packageName}/testing`] = `node_modules/@angular/${packageName}/bundles/${packageName}-testing.umd.js`;
 }
 
+function setDefaultPackage(packageName) {
+	packages[packageName] = { main: 'index.js' };
+}
+
 angularPackageNames.forEach(setAngularPackage);
 angularPackageNames.forEach(setAngularTestingPackage);
+defaultPackages.forEach(setDefaultPackage);
 
 System.config({
 	meta: meta,

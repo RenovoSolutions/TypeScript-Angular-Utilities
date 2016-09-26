@@ -1,6 +1,6 @@
-import { IArrayUtility } from '../../../array/array.service';
-import { IHttpUtility, HttpUtility } from '../../../http/http.service';
+import { IHttpUtility, HttpUtility } from 'rl-http';
 
+import { IArrayUtility } from '../../../array/array.service';
 import { IConverter } from '../../converters/converters';
 import { IDataService, DataService, IBaseDomainObject } from '../data.service';
 import { IParentDataService, ParentDataService } from '../parent/parentData.service';

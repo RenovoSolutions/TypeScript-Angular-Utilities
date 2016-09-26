@@ -1,11 +1,9 @@
-import { Subject } from 'rxjs';
+import { IMockedRequest, mock, rlFakeAsync } from 'rl-async-testing';
+import { IHttpUtility } from 'rl-http';
 
 import { BaseDataServiceBehavior, ISearchResult } from './baseDataServiceBehavior';
 
 import { arrayUtility } from '../array/array.service';
-import { IHttpUtility } from '../http/http.service';
-
-import { IMockedRequest, mock, rlFakeAsync } from '../test/index';
 
 interface ITestMock {
 	id?: number;

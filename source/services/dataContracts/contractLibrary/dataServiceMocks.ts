@@ -1,7 +1,8 @@
+import { IMockedRequest } from 'rl-async-testing';
+
 import { IDataService, IBaseDomainObject } from '../dataService/data.service';
 import { IParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
-import { IMockedRequest } from '../../test/mockAsync';
 
 export interface IDataTransform {
 	(data: any): any;

@@ -1,6 +1,5 @@
-import { mock, IMockedPromise } from '../test/mockAsync';
+import { rlFakeAsync, mock, IMockedPromise } from 'rl-async-testing';
 import { SynchronizedRequestsService } from './synchronizedRequests.service';
-import { rlFakeAsync } from '../test/fakeAsync';
 
 describe('synchronizedRequests', () => {
 	let synchronizedRequests: SynchronizedRequestsService;

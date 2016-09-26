@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpUtility } from 'rl-http';
 
 import { ArrayUtility } from '../../array/array.service';
-import { HttpUtility } from '../../http/http.service';
 
 import { IConverter } from '../converters/converters';
 import { IDataService, DataService, IBaseDomainObject } from '../dataService/data.service';

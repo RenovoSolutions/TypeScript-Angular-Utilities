@@ -8,7 +8,6 @@ import * as errorHandler from './errorHandler/errorHandler.service';
 import * as fileSize from './fileSize/index';
 import * as genericSearchFilter from './genericSearchFilter/genericSearchFilter.service';
 import * as guid from './guid/guid.service';
-import * as http from './http/http.service';
 import * as digestService from './digest/digest.service';
 import * as logger from './logger/logger.service';
 import * as notification from './notification/notification.service';
@@ -38,7 +37,6 @@ export {
 	fileSize,
 	genericSearchFilter,
 	guid,
-	http,
 	digestService,
 	logger,
 	notification,
@@ -70,7 +68,6 @@ export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 	errorHandler.ErrorHandlerService,
 	genericSearchFilter.GenericSearchFilterFactory,
 	guid.GuidService,
-	http.HttpUtility,
 	digestService.DigestService,
 	numberService.NumberUtility,
 	objectService.ObjectUtility,
