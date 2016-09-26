@@ -1,8 +1,8 @@
 import { Injectable, FactoryProvider } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
+import { IHttpUtility, HttpUtility } from 'rl-http';
 
-import { IHttpUtility, HttpUtility } from '../../http/http.service';
 import { IBaseDataServiceBehavior, BaseDataServiceBehavior } from '../baseDataServiceBehavior';
 import { ISingletonResourceParams } from '../resourceBuilder/resourceBuilder.service';
 import { helper } from '../dataContractsHelper/dataContractsHelper.service';

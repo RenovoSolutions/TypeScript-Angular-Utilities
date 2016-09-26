@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
+import { IHttpUtility } from 'rl-http';
 
-import { IHttpUtility } from '../http/http.service';
 import { IConverter, converterService } from './converters/converters';
 
 export interface IRequestOptions {

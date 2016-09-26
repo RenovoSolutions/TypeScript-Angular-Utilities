@@ -1,27 +1,21 @@
-import { PipeTransform } from '@angular/core';
 import { UpgradeAdapter } from '@angular/upgrade';
+import { HttpUtility } from 'rl-http';
 
 import * as angular from 'angular';
-
-import { UTILITY_PROVIDERS } from './services/index';
 
 import { ArrayUtility } from './services/array/array.service';
 import { BooleanUtility } from './services/boolean/boolean.service';
 import { ResourceBuilder } from './services/dataContracts/resourceBuilder/resourceBuilder.service';
 import { DateUtility } from './services/date/date.service';
-import { ErrorHandlerService, DefaultErrors, DefaultLoginUrlSettings } from './services/errorHandler/errorHandler.service';
+import { ErrorHandlerService } from './services/errorHandler/errorHandler.service';
 import { GenericSearchFilterFactory } from './services/genericSearchFilter/genericSearchFilter.service';
 import { GuidService } from './services/guid/guid.service';
-import { HttpUtility } from './services/http/http.service';
 import { DigestService } from './services/digest/digest.service';
-import { Logger } from './services/logger/logger.service';
 import { NotificationService } from './services/notification/notification.service';
 import { NumberUtility } from './services/number/number.service';
-import { ObjectUtility, objectUtility } from './services/object/object.service';
+import { ObjectUtility } from './services/object/object.service';
 import { observableToken, IObservableService } from './services/observable/observable.service';
-import { RedirectService } from './services/redirect/redirect.service';
 import { StringUtility } from './services/string/string.service';
-import { SearchUtility } from './services/search/search.service';
 import { SynchronizedRequestsFactory } from './services/synchronizedRequests/synchronizedRequests.service';
 import { TimeUtility } from './services/time/time.service';
 import { TimeoutService } from './services/timeout/timeout.service';
@@ -29,7 +23,6 @@ import { TimezoneService } from './services/timezone/timezone.service';
 import { TransformService } from './services/transform/transform.service';
 import { ValidationService } from './services/validation/validation.service';
 import { EmailValidationService } from './services/validation/emailValidation.service';
-import { WINDOW_PROVIDER, WindowWrapper } from './services/window/window.provider';
 
 export const arrayServiceName: string = 'rlArrayService';
 export const booleanServiceName: string = 'rlBooleanService';

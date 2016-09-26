@@ -1,6 +1,5 @@
+import { rlFakeAsync, rlTick, flushMicrotasks } from 'rl-async-testing';
 import { TimeoutService, ITimeout } from './timeout.service';
-
-import { rlFakeAsync, rlTick, flushMicrotasks } from '../test/fakeAsync';
 
 describe('TimeoutService', (): void => {
 	let timeoutService: TimeoutService;

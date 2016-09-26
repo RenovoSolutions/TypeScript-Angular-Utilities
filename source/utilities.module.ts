@@ -1,5 +1,5 @@
 import { NgModule, ValueProvider, ErrorHandler } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { RLHttpModule } from 'rl-http';
 
 import { observableToken, ObservableService, IObservableService } from './services/observable/observable.service';
 import { UTILITY_PROVIDERS } from './services/index';
@@ -13,7 +13,7 @@ const observableFactoryProvider: ValueProvider = {
 };
 
 @NgModule({
-	imports: [HttpModule],
+	imports: [RLHttpModule],
 	providers: [UTILITY_PROVIDERS, observableFactoryProvider],
 })
 export class UtilitiesModule { }

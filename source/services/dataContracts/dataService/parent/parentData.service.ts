@@ -1,8 +1,7 @@
 import * as _ from 'lodash';
+import { HttpUtility } from 'rl-http';
 
 import { IArrayUtility } from '../../../array/array.service';
-import { IHttpUtility, HttpUtility } from '../../../http/http.service';
-
 import { IDataService, DataService, IBaseDomainObject } from '../data.service';
 import { IDataServiceView } from '../view/dataServiceView';
 import { ISingletonDataService } from '../../singletonDataService/singletonData.service';

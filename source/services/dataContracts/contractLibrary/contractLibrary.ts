@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { mock, IMockedRequest } from 'rl-async-testing';
 
 import {
 	IResourceBuilder,
@@ -14,7 +15,6 @@ import { IDataServiceView, IParentDataServiceView } from '../dataService/view/da
 import { IParentDataService, ParentDataService } from '../dataService/parent/parentData.service';
 import { ISingletonDataService } from '../singletonDataService/singletonData.service';
 import { IParentSingletonDataService } from '../singletonDataService/parent/parentSingletonData.service';
-import { mock, IMockedRequest } from '../../test/mockAsync';
 
 export interface IContractLibrary {
 	createResource<TDataType extends IBaseDomainObject, TSearchParams>(options: IBaseResourceParams<TDataType>): IDataService<TDataType, TSearchParams>;
