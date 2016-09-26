@@ -15,7 +15,7 @@
   },
   "scripts": {
     "prepublish": "typings install && npm run build",
-    "update": "npm install && npm run bundle-deps",
+    "update": "npm install",
     "version": "gulp version -v ",
     "clean": "gulp clean",
     "build": "gulp clean && tsc && echo Build complete",
