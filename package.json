@@ -14,6 +14,7 @@
     "url": "https://github.com/RenovoSolutions/TypeScript-Angular-Utilities"
   },
   "scripts": {
+    "prepublish": "npm run build",
     "update": "npm install",
     "version": "gulp version -v ",
     "clean": "gulp clean",
