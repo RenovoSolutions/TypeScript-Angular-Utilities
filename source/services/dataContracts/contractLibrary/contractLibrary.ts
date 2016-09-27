@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { mock, IMockedRequest } from 'rl-async-testing';
+import * as Sinon from 'sinon';
 
 import {
 	IResourceBuilder,

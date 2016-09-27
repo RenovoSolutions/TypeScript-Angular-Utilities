@@ -100,7 +100,7 @@ class AngularFixture implements IAngularFixture {
 		var component: angular.IAugmentedJQuery = $compile(dom)(scope);
 		scope.$digest();
 
-		return {
+		return <any>{
 			directive: component,
 			scope: component.isolateScope(),
 			controller: component.controller(directiveName),
