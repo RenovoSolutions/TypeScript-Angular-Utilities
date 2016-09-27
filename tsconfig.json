@@ -6,7 +6,10 @@
 		"inlineSourceMap": true,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
-		"target": "ES5"
+		"target": "ES5",
+		"typeRoots": [
+			"./node_modules/@types"
+		]
 	},
 	"exclude": [
 		"node_modules",

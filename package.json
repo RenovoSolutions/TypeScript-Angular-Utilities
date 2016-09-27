@@ -14,7 +14,6 @@
     "url": "https://github.com/RenovoSolutions/TypeScript-Angular-Utilities"
   },
   "scripts": {
-    "prepublish": "typings install && npm run build",
     "update": "npm install",
     "version": "gulp version -v ",
     "clean": "gulp clean",
@@ -47,8 +46,7 @@
     "run-sequence": "^1.1.5",
     "sinon": "~1.17.3",
     "systemjs-builder": "^0.15.16",
-    "typescript": "~1.8.2",
-    "typings": "^1.0.4"
+    "typescript": "~2.0.3"
   },
   "dependencies": {
     "@angular/common": "~2.0.0",
