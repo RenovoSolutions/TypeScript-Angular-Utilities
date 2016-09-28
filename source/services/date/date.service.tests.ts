@@ -394,7 +394,7 @@ describe('dateUtility', () => {
 		let originalMomentNow: any;
 
 		beforeEach(() => {
-			originalMomentNow = moment.now;
+			originalMomentNow = (<any>moment).now;
 		});
 
 		afterEach(() => {
@@ -402,9 +402,9 @@ describe('dateUtility', () => {
 		});
 
 		it('should offset current moment time', (): void => {
-			let nowBeforeOffset = moment.now();
+			let nowBeforeOffset = (<any>moment).now();
 			dateUtility.setOffset(offset);
-			let nowAfterOffset = moment.now();
+			let nowAfterOffset = (<any>moment).now();
 
 			expect(nowAfterOffset - nowBeforeOffset).to.equal(offset);
 		});
