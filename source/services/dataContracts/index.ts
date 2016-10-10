@@ -18,4 +18,5 @@ export const DATA_CONTRACT_PROVIDERS: any[] = [
 	ResourceBuilder,
 	DataServiceFactory,
 	SingletonDataServiceFactory,
+	converters.ConverterService,
 ];
