@@ -8,6 +8,7 @@ import { ISimpleValidator, IErrorHandler, ICompositeValidator } from './validati
 import { Validator } from './validator';
 import { CompositeValidator } from './compositeValidator';
 
+export * from './observableValidator';
 export * from './validationTypes';
 
 export interface IValidationService {
