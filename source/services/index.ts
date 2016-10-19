@@ -79,6 +79,7 @@ export const UTILITY_PROVIDERS: (Provider | Provider[] | any)[] = [
 	timezone.TimezoneService,
 	transform.TransformService,
 
+	validation.ObservableValidator,
 	validation.ValidationService,
 	emailValidation.EmailValidationService,
 	logger.Logger,
