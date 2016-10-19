@@ -44,7 +44,7 @@ describe('ObservableValidator', () => {
 
 			validator.validate().subscribe(valid => result = valid);
 
-			expect(result).to.not.exist;
+			expect(result).to.be.null;
 		});
 	});
 
