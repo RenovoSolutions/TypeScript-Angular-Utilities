@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { map, find, isFunction } from 'lodash';
+import { map, find, isFunction, values } from 'lodash';
 
 import { IUnregisterFunction, IObservableValidator, IObservableValidationHandler } from './validationTypes';
 
@@ -8,6 +8,10 @@ export class ObservableValidator implements IObservableValidator {
 	private nextKey: number = 0;
 
 	validate(value$?: Observable<any>): Observable<string> {
+		if (!values(this.validationHandlers).length) {
+			return Observable.of(null);
+		}
+
 		return Observable.combineLatest(map(this.validationHandlers, handler => this.getValidationResult(handler, value$)))
 						 .map(results => find(results, x => x != null));
 	}
