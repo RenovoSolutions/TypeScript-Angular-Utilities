@@ -7,6 +7,7 @@ import { INotificationService, NotificationService } from '../notification/notif
 import { ISimpleValidator, IErrorHandler, ICompositeValidator } from './validationTypes';
 import { Validator } from './validator';
 import { CompositeValidator } from './compositeValidator';
+import { ObservableValidator } from './observableValidator';
 
 export * from './observableValidator';
 export * from './validationTypes';
@@ -48,6 +49,11 @@ export interface IValidationService {
 	 * @param showError A custom handler for validation errors
 	 */
 	buildCompositeCustomValidator(showError: IErrorHandler): ICompositeValidator;
+
+	/**
+	 * Build a validator that validates against a stream
+	 */
+	buildObservableValidator(): ObservableValidator;
 }
 
 @Injectable()
@@ -88,5 +94,9 @@ export class ValidationService implements IValidationService {
 
 	buildCompositeCustomValidator(showError: IErrorHandler): ICompositeValidator {
 		return new CompositeValidator(showError);
+	}
+
+	buildObservableValidator(): ObservableValidator {
+		return new ObservableValidator();
 	}
 }
