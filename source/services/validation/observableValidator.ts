@@ -34,7 +34,6 @@ export class ObservableValidator implements IObservableValidator {
 
 	private getValidationResult(handler: IObservableValidationHandler, value$: Observable<any>): Observable<string> {
 		return this.isActive(handler)
-				   .switchMap(active => active ? handler.validate(value$) : Observable.of(null))
-				   .filter(validationError => validationError != null);
+				   .switchMap(active => active ? handler.validate(value$) : Observable.of(null));
 	}
 }
