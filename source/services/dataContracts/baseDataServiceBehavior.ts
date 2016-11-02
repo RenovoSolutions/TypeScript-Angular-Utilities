@@ -69,7 +69,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 				this.log('getList', options.params, data, options.endpoint, options.useMock);
 			}
 			return data;
-		});
+		}).cache();
 	}
 
 	search<TResultType extends ISearchResult<TDataType>>(options: IGetListOptions<TDataType>): Observable<TResultType> {
@@ -87,7 +87,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 				this.log('search', options.params, result, options.endpoint, options.useMock);
 			}
 			return result;
-		})
+		}).cache();
 	}
 
 	getItem(options: IGetItemOptions<TDataType>): Observable<TDataType> {
@@ -103,7 +103,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 				this.log('get', null, data, options.endpoint, options.useMock);
 			}
 			return data;
-		});
+		}).cache();
 	}
 
 	create(options: ICreateOptions<TDataType>): Observable<TDataType> {
@@ -121,7 +121,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 				this.log('create', options.domainObject, data, options.endpoint, options.useMock);
 			}
 			return data;
-		});
+		}).cache();
 	}
 
 	update(options: IUpdateOptions<TDataType>): Observable<TDataType> {
@@ -139,7 +139,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 				this.log('update', options.domainObject, data, options.endpoint, options.useMock);
 			}
 			return data;
-		});
+		}).cache();
 	}
 
 	delete(options: IDeleteOptions<TDataType>): Observable<void> {
@@ -154,7 +154,7 @@ export class BaseDataServiceBehavior<TDataType> implements IBaseDataServiceBehav
 			if (options.logRequests) {
 				this.log('delete', options.domainObject, null, options.endpoint, options.useMock);
 			}
-		});
+		}).cache();
 	}
 
 	private log(requestName: string, params: any, data: any, endpoint: string, useMock: boolean): void {
