@@ -73,10 +73,10 @@
     "moment": "~2.14.1",
     "moment-timezone": "~0.5.3",
     "reflect-metadata": "0.1.2",
-    "rl-async-testing": "~1.6.0",
-    "rl-http": "~1.5.0",
+    "rl-async-testing": "~1.6.1",
+    "rl-http": "~1.5.1",
     "rxjs": "~5.0.0",
-    "zone.js": "~0.6.25"
+    "zone.js": "~0.7.2"
   },
   "license": "MIT"
 }
