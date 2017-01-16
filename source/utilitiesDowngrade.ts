@@ -1,4 +1,4 @@
-import { UpgradeAdapter } from '@angular/upgrade';
+import { downgradeInjectable } from '@angular/upgrade/static';
 import { HttpUtility } from 'rl-http';
 
 import * as angular from 'angular';
@@ -48,32 +48,29 @@ export const emailValidationServiceName: string = 'rlEmailValidationService';
 
 export const moduleName: string = 'rl.utilities';
 
-const utilitiesModule = angular.module(moduleName, []);
+angular.module(moduleName, [])
+	   .factory(arrayServiceName, downgradeInjectable(ArrayUtility))
+	   .factory(booleanServiceName, downgradeInjectable(BooleanUtility))
+	   .factory(resourceBuilderServiceName, downgradeInjectable(ResourceBuilder))
+	   .factory(dateServiceName, downgradeInjectable(DateUtility))
+	   .factory(errorHandlerServiceName, downgradeInjectable(ErrorHandlerService))
+	   .factory(digestServiceName, downgradeInjectable(DigestService))
+	   .factory(genericSearchFilterServiceName, downgradeInjectable(GenericSearchFilterFactory))
+	   .factory(guidServiceName, downgradeInjectable(GuidService))
+	   .factory(httpServiceName, downgradeInjectable(HttpUtility))
+	   .factory(notificationServiceName, downgradeInjectable(NotificationService))
+	   .factory(numberServiceName, downgradeInjectable(NumberUtility))
+	   .factory(objectServiceName, downgradeInjectable(ObjectUtility))
+	   .factory(observableServiceName, downgradeInjectable(observableToken))
+	   .factory(stringServiceName, downgradeInjectable(StringUtility))
+	   .factory(synchronizedRequestsServiceName, downgradeInjectable(SynchronizedRequestsFactory))
+	   .factory(timeServiceName, downgradeInjectable(TimeUtility))
+	   .factory(timeoutServiceName, downgradeInjectable(TimeoutService))
+	   .factory(timezoneServiceName, downgradeInjectable(TimezoneService))
+	   .factory(transformServiceName, downgradeInjectable(TransformService))
+	   .factory(validationServiceName, downgradeInjectable(ValidationService))
+	   .factory(emailValidationServiceName, downgradeInjectable(EmailValidationService));
 
 export interface IObservableFactory {
 	getInstance(): IObservableService;
-}
-
-export function downgradeUtilitiesToAngular1(upgradeAdapter: UpgradeAdapter) {
-	utilitiesModule.factory(arrayServiceName, upgradeAdapter.downgradeNg2Provider(ArrayUtility));
-	utilitiesModule.factory(booleanServiceName, upgradeAdapter.downgradeNg2Provider(BooleanUtility));
-	utilitiesModule.factory(resourceBuilderServiceName, upgradeAdapter.downgradeNg2Provider(ResourceBuilder));
-	utilitiesModule.factory(dateServiceName, upgradeAdapter.downgradeNg2Provider(DateUtility));
-	utilitiesModule.factory(errorHandlerServiceName, upgradeAdapter.downgradeNg2Provider(ErrorHandlerService));
-	utilitiesModule.factory(digestServiceName, upgradeAdapter.downgradeNg2Provider(DigestService));
-	utilitiesModule.factory(genericSearchFilterServiceName, upgradeAdapter.downgradeNg2Provider(GenericSearchFilterFactory));
-	utilitiesModule.factory(guidServiceName, upgradeAdapter.downgradeNg2Provider(GuidService));
-	utilitiesModule.factory(httpServiceName, upgradeAdapter.downgradeNg2Provider(HttpUtility));
-	utilitiesModule.factory(notificationServiceName, upgradeAdapter.downgradeNg2Provider(NotificationService));
-	utilitiesModule.factory(numberServiceName, upgradeAdapter.downgradeNg2Provider(NumberUtility));
-	utilitiesModule.factory(objectServiceName, upgradeAdapter.downgradeNg2Provider(ObjectUtility));
-	utilitiesModule.factory(observableServiceName, upgradeAdapter.downgradeNg2Provider(observableToken));
-	utilitiesModule.factory(stringServiceName, upgradeAdapter.downgradeNg2Provider(StringUtility));
-	utilitiesModule.factory(synchronizedRequestsServiceName, upgradeAdapter.downgradeNg2Provider(SynchronizedRequestsFactory));
-	utilitiesModule.factory(timeServiceName, upgradeAdapter.downgradeNg2Provider(TimeUtility));
-	utilitiesModule.factory(timeoutServiceName, upgradeAdapter.downgradeNg2Provider(TimeoutService));
-	utilitiesModule.factory(timezoneServiceName, upgradeAdapter.downgradeNg2Provider(TimezoneService));
-	utilitiesModule.factory(transformServiceName, upgradeAdapter.downgradeNg2Provider(TransformService));
-	utilitiesModule.factory(validationServiceName, upgradeAdapter.downgradeNg2Provider(ValidationService));
-	utilitiesModule.factory(emailValidationServiceName, upgradeAdapter.downgradeNg2Provider(EmailValidationService));
 }
