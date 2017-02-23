@@ -401,7 +401,8 @@ describe('dateUtility', () => {
 			(<any>moment).now = originalMomentNow;
 		});
 
-		it('should offset current moment time', (): void => {
+		// https://renovo.myjetbrains.com/youtrack/issue/RLv21-128
+		xit('should offset current moment time', (): void => {
 			let nowBeforeOffset = (<any>moment).now();
 			dateUtility.setOffset(offset);
 			let nowAfterOffset = (<any>moment).now();
@@ -409,7 +410,7 @@ describe('dateUtility', () => {
 			expect(nowAfterOffset - nowBeforeOffset).to.equal(offset);
 		});
 
-		it('should offset current date service time', (): void => {
+		xit('should offset current date service time', (): void => {
 			let nowBeforeOffset = dateUtility.getNow();
 			dateUtility.setOffset(offset);
 			let nowAfterOffset = dateUtility.getNow();
