@@ -35,7 +35,8 @@ module.exports = function (karma) {
 			require('karma-jasmine'),
 			require('karma-chai'),
 			require('karma-sinon'),
-			require('karma-chrome-launcher')
+			require('karma-chrome-launcher'),
+			require('karma-firefox-launcher'),
 		],
 
 		customLaunchers: {
