@@ -10,8 +10,8 @@ describe('synchronizedRequests', () => {
 		const firstRequest: IMockedPromise<number[]> = mock.promise(firstRequestData);
 		const secondRequest: IMockedPromise<number[]> = mock.promise(secondRequestData);
 
-		const callback: Sinon.SinonSpy = sinon.spy();
-		let get: Sinon.SinonSpy = sinon.spy((): Promise<number[]> => { return firstRequest(); });
+		const callback: sinon.SinonSpy = sinon.spy();
+		let get: sinon.SinonSpy = sinon.spy((): Promise<number[]> => { return firstRequest(); });
 
 		synchronizedRequests = new SynchronizedRequestsService(get, callback);
 

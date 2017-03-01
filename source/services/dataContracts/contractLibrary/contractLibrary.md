@@ -16,9 +16,9 @@ See [resourceBuilder](../resourceBuilder/resourceBuilder.md) for details on the 
 The following functions are available for building mocks against the contract library.
 
 #### `mockGet`
-`mockGet(resource: any, data: any): Sinon.SinonSpy`<br/>
-`mockGetList(resource: any, data[]: any): Sinon.SinonSpy`<br/>
-`mockGetDetail(resource: any, data: any): Sinon.SinonSpy`<br/>
+`mockGet(resource: any, data: any): sinon.SinonSpy`<br/>
+`mockGetList(resource: any, data[]: any): sinon.SinonSpy`<br/>
+`mockGetDetail(resource: any, data: any): sinon.SinonSpy`<br/>
 Mock the various get actions available for data services and singleton data services. Returns a spy. The mocked function returns the specified data.
 
 #### `mockChild(parent: any, mockCallback: { (children: any): void }): void`
@@ -32,13 +32,13 @@ Wraps the specified resource with functions for mocking functions directly again
 
 ### dataServiceMock
 
-`mockGetList(data[]: any): Sinon.SinonSpy`<br/>
-`mockGetDetail(data: any): Sinon.SinonSpy`<br/>
+`mockGetList(data[]: any): sinon.SinonSpy`<br/>
+`mockGetDetail(data: any): sinon.SinonSpy`<br/>
 See [`mockGet`](#mockget). Uses the resource instance so no resource must be specified.
 
 #### `mockWrite`
-`mockUpdate(): Sinon.SinonSpy`<br/>
-`mockCreate(): Sinon.SinonSpy`<br/>
+`mockUpdate(): sinon.SinonSpy`<br/>
+`mockCreate(): sinon.SinonSpy`<br/>
 Mocks the update` and `create` actions with a function that returns the data provided to it. Returns a spy.
 
 ### parentDataServiceMock
@@ -50,8 +50,8 @@ See [`mockChild`](mockchildparent-any-mockcallback-children-any-void-void). Uses
 
 ### singletonDataServiceMock
 
-#### `mockGet(data: any): Sinon.SinonSpy`
+#### `mockGet(data: any): sinon.SinonSpy`
 See [`mockGet`](#mockget). Uses the resource instance so no resource must be specified.
 
-#### `mockUpdate(): Sinon.SinonSpy`
+#### `mockUpdate(): sinon.SinonSpy`
 See [`mockWrite`](#mockwrite).

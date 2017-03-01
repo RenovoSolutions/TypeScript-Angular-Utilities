@@ -5,9 +5,9 @@ interface IMockWindow {
 		pathname: string;
 		search: string;
 	};
-	open: Sinon.SinonSpy;
-	focus: Sinon.SinonSpy;
-	history: { back: Sinon.SinonSpy };
+	open: sinon.SinonSpy;
+	focus: sinon.SinonSpy;
+	history: { back: sinon.SinonSpy };
 }
 
 describe('RedirectService', () => {

@@ -1,7 +1,7 @@
 import { ObservableService } from './observable.service';
 
 interface IMockExceptionHandler {
-	handleError: Sinon.SinonSpy;
+	handleError: sinon.SinonSpy;
 }
 
 describe('observable', () => {
@@ -17,7 +17,7 @@ describe('observable', () => {
 	});
 
 	it('should register a watcher and call the action when fire is called', (): void => {
-		let func: Sinon.SinonSpy = sinon.spy();
+		let func: sinon.SinonSpy = sinon.spy();
 
 		observable.register(func);
 		observable.fire();
@@ -26,9 +26,9 @@ describe('observable', () => {
 	});
 
 	it('should unregister only the indicated watcher', (): void => {
-		let registeredFunc1: Sinon.SinonSpy = sinon.spy();
-		let unregisteredFunc: Sinon.SinonSpy = sinon.spy();
-		let registeredFunc2: Sinon.SinonSpy = sinon.spy();
+		let registeredFunc1: sinon.SinonSpy = sinon.spy();
+		let unregisteredFunc: sinon.SinonSpy = sinon.spy();
+		let registeredFunc2: sinon.SinonSpy = sinon.spy();
 
 		observable.register(registeredFunc1);
 		let cancel: () => void = observable.register(unregisteredFunc);
@@ -44,8 +44,8 @@ describe('observable', () => {
 	});
 
 	it('should only call watcher registered with the specified event if fire is called with an event', (): void => {
-		let funcWithEvent: Sinon.SinonSpy = sinon.spy();
-		let funcWithoutEvent: Sinon.SinonSpy = sinon.spy();
+		let funcWithEvent: sinon.SinonSpy = sinon.spy();
+		let funcWithoutEvent: sinon.SinonSpy = sinon.spy();
 
 		observable.register(funcWithEvent, 'myEvent');
 		observable.register(funcWithoutEvent);
@@ -56,7 +56,7 @@ describe('observable', () => {
 	});
 
 	it('should not call watchers registered with a different event', (): void => {
-		let func: Sinon.SinonSpy = sinon.spy();
+		let func: sinon.SinonSpy = sinon.spy();
 
 		observable.register(func, 'myEvent');
 		observable.fire('otherEvent');
@@ -65,7 +65,7 @@ describe('observable', () => {
 	});
 
 	it('should call the registered watchers with the additional params passed into the fire function', (): void => {
-		let func: Sinon.SinonSpy = sinon.spy();
+		let func: sinon.SinonSpy = sinon.spy();
 
 		observable.register(func, 'myEvent');
 		observable.fire('myEvent', 1, 2, 3, 4, 5);
