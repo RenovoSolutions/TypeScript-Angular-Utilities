@@ -145,7 +145,7 @@ describe('genericSearchFilter', () => {
 
 	describe('observable', (): void => {
 		it('should subscribe to changes to the serialized value', (): void => {
-			let valueChangeSpy: Sinon.SinonSpy = sinon.spy();
+			let valueChangeSpy: sinon.SinonSpy = sinon.spy();
 			genericSearchFilter.searchText = null;
 			genericSearchFilter.minSearchLength = 4;
 

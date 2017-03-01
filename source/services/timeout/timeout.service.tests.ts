@@ -9,8 +9,8 @@ describe('TimeoutService', (): void => {
 	});
 
 	it('should resolve the promise and call the callback when the timeout finishes', rlFakeAsync((): void => {
-		const promiseSpy: Sinon.SinonSpy = sinon.spy();
-		const callback: Sinon.SinonSpy = sinon.spy();
+		const promiseSpy: sinon.SinonSpy = sinon.spy();
+		const callback: sinon.SinonSpy = sinon.spy();
 
 		timeoutService.setTimeout(callback, 2000).then(promiseSpy);
 
@@ -22,8 +22,8 @@ describe('TimeoutService', (): void => {
 	}));
 
 	it('should reject the promise without calling the callback if the timeout is canceled', rlFakeAsync((): void => {
-		const rejectSpy: Sinon.SinonSpy = sinon.spy();
-		const callback: Sinon.SinonSpy = sinon.spy();
+		const rejectSpy: sinon.SinonSpy = sinon.spy();
+		const callback: sinon.SinonSpy = sinon.spy();
 
 		const timeout: ITimeout = timeoutService.setTimeout(callback, 2000)
 												.then(assert.fail)
@@ -38,7 +38,7 @@ describe('TimeoutService', (): void => {
 	}));
 
 	it('should allow for specifying just a duration for chaining as a promise', rlFakeAsync((): void => {
-		const promiseSpy: Sinon.SinonSpy = sinon.spy();
+		const promiseSpy: sinon.SinonSpy = sinon.spy();
 
 		timeoutService.setTimeout(2000).then(promiseSpy);
 

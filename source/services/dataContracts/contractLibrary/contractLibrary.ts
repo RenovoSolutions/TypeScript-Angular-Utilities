@@ -45,9 +45,9 @@ export interface IContractLibrary {
 
 	flush(): void;
 
-	mockGet(resource: any, data: any): Sinon.SinonSpy;
-	mockGetList(resource: any, data: any): Sinon.SinonSpy;
-	mockGetDetail(resource: any, data: any): Sinon.SinonSpy;
+	mockGet(resource: any, data: any): sinon.SinonSpy;
+	mockGetList(resource: any, data: any): sinon.SinonSpy;
+	mockGetDetail(resource: any, data: any): sinon.SinonSpy;
 
 	mockChild(parent: any, mockCallback: { (children: any): void }): void;
 	createMock(resource?: any): IDataServiceMock<any, any>;
@@ -194,7 +194,7 @@ export class ContractLibrary implements IContractLibrary {
 		return func;
 	}
 
-	private get sinon(): Sinon.SinonStatic {
+	private get sinon(): sinon.SinonStatic {
 		return sinon || <any>{ spy: (func: any): any => { return func; } };
 	}
 }

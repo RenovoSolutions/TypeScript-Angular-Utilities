@@ -7,21 +7,21 @@ import {
 } from './validation.service';
 
 interface IMockValidationHandler {
-	validate: Sinon.SinonSpy;
-	errorMessage?: string | Sinon.SinonSpy;
-	isActive?: Sinon.SinonSpy | boolean;
+	validate: sinon.SinonSpy;
+	errorMessage?: string | sinon.SinonSpy;
+	isActive?: sinon.SinonSpy | boolean;
 }
 
 interface IMockNotification {
-	error: Sinon.SinonSpy;
-	warning: Sinon.SinonSpy;
+	error: sinon.SinonSpy;
+	warning: sinon.SinonSpy;
 }
 
 describe('validation', () => {
 	let validationService: IValidationService;
 	let validator: ISimpleValidator;
 	let notification: IMockNotification;
-	let showErrorSpy: Sinon.SinonSpy;
+	let showErrorSpy: sinon.SinonSpy;
 
 	beforeEach(() => {
 		showErrorSpy = sinon.spy();
@@ -75,7 +75,7 @@ describe('validation', () => {
 
 			validator.validate();
 
-			sinon.assert.calledOnce(<Sinon.SinonSpy>handler.errorMessage);
+			sinon.assert.calledOnce(<sinon.SinonSpy>handler.errorMessage);
 
 			sinon.assert.calledOnce(showErrorSpy);
 			sinon.assert.calledWith(showErrorSpy, 'error');
@@ -166,9 +166,9 @@ describe('validation', () => {
 
 			let isValid: boolean = validator.validate();
 
-			sinon.assert.calledOnce(<Sinon.SinonSpy>inactiveHandler.isActive);
+			sinon.assert.calledOnce(<sinon.SinonSpy>inactiveHandler.isActive);
 			sinon.assert.notCalled(inactiveHandler.validate);
-			sinon.assert.calledOnce(<Sinon.SinonSpy>activeHandler.isActive);
+			sinon.assert.calledOnce(<sinon.SinonSpy>activeHandler.isActive);
 			sinon.assert.calledOnce(activeHandler.validate);
 			expect(isValid).to.be.true;
 		});

@@ -1,7 +1,7 @@
 import { TransformService, ITransformService } from './transform.service';
 
 describe('transform', (): void => {
-	let valueTransform: Sinon.SinonSpy;
+	let valueTransform: sinon.SinonSpy;
 	let transform: ITransformService;
 
 	beforeEach((): void => {

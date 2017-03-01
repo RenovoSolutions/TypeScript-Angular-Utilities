@@ -2,11 +2,11 @@ import {  INotificationService, NotificationService } from './notification.servi
 
 
 interface IMockWindow {
-	alert:  Sinon.SinonSpy;
+	alert:  sinon.SinonSpy;
 }
 
 interface IMockLogger {
-	log:  Sinon.SinonSpy;
+	log:  sinon.SinonSpy;
 }
 
 describe('notification', () => {

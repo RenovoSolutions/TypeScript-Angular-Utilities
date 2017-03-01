@@ -9,7 +9,7 @@ describe('logger', () => {
 
 	it('should log to the console', (): void => {
 		const originalLog = console.log;
-		const logSpy: Sinon.SinonSpy = sinon.spy();
+		const logSpy: sinon.SinonSpy = sinon.spy();
 		console.log = logSpy;
 
 		logger.log('message');

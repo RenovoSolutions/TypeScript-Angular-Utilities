@@ -261,7 +261,7 @@ describe('base data service behavior', () => {
 
 		it('should create an item and call the add callback to add it to the mock data set', done => {
 			let newItem: ITestMock = { id: null, prop: 'item4' };
-			let addSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+			let addSpy: sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
 				dataSet.push(item);
 			});
 
@@ -283,7 +283,7 @@ describe('base data service behavior', () => {
 
 		it('should update an item', done => {
 			let updatedItem: ITestMock = { id: 2, prop: 'made changes' };
-			let updateSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+			let updateSpy: sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
 				dataSet[1] = item;
 			});
 
@@ -305,7 +305,7 @@ describe('base data service behavior', () => {
 
 		it('should delete an item', (): void => {
 			let removedItem: ITestMock = dataSet[1];
-			let removeSpy: Sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
+			let removeSpy: sinon.SinonSpy = sinon.spy((item: ITestMock): void => {
 				arrayUtility.remove(dataSet, item);
 			});
 
