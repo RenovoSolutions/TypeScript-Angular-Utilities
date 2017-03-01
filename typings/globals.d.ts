@@ -1,4 +1,9 @@
-declare var sinon: Sinon.SinonStatic;
+import { SinonStatic } from 'sinon';
+
+declare global {
+  const sinon: SinonStatic;
+}
+
 import * as moment from "moment";
 
 declare module "moment" {
