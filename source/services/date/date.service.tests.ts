@@ -390,7 +390,7 @@ describe('dateUtility', () => {
 	});
 
 	describe('setOffset', (): void => {
-		let offset = 500;
+		let offset = 500000000;
 		let originalMomentNow: any;
 
 		beforeEach(() => {
@@ -401,21 +401,20 @@ describe('dateUtility', () => {
 			(<any>moment).now = originalMomentNow;
 		});
 
-		// https://renovo.myjetbrains.com/youtrack/issue/RLv21-128
-		xit('should offset current moment time', (): void => {
+		it('should offset current moment time', (): void => {
 			let nowBeforeOffset = (<any>moment).now();
 			dateUtility.setOffset(offset);
 			let nowAfterOffset = (<any>moment).now();
 
-			expect(nowAfterOffset - nowBeforeOffset).to.equal(offset);
+			expect(nowAfterOffset - nowBeforeOffset).to.be.at.least(offset);
 		});
 
-		xit('should offset current date service time', (): void => {
+		it('should offset current date service time', (): void => {
 			let nowBeforeOffset = dateUtility.getNow();
 			dateUtility.setOffset(offset);
 			let nowAfterOffset = dateUtility.getNow();
 
-			expect(nowAfterOffset.valueOf() - nowBeforeOffset.valueOf()).to.equal(offset);
+			expect(nowAfterOffset.valueOf() - nowBeforeOffset.valueOf()).be.at.least(offset);
 		});
 	});
 });
