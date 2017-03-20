@@ -16,3 +16,7 @@ webpack.*
 
 # Don't need external typings on npm
 /typings/
+
+#exlude the .ts files from dist
+*.ts
+!*.d.ts
