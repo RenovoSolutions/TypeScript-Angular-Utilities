@@ -7,7 +7,7 @@ import { FileSize } from './fileSize.service';
 // Formats and optionally truncates and ellipsimogrifies a string for display in a card header
 
 @Pipe({ name: 'fileSize'})
-class FileSizePipe implements PipeTransform {
+export class FileSizePipe implements PipeTransform {
 	private numberUtility: INumberUtility;
 
 	constructor(numberUtility: NumberUtility) {
