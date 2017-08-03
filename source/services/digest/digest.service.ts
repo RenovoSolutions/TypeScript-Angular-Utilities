@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as angular from 'angular';
 
+declare const $: any;
+
 export interface IDigestService {
 	runDigestCycle(): void;
 }
