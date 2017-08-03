@@ -133,7 +133,7 @@ export class ContractLibrary implements IContractLibrary {
 	createMock(resource?: any): IDataServiceMock<any, any> {
 		let dataService: IDataServiceMock<any, any> = <any>this.builder.createResource<any, any>({});
 		dataService.mockGetList = (data: any[]): IMockedRequest<any> => { return this.baseMockGet(dataService, 'getList', data); };
-		dataService.mockGetDetail = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'get', data); };
+		dataService.mockGetDetail = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'getDetail', data); };
 		dataService.mockUpdate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'update', dataTransform); };
 		dataService.mockCreate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'create', dataTransform); };
 		dataService.mockDelete = (): IMockedRequest<any> => { return this.baseMockSave(dataService, 'delete', () => null); };
@@ -147,7 +147,7 @@ export class ContractLibrary implements IContractLibrary {
 			resourceDictionaryBuilder: getChildren,
 		});
 		dataService.mockGetList = (data: any[]): IMockedRequest<any> => { return this.baseMockGet(dataService, 'getList', data); };
-		dataService.mockGetDetail = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'get', data); };
+		dataService.mockGetDetail = (data: any): IMockedRequest<any> => { return this.baseMockGet(dataService, 'getDetail', data); };
 		dataService.mockChild = (mockCallback: { (children: any): void }): void => { return this.mockChild(dataService, mockCallback); };
 		dataService.mockUpdate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'update', dataTransform); };
 		dataService.mockCreate = (dataTransform?: IDataTransform): IMockedRequest<any> => { return this.baseMockSave(dataService, 'create', dataTransform); };
