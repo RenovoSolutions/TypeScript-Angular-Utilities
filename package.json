@@ -34,7 +34,7 @@
     "@types/angular-mocks": "^1.5.5",
     "@types/chai": "^3.4.33",
     "@types/core-js": "0.9.36",
-    "@types/lodash": "^4.14.53",
+    "@types/lodash": "4.14.50",
     "@types/moment-timezone": "^0.2.34",
     "@types/sinon": "^1.16.35",
     "chai": "~3.5.0",
