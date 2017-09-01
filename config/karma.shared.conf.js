@@ -68,5 +68,7 @@ module.exports = function (karma) {
 
 			{ pattern: 'source/**', included: false, watched: true }
 		],
+
+		browserNoActivityTimeout: 100000,
 	};
 };
