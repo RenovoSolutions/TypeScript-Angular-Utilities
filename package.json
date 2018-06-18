@@ -30,10 +30,11 @@
   },
   "devDependencies": {
     "@renovolive/gulp-utilities": "~2.3.0",
-    "@types/angular": "~1.5.16",
+    "@types/angular": "1.5.16",
     "@types/angular-mocks": "~1.5.5",
     "@types/chai": "~3.4.33",
     "@types/core-js": "0.9.36",
+    "@types/jquery": "2.0.32",
     "@types/lodash": "4.14.50",
     "@types/moment-timezone": "~0.2.34",
     "@types/sinon": "~1.16.35",
